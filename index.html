@@ -851,19 +851,28 @@
             }
         });
         
-        // Initialize particles on load
+        // Initialize all effects on load
         window.addEventListener('load', function() {
+            initAudio();
             createParticles();
+            createMatrixRain();
             
             // Add some initial sparkles
             setTimeout(() => {
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 30; i++) {
                     createSparkle(
                         Math.random() * window.innerWidth,
                         Math.random() * window.innerHeight
                     );
                 }
             }, 1000);
+            
+            // Play welcome sound
+            setTimeout(() => {
+                playSound(523.25, 0.3, 'sine'); // C5
+                setTimeout(() => playSound(659.25, 0.3, 'sine'), 200); // E5
+                setTimeout(() => playSound(783.99, 0.4, 'sine'), 400); // G5
+            }, 2000);
         });
         
         // Resize handler
