@@ -44,7 +44,8 @@ export async function deployFile(options = {}) {
       commitMessage = null,
       dryRun = false,
       testMode = false,
-      announceTwitter = false
+      announceTwitter = false,
+      triggerAnnouncement = false
     } = options;
 
     console.log(`🚀 Starting deployment for: ${filePath}`);
@@ -107,6 +108,18 @@ export async function deployFile(options = {}) {
             }
           } catch (error) {
             console.error('🐦 Template announcement error:', error.message);
+          }
+        }
+        
+        // Trigger GitHub Actions announcement if requested
+        if (triggerAnnouncement && result.success) {
+          try {
+            console.log('🚀 Triggering GitHub Actions announcement workflow...');
+            const { execSync } = await import('child_process');
+            execSync(`node scripts/trigger-announcement.js "${result.undername || result.commitHash}" "${result.filePath}"`, { stdio: 'inherit' });
+            console.log('✅ Announcement workflow triggered successfully!');
+          } catch (error) {
+            console.error('🐦 Failed to trigger announcement workflow:', error.message);
           }
         }
         
@@ -200,6 +213,18 @@ export async function deployFile(options = {}) {
         }
       } catch (error) {
         console.error('🐦 Template announcement error:', error.message);
+      }
+    }
+    
+    // Trigger GitHub Actions announcement if requested
+    if (triggerAnnouncement && result.success) {
+      try {
+        console.log('🚀 Triggering GitHub Actions announcement workflow...');
+        const { execSync } = await import('child_process');
+        execSync(`node scripts/trigger-announcement.js "${result.undername || result.commitHash}" "${result.filePath}"`, { stdio: 'inherit' });
+        console.log('✅ Announcement workflow triggered successfully!');
+      } catch (error) {
+        console.error('🐦 Failed to trigger announcement workflow:', error.message);
       }
     }
     
@@ -344,6 +369,9 @@ async function main() {
         case '--announce-twitter':
           options.announceTwitter = true;
           break;
+        case '--trigger-announcement':
+          options.triggerAnnouncement = true;
+          break;
         case '--help':
         case '-h':
           console.log(`
@@ -359,6 +387,7 @@ Options:
   -s, --stats             Show deployment statistics
   --test-twitter          Test Twitter API connection
   --announce-twitter      Post template-based announcement to Twitter
+  --trigger-announcement  Trigger GitHub Actions announcement workflow
   -h, --help              Show this help message
 
 Examples:
@@ -370,6 +399,7 @@ Examples:
   node deploy.js --stats
   node deploy.js --test-twitter
   node deploy.js --announce-twitter
+  node deploy.js --trigger-announcement
           `);
           process.exit(0);
           break;

@@ -42,22 +42,11 @@ jobs:
             echo "hash=${{ github.event.inputs.deployment_hash }}" >> $GITHUB_OUTPUT
             echo "message=${{ github.event.inputs.custom_message }}" >> $GITHUB_OUTPUT
           else
-            # Get the latest deployment from logs
-            if [ -f "logs/deployments.json" ]; then
-              HASH=$(node -e "
-                const fs = require('fs');
-                const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
-                const latest = logs[logs.length - 1];
-                if (latest && latest.success) {
-                  console.log(latest.undername || latest.commitHash);
-                }
-              ")
-              echo "hash=$HASH" >> $GITHUB_OUTPUT
-              echo "message=" >> $GITHUB_OUTPUT
-            else
-              echo "hash=" >> $GITHUB_OUTPUT
-              echo "message=" >> $GITHUB_OUTPUT
-            fi
+            # For workflow_run triggers, we need a deployment hash
+            echo "hash=" >> $GITHUB_OUTPUT
+            echo "message=" >> $GITHUB_OUTPUT
+            echo "⚠️ Automatic deployment hash detection not available in workflow_run"
+            echo "Please use workflow_dispatch with a specific deployment hash"
           fi
 
       - name: Announce on Twitter
