@@ -58,35 +58,50 @@ try {
     console.log('📝 Converting draft PR to ready for review...');
     console.log(`🔍 PR details: ${pr.title} (draft: ${pr.draft})`);
     
-    const readyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        draft: false
-      })
-    });
-    
-    if (!readyResponse.ok) {
-      const error = await readyResponse.text();
-      console.error(`❌ Conversion failed: ${readyResponse.status} ${error}`);
-      throw new Error(`Failed to mark PR as ready: ${readyResponse.status} ${error}`);
+    // Try using GitHub CLI approach first
+    try {
+      console.log('🔧 Attempting conversion via GitHub CLI...');
+      const { execSync } = await import('child_process');
+      execSync(`gh pr ready ${prNumber}`, { 
+        stdio: 'inherit',
+        env: { ...process.env, GITHUB_TOKEN: token }
+      });
+      console.log('✅ PR marked as ready for review via GitHub CLI');
+    } catch (cliError) {
+      console.log('⚠️ GitHub CLI failed, trying REST API...');
+      console.log(`CLI Error: ${cliError.message}`);
+      
+      // Fallback to REST API
+      const readyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          draft: false
+        })
+      });
+      
+      if (!readyResponse.ok) {
+        const error = await readyResponse.text();
+        console.error(`❌ REST API conversion failed: ${readyResponse.status} ${error}`);
+        throw new Error(`Failed to mark PR as ready: ${readyResponse.status} ${error}`);
+      }
+      
+      const conversionResult = await readyResponse.json();
+      console.log('✅ PR marked as ready for review via REST API');
+      console.log(`🔍 Conversion result: draft=${conversionResult.draft}`);
     }
     
-    const conversionResult = await readyResponse.json();
-    console.log('✅ PR marked as ready for review');
-    console.log(`🔍 Conversion result: draft=${conversionResult.draft}`);
-    
-    // Wait longer for GitHub to process the status change
+    // Wait for GitHub to process the status change
     console.log('⏳ Waiting for GitHub to process status change...');
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 10000));
     
     // Verify the PR is no longer a draft with retries
     let attempts = 0;
-    let maxAttempts = 3;
+    let maxAttempts = 5;
     
     while (attempts < maxAttempts) {
       attempts++;
@@ -108,7 +123,7 @@ try {
           break;
         } else if (attempts < maxAttempts) {
           console.log('⏳ Still in draft, waiting longer...');
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
         } else {
           throw new Error('PR is still in draft status after multiple conversion attempts');
         }
