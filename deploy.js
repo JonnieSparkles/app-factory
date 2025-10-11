@@ -26,7 +26,7 @@ import {
   createUndernameRecord, 
   getUndernameRecord 
 } from './lib/arns.js';
-import { testTwitterConnection, isTwitterConfigured } from './lib/twitter.js';
+import { testTwitterConnection, isTwitterConfigured, postTemplateAnnouncement } from './lib/twitter.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
 
 // Load environment variables
@@ -43,7 +43,8 @@ export async function deployFile(options = {}) {
       content = null,
       commitMessage = null,
       dryRun = false,
-      testMode = false
+      testMode = false,
+      announceTwitter = false
     } = options;
 
     console.log(`🚀 Starting deployment for: ${filePath}`);
@@ -94,6 +95,21 @@ export async function deployFile(options = {}) {
         };
         
         await logDeploymentResult(result);
+        
+        // Post template announcement if requested
+        if (announceTwitter && result.success) {
+          try {
+            const announceResult = await postTemplateAnnouncement(result, true); // Force announce even in test mode
+            if (announceResult.success) {
+              console.log('🐦 Template announcement posted to Twitter');
+            } else {
+              console.log(`🐦 Template announcement failed: ${announceResult.error || announceResult.reason}`);
+            }
+          } catch (error) {
+            console.error('🐦 Template announcement error:', error.message);
+          }
+        }
+        
         return result;
       }
       
@@ -172,6 +188,21 @@ export async function deployFile(options = {}) {
     };
 
     await logDeploymentResult(result);
+    
+    // Post template announcement if requested
+    if (announceTwitter && result.success) {
+      try {
+        const announceResult = await postTemplateAnnouncement(result, true); // Force announce even in test mode
+        if (announceResult.success) {
+          console.log('🐦 Template announcement posted to Twitter');
+        } else {
+          console.log(`🐦 Template announcement failed: ${announceResult.error || announceResult.reason}`);
+        }
+      } catch (error) {
+        console.error('🐦 Template announcement error:', error.message);
+      }
+    }
+    
     return result;
 
   } catch (error) {
@@ -310,6 +341,9 @@ async function main() {
           await testTwitter();
           process.exit(0);
           break;
+        case '--announce-twitter':
+          options.announceTwitter = true;
+          break;
         case '--help':
         case '-h':
           console.log(`
@@ -324,6 +358,7 @@ Options:
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
   --test-twitter          Test Twitter API connection
+  --announce-twitter      Post template-based announcement to Twitter
   -h, --help              Show this help message
 
 Examples:
@@ -334,6 +369,7 @@ Examples:
   node deploy.js --logs
   node deploy.js --stats
   node deploy.js --test-twitter
+  node deploy.js --announce-twitter
           `);
           process.exit(0);
           break;
