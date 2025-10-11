@@ -86,16 +86,28 @@ ARWEAVE_GATEWAY=https://arweave.net
 ## 🎯 Usage
 
 ### AI Agent Commands
+
+**The agent knows how to use these deployment options:**
+
 ```bash
-# Ask the agent to update and deploy
-"Update hello-world.txt to say 'Hello from the future!' and deploy it"
+# Option 1: Deploy locally (recommended for testing)
+"Update hello-world.txt and deploy it locally"
 
-# Ask the agent to fix issues
-"Fix the TTL configuration to use 30 seconds"
+# Option 2: Deploy via GitHub Actions (recommended for production)
+"Update hello-world.txt and deploy it via GitHub Actions"
 
-# Ask the agent to add features
-"Add a command to show deployment history"
+# Option 3: Deploy and announce on Twitter
+"Update hello-world.txt, deploy it, and announce on Twitter"
+
+# Option 4: Just announce a previous deployment
+"Announce the latest deployment on Twitter"
 ```
+
+**The agent will automatically:**
+- Use `node deploy.js --file <filename>` for local deployments
+- Use `node deploy.js --trigger-github-deploy` for GitHub Actions deployments
+- Use `node deploy.js --announce-twitter` for Twitter announcements
+- Use `node deploy.js --trigger-announcement` for GitHub Actions announcements
 
 ### Manual Deployment Commands
 ```bash

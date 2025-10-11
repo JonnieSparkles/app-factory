@@ -33,6 +33,15 @@ TURBO_UPLOAD_SERVICE_URL=https://upload.ardrive.dev
 # Application Configuration
 APP_NAME=RemoteAgentDeploy
 ARWEAVE_GATEWAY=https://arweave.net
+
+# Twitter API (optional)
+TWITTER_APP_KEY=your_app_key
+TWITTER_APP_SECRET=your_app_secret
+TWITTER_ACCESS_TOKEN=your_access_token
+TWITTER_ACCESS_SECRET=your_access_secret
+
+# GitHub API (for triggering workflows and auto-merge)
+REPO_TOKEN=your_github_personal_access_token
 ```
 
 ### Option 2: GitHub Secrets (for GitHub Actions)
@@ -43,6 +52,11 @@ If using GitHub Actions, add these as repository secrets:
 - `ARWEAVE_JWK_JSON`
 - `TURBO_PAYMENT_SERVICE_URL`
 - `TURBO_UPLOAD_SERVICE_URL`
+- `TWITTER_APP_KEY`
+- `TWITTER_APP_SECRET`
+- `TWITTER_ACCESS_TOKEN`
+- `TWITTER_ACCESS_SECRET`
+- `REPO_TOKEN`
 
 ### Option 3: Cloud Environment Variables
 For cloud platforms (Vercel, Netlify, etc.), set these in your platform's environment variable settings.
@@ -92,14 +106,33 @@ npm run stats
 
 ## 🚀 Deployment Commands for AI Agents
 
-Once environment variables are set, AI agents can use:
+Once environment variables are set, AI agents can use these deployment options:
 
+### Local Deployment (Recommended for Testing)
 ```bash
-# Deploy with content
+# Deploy with content locally
 npm run deploy -- --content "Hello from AI agent!"
 
-# Deploy specific file
+# Deploy specific file locally
 npm run deploy -- --file hello-world.txt --content "Updated content"
+```
+
+### GitHub Actions Deployment (Recommended for Production)
+```bash
+# Trigger GitHub Actions deployment
+node deploy.js --trigger-github-deploy
+
+# Deploy specific file via GitHub Actions
+node deploy.js --file hello-world.txt --trigger-github-deploy
+```
+
+### Twitter Announcements
+```bash
+# Deploy and announce on Twitter
+node deploy.js --file hello-world.txt --announce-twitter
+
+# Just announce latest deployment
+node deploy.js --trigger-announcement
 
 # Deploy with custom commit message
 npm run deploy -- --content "New content" --message "Agent update #1"
