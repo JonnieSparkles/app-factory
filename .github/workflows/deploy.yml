@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "Environment configured."
 
-      - name: Deploy hello-world.txt to Arweave
+      - name: Deploy index.html to Arweave
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
           OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
@@ -43,4 +43,4 @@ jobs:
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
           APP_NAME: RemoteAgentDeploy
-        run: npm run deploy -- --file hello-world.txt
+        run: npm run deploy -- --file index.html --message "Converted hello-world.txt to awesome interactive HTML celebration page"
