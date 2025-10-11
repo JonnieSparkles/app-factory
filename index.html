@@ -27,19 +27,26 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
             perspective: 1000px;
+            padding: 20px;
+            box-sizing: border-box;
         }
         
         .container {
             text-align: center;
             z-index: 10;
             position: relative;
+            max-width: 100%;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         
         .main-text {
-            font-size: clamp(3rem, 8vw, 8rem);
+            font-size: clamp(2rem, 6vw, 6rem);
             font-weight: 900;
             font-family: 'Orbitron', monospace;
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700, #ff1493);
@@ -62,6 +69,9 @@
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         
         .main-text:hover {
@@ -71,7 +81,7 @@
         }
         
         .subtitle {
-            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-size: clamp(1rem, 2.5vw, 1.8rem);
             background: linear-gradient(45deg, #ffd700, #00ff7f, #00bfff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -80,14 +90,16 @@
             margin-bottom: 3rem;
             animation: fadeInUp 2s ease-out 0.5s both, gradientShift 3s ease infinite;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .celebration-btn {
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700);
             background-size: 400% 400%;
             border: 3px solid rgba(255, 255, 255, 0.3);
-            padding: 20px 40px;
-            font-size: 1.5rem;
+            padding: 15px 30px;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
             font-weight: 700;
             color: white;
             border-radius: 50px;
@@ -99,6 +111,9 @@
             overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 1px;
+            max-width: 100%;
+            white-space: nowrap;
+            display: inline-block;
         }
         
         .celebration-btn:hover {
@@ -385,13 +400,15 @@
             backdrop-filter: blur(15px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 25px;
-            padding: 2rem;
+            padding: 1.5rem;
             margin: 2rem 0;
             text-align: center;
             animation: slideInUp 1s ease-out 1s both, gradientShift 6s ease infinite;
             box-shadow: 0 15px 40px rgba(255, 20, 147, 0.2), 0 0 20px rgba(138, 43, 226, 0.1);
             position: relative;
             overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         .twitter-icon {
@@ -401,7 +418,7 @@
         }
         
         .twitter-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.2rem, 3vw, 2rem);
             font-weight: 700;
             background: linear-gradient(45deg, #1DA1F2, #ff1493, #8a2be2);
             -webkit-background-clip: text;
@@ -410,6 +427,8 @@
             margin-bottom: 1rem;
             text-shadow: 0 0 20px rgba(29, 161, 242, 0.5);
             animation: glow 2s ease-in-out infinite alternate, gradientShift 3s ease infinite;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .twitter-description {
@@ -425,14 +444,15 @@
         
         .twitter-features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1rem;
             margin-top: 1.5rem;
+            max-width: 100%;
         }
         
         .feature-item {
             background: linear-gradient(45deg, rgba(255, 20, 147, 0.3), rgba(138, 43, 226, 0.3), rgba(0, 191, 255, 0.3));
-            padding: 1rem;
+            padding: 0.8rem;
             border-radius: 15px;
             font-weight: 600;
             color: #fff;
@@ -442,6 +462,9 @@
             box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
             position: relative;
             overflow: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
         }
         
         .feature-item:nth-child(1) { --delay: 0s; }
@@ -545,8 +568,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            height: 60%;
+            width: min(80%, calc(100vw - 40px));
+            height: min(60%, calc(100vh - 40px));
             border: 3px solid transparent;
             border-radius: 20px;
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700) border-box;
@@ -556,6 +579,7 @@
             mask-composite: exclude;
             animation: neonPulse 2s ease-in-out infinite;
             z-index: 3;
+            pointer-events: none;
         }
         
         .click-effect {
@@ -580,18 +604,40 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
             .main-text {
-                font-size: 4rem;
+                font-size: clamp(1.8rem, 8vw, 4rem);
+                margin-bottom: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.9rem, 3vw, 1.5rem);
+                margin-bottom: 2rem;
             }
             
             .celebration-btn {
-                padding: 15px 30px;
-                font-size: 1.2rem;
+                padding: 12px 24px;
+                font-size: clamp(0.9rem, 3vw, 1.2rem);
             }
             
             .twitter-celebration {
-                padding: 1.5rem;
+                padding: 1rem;
                 margin: 1.5rem 0;
+            }
+            
+            .twitter-title {
+                font-size: clamp(1rem, 4vw, 1.8rem);
+            }
+            
+            .twitter-description {
+                font-size: clamp(0.9rem, 2.5vw, 1.2rem);
             }
             
             .twitter-features {
@@ -602,6 +648,26 @@
             .feature-item {
                 padding: 0.8rem;
                 font-size: 0.9rem;
+            }
+            
+            .neon-border {
+                width: min(90%, calc(100vw - 20px));
+                height: min(70%, calc(100vh - 20px));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-text {
+                font-size: clamp(1.5rem, 10vw, 3rem);
+            }
+            
+            .twitter-celebration {
+                padding: 0.8rem;
+            }
+            
+            .feature-item {
+                padding: 0.6rem;
+                font-size: 0.8rem;
             }
         }
     </style>
