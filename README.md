@@ -38,16 +38,20 @@ AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Dep
 
 ## 🔄 Complete Workflow
 
+**Standard Agent Workflow Steps:**
 1. **🤖 Agent Request**: You ask the AI agent to make changes
-2. **🌿 Branch Creation**: Agent creates `cursor/feature-branch` 
-3. **📝 File Edit**: Agent modifies target file (e.g., `hello-world.txt`)
-4. **🔑 Hash Generation**: System generates SHA-256 commit hash from content
+2. **📝 Make Updates**: Agent modifies files as requested
+3. **🧪 Test Changes**: Agent tests the changes (if appropriate)
+4. **🌿 Branch Creation**: Agent creates `cursor/feature-branch` 
 5. **📋 PR Creation**: Agent creates pull request against main
 6. **✅ Auto-merge**: GitHub Actions validates and auto-merges PR
-7. **☁️ Arweave Upload**: File uploaded to Arweave via Turbo SDK
+7. **☁️ Deploy**: File uploaded to Arweave via Turbo SDK
 8. **🏷️ ArNS Assignment**: Transaction ID assigned to undername (commit hash)
 9. **📊 Logging**: Deployment logged to JSON/CSV files
-10. **🎉 Completion**: Agent ready for next task
+10. **🐦 Announce**: Post deployment announcement to Twitter (if requested)
+11. **🎉 Completion**: Agent ready for next task
+
+**Key Principle: Always follow the sequence: Make Updates → Test → Deploy → Announce**
 
 ## ⚙️ Environment Setup
 
