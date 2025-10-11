@@ -184,6 +184,14 @@ npm run stats
 
 This system is designed for seamless AI agent workflows:
 
+### Standard Workflow Steps
+**📋 For detailed workflow documentation, see [WORKFLOW_DOCUMENTATION.md](./WORKFLOW_DOCUMENTATION.md)**
+
+1. **Make Updates Requested** - Analyze and implement changes
+2. **Test If Appropriate** - Verify functionality works as expected  
+3. **Deploy** - Deploy changes to target environment
+4. **Announce (If Prompted)** - Use Twitter announcement feature AFTER successful deploy
+
 ### GitHub Actions Integration
 - **Auto-merge workflow** automatically merges agent PRs after validation
 - **Deploy workflow** automatically deploys merged changes to Arweave
