@@ -27,19 +27,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
             perspective: 1000px;
+            padding: 1rem;
         }
         
         .container {
             text-align: center;
             z-index: 10;
             position: relative;
+            max-width: 100%;
+            width: 100%;
+            padding: 0 1rem;
         }
         
         .main-text {
-            font-size: clamp(3rem, 8vw, 8rem);
+            font-size: clamp(2rem, 6vw, 6rem);
             font-weight: 900;
             font-family: 'Orbitron', monospace;
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700, #ff1493);
@@ -51,7 +56,7 @@
                 0 0 30px rgba(255, 20, 147, 0.8),
                 0 0 60px rgba(138, 43, 226, 0.6),
                 0 0 90px rgba(0, 191, 255, 0.4);
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1rem, 3vw, 2rem);
             animation: 
                 bounceIn 2s ease-out, 
                 glow 2s ease-in-out infinite alternate, 
@@ -62,32 +67,37 @@
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         
         .main-text:hover {
-            transform: perspective(1000px) rotateX(10deg) scale(1.05);
+            transform: perspective(1000px) rotateX(5deg) scale(1.02);
             text-shadow: 0 0 50px rgba(255, 20, 147, 0.8), 0 0 80px rgba(138, 43, 226, 0.6);
             filter: brightness(1.2);
         }
         
         .subtitle {
-            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
             background: linear-gradient(45deg, #ffd700, #00ff7f, #00bfff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            margin-bottom: 3rem;
+            margin-bottom: clamp(1.5rem, 4vw, 3rem);
             animation: fadeInUp 2s ease-out 0.5s both, gradientShift 3s ease infinite;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .celebration-btn {
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700);
             background-size: 400% 400%;
             border: 3px solid rgba(255, 255, 255, 0.3);
-            padding: 20px 40px;
-            font-size: 1.5rem;
+            padding: clamp(15px, 3vw, 20px) clamp(30px, 6vw, 40px);
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
             font-weight: 700;
             color: white;
             border-radius: 50px;
@@ -99,10 +109,12 @@
             overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 1px;
+            max-width: 100%;
+            white-space: nowrap;
         }
         
         .celebration-btn:hover {
-            transform: translateY(-8px) scale(1.15);
+            transform: translateY(-4px) scale(1.05);
             box-shadow: 0 25px 50px rgba(255, 20, 147, 0.6), 0 0 30px rgba(138, 43, 226, 0.5);
             filter: brightness(1.1);
         }
@@ -134,6 +146,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
         
         .particle {
@@ -275,13 +288,13 @@
                 transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px);
             }
             25% {
-                transform: perspective(1000px) rotateX(5deg) rotateY(2deg) translateY(-10px);
+                transform: perspective(1000px) rotateX(3deg) rotateY(1deg) translateY(-5px);
             }
             50% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-5px);
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-3px);
             }
             75% {
-                transform: perspective(1000px) rotateX(-3deg) rotateY(-1deg) translateY(-8px);
+                transform: perspective(1000px) rotateX(-2deg) rotateY(-0.5deg) translateY(-4px);
             }
         }
         
@@ -290,13 +303,13 @@
                 transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
             }
             25% {
-                transform: perspective(1000px) rotateX(2deg) rotateY(1deg) rotateZ(0.5deg);
+                transform: perspective(1000px) rotateX(1deg) rotateY(0.5deg) rotateZ(0.2deg);
             }
             50% {
                 transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
             }
             75% {
-                transform: perspective(1000px) rotateX(-1deg) rotateY(-0.5deg) rotateZ(-0.3deg);
+                transform: perspective(1000px) rotateX(-0.5deg) rotateY(-0.2deg) rotateZ(-0.1deg);
             }
         }
         
@@ -385,13 +398,14 @@
             backdrop-filter: blur(15px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 25px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: clamp(1rem, 3vw, 2rem);
+            margin: clamp(1rem, 3vw, 2rem) 0;
             text-align: center;
             animation: slideInUp 1s ease-out 1s both, gradientShift 6s ease infinite;
             box-shadow: 0 15px 40px rgba(255, 20, 147, 0.2), 0 0 20px rgba(138, 43, 226, 0.1);
             position: relative;
             overflow: hidden;
+            max-width: 100%;
         }
         
         .twitter-icon {
@@ -401,7 +415,7 @@
         }
         
         .twitter-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.2rem, 3.5vw, 2rem);
             font-weight: 700;
             background: linear-gradient(45deg, #1DA1F2, #ff1493, #8a2be2);
             -webkit-background-clip: text;
@@ -410,10 +424,12 @@
             margin-bottom: 1rem;
             text-shadow: 0 0 20px rgba(29, 161, 242, 0.5);
             animation: glow 2s ease-in-out infinite alternate, gradientShift 3s ease infinite;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .twitter-description {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             background: linear-gradient(45deg, #00ff7f, #00bfff, #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -421,18 +437,21 @@
             margin-bottom: 1.5rem;
             font-weight: 500;
             text-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .twitter-features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: clamp(0.5rem, 2vw, 1rem);
             margin-top: 1.5rem;
+            max-width: 100%;
         }
         
         .feature-item {
             background: linear-gradient(45deg, rgba(255, 20, 147, 0.3), rgba(138, 43, 226, 0.3), rgba(0, 191, 255, 0.3));
-            padding: 1rem;
+            padding: clamp(0.8rem, 2vw, 1rem);
             border-radius: 15px;
             font-weight: 600;
             color: #fff;
@@ -442,6 +461,9 @@
             box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
             position: relative;
             overflow: hidden;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .feature-item:nth-child(1) { --delay: 0s; }
@@ -450,7 +472,7 @@
         .feature-item:nth-child(4) { --delay: 0.3s; }
         
         .feature-item:hover {
-            transform: translateY(-8px) scale(1.08);
+            transform: translateY(-4px) scale(1.03);
             background: linear-gradient(45deg, rgba(255, 20, 147, 0.4), rgba(138, 43, 226, 0.4), rgba(0, 191, 255, 0.4));
             box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4), 0 0 20px rgba(138, 43, 226, 0.3);
             filter: brightness(1.1);
@@ -463,6 +485,7 @@
             width: 100%;
             height: 100%;
             z-index: 5;
+            overflow: hidden;
         }
         
         .matrix-rain {
@@ -520,6 +543,8 @@
             display: flex;
             gap: 3px;
             z-index: 10;
+            max-width: 100%;
+            overflow: hidden;
         }
         
         .wave-bar {
@@ -545,8 +570,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            height: 60%;
+            width: min(80%, 100vw - 2rem);
+            height: min(60%, 100vh - 2rem);
             border: 3px solid transparent;
             border-radius: 20px;
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700) border-box;
@@ -556,6 +581,8 @@
             mask-composite: exclude;
             animation: neonPulse 2s ease-in-out infinite;
             z-index: 3;
+            max-width: 100%;
+            max-height: 100%;
         }
         
         .click-effect {
@@ -580,18 +607,12 @@
         }
         
         @media (max-width: 768px) {
-            .main-text {
-                font-size: 4rem;
+            body {
+                padding: 0.5rem;
             }
             
-            .celebration-btn {
-                padding: 15px 30px;
-                font-size: 1.2rem;
-            }
-            
-            .twitter-celebration {
-                padding: 1.5rem;
-                margin: 1.5rem 0;
+            .container {
+                padding: 0 0.5rem;
             }
             
             .twitter-features {
@@ -599,9 +620,29 @@
                 gap: 0.8rem;
             }
             
-            .feature-item {
-                padding: 0.8rem;
-                font-size: 0.9rem;
+            .neon-border {
+                width: min(90%, 100vw - 1rem);
+                height: min(70%, 100vh - 1rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0.25rem;
+            }
+            
+            .container {
+                padding: 0 0.25rem;
+            }
+            
+            .twitter-features {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .neon-border {
+                width: min(95%, 100vw - 0.5rem);
+                height: min(80%, 100vh - 0.5rem);
             }
         }
     </style>
