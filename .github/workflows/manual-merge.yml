@@ -1,0 +1,44 @@
+name: Manual Auto-merge
+
+on:
+  pull_request:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to merge'
+        required: true
+        type: string
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run validation
+        run: |
+          echo "Validating deployment script..."
+          node deploy.js --test-mode --file hello-world.txt --content "test"
+          echo "✅ Validation passed"
+
+      - name: Auto-merge PR
+        uses: fastify/github-action-merge-dependabot@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          target: main
+          merge-method: squash
+          merge-commit-message: "🤖 Auto-merge: ${{ github.event.pull_request.title }}"
+          delete-branch: true
