@@ -1,4 +1,4 @@
-name: Announce Deployment on Twitter
+name: 🐦 Twitter Deployment Announcement
 
 on:
   workflow_dispatch:
@@ -7,6 +7,11 @@ on:
         description: 'Deployment hash/undername to announce'
         required: true
         type: string
+      file_path:
+        description: 'File that was deployed'
+        required: false
+        type: string
+        default: 'index.html'
       custom_message:
         description: 'Custom message (optional)'
         required: false
@@ -15,41 +20,84 @@ on:
     workflows: ["Deploy on push"]
     types: [completed]
     branches: [main]
+  push:
+    branches: [main]
+    paths: ['index.html', 'hello-world.txt']
 
 jobs:
   announce:
     runs-on: ubuntu-latest
-    # Only run if the deploy workflow succeeded
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    # Only run if the deploy workflow succeeded or manual trigger
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     permissions:
       contents: read
     steps:
-      - name: Checkout
+      - name: 🚀 Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for better commit analysis
 
-      - name: Setup Node.js
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Install dependencies
+      - name: 📦 Install Dependencies
         run: npm ci
 
-      - name: Get deployment info
-        id: deployment
+      - name: 🧪 Test Twitter Connection
+        env:
+          TWITTER_APP_KEY: ${{ secrets.TWITTER_APP_KEY }}
+          TWITTER_APP_SECRET: ${{ secrets.TWITTER_APP_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "hash=${{ github.event.inputs.deployment_hash }}" >> $GITHUB_OUTPUT
-            echo "message=${{ github.event.inputs.custom_message }}" >> $GITHUB_OUTPUT
+          echo "🔍 Testing Twitter API connection..."
+          if node deploy.js --test-twitter; then
+            echo "✅ Twitter connection successful"
           else
-            # For workflow_run triggers, we need a deployment hash
-            echo "hash=" >> $GITHUB_OUTPUT
-            echo "message=" >> $GITHUB_OUTPUT
-            echo "⚠️ Automatic deployment hash detection not available in workflow_run"
-            echo "Please use workflow_dispatch with a specific deployment hash"
+            echo "❌ Twitter connection failed - skipping announcement"
+            exit 0
           fi
 
-      - name: Announce on Twitter
+      - name: 📊 Get Deployment Information
+        id: deployment
+        run: |
+          echo "🔍 Determining deployment information..."
+          
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "📝 Manual trigger detected"
+            echo "hash=${{ github.event.inputs.deployment_hash }}" >> $GITHUB_OUTPUT
+            echo "file_path=${{ github.event.inputs.file_path }}" >> $GITHUB_OUTPUT
+            echo "message=${{ github.event.inputs.custom_message }}" >> $GITHUB_OUTPUT
+            echo "trigger=manual" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            echo "🚀 Push trigger detected"
+            # Generate hash from the latest commit
+            COMMIT_HASH=$(git rev-parse --short HEAD)
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD | grep -E '\.(html|txt)$' | head -1)
+            if [ -z "$CHANGED_FILES" ]; then
+              CHANGED_FILES="index.html"
+            fi
+            echo "hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
+            echo "file_path=$CHANGED_FILES" >> $GITHUB_OUTPUT
+            echo "message=" >> $GITHUB_OUTPUT
+            echo "trigger=push" >> $GITHUB_OUTPUT
+            echo "📁 Detected file: $CHANGED_FILES"
+            echo "🔑 Generated hash: $COMMIT_HASH"
+          else
+            echo "🔄 Workflow run trigger detected"
+            # For workflow_run, we'll use a generated hash based on the commit
+            COMMIT_HASH=$(git rev-parse --short HEAD)
+            echo "hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
+            echo "file_path=index.html" >> $GITHUB_OUTPUT
+            echo "message=" >> $GITHUB_OUTPUT
+            echo "trigger=workflow_run" >> $GITHUB_OUTPUT
+            echo "🔑 Using commit hash: $COMMIT_HASH"
+          fi
+
+      - name: 🐦 Announce on Twitter
         if: steps.deployment.outputs.hash != ''
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
@@ -61,13 +109,23 @@ jobs:
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         run: |
-          node scripts/announce.js "${{ steps.deployment.outputs.hash }}" "hello-world.txt"
+          echo "🐦 Posting announcement to Twitter..."
+          echo "📁 File: ${{ steps.deployment.outputs.file_path }}"
+          echo "🔑 Hash: ${{ steps.deployment.outputs.hash }}"
+          echo "🎯 Trigger: ${{ steps.deployment.outputs.trigger }}"
+          
+          if node scripts/announce.js "${{ steps.deployment.outputs.hash }}" "${{ steps.deployment.outputs.file_path }}"; then
+            echo "✅ Twitter announcement posted successfully!"
+          else
+            echo "❌ Twitter announcement failed"
+            exit 1
+          fi
 
-      - name: Announcement failed
-        if: steps.deployment.outputs.hash == ''
+      - name: 📋 Announcement Summary
+        if: always()
         run: |
-          echo "❌ No deployment hash found to announce"
-          echo "Available options:"
-          echo "1. Use workflow_dispatch with a specific hash"
-          echo "2. Ensure the deploy workflow completed successfully"
-          exit 1
+          echo "📊 Announcement Summary:"
+          echo "  Trigger: ${{ steps.deployment.outputs.trigger || 'unknown' }}"
+          echo "  File: ${{ steps.deployment.outputs.file_path || 'unknown' }}"
+          echo "  Hash: ${{ steps.deployment.outputs.hash || 'unknown' }}"
+          echo "  Status: ${{ job.status }}"

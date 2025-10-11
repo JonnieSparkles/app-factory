@@ -15,7 +15,9 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -33,46 +35,59 @@
         .main-text {
             font-size: clamp(3rem, 8vw, 8rem);
             font-weight: 800;
-            color: #fff;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
             margin-bottom: 2rem;
-            animation: bounceIn 2s ease-out, glow 2s ease-in-out infinite alternate;
+            animation: bounceIn 2s ease-out, glow 2s ease-in-out infinite alternate, gradientShift 4s ease infinite;
             transform: perspective(1000px) rotateX(0deg);
             transition: all 0.3s ease;
         }
         
         .main-text:hover {
             transform: perspective(1000px) rotateX(10deg) scale(1.05);
-            text-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 50px rgba(255, 0, 110, 0.8), 0 0 80px rgba(131, 56, 236, 0.6);
+            filter: brightness(1.2);
         }
         
         .subtitle {
             font-size: clamp(1.2rem, 3vw, 2rem);
-            color: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(45deg, #ffbe0b, #06ffa5, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 190, 11, 0.5);
             margin-bottom: 3rem;
-            animation: fadeInUp 2s ease-out 0.5s both;
+            animation: fadeInUp 2s ease-out 0.5s both, gradientShift 3s ease infinite;
+            font-weight: 600;
         }
         
         .celebration-btn {
-            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b);
             background-size: 400% 400%;
-            border: none;
+            border: 3px solid rgba(255, 255, 255, 0.3);
             padding: 20px 40px;
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 700;
             color: white;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: gradientShift 2s ease infinite, pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 15px 40px rgba(255, 0, 110, 0.4), 0 0 20px rgba(131, 56, 236, 0.3);
             position: relative;
             overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .celebration-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-8px) scale(1.15);
+            box-shadow: 0 25px 50px rgba(255, 0, 110, 0.6), 0 0 30px rgba(131, 56, 236, 0.5);
+            filter: brightness(1.1);
         }
         
         .celebration-btn:active {
@@ -242,15 +257,17 @@
         }
         
         .twitter-celebration {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.2), rgba(131, 56, 236, 0.2), rgba(58, 134, 255, 0.2));
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
             padding: 2rem;
             margin: 2rem 0;
             text-align: center;
-            animation: slideInUp 1s ease-out 1s both;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: slideInUp 1s ease-out 1s both, gradientShift 6s ease infinite;
+            box-shadow: 0 15px 40px rgba(255, 0, 110, 0.2), 0 0 20px rgba(131, 56, 236, 0.1);
+            position: relative;
+            overflow: hidden;
         }
         
         .twitter-icon {
@@ -262,17 +279,24 @@
         .twitter-title {
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: 700;
-            color: #1DA1F2;
+            background: linear-gradient(45deg, #1DA1F2, #ff006e, #8338ec);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1rem;
             text-shadow: 0 0 20px rgba(29, 161, 242, 0.5);
-            animation: glow 2s ease-in-out infinite alternate;
+            animation: glow 2s ease-in-out infinite alternate, gradientShift 3s ease infinite;
         }
         
         .twitter-description {
             font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(45deg, #06ffa5, #3a86ff, #ffbe0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1.5rem;
-            font-weight: 400;
+            font-weight: 500;
+            text-shadow: 0 0 15px rgba(6, 255, 165, 0.3);
         }
         
         .twitter-features {
@@ -283,14 +307,17 @@
         }
         
         .feature-item {
-            background: linear-gradient(45deg, rgba(29, 161, 242, 0.2), rgba(255, 255, 255, 0.1));
+            background: linear-gradient(45deg, rgba(255, 0, 110, 0.3), rgba(131, 56, 236, 0.3), rgba(58, 134, 255, 0.3));
             padding: 1rem;
-            border-radius: 10px;
+            border-radius: 15px;
             font-weight: 600;
             color: #fff;
-            border: 1px solid rgba(29, 161, 242, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out calc(1.5s + var(--delay, 0s)) both;
+            animation: fadeInUp 1s ease-out calc(1.5s + var(--delay, 0s)) both, gradientShift 4s ease infinite;
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
         .feature-item:nth-child(1) { --delay: 0s; }
@@ -299,9 +326,10 @@
         .feature-item:nth-child(4) { --delay: 0.3s; }
         
         .feature-item:hover {
-            transform: translateY(-5px) scale(1.05);
-            background: linear-gradient(45deg, rgba(29, 161, 242, 0.3), rgba(255, 255, 255, 0.2));
-            box-shadow: 0 10px 25px rgba(29, 161, 242, 0.3);
+            transform: translateY(-8px) scale(1.08);
+            background: linear-gradient(45deg, rgba(255, 0, 110, 0.4), rgba(131, 56, 236, 0.4), rgba(58, 134, 255, 0.4));
+            box-shadow: 0 15px 30px rgba(255, 0, 110, 0.4), 0 0 20px rgba(131, 56, 236, 0.3);
+            filter: brightness(1.1);
         }
         
         .interactive-area {
