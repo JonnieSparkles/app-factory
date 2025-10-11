@@ -1,20 +1,19 @@
 #!/usr/bin/env node
 
-// Script to trigger GitHub Actions deployment workflow
+// Script to trigger GitHub Actions deployment workflow using REST API
 
 import { execSync } from 'child_process';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const filePath = process.argv[2] || 'hello-world.txt';
 const message = process.argv[3] || 'Deployed via AI agent';
 
 try {
-  // Check if we're in a git repository
-  const gitStatus = execSync('git status --porcelain', { encoding: 'utf8' });
-  
-  // Get the repository URL
+  // Get repository info from git
   const remoteUrl = execSync('git remote get-url origin', { encoding: 'utf8' }).trim();
-  
-  // Extract owner and repo from URL
   const match = remoteUrl.match(/github\.com[:/]([^/]+)\/([^/]+?)(?:\.git)?$/);
   if (!match) {
     throw new Error('Could not determine repository owner/name');
@@ -22,15 +21,37 @@ try {
   
   const [, owner, repo] = match;
   
+  // Get GitHub token from environment
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) {
+    throw new Error('GITHUB_TOKEN environment variable is required');
+  }
+  
   console.log(`🚀 Triggering deployment workflow for ${owner}/${repo}`);
   console.log(`📁 File: ${filePath}`);
   console.log(`📝 Message: ${message}`);
   
-  // Trigger the workflow using GitHub CLI
-  const command = `gh workflow run "🚀 Deploy to Arweave" -f file_path="${filePath}" -f message="${message}"`;
+  // Trigger workflow using GitHub REST API
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/deploy.yml/dispatches`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ref: 'main',
+      inputs: {
+        file_path: filePath,
+        message: message
+      }
+    })
+  });
   
-  console.log(`🔧 Running: ${command}`);
-  execSync(command, { stdio: 'inherit' });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`GitHub API error: ${response.status} ${error}`);
+  }
   
   console.log('✅ Deployment workflow triggered successfully!');
   console.log('🚀 Check GitHub Actions to see the deployment progress');
@@ -38,12 +59,10 @@ try {
 } catch (error) {
   console.error('❌ Failed to trigger deployment workflow:', error.message);
   
-  if (error.message.includes('gh: command not found')) {
-    console.log('\n💡 GitHub CLI is not installed or not in PATH');
-    console.log('Install it from: https://cli.github.com/');
-  } else if (error.message.includes('not authenticated')) {
-    console.log('\n💡 GitHub CLI is not authenticated');
-    console.log('Run: gh auth login');
+  if (error.message.includes('GITHUB_TOKEN')) {
+    console.log('\n💡 Add GITHUB_TOKEN to your environment variables');
+    console.log('Get a token from: https://github.com/settings/tokens');
+    console.log('Add it to your .env file or GitHub Secrets');
   }
   
   process.exit(1);

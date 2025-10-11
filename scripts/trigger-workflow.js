@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-// Script to trigger GitHub Actions announcement workflow using REST API
+// Script to trigger GitHub Actions workflows using REST API
+// This avoids the need for GitHub CLI installation/authentication
 
 import { execSync } from 'child_process';
 import dotenv from 'dotenv';
@@ -8,12 +9,12 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
-const deploymentHash = process.argv[2];
-const filePath = process.argv[3] || 'hello-world.txt';
+const workflowName = process.argv[2];
+const inputs = JSON.parse(process.argv[3] || '{}');
 
-if (!deploymentHash) {
-  console.error('❌ Deployment hash is required');
-  console.log('Usage: node scripts/trigger-announcement.js <deployment_hash> [file_path]');
+if (!workflowName) {
+  console.error('❌ Workflow name is required');
+  console.log('Usage: node scripts/trigger-workflow.js <workflow_name> [inputs_json]');
   process.exit(1);
 }
 
@@ -33,12 +34,12 @@ try {
     throw new Error('GITHUB_TOKEN environment variable is required');
   }
   
-  console.log(`🚀 Triggering announcement workflow for ${owner}/${repo}`);
-  console.log(`📝 Deployment hash: ${deploymentHash}`);
-  console.log(`📁 File: ${filePath}`);
+  console.log(`🚀 Triggering workflow: ${workflowName}`);
+  console.log(`📦 Repository: ${owner}/${repo}`);
+  console.log(`📝 Inputs:`, inputs);
   
   // Trigger workflow using GitHub REST API
-  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/announce.yml/dispatches`, {
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowName}/dispatches`, {
     method: 'POST',
     headers: {
       'Authorization': `token ${token}`,
@@ -47,10 +48,7 @@ try {
     },
     body: JSON.stringify({
       ref: 'main',
-      inputs: {
-        deployment_hash: deploymentHash,
-        file_path: filePath
-      }
+      inputs: inputs
     })
   });
   
@@ -59,11 +57,11 @@ try {
     throw new Error(`GitHub API error: ${response.status} ${error}`);
   }
   
-  console.log('✅ Announcement workflow triggered successfully!');
-  console.log('🐦 Check GitHub Actions to see the announcement being posted');
+  console.log('✅ Workflow triggered successfully!');
+  console.log('🔗 Check GitHub Actions to see the workflow running');
   
 } catch (error) {
-  console.error('❌ Failed to trigger announcement workflow:', error.message);
+  console.error('❌ Failed to trigger workflow:', error.message);
   
   if (error.message.includes('GITHUB_TOKEN')) {
     console.log('\n💡 Add GITHUB_TOKEN to your environment variables');
