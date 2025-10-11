@@ -92,5 +92,33 @@
     "context": "Deployment ",
     "duration": 11,
     "filePath": "index.html"
+  },
+  {
+    "timestamp": "2025-10-11T19:37:48.920Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 8,
+    "filePath": "index.html"
+  },
+  {
+    "timestamp": "2025-10-11T19:38:18.343Z",
+    "success": true,
+    "filePath": "index.html",
+    "commitHash": "18f7b3d97766f13f",
+    "txId": "mock-18f7b3d97766f13f-1760211498344",
+    "undername": "18f7b3d97766f13f",
+    "ttl": 60,
+    "fileSize": 31337,
+    "duration": 150,
+    "arnsRecordId": "mock-record-18f7b3d97766f13f"
+  },
+  {
+    "timestamp": "2025-10-11T19:38:24.852Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 8,
+    "filePath": "hello-world.txt"
   }
 ]
