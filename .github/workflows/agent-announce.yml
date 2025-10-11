@@ -41,32 +41,4 @@ jobs:
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         run: |
-          # Create deployment data for the announcement
-          node -e "
-          const { postTemplateAnnouncement } = require('./lib/twitter.js');
-          
-          const deploymentData = {
-            success: true,
-            undername: '${{ github.event.inputs.deployment_hash }}',
-            commitHash: '${{ github.event.inputs.deployment_hash }}',
-            filePath: '${{ github.event.inputs.file_path }}',
-            txId: 'github-action-${{ github.run_id }}',
-            fileSize: 0,
-            duration: 0
-          };
-          
-          postTemplateAnnouncement(deploymentData, true)
-            .then(result => {
-              if (result.success) {
-                console.log('✅ Twitter announcement posted successfully');
-                console.log('🐦 Tweet posted with hash: ${{ github.event.inputs.deployment_hash }}');
-              } else {
-                console.log('❌ Twitter announcement failed:', result.error || result.reason);
-                process.exit(1);
-              }
-            })
-            .catch(error => {
-              console.error('❌ Twitter announcement error:', error.message);
-              process.exit(1);
-            });
-          "
+          node scripts/announce.js "${{ github.event.inputs.deployment_hash }}" "${{ github.event.inputs.file_path }}"
