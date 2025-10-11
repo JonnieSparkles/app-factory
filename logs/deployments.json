@@ -145,5 +145,17 @@
     "fileSize": 31342,
     "duration": 134598,
     "arnsRecordId": "hX3cZLWvr3XOJPA3joz7P7qaED0BlktLBo-rsH7hCAg"
+  },
+  {
+    "timestamp": "2025-10-11T20:55:54.606Z",
+    "success": true,
+    "filePath": "index.html",
+    "commitHash": "ea1ee6dd876dc49e",
+    "txId": "YtyQB9VYhLLpH3tk58U4ZEthDMdLDlSAa00Ejq4N9as",
+    "undername": "ea1ee6dd876dc49e",
+    "ttl": 60,
+    "fileSize": 32786,
+    "duration": 228640,
+    "arnsRecordId": "X3wNle_9XX_Ziohhh8buwrzaOzkhi4lWJxdJ3grjXBY"
   }
 ]
