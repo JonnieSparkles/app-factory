@@ -1,0 +1,32 @@
+{
+  "name": "remote-agent-deployment",
+  "version": "1.0.0",
+  "description": "Remote agent workflow system for deploying files to Arweave with ArNS integration",
+  "type": "module",
+  "main": "deploy.js",
+  "scripts": {
+    "deploy": "node deploy.js",
+    "test": "node test.js",
+    "start": "node deploy.js"
+  },
+  "keywords": [
+    "arweave",
+    "turbo",
+    "arns",
+    "remote-agent",
+    "deployment"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@ardrive/turbo-sdk": "^1.32.0",
+    "@ar.io/sdk": "^3.21.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
