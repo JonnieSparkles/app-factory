@@ -74,10 +74,27 @@ try {
     }
     
     console.log('✅ PR marked as ready for review');
+    
+    // Wait longer for GitHub to process the status change
+    console.log('⏳ Waiting for GitHub to process status change...');
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    
+    // Verify the PR is no longer a draft
+    const verifyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    
+    if (verifyResponse.ok) {
+      const verifyPr = await verifyResponse.json();
+      if (verifyPr.draft) {
+        throw new Error('PR is still in draft status after conversion attempt');
+      }
+      console.log('✅ Verified PR is ready for review');
+    }
   }
-  
-  // Wait a moment for GitHub to process the status change
-  await new Promise(resolve => setTimeout(resolve, 2000));
   
   // Now merge the PR
   console.log('🔀 Merging PR...');
