@@ -45,7 +45,8 @@ export async function deployFile(options = {}) {
       dryRun = false,
       testMode = false,
       announceTwitter = false,
-      triggerAnnouncement = false
+      triggerAnnouncement = false,
+      triggerGithubDeploy = false
     } = options;
 
     console.log(`🚀 Starting deployment for: ${filePath}`);
@@ -122,6 +123,20 @@ export async function deployFile(options = {}) {
             console.log('✅ Announcement workflow triggered successfully!');
           } catch (error) {
             console.error('🐦 Failed to trigger announcement workflow:', error.message);
+          }
+        }
+
+        // Handle trigger GitHub deployment option
+        if (triggerGithubDeploy) {
+          try {
+            console.log('🚀 Triggering GitHub Actions deployment workflow...');
+            const { execSync } = await import('child_process');
+            execSync(`node scripts/trigger-deploy.js "${filePath}" "${commitMessage || 'Deployed via AI agent'}"`, { stdio: 'inherit' });
+            console.log('✅ Deployment workflow triggered successfully!');
+            return { success: true, message: 'GitHub Actions deployment workflow triggered' };
+          } catch (error) {
+            console.error('❌ Failed to trigger deployment workflow:', error.message);
+            return { success: false, error: error.message };
           }
         }
         
@@ -377,6 +392,9 @@ async function main() {
         case '--trigger-announcement':
           options.triggerAnnouncement = true;
           break;
+        case '--trigger-github-deploy':
+          options.triggerGithubDeploy = true;
+          break;
         case '--help':
         case '-h':
           console.log(`
@@ -393,6 +411,7 @@ Options:
   --test-twitter          Test Twitter API connection
   --announce-twitter      Post template-based announcement to Twitter
   --trigger-announcement  Trigger GitHub Actions announcement workflow
+  --trigger-github-deploy Trigger GitHub Actions deployment workflow
   -h, --help              Show this help message
 
 Examples:
@@ -405,6 +424,7 @@ Examples:
   node deploy.js --test-twitter
   node deploy.js --announce-twitter
   node deploy.js --trigger-announcement
+  node deploy.js --trigger-github-deploy
           `);
           process.exit(0);
           break;

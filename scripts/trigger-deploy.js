@@ -1,18 +1,11 @@
 #!/usr/bin/env node
 
-// Script to trigger GitHub Actions announcement workflow
+// Script to trigger GitHub Actions deployment workflow
 
 import { execSync } from 'child_process';
-import fs from 'fs/promises';
 
-const deploymentHash = process.argv[2];
-const filePath = process.argv[3] || 'hello-world.txt';
-
-if (!deploymentHash) {
-  console.error('❌ Deployment hash is required');
-  console.log('Usage: node scripts/trigger-announcement.js <deployment_hash> [file_path]');
-  process.exit(1);
-}
+const filePath = process.argv[2] || 'hello-world.txt';
+const message = process.argv[3] || 'Deployed via AI agent';
 
 try {
   // Check if we're in a git repository
@@ -29,21 +22,21 @@ try {
   
   const [, owner, repo] = match;
   
-  console.log(`🚀 Triggering announcement workflow for ${owner}/${repo}`);
-  console.log(`📝 Deployment hash: ${deploymentHash}`);
+  console.log(`🚀 Triggering deployment workflow for ${owner}/${repo}`);
   console.log(`📁 File: ${filePath}`);
+  console.log(`📝 Message: ${message}`);
   
   // Trigger the workflow using GitHub CLI
-  const command = `gh workflow run "🐦 Twitter Deployment Announcement" -f deployment_hash="${deploymentHash}" -f file_path="${filePath}"`;
+  const command = `gh workflow run "🚀 Deploy to Arweave" -f file_path="${filePath}" -f message="${message}"`;
   
   console.log(`🔧 Running: ${command}`);
   execSync(command, { stdio: 'inherit' });
   
-  console.log('✅ Announcement workflow triggered successfully!');
-  console.log('🐦 Check GitHub Actions to see the announcement being posted');
+  console.log('✅ Deployment workflow triggered successfully!');
+  console.log('🚀 Check GitHub Actions to see the deployment progress');
   
 } catch (error) {
-  console.error('❌ Failed to trigger announcement workflow:', error.message);
+  console.error('❌ Failed to trigger deployment workflow:', error.message);
   
   if (error.message.includes('gh: command not found')) {
     console.log('\n💡 GitHub CLI is not installed or not in PATH');
