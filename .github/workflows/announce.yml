@@ -88,13 +88,44 @@ jobs:
             echo "🔑 Generated hash: $COMMIT_HASH"
           else
             echo "🔄 Workflow run trigger detected"
-            # For workflow_run, we'll use a generated hash based on the commit
-            COMMIT_HASH=$(git rev-parse --short HEAD)
-            echo "hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
-            echo "file_path=index.html" >> $GITHUB_OUTPUT
-            echo "message=" >> $GITHUB_OUTPUT
-            echo "trigger=workflow_run" >> $GITHUB_OUTPUT
-            echo "🔑 Using commit hash: $COMMIT_HASH"
+            # Try to get the latest deployment hash from logs
+            if [ -f "logs/deployments.json" ]; then
+              DEPLOYMENT_HASH=$(node -e "
+                const fs = require('fs');
+                try {
+                  const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
+                  const latest = logs[logs.length - 1];
+                  if (latest && latest.success && (latest.undername || latest.commitHash)) {
+                    console.log(latest.undername || latest.commitHash);
+                  } else {
+                    console.log('');
+                  }
+                } catch (e) {
+                  console.log('');
+                }
+              ")
+              
+              if [ -n "$DEPLOYMENT_HASH" ]; then
+                echo "hash=$DEPLOYMENT_HASH" >> $GITHUB_OUTPUT
+                echo "file_path=hello-world.txt" >> $GITHUB_OUTPUT
+                echo "message=" >> $GITHUB_OUTPUT
+                echo "trigger=workflow_run" >> $GITHUB_OUTPUT
+                echo "📁 Detected file: hello-world.txt"
+                echo "🔑 Found deployment hash: $DEPLOYMENT_HASH"
+              else
+                echo "hash=" >> $GITHUB_OUTPUT
+                echo "file_path=" >> $GITHUB_OUTPUT
+                echo "message=" >> $GITHUB_OUTPUT
+                echo "trigger=workflow_run" >> $GITHUB_OUTPUT
+                echo "⚠️ No deployment hash found in logs"
+              fi
+            else
+              echo "hash=" >> $GITHUB_OUTPUT
+              echo "file_path=" >> $GITHUB_OUTPUT
+              echo "message=" >> $GITHUB_OUTPUT
+              echo "trigger=workflow_run" >> $GITHUB_OUTPUT
+              echo "⚠️ No deployment logs found"
+            fi
           fi
 
       - name: 🐦 Announce on Twitter
