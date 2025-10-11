@@ -39,7 +39,7 @@ Create a `.env` file with the following variables:
 # Arweave Configuration
 ARWEAVE_WALLET_PATH=./secrets/wallet.json
 ARNS_CONTRACT_ID=your-arns-contract-id
-ARNS_UNDERNAME_TTL=31536000
+ARNS_UNDERNAME_TTL=60
 
 # Turbo Configuration
 TURBO_PAYMENT_SERVICE_URL=https://payment.ardrive.dev
