@@ -16,8 +16,10 @@ import {
   handleError,
   validateFileContent,
   validateFilePath,
-  formatBytes
+  formatBytes,
+  formatDuration
 } from './lib/utils.js';
+import { readJSONLogs, getLogStats } from './lib/logging.js';
 import { uploadToArweave, getTurboClient, loadWallet } from './lib/arweave.js';
 import { 
   checkUndernameAvailability, 
@@ -145,13 +147,79 @@ export async function deployFile(options = {}) {
       arnsRecordId: arnsResult.recordId
     };
 
-    logDeploymentResult(result);
+    await logDeploymentResult(result);
     return result;
 
   } catch (error) {
     const result = handleError(error, 'Deployment ');
     result.duration = Date.now() - startTime;
+    result.filePath = options.filePath || 'hello-world.txt';
+    
+    // Log failed deployment
+    await logDeploymentResult(result);
     return result;
+  }
+}
+
+// ---------- Log viewing functions ----------
+async function showLogs() {
+  try {
+    const logs = await readJSONLogs();
+    
+    if (logs.length === 0) {
+      console.log('📋 No deployment logs found.');
+      return;
+    }
+    
+    console.log(`📋 Deployment Logs (${logs.length} entries):\n`);
+    
+    logs.forEach((log, index) => {
+      const status = log.success ? '✅' : '❌';
+      const timestamp = new Date(log.timestamp).toLocaleString();
+      
+      console.log(`${index + 1}. ${status} ${timestamp}`);
+      console.log(`   File: ${log.filePath || 'N/A'}`);
+      console.log(`   Commit: ${log.commitHash || 'N/A'}`);
+      console.log(`   TX ID: ${log.txId || 'N/A'}`);
+      console.log(`   Status: ${log.success ? 'SUCCESS' : 'FAILED'}`);
+      if (log.error) {
+        console.log(`   Error: ${log.error}`);
+      }
+      console.log('');
+    });
+  } catch (error) {
+    console.error(`❌ Failed to show logs:`, error.message);
+  }
+}
+
+async function showStats() {
+  try {
+    const stats = await getLogStats();
+    
+    if (!stats) {
+      console.log('📊 No deployment statistics available.');
+      return;
+    }
+    
+    console.log('📊 Deployment Statistics:\n');
+    console.log(`Total Deployments: ${stats.totalDeployments}`);
+    console.log(`Successful: ${stats.successfulDeployments}`);
+    console.log(`Failed: ${stats.failedDeployments}`);
+    console.log(`Dry Runs: ${stats.dryRuns}`);
+    console.log(`Already Deployed: ${stats.alreadyDeployed}`);
+    console.log(`Total File Size: ${formatBytes(stats.totalFileSize)}`);
+    console.log(`Average Duration: ${formatDuration(stats.averageDuration)}`);
+    
+    if (stats.lastDeployment) {
+      console.log(`Last Deployment: ${new Date(stats.lastDeployment).toLocaleString()}`);
+    }
+    
+    if (stats.totalDeployments > 0) {
+      const successRate = ((stats.successfulDeployments / stats.totalDeployments) * 100).toFixed(1);
+      console.log(`Success Rate: ${successRate}%`);
+    }
+  } catch (error) {
+    console.error(`❌ Failed to show stats:`, error.message);
   }
 }
 
@@ -181,6 +249,16 @@ async function main() {
         case '--dry-run':
           options.dryRun = true;
           break;
+        case '--logs':
+        case '-l':
+          await showLogs();
+          process.exit(0);
+          break;
+        case '--stats':
+        case '-s':
+          await showStats();
+          process.exit(0);
+          break;
         case '--help':
         case '-h':
           console.log(`
@@ -191,12 +269,16 @@ Options:
   -c, --content <text>     Content to write to file before deployment
   -m, --message <text>     Commit message for hash generation
   --dry-run               Show what would be deployed without actually deploying
+  -l, --logs              Show deployment logs
+  -s, --stats             Show deployment statistics
   -h, --help              Show this help message
 
 Examples:
   node deploy.js --file hello-world.txt --content "Hello from agent!"
   node deploy.js --content "Updated content" --message "Agent edit #1"
   node deploy.js --dry-run
+  node deploy.js --logs
+  node deploy.js --stats
           `);
           process.exit(0);
           break;

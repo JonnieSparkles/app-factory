@@ -7,7 +7,9 @@
   "scripts": {
     "deploy": "node deploy.js",
     "test": "node test.js",
-    "start": "node deploy.js"
+    "start": "node deploy.js",
+    "logs": "node deploy.js --logs",
+    "stats": "node deploy.js --stats"
   },
   "keywords": [
     "arweave",
