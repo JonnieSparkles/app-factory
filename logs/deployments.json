@@ -120,5 +120,18 @@
     "context": "Deployment ",
     "duration": 8,
     "filePath": "hello-world.txt"
+  },
+  {
+    "timestamp": "2025-10-11T19:39:58.882Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "index.html",
+    "commitHash": "8be9c87d4542f43b",
+    "txId": "test-8be9c87d4542f43b-1760211598881",
+    "undername": "8be9c87d4542f43b",
+    "ttl": 60,
+    "fileSize": 31342,
+    "duration": 8,
+    "arnsRecordId": "test-record-8be9c87d4542f43b"
   }
 ]
