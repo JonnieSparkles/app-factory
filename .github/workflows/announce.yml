@@ -17,7 +17,7 @@ on:
         required: false
         type: string
   workflow_run:
-    workflows: ["Deploy on push"]
+    workflows: ["🚀 Deploy to Arweave"]
     types: [completed]
     branches: [main]
 

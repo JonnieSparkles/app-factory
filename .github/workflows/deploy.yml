@@ -1,9 +1,18 @@
-name: Deploy on push
+name: 🚀 Deploy to Arweave
 
 on:
-  push:
-    branches:
-      - '**'
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'File to deploy (e.g., index.html, hello-world.txt)'
+        required: true
+        type: string
+        default: 'index.html'
+      message:
+        description: 'Deployment message'
+        required: false
+        type: string
+        default: 'Deployed via GitHub Actions'
 
 jobs:
   deploy:
@@ -34,7 +43,7 @@ jobs:
         run: |
           echo "Environment configured."
 
-      - name: Deploy index.html to Arweave
+      - name: Deploy to Arweave
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
           OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
@@ -43,4 +52,4 @@ jobs:
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
           APP_NAME: RemoteAgentDeploy
-        run: npm run deploy -- --file index.html --message "Converted hello-world.txt to awesome interactive HTML celebration page"
+        run: npm run deploy -- --file "${{ github.event.inputs.file_path }}" --message "${{ github.event.inputs.message }}"
