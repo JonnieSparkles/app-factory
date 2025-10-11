@@ -133,5 +133,17 @@
     "fileSize": 31342,
     "duration": 8,
     "arnsRecordId": "test-record-8be9c87d4542f43b"
+  },
+  {
+    "timestamp": "2025-10-11T20:13:37.544Z",
+    "success": true,
+    "filePath": "index.html",
+    "commitHash": "37ddc7de12a2a8ee",
+    "txId": "cc_pujJ4QLVPDlSKVBczEst_8n_hGTCQXRm0X3VN9QY",
+    "undername": "37ddc7de12a2a8ee",
+    "ttl": 60,
+    "fileSize": 31342,
+    "duration": 134598,
+    "arnsRecordId": "hX3cZLWvr3XOJPA3joz7P7qaED0BlktLBo-rsH7hCAg"
   }
 ]
