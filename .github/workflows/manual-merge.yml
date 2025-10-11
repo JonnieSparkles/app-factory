@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Setup GitHub CLI
+        uses: actions/setup-gh@v1
+
       - name: Install dependencies
         run: npm ci
 
@@ -33,6 +36,13 @@ jobs:
           echo "Validating deployment script..."
           node deploy.js --test-mode --file hello-world.txt --content "test"
           echo "✅ Validation passed"
+
+      - name: Mark PR as ready for review (if draft)
+        if: github.event.pull_request.draft == true
+        run: |
+          echo "📝 Marking draft PR as ready for review..."
+          gh pr ready ${{ github.event.pull_request.number }}
+          echo "✅ PR marked as ready for review"
 
       - name: Auto-merge PR
         uses: fastify/github-action-merge-dependabot@v3
