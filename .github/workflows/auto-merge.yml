@@ -33,7 +33,7 @@ jobs:
 
       - name: Auto-merge Agent PR
         env:
-          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "🔄 Auto-merging PR #${{ github.event.pull_request.number }}..."
           node scripts/auto-merge.js ${{ github.event.pull_request.number }} squash

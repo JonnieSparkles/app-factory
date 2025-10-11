@@ -30,9 +30,9 @@ try {
   const [, owner, repo] = match;
   
   // Get GitHub token from environment
-  const token = process.env.REPO_TOKEN;
+  const token = process.env.GITHUB_TOKEN || process.env.REPO_TOKEN;
   if (!token) {
-    throw new Error('REPO_TOKEN environment variable is required');
+    throw new Error('GITHUB_TOKEN or REPO_TOKEN environment variable is required');
   }
   
   console.log(`🔄 Auto-merging PR #${prNumber} for ${owner}/${repo}`);
@@ -109,8 +109,8 @@ try {
 } catch (error) {
   console.error('❌ Failed to auto-merge PR:', error.message);
   
-  if (error.message.includes('REPO_TOKEN')) {
-    console.log('\n💡 Add REPO_TOKEN to your environment variables');
+  if (error.message.includes('GITHUB_TOKEN') || error.message.includes('REPO_TOKEN')) {
+    console.log('\n💡 Add GITHUB_TOKEN or REPO_TOKEN to your environment variables');
     console.log('Get a token from: https://github.com/settings/tokens');
     console.log('Add it to your .env file or GitHub Secrets');
   } else if (error.message.includes('not mergeable')) {
