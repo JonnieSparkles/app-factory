@@ -72,6 +72,40 @@ export async function deployFile(options = {}) {
     const shortHash = generateShortHash(commitHash);
     console.log(`🔑 Generated commit hash: ${shortHash}...`);
 
+    if (dryRun || testMode) {
+      const mode = testMode ? 'test mode' : 'dry run';
+      console.log(`🔍 ${mode} - would deploy to undername: ${shortHash}`);
+      
+      // In test mode, simulate a successful deployment
+      if (testMode) {
+        const mockTxId = `test-${shortHash}-${Date.now()}`;
+        const result = {
+          success: true,
+          testMode: true,
+          filePath,
+          commitHash: shortHash,
+          txId: mockTxId,
+          undername: shortHash,
+          ttl: config.arnsTtl,
+          fileSize: fileContent.length,
+          duration: Date.now() - startTime,
+          arnsRecordId: `test-record-${shortHash}`
+        };
+        
+        await logDeploymentResult(result);
+        return result;
+      }
+      
+      return {
+        success: true,
+        dryRun: true,
+        commitHash: shortHash,
+        undername: shortHash,
+        fileSize: fileContent.length,
+        duration: Date.now() - startTime
+      };
+    }
+
     // Check if this commit already exists in ArNS
     const wallet = await loadWallet();
     const signer = new ArweaveSigner(wallet);
@@ -90,40 +124,6 @@ export async function deployFile(options = {}) {
         txId: existingRecord.id,
         undername: shortHash,
         ttl: config.arnsTtl,
-        fileSize: fileContent.length,
-        duration: Date.now() - startTime
-      };
-    }
-
-    if (dryRun || testMode) {
-      const mode = testMode ? 'test mode' : 'dry run';
-      console.log(`🔍 ${mode} - would deploy to undername: ${shortHash}`);
-      
-      // In test mode, simulate a successful deployment
-      if (testMode) {
-        const mockTxId = `test-${shortHash}-${Date.now()}`;
-        const result = {
-          success: true,
-          testMode: true,
-          filePath,
-          commitHash: shortHash,
-          txId: mockTxId,
-          undername: shortHash,
-          ttl: 31536000,
-          fileSize: fileContent.length,
-          duration: Date.now() - startTime,
-          arnsRecordId: `test-record-${shortHash}`
-        };
-        
-        await logDeploymentResult(result);
-        return result;
-      }
-      
-      return {
-        success: true,
-        dryRun: true,
-        commitHash: shortHash,
-        undername: shortHash,
         fileSize: fileContent.length,
         duration: Date.now() - startTime
       };
