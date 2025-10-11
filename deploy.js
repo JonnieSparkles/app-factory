@@ -26,6 +26,7 @@ import {
   createUndernameRecord, 
   getUndernameRecord 
 } from './lib/arns.js';
+import { testTwitterConnection, isTwitterConfigured } from './lib/twitter.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
 
 // Load environment variables
@@ -246,6 +247,26 @@ async function showStats() {
   }
 }
 
+async function testTwitter() {
+  try {
+    console.log('🐦 Testing Twitter connection...');
+    
+    if (!isTwitterConfigured()) {
+      console.log('❌ Twitter not configured. Set TWITTER_APP_KEY, TWITTER_APP_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_SECRET');
+      return;
+    }
+    
+    const result = await testTwitterConnection();
+    if (result.success) {
+      console.log(`✅ Twitter connection successful! Logged in as: @${result.username}`);
+    } else {
+      console.log(`❌ Twitter connection failed: ${result.error}`);
+    }
+  } catch (error) {
+    console.error(`❌ Twitter test failed:`, error.message);
+  }
+}
+
 // ---------- CLI interface ----------
 async function main() {
   try {
@@ -285,6 +306,10 @@ async function main() {
           await showStats();
           process.exit(0);
           break;
+        case '--test-twitter':
+          await testTwitter();
+          process.exit(0);
+          break;
         case '--help':
         case '-h':
           console.log(`
@@ -298,6 +323,7 @@ Options:
   --test-mode             Simulate deployment with mock data (no real upload)
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
+  --test-twitter          Test Twitter API connection
   -h, --help              Show this help message
 
 Examples:
@@ -307,6 +333,7 @@ Examples:
   node deploy.js --test-mode
   node deploy.js --logs
   node deploy.js --stats
+  node deploy.js --test-twitter
           `);
           process.exit(0);
           break;
