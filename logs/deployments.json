@@ -76,5 +76,21 @@
     "fileSize": 31,
     "duration": 3,
     "arnsRecordId": "test-record-c525c8b8778d5f0e"
+  },
+  {
+    "timestamp": "2025-10-11T19:32:23.250Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 22,
+    "filePath": "index.html"
+  },
+  {
+    "timestamp": "2025-10-11T19:34:16.544Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 11,
+    "filePath": "index.html"
   }
 ]

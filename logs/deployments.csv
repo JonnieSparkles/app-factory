@@ -5,3 +5,5 @@
 "2025-10-11T17:58:43.010Z","SUCCESS","hello-world.txt","9aa8d7cd139b5e1e","test-9aa8d7cd139b5e1e-1760205523004","9aa8d7cd139b5e1e","31","5","60","test-record-9aa8d7cd139b5e1e","","NO","NO"
 "2025-10-11T17:59:04.503Z","SUCCESS","hello-world.txt","910efb0fd8801934","test-910efb0fd8801934-1760205544496","910efb0fd8801934","31","4","60","test-record-910efb0fd8801934","","NO","NO"
 "2025-10-11T18:00:08.485Z","SUCCESS","hello-world.txt","c525c8b8778d5f0e","test-c525c8b8778d5f0e-1760205608477","c525c8b8778d5f0e","31","3","60","test-record-c525c8b8778d5f0e","","NO","NO"
+"2025-10-11T19:32:23.249Z","FAILED","index.html","","","","0","22","0","","ANT_PROCESS_ID environment variable is required","NO","NO"
+"2025-10-11T19:34:16.544Z","FAILED","index.html","","","","0","11","0","","ANT_PROCESS_ID environment variable is required","NO","NO"
