@@ -141,8 +141,8 @@ npm run stats
 │   ├── logging.js           # Deployment logging system
 │   └── utils.js             # General utilities
 ├── logs/
-│   ├── deployments.json     # Structured deployment logs
-│   └── deployments.csv      # CSV deployment logs
+│   ├── deployments.json     # Structured deployment logs (committed to repo)
+│   └── deployments.csv      # CSV deployment logs (committed to repo)
 ├── secrets/
 │   └── wallet.json          # Arweave wallet (keep secure!)
 ├── hello-world.txt          # Example target file
@@ -234,6 +234,17 @@ This system is designed for seamless AI agent workflows:
 - **Deployment Logs**: Check `logs/deployments.json` and `logs/deployments.csv`
 - **Statistics**: Run `npm run stats` to see deployment metrics
 - **Real-time**: Watch GitHub Actions for live deployment status
+
+### How Twitter Announcements Work
+
+The Twitter announcement system automatically gets deployment information:
+
+1. **Local Deployments**: Logs are written to `logs/deployments.json` locally
+2. **GitHub Actions Deployments**: Logs are committed back to the repository
+3. **Announce Workflow**: Reads the latest deployment from `logs/deployments.json`
+4. **Twitter Post**: Uses the actual Arweave deployment hash (undername) for the link
+
+This ensures Twitter announcements always use the correct deployment hash, whether deployed locally or via GitHub Actions.
 
 ## 🚀 Future Enhancements
 
