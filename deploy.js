@@ -53,9 +53,6 @@ export async function deployFile(options = {}) {
     // Validate inputs
     validateFilePath(filePath);
     
-    // Load configuration
-    const config = loadConfig();
-    
     // Read current file content or use provided content
     let fileContent;
     if (content !== null) {
@@ -81,6 +78,11 @@ export async function deployFile(options = {}) {
       
       // In test mode, simulate a successful deployment
       if (testMode) {
+        // Load minimal config for test mode
+        const config = {
+          arnsTtl: 60,
+          appName: 'RemoteAgentDeploy'
+        };
         const mockTxId = `test-${shortHash}-${Date.now()}`;
         const result = {
           success: true,
@@ -135,6 +137,9 @@ export async function deployFile(options = {}) {
         duration: Date.now() - startTime
       };
     }
+
+    // Load configuration for real deployment
+    const config = loadConfig();
 
     // Check if this commit already exists in ArNS
     const wallet = await loadWallet();
