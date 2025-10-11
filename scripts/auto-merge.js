@@ -56,6 +56,8 @@ try {
   
   if (pr.draft) {
     console.log('📝 Converting draft PR to ready for review...');
+    console.log(`🔍 PR details: ${pr.title} (draft: ${pr.draft})`);
+    
     const readyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
       method: 'PATCH',
       headers: {
@@ -70,29 +72,52 @@ try {
     
     if (!readyResponse.ok) {
       const error = await readyResponse.text();
+      console.error(`❌ Conversion failed: ${readyResponse.status} ${error}`);
       throw new Error(`Failed to mark PR as ready: ${readyResponse.status} ${error}`);
     }
     
+    const conversionResult = await readyResponse.json();
     console.log('✅ PR marked as ready for review');
+    console.log(`🔍 Conversion result: draft=${conversionResult.draft}`);
     
     // Wait longer for GitHub to process the status change
     console.log('⏳ Waiting for GitHub to process status change...');
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 8000));
     
-    // Verify the PR is no longer a draft
-    const verifyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
+    // Verify the PR is no longer a draft with retries
+    let attempts = 0;
+    let maxAttempts = 3;
     
-    if (verifyResponse.ok) {
-      const verifyPr = await verifyResponse.json();
-      if (verifyPr.draft) {
-        throw new Error('PR is still in draft status after conversion attempt');
+    while (attempts < maxAttempts) {
+      attempts++;
+      console.log(`🔍 Verification attempt ${attempts}/${maxAttempts}...`);
+      
+      const verifyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      
+      if (verifyResponse.ok) {
+        const verifyPr = await verifyResponse.json();
+        console.log(`🔍 PR status: draft=${verifyPr.draft}, state=${verifyPr.state}`);
+        
+        if (!verifyPr.draft) {
+          console.log('✅ Verified PR is ready for review');
+          break;
+        } else if (attempts < maxAttempts) {
+          console.log('⏳ Still in draft, waiting longer...');
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        } else {
+          throw new Error('PR is still in draft status after multiple conversion attempts');
+        }
+      } else {
+        console.error(`❌ Verification failed: ${verifyResponse.status}`);
+        if (attempts === maxAttempts) {
+          throw new Error('Failed to verify PR status after conversion');
+        }
       }
-      console.log('✅ Verified PR is ready for review');
     }
   }
   
