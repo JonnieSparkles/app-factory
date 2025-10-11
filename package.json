@@ -8,6 +8,7 @@
     "deploy": "node deploy.js",
     "test": "node test.js",
     "start": "node deploy.js",
+    "test-deploy": "node deploy.js --test-mode",
     "logs": "node deploy.js --logs",
     "stats": "node deploy.js --stats"
   },

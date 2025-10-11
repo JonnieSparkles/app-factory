@@ -41,7 +41,8 @@ export async function deployFile(options = {}) {
       filePath = 'hello-world.txt',
       content = null,
       commitMessage = null,
-      dryRun = false
+      dryRun = false,
+      testMode = false
     } = options;
 
     console.log(`🚀 Starting deployment for: ${filePath}`);
@@ -94,8 +95,30 @@ export async function deployFile(options = {}) {
       };
     }
 
-    if (dryRun) {
-      console.log(`🔍 Dry run - would deploy to undername: ${shortHash}`);
+    if (dryRun || testMode) {
+      const mode = testMode ? 'test mode' : 'dry run';
+      console.log(`🔍 ${mode} - would deploy to undername: ${shortHash}`);
+      
+      // In test mode, simulate a successful deployment
+      if (testMode) {
+        const mockTxId = `test-${shortHash}-${Date.now()}`;
+        const result = {
+          success: true,
+          testMode: true,
+          filePath,
+          commitHash: shortHash,
+          txId: mockTxId,
+          undername: shortHash,
+          ttl: 31536000,
+          fileSize: fileContent.length,
+          duration: Date.now() - startTime,
+          arnsRecordId: `test-record-${shortHash}`
+        };
+        
+        await logDeploymentResult(result);
+        return result;
+      }
+      
       return {
         success: true,
         dryRun: true,
@@ -249,6 +272,9 @@ async function main() {
         case '--dry-run':
           options.dryRun = true;
           break;
+        case '--test-mode':
+          options.testMode = true;
+          break;
         case '--logs':
         case '-l':
           await showLogs();
@@ -269,6 +295,7 @@ Options:
   -c, --content <text>     Content to write to file before deployment
   -m, --message <text>     Commit message for hash generation
   --dry-run               Show what would be deployed without actually deploying
+  --test-mode             Simulate deployment with mock data (no real upload)
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
   -h, --help              Show this help message
@@ -277,6 +304,7 @@ Examples:
   node deploy.js --file hello-world.txt --content "Hello from agent!"
   node deploy.js --content "Updated content" --message "Agent edit #1"
   node deploy.js --dry-run
+  node deploy.js --test-mode
   node deploy.js --logs
   node deploy.js --stats
           `);
