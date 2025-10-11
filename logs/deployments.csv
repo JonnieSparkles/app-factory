@@ -1,0 +1,7 @@
+"timestamp","status","file_path","commit_hash","tx_id","undername","file_size_bytes","duration_ms","ttl_seconds","arns_record_id","error_message","already_deployed","dry_run"
+"2025-10-11T16:33:09.201Z","SUCCESS","hello-world.txt","0186d8c9d32b8d77","test-0186d8c9d32b8d77-1760200389197","0186d8c9d32b8d77","18","86666","31536000","test-record-0186d8c9d32b8d77","","NO","NO"
+"2025-10-11T17:52:04.369Z","SUCCESS","hello-world.txt","de773e9b8a0b52a5","test-de773e9b8a0b52a5-1760205124360","de773e9b8a0b52a5","28","4","60","test-record-de773e9b8a0b52a5","","NO","NO"
+"2025-10-11T17:58:15.000Z","SUCCESS","hello-world.txt","341f0a7b27e962b7","test-341f0a7b27e962b7-1760205494994","341f0a7b27e962b7","31","2","60","test-record-341f0a7b27e962b7","","NO","NO"
+"2025-10-11T17:58:43.010Z","SUCCESS","hello-world.txt","9aa8d7cd139b5e1e","test-9aa8d7cd139b5e1e-1760205523004","9aa8d7cd139b5e1e","31","5","60","test-record-9aa8d7cd139b5e1e","","NO","NO"
+"2025-10-11T17:59:04.503Z","SUCCESS","hello-world.txt","910efb0fd8801934","test-910efb0fd8801934-1760205544496","910efb0fd8801934","31","4","60","test-record-910efb0fd8801934","","NO","NO"
+"2025-10-11T18:00:08.485Z","SUCCESS","hello-world.txt","c525c8b8778d5f0e","test-c525c8b8778d5f0e-1760205608477","c525c8b8778d5f0e","31","3","60","test-record-c525c8b8778d5f0e","","NO","NO"

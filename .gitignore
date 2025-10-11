@@ -18,7 +18,6 @@ secrets/
 wallet.json
 
 # Logs
-logs/
 *.log
 
 # Runtime data

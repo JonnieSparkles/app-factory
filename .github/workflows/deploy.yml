@@ -18,7 +18,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,3 +53,14 @@ jobs:
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
           APP_NAME: RemoteAgentDeploy
         run: npm run deploy -- --file "${{ github.event.inputs.file_path }}" --message "${{ github.event.inputs.message }}"
+
+      - name: Commit deployment logs
+        if: always()
+        run: |
+          if [ -f "logs/deployments.json" ]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add logs/
+            git commit -m "Update deployment logs" || echo "No changes to commit"
+            git push origin main || echo "Nothing to push"
+          fi
