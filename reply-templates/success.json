@@ -1,7 +1,7 @@
 {
   "name": "success",
   "description": "Success template for successful deployments",
-  "template": "Success! 🎉\n\n🔗 https://{undername}_{ownerArnsName}.arweave.net",
+  "template": "Success, new version deployed! 🎉\n\n🔗 https://{undername}_{ownerArnsName}.arweave.net",
   "variables": {
     "undername": "The ArNS undername (commit hash)",
     "ownerArnsName": "The owner's ArNS name"

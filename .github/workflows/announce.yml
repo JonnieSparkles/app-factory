@@ -1,0 +1,111 @@
+name: Announce Deployment on Twitter
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_hash:
+        description: 'Deployment hash/undername to announce'
+        required: true
+        type: string
+      custom_message:
+        description: 'Custom message (optional)'
+        required: false
+        type: string
+  workflow_run:
+    workflows: ["Deploy on push"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    # Only run if the deploy workflow succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get deployment info
+        id: deployment
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "hash=${{ github.event.inputs.deployment_hash }}" >> $GITHUB_OUTPUT
+            echo "message=${{ github.event.inputs.custom_message }}" >> $GITHUB_OUTPUT
+          else
+            # Get the latest deployment from logs
+            if [ -f "logs/deployments.json" ]; then
+              HASH=$(node -e "
+                const fs = require('fs');
+                const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
+                const latest = logs[logs.length - 1];
+                if (latest && latest.success) {
+                  console.log(latest.undername || latest.commitHash);
+                }
+              ")
+              echo "hash=$HASH" >> $GITHUB_OUTPUT
+              echo "message=" >> $GITHUB_OUTPUT
+            else
+              echo "hash=" >> $GITHUB_OUTPUT
+              echo "message=" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Announce on Twitter
+        if: steps.deployment.outputs.hash != ''
+        env:
+          ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
+          OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
+          WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
+          ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
+          TWITTER_APP_KEY: ${{ secrets.TWITTER_APP_KEY }}
+          TWITTER_APP_SECRET: ${{ secrets.TWITTER_APP_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+        run: |
+          # Create a mock deployment data for the announcement
+          node -e "
+          const { postTemplateAnnouncement } = require('./lib/twitter.js');
+          
+          const deploymentData = {
+            success: true,
+            undername: '${{ steps.deployment.outputs.hash }}',
+            commitHash: '${{ steps.deployment.outputs.hash }}',
+            filePath: 'hello-world.txt',
+            txId: 'github-action-${{ github.run_id }}',
+            fileSize: 0,
+            duration: 0
+          };
+          
+          postTemplateAnnouncement(deploymentData, true)
+            .then(result => {
+              if (result.success) {
+                console.log('✅ Twitter announcement posted successfully');
+              } else {
+                console.log('❌ Twitter announcement failed:', result.error || result.reason);
+                process.exit(1);
+              }
+            })
+            .catch(error => {
+              console.error('❌ Twitter announcement error:', error.message);
+              process.exit(1);
+            });
+          "
+
+      - name: Announcement failed
+        if: steps.deployment.outputs.hash == ''
+        run: |
+          echo "❌ No deployment hash found to announce"
+          echo "Available options:"
+          echo "1. Use workflow_dispatch with a specific hash"
+          echo "2. Ensure the deploy workflow completed successfully"
+          exit 1
