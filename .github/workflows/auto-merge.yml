@@ -8,8 +8,8 @@ on:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Only run for PRs from cursor/ branches (agent-created PRs)
-    if: startsWith(github.head_ref, 'cursor/')
+    # Only run for PRs from cursor/ branches created by trusted users
+    if: startsWith(github.head_ref, 'cursor/') && github.actor == 'JonnieSparkles'
     permissions:
       contents: write
       pull-requests: write

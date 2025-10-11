@@ -121,7 +121,11 @@ try {
   
   console.log('✅ PR merged successfully!');
   console.log(`🔗 Merge commit: ${mergeResult.sha}`);
-  console.log(`📝 Message: ${mergeResult.commit.message}`);
+  if (mergeResult.commit && mergeResult.commit.message) {
+    console.log(`📝 Message: ${mergeResult.commit.message}`);
+  } else {
+    console.log(`📝 Message: Auto-merged PR #${prNumber}`);
+  }
   
 } catch (error) {
   console.error('❌ Failed to auto-merge PR:', error.message);
