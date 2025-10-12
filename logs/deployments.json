@@ -145,5 +145,30 @@
     "fileSize": 31342,
     "duration": 134598,
     "arnsRecordId": "hX3cZLWvr3XOJPA3joz7P7qaED0BlktLBo-rsH7hCAg"
+  },
+  {
+    "timestamp": "2025-10-11T20:55:54.606Z",
+    "success": true,
+    "filePath": "index.html",
+    "commitHash": "ea1ee6dd876dc49e",
+    "txId": "YtyQB9VYhLLpH3tk58U4ZEthDMdLDlSAa00Ejq4N9as",
+    "undername": "ea1ee6dd876dc49e",
+    "ttl": 60,
+    "fileSize": 32786,
+    "duration": 228640,
+    "arnsRecordId": "X3wNle_9XX_Ziohhh8buwrzaOzkhi4lWJxdJ3grjXBY"
+  },
+  {
+    "timestamp": "2025-10-11T21:48:05.807Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "hello-world.txt",
+    "commitHash": "3bd8b8fd8b7ece87",
+    "txId": "test-3bd8b8fd8b7ece87-1760219285789",
+    "undername": "3bd8b8fd8b7ece87",
+    "ttl": 60,
+    "fileSize": 4,
+    "duration": 2,
+    "arnsRecordId": "test-record-3bd8b8fd8b7ece87"
   }
 ]
