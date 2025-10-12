@@ -497,5 +497,17 @@
     "fileSize": 16931,
     "duration": 4,
     "arnsRecordId": "test-record-4444760d859dff7a"
+  },
+  {
+    "timestamp": "2025-10-12T14:48:59.323Z",
+    "success": true,
+    "filePath": "apps/calculator/index.html",
+    "commitHash": "0ee6c0819da33d74",
+    "txId": "VhouC4PeBwiJykSd4R5vZI0_rAEEpPfI9YrpT3cacbE",
+    "undername": "0ee6c0819da33d74",
+    "ttl": 60,
+    "fileSize": 16974,
+    "duration": 7672,
+    "arnsRecordId": "6Dg4r5KmMjS6OzX0HGIvDJFGgIQLrMbL8V_9EwWXDno"
   }
 ]
