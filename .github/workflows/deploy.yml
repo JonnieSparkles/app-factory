@@ -116,6 +116,14 @@ jobs:
             echo "📝 Manual deployment detected"
             FILE_PATH="${{ steps.changed-files.outputs.files }}"
             
+            # If file path doesn't start with deploy/ or apps/, try adding deploy/ prefix
+            if [[ ! "$FILE_PATH" =~ ^(deploy/|apps/) ]]; then
+              if [ -f "deploy/$FILE_PATH" ]; then
+                FILE_PATH="deploy/$FILE_PATH"
+                echo "📁 Adjusted file path to: $FILE_PATH"
+              fi
+            fi
+            
             # Check if file exists
             if [ -f "$FILE_PATH" ]; then
               echo "📤 Deploying: $FILE_PATH"
