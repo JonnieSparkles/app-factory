@@ -7,9 +7,9 @@ on:
     inputs:
       file_path:
         description: 'File to deploy (e.g., deploy/index.html, deploy/hello-world.txt)'
-        required: true
+        required: false
         type: string
-        default: 'deploy/index.html'
+        default: ''
       message:
         description: 'Deployment message'
         required: false
@@ -51,8 +51,8 @@ jobs:
         run: |
           echo "🔍 Detecting changed files..."
           
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "📝 Manual trigger detected"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.file_path }}" ]; then
+            echo "📝 Manual trigger with file path detected"
             echo "files=${{ github.event.inputs.file_path }}" >> $GITHUB_OUTPUT
             echo "message=${{ github.event.inputs.message }}" >> $GITHUB_OUTPUT
             echo "deploy_type=manual" >> $GITHUB_OUTPUT
