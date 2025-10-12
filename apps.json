@@ -89,6 +89,17 @@
       "enabled": true,
       "lastDeployed": null,
       "deploymentCount": 0
+    },
+    "arcade": {
+      "name": "Neon Arcade",
+      "description": "Retro synthwave gaming arcade with neon effects and 80s aesthetics",
+      "type": "static",
+      "entryPoint": "apps/arcade/index.html",
+      "buildCommand": null,
+      "outputDir": "apps/arcade",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
     }
   },
   "settings": {
