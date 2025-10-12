@@ -111,6 +111,46 @@
             }
         }
         
+        /* Performance optimizations for mobile devices */
+        @media (max-width: 768px) {
+            /* Reduce complex animations on mobile for better performance */
+            .main-text {
+                animation: bounceIn 2s ease-out, glow 2s ease-in-out infinite alternate;
+            }
+            
+            .particles {
+                display: none; /* Disable particles on mobile for better performance */
+            }
+            
+            .matrix-rain {
+                display: none; /* Disable matrix rain on mobile for better performance */
+            }
+            
+            .hologram-effect {
+                display: none; /* Disable hologram effect on mobile for better performance */
+            }
+            
+            /* Simplify background animations */
+            body {
+                animation: gradientShift 12s ease infinite;
+            }
+        }
+        
+        /* Further performance optimizations for very small screens */
+        @media (max-width: 480px) {
+            .main-text {
+                animation: bounceIn 2s ease-out, glow 3s ease-in-out infinite alternate;
+            }
+            
+            .celebration-btn {
+                animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite;
+            }
+            
+            .twitter-celebration {
+                animation: slideInUp 1s ease-out 1s both, gradientShift 8s ease infinite;
+            }
+        }
+        
         :root {
             --animation-duration: 1s;
             --transition-duration: 0.3s;
