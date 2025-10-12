@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>*~*~* I ❤️ *NSYNC 4EVER!!! *~*~*</title>
+    <style>
+        body {
+            background-color: #FF69B4;
+            background-image: 
+                radial-gradient(circle, #FFB6C1 2px, transparent 2px),
+                radial-gradient(circle, #FFE4E1 1px, transparent 1px);
+            background-size: 50px 50px, 30px 30px;
+            background-position: 0 0, 25px 25px;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #FF1493;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #FFF0F5 0%, #E6E6FA 100%);
+            border: 5px ridge #9370DB;
+            padding: 20px;
+            box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(90deg, #FF1493, #9370DB, #00BFFF, #9370DB, #FF1493);
+            padding: 20px;
+            border: 3px solid #FFD700;
+            margin-bottom: 20px;
+            animation: rainbow-bg 3s infinite;
+        }
+        
+        @keyframes rainbow-bg {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        h1 {
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 3px 3px #FF1493, 6px 6px #9370DB;
+            margin: 0;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .sparkle {
+            display: inline-block;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border: 3px dashed #FF69B4;
+        }
+        
+        .section h2 {
+            color: #9370DB;
+            font-size: 32px;
+            text-decoration: underline;
+            text-align: center;
+        }
+        
+        .member-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .member {
+            background: linear-gradient(135deg, #FFE4E1, #F0E68C);
+            padding: 15px;
+            border: 3px solid #FF1493;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .member:hover {
+            transform: scale(1.1);
+            transition: 0.3s;
+            box-shadow: 0 0 15px #FF00FF;
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0; }
+        }
+        
+        .heart {
+            color: #FF1493;
+            animation: heartbeat 1s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+        }
+        
+        .construction {
+            background: repeating-linear-gradient(
+                45deg,
+                #FFD700,
+                #FFD700 10px,
+                #000 10px,
+                #000 20px
+            );
+            padding: 10px;
+            text-align: center;
+            color: #000;
+            font-weight: bold;
+            margin: 20px 0;
+            border: 3px solid #FF0000;
+        }
+        
+        .guestbook {
+            background: #FFFACD;
+            padding: 20px;
+            border: 4px double #FF1493;
+            margin: 20px 0;
+        }
+        
+        .counter {
+            text-align: center;
+            background: #000;
+            color: #00FF00;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #00FF00;
+            margin: 20px 0;
+            font-size: 20px;
+        }
+        
+        .webring {
+            background: #E0E0E0;
+            padding: 15px;
+            border: 3px outset #808080;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .marquee-container {
+            background: #000;
+            color: #00FF00;
+            padding: 10px;
+            margin: 20px 0;
+            border: 2px solid #00FF00;
+            overflow: hidden;
+        }
+        
+        .favorite-songs {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .favorite-songs li {
+            padding: 10px;
+            margin: 5px 0;
+            background: linear-gradient(90deg, #FFB6C1, #DDA0DD);
+            border-left: 5px solid #FF1493;
+            font-size: 18px;
+        }
+        
+        .favorite-songs li:before {
+            content: "♪ ";
+            color: #FF1493;
+            font-weight: bold;
+        }
+        
+        .awards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .award {
+            background: #FFD700;
+            border: 3px ridge #FF8C00;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            font-size: 14px;
+            transform: rotate(-5deg);
+        }
+        
+        .award:nth-child(even) {
+            transform: rotate(5deg);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #000;
+            color: #00FF00;
+            border: 3px solid #00FF00;
+            margin-top: 20px;
+        }
+        
+        .gif-corner {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .top-left { top: 10px; left: 10px; }
+        .top-right { top: 10px; right: 10px; }
+        .bottom-left { bottom: 10px; left: 10px; }
+        .bottom-right { bottom: 10px; right: 10px; }
+        
+        a {
+            color: #0000FF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        a:visited {
+            color: #800080;
+        }
+        
+        a:hover {
+            color: #FF1493;
+            text-decoration: underline;
+        }
+        
+        .scroll-text {
+            animation: scroll-left 20s linear infinite;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        @keyframes scroll-left {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating decorations -->
+    <div class="gif-corner top-left">✨</div>
+    <div class="gif-corner top-right">⭐</div>
+    <div class="gif-corner bottom-left">💖</div>
+    <div class="gif-corner bottom-right">🌟</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <span class="sparkle">✨</span>
+                *NSYNC FOREVER!!!
+                <span class="sparkle">✨</span>
+            </h1>
+            <p style="color: white; font-size: 24px; text-shadow: 2px 2px #000;">
+                <span class="blink">★</span> The #1 *NSYNC Fan Site on the Web! <span class="blink">★</span>
+            </p>
+        </div>
+
+        <!-- Scrolling text -->
+        <div class="marquee-container">
+            <div class="scroll-text">
+                ★★★ WELCOME TO MY *NSYNC SHRINE!!! ★★★ JUSTIN, JC, CHRIS, JOEY & LANCE 4EVER!!! ★★★ BYE BYE BYE IS THE BEST SONG EVER!!! ★★★ TEARIN UP MY HEART!!! ★★★
+            </div>
+        </div>
+
+        <!-- Construction notice -->
+        <div class="construction">
+            🚧 UNDER CONSTRUCTION 🚧 NEW PICS COMING SOON!!! 🚧
+        </div>
+
+        <!-- About Section -->
+        <div class="section">
+            <h2><span class="heart">❤️</span> About This Site <span class="heart">❤️</span></h2>
+            <p style="font-size: 18px; text-align: center;">
+                OMG HIIII!!! Welcome 2 my *NSYNC fan page!!! <span class="blink">I LOVE THEM SO MUCH!!!</span>
+                I've been a fan since 1998 and I will NEVER stop loving them!!! 
+                <span class="heart">❤️❤️❤️</span>
+            </p>
+            <p style="text-align: center; font-size: 20px; color: #FF1493;">
+                <b>*NSYNC = THE BEST BAND IN THE WHOLE WORLD!!!</b>
+            </p>
+        </div>
+
+        <!-- Member Section -->
+        <div class="section">
+            <h2>★ The Boys ★</h2>
+            <div class="member-grid">
+                <div class="member">
+                    <div style="font-size: 60px;">😎</div>
+                    <div style="color: #0000FF;">JUSTIN TIMBERLAKE</div>
+                    <div style="font-size: 14px;">The Hottest!!! 💙</div>
+                </div>
+                <div class="member">
+                    <div style="font-size: 60px;">🎤</div>
+                    <div style="color: #FF1493;">JC CHASEZ</div>
+                    <div style="font-size: 14px;">Best Voice EVER! 💜</div>
+                </div>
+                <div class="member">
+                    <div style="font-size: 60px;">🤪</div>
+                    <div style="color: #FF8C00;">CHRIS KIRKPATRICK</div>
+                    <div style="font-size: 14px;">So Funny! 🧡</div>
+                </div>
+                <div class="member">
+                    <div style="font-size: 60px;">💪</div>
+                    <div style="color: #8B0000;">JOEY FATONE</div>
+                    <div style="font-size: 14px;">The Sweetest! ❤️</div>
+                </div>
+            </div>
+            <div class="member" style="max-width: 300px; margin: 20px auto 0;">
+                <div style="font-size: 60px;">🚀</div>
+                <div style="color: #006400;">LANCE BASS</div>
+                <div style="font-size: 14px;">Going to Space!!! 💚</div>
+            </div>
+        </div>
+
+        <!-- Favorite Songs -->
+        <div class="section">
+            <h2>♫ My Fav Songs ♫</h2>
+            <ul class="favorite-songs">
+                <li>Bye Bye Bye (THE BEST!!!)</li>
+                <li>It's Gonna Be Me</li>
+                <li>Tearin' Up My Heart</li>
+                <li>I Want You Back</li>
+                <li>This I Promise You</li>
+                <li>Pop</li>
+                <li>Girlfriend (Remix ft. Nelly)</li>
+                <li>Gone</li>
+            </ul>
+            <p style="text-align: center; font-size: 20px;">
+                <span class="blink">ALL OF THEM ARE PERFECT!!!</span> <span class="heart">❤️</span>
+            </p>
+        </div>
+
+        <!-- Fun Facts -->
+        <div class="section">
+            <h2>✨ Did U Know??? ✨</h2>
+            <div style="font-size: 16px; line-height: 2;">
+                <p>★ *NSYNC stands for the last letter of each member's name!!! (JustiN, ChriS, JoeY, JassoN (JC), and LanceN) SO COOL!!!</p>
+                <p>★ They formed in Orlando, Florida in 1995!!!</p>
+                <p>★ "No Strings Attached" sold 2.4 MILLION copies in ONE WEEK!!! <span class="blink">RECORD BREAKING!!!</span></p>
+                <p>★ Justin's hair was SO CURLY and blonde in the 90s!!! I LOVED IT!!!</p>
+                <p>★ They have the BEST dance moves EVER!!! The "Bye Bye Bye" puppet dance is LEGENDARY!!!</p>
+            </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="section">
+            <h2>🏆 Site Awards!!! 🏆</h2>
+            <div class="awards">
+                <div class="award">
+                    🌟<br>BEST FAN SITE<br>2003
+                </div>
+                <div class="award">
+                    💎<br>COOLEST<br>GRAPHICS<br>2002
+                </div>
+                <div class="award">
+                    🎵<br>MOST<br>DEDICATED<br>FAN!
+                </div>
+                <div class="award">
+                    ⭐<br>GEOCITIES<br>FEATURED<br>SITE
+                </div>
+            </div>
+        </div>
+
+        <!-- Guestbook -->
+        <div class="guestbook">
+            <h2 style="color: #FF1493; text-align: center;">📝 SIGN MY GUESTBOOK!!! 📝</h2>
+            <p style="text-align: center; font-size: 18px;">
+                Please sign my guestbook and tell me your favorite *NSYNC song!!! 
+                I read EVERY entry!!! <span class="heart">❤️</span>
+            </p>
+            <div style="background: white; padding: 15px; margin: 10px 0; border: 2px solid #FF1493;">
+                <b>LizzieXOXO:</b> OMG I LOVE THIS SITE!!! Bye Bye Bye is my fav!!!<br>
+                <i style="font-size: 12px;">Posted: 03/15/2003</i>
+            </div>
+            <div style="background: white; padding: 15px; margin: 10px 0; border: 2px solid #FF1493;">
+                <b>JustinFan4ever:</b> JUSTIN IS SO HOT!!! I'm gonna marry him someday!!! 😍<br>
+                <i style="font-size: 12px;">Posted: 03/12/2003</i>
+            </div>
+            <div style="background: white; padding: 15px; margin: 10px 0; border: 2px solid #FF1493;">
+                <b>NSYNCrules:</b> This is the BEST fan page ever!!! Keep it up!!! 💖<br>
+                <i style="font-size: 12px;">Posted: 03/10/2003</i>
+            </div>
+        </div>
+
+        <!-- Webring -->
+        <div class="webring">
+            <h3>*NSYNC FAN WEBRING</h3>
+            <p>
+                <a href="#">&lt;&lt; Previous</a> | 
+                <a href="#">Random</a> | 
+                <a href="#">Next &gt;&gt;</a>
+            </p>
+            <p style="font-size: 12px;">This site is part of the *NSYNC Forever Webring</p>
+        </div>
+
+        <!-- Counter -->
+        <div class="counter">
+            YOU ARE VISITOR NUMBER: <span class="blink">000042069</span>
+        </div>
+
+        <!-- Links -->
+        <div class="section">
+            <h2>🔗 Cool Links!!! 🔗</h2>
+            <div style="text-align: center; font-size: 18px; line-height: 2;">
+                <p>★ <a href="#">*NSYNC Official Site</a> (MUST VISIT!!!)</p>
+                <p>★ <a href="#">Justin Timberlake Fan Club</a></p>
+                <p>★ <a href="#">*NSYNC Lyrics Archive</a></p>
+                <p>★ <a href="#">Download *NSYNC Wallpapers!!!</a></p>
+                <p>★ <a href="#">*NSYNC Message Board</a></p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="font-size: 16px; margin: 5px;">
+                ✨ Best viewed in Internet Explorer 6.0 at 800x600 ✨
+            </p>
+            <p style="font-size: 14px; margin: 5px;">
+                Last Updated: March 20, 2003
+            </p>
+            <p style="font-size: 14px; margin: 5px;">
+                <span class="blink">★</span> Email me: nsyncfangirl2003@hotmail.com <span class="blink">★</span>
+            </p>
+            <p style="font-size: 12px; margin: 5px;">
+                This is a fan site. I am not affiliated with *NSYNC.
+            </p>
+            <p style="font-size: 18px; margin: 10px; color: #FFD700;">
+                *NSYNC FOREVER AND EVER!!! <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Random sparkle effect
+        setInterval(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = '20px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.animation = 'sparkle-fade 2s ease-out';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }, 2000);
+
+        // Add sparkle animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes sparkle-fade {
+                0% { opacity: 1; transform: scale(0) rotate(0deg); }
+                50% { opacity: 1; transform: scale(1) rotate(180deg); }
+                100% { opacity: 0; transform: scale(0.5) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

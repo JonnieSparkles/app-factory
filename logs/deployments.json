@@ -509,5 +509,18 @@
     "fileSize": 16974,
     "duration": 7672,
     "arnsRecordId": "6Dg4r5KmMjS6OzX0HGIvDJFGgIQLrMbL8V_9EwWXDno"
+  },
+  {
+    "timestamp": "2025-10-12T15:19:17.608Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/nsync-fanpage/index.html",
+    "commitHash": "9313e12a8faeafe5",
+    "txId": "test-9313e12a8faeafe5-1760282357605",
+    "undername": "9313e12a8faeafe5",
+    "ttl": 60,
+    "fileSize": 16888,
+    "duration": 4,
+    "arnsRecordId": "test-record-9313e12a8faeafe5"
   }
 ]
