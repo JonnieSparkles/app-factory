@@ -240,5 +240,131 @@
     "fileSize": 21002,
     "duration": 22,
     "arnsRecordId": "test-record-aa07534af0a788b2"
+  },
+  {
+    "timestamp": "2025-10-12T12:39:30.783Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 3,
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:39:44.600Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 20,
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:39:54.216Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 8,
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:40:09.115Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/portfolio/index.html",
+    "commitHash": "37af451617d82fd0",
+    "txId": "test-37af451617d82fd0-1760272809113",
+    "undername": "37af451617d82fd0",
+    "ttl": 60,
+    "fileSize": 7865,
+    "duration": 26,
+    "arnsRecordId": "test-record-37af451617d82fd0"
+  },
+  {
+    "timestamp": "2025-10-12T12:40:55.178Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 2,
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:41:09.016Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/portfolio/index.html",
+    "commitHash": "d59be3ba75095a73",
+    "txId": "test-d59be3ba75095a73-1760272869013",
+    "undername": "d59be3ba75095a73",
+    "ttl": 60,
+    "fileSize": 7865,
+    "duration": 21,
+    "arnsRecordId": "test-record-d59be3ba75095a73"
+  },
+  {
+    "timestamp": "2025-10-12T12:41:14.009Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/portfolio/index.html",
+    "commitHash": "156bcddc97263621",
+    "txId": "test-156bcddc97263621-1760272874007",
+    "undername": "156bcddc97263621",
+    "ttl": 60,
+    "fileSize": 7865,
+    "duration": 1,
+    "arnsRecordId": "test-record-156bcddc97263621"
+  },
+  {
+    "timestamp": "2025-10-12T12:41:36.393Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 10,
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:42:14.835Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/portfolio/index.html",
+    "commitHash": "8dab87139978f05a",
+    "txId": "test-8dab87139978f05a-1760272934825",
+    "undername": "8dab87139978f05a",
+    "ttl": 60,
+    "fileSize": 7865,
+    "duration": 3,
+    "arnsRecordId": "test-record-8dab87139978f05a"
+  },
+  {
+    "timestamp": "2025-10-12T12:42:19.397Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 2,
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:43:02.179Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/portfolio/index.html",
+    "commitHash": "ffdc4e5c2783f8db",
+    "txId": "test-ffdc4e5c2783f8db-1760272982177",
+    "undername": "ffdc4e5c2783f8db",
+    "ttl": 60,
+    "fileSize": 7865,
+    "duration": 2,
+    "arnsRecordId": "test-record-ffdc4e5c2783f8db"
+  },
+  {
+    "timestamp": "2025-10-12T12:43:39.113Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/demo-app/index.html",
+    "commitHash": "410a782edf29b896",
+    "txId": "test-410a782edf29b896-1760273019111",
+    "undername": "410a782edf29b896",
+    "ttl": 60,
+    "fileSize": 1392,
+    "duration": 2,
+    "arnsRecordId": "test-record-410a782edf29b896"
   }
 ]
