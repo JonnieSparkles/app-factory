@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WE DEFINITELY DID IT! 🎉</title>
+    <meta name="description" content="Celebrate your successful deployment! A fun, interactive celebration page with animations and effects.">
+    <meta name="keywords" content="celebration, deployment, success, animation, interactive">
+    <meta name="author" content="Deployment Team">
+    <meta name="robots" content="index, follow">
+    <title>Deployment Success! 🎉 | Mission Accomplished</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
@@ -12,6 +16,100 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 6px;
+        }
+        
+        /* Improved focus states */
+        *:focus {
+            outline: 2px solid #00bfff;
+            outline-offset: 2px;
+        }
+        
+        .celebration-btn:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 3px;
+        }
+        
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff1493 0%, #8a2be2 25%, #00bfff 50%, #00ff7f 75%, #ffd700 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .particles,
+            .matrix-rain,
+            .hologram-effect {
+                display: none;
+            }
+        }
+        
+        :root {
+            --animation-duration: 1s;
+            --transition-duration: 0.3s;
         }
         
         body {
@@ -121,6 +219,43 @@
         
         .celebration-btn:active {
             transform: translateY(-2px) scale(1.05);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .animation-toggle {
+            background: linear-gradient(45deg, #666, #999, #ccc);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .animation-toggle:hover {
+            background: linear-gradient(45deg, #555, #777, #aaa);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .animation-toggle:active {
+            transform: translateY(0);
+        }
+        
+        .animation-toggle.disabled {
+            background: linear-gradient(45deg, #333, #555, #777);
+            opacity: 0.7;
         }
         
         .celebration-btn::before {
@@ -375,6 +510,11 @@
             }
         }
         
+        .celebration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
         .success-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
@@ -624,6 +764,17 @@
                 width: min(90%, 100vw - 1rem);
                 height: min(70%, 100vh - 1rem);
             }
+            
+            .controls {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .celebration-btn,
+            .animation-toggle {
+                width: 100%;
+                max-width: 300px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -648,31 +799,44 @@
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    <div class="matrix-rain" id="matrixRain"></div>
-    <div class="hologram-effect"></div>
-    <div class="neon-border"></div>
-    <div class="interactive-area" id="interactiveArea"></div>
+    <!-- Skip to main content for accessibility -->
+    <a href="#mainText" class="skip-link">Skip to main content</a>
     
-    <div class="container">
-        <div class="success-icon">🎉</div>
-        <h1 class="main-text" id="mainText">WE DEFINITELY DID IT!</h1>
-        <p class="subtitle">Mission Accomplished! 🚀</p>
-        
-        <div class="twitter-celebration">
-            <div class="twitter-icon">🐦</div>
-            <h2 class="twitter-title">AND WE'RE ANNOUNCING IT ON TWITTER!</h2>
-            <p class="twitter-description">Every deployment automatically gets tweeted to the world! 🌍</p>
-            <div class="twitter-features">
-                <div class="feature-item">✨ Auto-tweet on every push</div>
-                <div class="feature-item">🚀 GitHub Actions integration</div>
-                <div class="feature-item">📱 Real-time deployment updates</div>
-                <div class="feature-item">🎯 Template-based announcements</div>
-            </div>
-        </div>
-        
-        <button class="celebration-btn" id="celebrationBtn">Celebrate Again! 🎊</button>
+    <div class="particles" id="particles" aria-hidden="true"></div>
+    <div class="matrix-rain" id="matrixRain" aria-hidden="true"></div>
+    <div class="hologram-effect" aria-hidden="true"></div>
+    <div class="neon-border" aria-hidden="true"></div>
+    <div class="interactive-area" id="interactiveArea" aria-hidden="true"></div>
+    
+    <div class="loading-screen" id="loadingScreen" aria-hidden="true">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading celebration...</p>
     </div>
+    
+    <main class="container" role="main" id="mainContent">
+        <header class="celebration-header">
+            <div class="success-icon" role="img" aria-label="Celebration emoji">🎉</div>
+            <h1 class="main-text" id="mainText">WE DEFINITELY DID IT!</h1>
+            <p class="subtitle">Mission Accomplished! 🚀</p>
+        </header>
+        
+        <section class="twitter-celebration" aria-labelledby="twitter-title">
+            <div class="twitter-icon" role="img" aria-label="Twitter bird">🐦</div>
+            <h2 class="twitter-title" id="twitter-title">AND WE'RE ANNOUNCING IT ON TWITTER!</h2>
+            <p class="twitter-description">Every deployment automatically gets tweeted to the world! 🌍</p>
+            <div class="twitter-features" role="list">
+                <div class="feature-item" role="listitem">✨ Auto-tweet on every push</div>
+                <div class="feature-item" role="listitem">🚀 GitHub Actions integration</div>
+                <div class="feature-item" role="listitem">📱 Real-time deployment updates</div>
+                <div class="feature-item" role="listitem">🎯 Template-based announcements</div>
+            </div>
+        </section>
+        
+        <div class="controls">
+            <button class="celebration-btn" id="celebrationBtn" aria-label="Trigger celebration effects and animations">Celebrate Again! 🎊</button>
+            <button class="animation-toggle" id="animationToggle" aria-label="Toggle animations on or off">🎬 Toggle Animations</button>
+        </div>
+    </main>
     
     <div class="sound-wave" id="soundWave">
         <div class="wave-bar"></div>
@@ -808,8 +972,29 @@
             }, 600);
         }
         
+        // Animation control
+        let animationsEnabled = true;
+        
+        // Animation toggle functionality
+        document.getElementById('animationToggle').addEventListener('click', function() {
+            animationsEnabled = !animationsEnabled;
+            const toggle = this;
+            
+            if (animationsEnabled) {
+                toggle.textContent = '🎬 Toggle Animations';
+                toggle.classList.remove('disabled');
+                document.body.style.setProperty('--animation-duration', '1s');
+            } else {
+                toggle.textContent = '⏸️ Animations Disabled';
+                toggle.classList.add('disabled');
+                document.body.style.setProperty('--animation-duration', '0.01ms');
+            }
+        });
+        
         // Celebration button functionality
         document.getElementById('celebrationBtn').addEventListener('click', function() {
+            if (!animationsEnabled) return;
+            
             createConfetti();
             createSparkle(window.innerWidth / 2, window.innerHeight / 2);
             
@@ -895,25 +1080,40 @@
         // Initialize all effects on load
         window.addEventListener('load', function() {
             initAudio();
-            createParticles();
-            createMatrixRain();
             
-            // Add some initial sparkles
-            setTimeout(() => {
-                for (let i = 0; i < 30; i++) {
-                    createSparkle(
-                        Math.random() * window.innerWidth,
-                        Math.random() * window.innerHeight
-                    );
-                }
-            }, 1000);
+            // Show loading screen initially
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainContent = document.getElementById('mainContent');
             
-            // Play welcome sound
+            // Simulate loading time for better UX
             setTimeout(() => {
-                playSound(523.25, 0.3, 'sine'); // C5
-                setTimeout(() => playSound(659.25, 0.3, 'sine'), 200); // E5
-                setTimeout(() => playSound(783.99, 0.4, 'sine'), 400); // G5
-            }, 2000);
+                loadingScreen.classList.add('hidden');
+                mainContent.style.opacity = '0';
+                mainContent.style.transition = 'opacity 0.5s ease-in';
+                
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                    createParticles();
+                    createMatrixRain();
+                    
+                    // Add some initial sparkles
+                    setTimeout(() => {
+                        for (let i = 0; i < 30; i++) {
+                            createSparkle(
+                                Math.random() * window.innerWidth,
+                                Math.random() * window.innerHeight
+                            );
+                        }
+                    }, 1000);
+                    
+                    // Play welcome sound
+                    setTimeout(() => {
+                        playSound(523.25, 0.3, 'sine'); // C5
+                        setTimeout(() => playSound(659.25, 0.3, 'sine'), 200); // E5
+                        setTimeout(() => playSound(783.99, 0.4, 'sine'), 400); // G5
+                    }, 2000);
+                }, 100);
+            }, 1500);
         });
         
         // Resize handler
