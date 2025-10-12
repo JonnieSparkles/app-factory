@@ -203,5 +203,17 @@
     "fileSize": 20,
     "duration": 14,
     "arnsRecordId": "test-record-cb94b76afd3f6e6b"
+  },
+  {
+    "timestamp": "2025-10-12T02:26:53.870Z",
+    "success": true,
+    "filePath": "hello-world.txt",
+    "commitHash": "2e3e0280e317bd82",
+    "txId": "VvFfJpoANZTHsgWhgc1v_hxXrIrHI5zJbkPOnGlhBHc",
+    "undername": "2e3e0280e317bd82",
+    "ttl": 60,
+    "fileSize": 20,
+    "duration": 303873,
+    "arnsRecordId": "Vkc_ZW-CPYMW8mk4ugXUiRKA984h80XEMt4W8SCb-yA"
   }
 ]
