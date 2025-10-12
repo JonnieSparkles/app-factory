@@ -137,6 +137,117 @@
             animation: sparkle 2s ease-in-out infinite;
         }
         
+        .fun-section {
+            margin-top: 2rem;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .fun-text {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: rainbowGlow 3s ease-in-out infinite;
+            font-weight: 600;
+        }
+        
+        .interactive-zone {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .fun-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .fun-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #ff5252, #26a69a, #2196f3);
+        }
+        
+        .fun-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        .fun-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .fun-button:hover::before {
+            left: 100%;
+        }
+        
+        .message-display {
+            min-height: 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fireworkExplode 1s ease-out forwards;
+        }
+        
+        @keyframes rainbowGlow {
+            0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+            25% { filter: hue-rotate(90deg) brightness(1.2); }
+            50% { filter: hue-rotate(180deg) brightness(1.1); }
+            75% { filter: hue-rotate(270deg) brightness(1.2); }
+        }
+        
+        @keyframes fireworkExplode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        
         @keyframes bounceIn {
             0% {
                 opacity: 0;
@@ -282,6 +393,15 @@
     <main class="container" role="main">
         <h1 class="main-text">HI ANTHONY! 👋</h1>
         <p class="subtitle">Hope you're having an amazing day! 🌟✨</p>
+        <div class="fun-section">
+            <p class="fun-text">🎉 Welcome to your special page! 🎉</p>
+            <div class="interactive-zone">
+                <button class="fun-button" onclick="createFireworks()">🎆 Click for Fireworks! 🎆</button>
+                <button class="fun-button" onclick="changeTheme()">🎨 Change Theme! 🎨</button>
+                <button class="fun-button" onclick="surpriseMessage()">🎁 Surprise! 🎁</button>
+            </div>
+            <div class="message-display" id="messageDisplay"></div>
+        </div>
     </main>
 
     <script>
@@ -366,6 +486,90 @@
             document.getElementById('particles').innerHTML = '';
             createParticles();
         });
+        
+        // Interactive functions
+        function createFireworks() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+            const fireworkCount = 20;
+            
+            for (let i = 0; i < fireworkCount; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * window.innerWidth + 'px';
+                    firework.style.top = Math.random() * window.innerHeight + 'px';
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    document.body.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }, i * 50);
+            }
+            
+            showMessage('🎆 FIREWORKS! You are amazing, Anthony! 🎆');
+        }
+        
+        function changeTheme() {
+            const themes = [
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)'
+            ];
+            
+            const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+            document.body.style.background = randomTheme;
+            
+            showMessage('🎨 Theme changed! You look fabulous in this color! 🎨');
+        }
+        
+        function surpriseMessage() {
+            const messages = [
+                '🎁 Surprise! You are absolutely wonderful! 🎁',
+                '🌟 Did you know you make the world brighter? 🌟',
+                '✨ You are capable of amazing things! ✨',
+                '🚀 Your potential is limitless! 🚀',
+                '💖 You bring joy wherever you go! 💖',
+                '🎉 Today is going to be your best day yet! 🎉',
+                '🌈 You are a rainbow in someone\'s cloud! 🌈',
+                '⭐ You shine brighter than all the stars! ⭐',
+                '🎊 You are one of a kind and absolutely perfect! 🎊',
+                '💫 Your kindness makes the world better! 💫'
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showMessage(randomMessage);
+            
+            // Add extra sparkles for surprise
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createSparkle(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }, i * 100);
+            }
+        }
+        
+        function showMessage(text) {
+            const messageDisplay = document.getElementById('messageDisplay');
+            messageDisplay.textContent = text;
+            messageDisplay.style.background = 'linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2), rgba(69, 183, 209, 0.2))';
+            messageDisplay.style.animation = 'fadeInUp 0.5s ease-out';
+            
+            // Clear message after 5 seconds
+            setTimeout(() => {
+                messageDisplay.style.animation = 'fadeInUp 0.5s ease-out reverse';
+                setTimeout(() => {
+                    messageDisplay.textContent = '';
+                    messageDisplay.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 500);
+            }, 5000);
+        }
     </script>
 </body>
 </html>
