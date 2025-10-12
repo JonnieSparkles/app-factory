@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
     inputs:
       file_path:
-        description: 'File to deploy (e.g., index.html, hello-world.txt)'
+        description: 'File to deploy (e.g., deploy/index.html, deploy/hello-world.txt)'
         required: true
         type: string
-        default: 'index.html'
+        default: 'deploy/index.html'
       message:
         description: 'Deployment message'
         required: false
@@ -62,8 +62,8 @@ jobs:
             CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
             echo "📁 Changed files: $CHANGED_FILES"
             
-            # Filter for deployable files (exclude workflow files, logs, etc.)
-            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(txt|html|js|css|json|md)$' | grep -v '^\.github/' | grep -v '^logs/' | grep -v '^scripts/' | grep -v '^lib/' | grep -v '^reply-templates/' | grep -v '^package' | grep -v '^test\.js$' | grep -v '^deploy\.js$' || true)
+            # Filter for deployable files only from the deploy folder
+            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep '^deploy/' | grep -E '\.(txt|html|js|css|json|md)$' || true)
             
             if [ -z "$DEPLOYABLE_FILES" ]; then
               echo "⚠️ No deployable files found in changes"
@@ -122,7 +122,7 @@ jobs:
             // Get the deployment hash from logs
             const fs = require('fs');
             let deploymentHash = '';
-            let filePath = 'hello-world.txt';
+            let filePath = 'deploy/hello-world.txt';
             
             try {
               if (fs.existsSync('logs/deployments.json')) {
@@ -130,7 +130,7 @@ jobs:
                 const latest = logs[logs.length - 1];
                 if (latest && latest.success && (latest.undername || latest.commitHash)) {
                   deploymentHash = latest.undername || latest.commitHash;
-                  filePath = latest.filePath || 'hello-world.txt';
+                  filePath = latest.filePath || 'deploy/hello-world.txt';
                 }
               }
             } catch (e) {
