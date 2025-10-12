@@ -227,5 +227,18 @@
     "fileSize": 20,
     "duration": 48501,
     "arnsRecordId": "WmrAJzuFDeY8sO1gQGZQzyvochbdyc4wYuFPAga0Yxs"
+  },
+  {
+    "timestamp": "2025-10-12T03:44:28.757Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "deploy/hello-anthony.html",
+    "commitHash": "aa07534af0a788b2",
+    "txId": "test-aa07534af0a788b2-1760240668754",
+    "undername": "aa07534af0a788b2",
+    "ttl": 60,
+    "fileSize": 21002,
+    "duration": 22,
+    "arnsRecordId": "test-record-aa07534af0a788b2"
   }
 ]
