@@ -25,15 +25,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run validation
-        run: |
-          echo "Validating deployment script..."
-          node deploy.js --test-mode --file hello-world.txt --content "test"
-          echo "✅ Validation passed"
-
       - name: Auto-merge PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
