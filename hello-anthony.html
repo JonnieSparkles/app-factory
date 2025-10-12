@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ff1493">
+    <meta name="description" content="A special hello message for Anthony!">
+    <meta name="keywords" content="hello, anthony, greeting, special">
+    <meta name="author" content="Deployment Team">
+    <meta name="robots" content="index, follow">
+    <title>Hello Anthony! 👋 | Special Greeting</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 20, 147, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 191, 255, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(255, 215, 0, 0.4) 0%, transparent 50%),
+                linear-gradient(135deg, #ff1493 0%, #8a2be2 20%, #00bfff 40%, #00ff7f 60%, #ffd700 80%, #ff69b4 100%);
+            background-size: 400% 400%, 300% 300%, 500% 500%, 350% 350%, 400% 400%;
+            animation: gradientShift 6s ease infinite, backgroundPulse 10s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            perspective: 1000px;
+            padding: 1rem;
+        }
+        
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            max-width: 100%;
+            width: 100%;
+            padding: 0 1rem;
+        }
+        
+        .main-text {
+            font-size: clamp(3rem, 12vw, 12rem);
+            font-weight: 900;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700, #ff69b4, #ff1493);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.9),
+                0 0 60px rgba(138, 43, 226, 0.7),
+                0 0 90px rgba(0, 191, 255, 0.5),
+                0 0 120px rgba(255, 215, 0, 0.3);
+            margin-bottom: clamp(1rem, 3vw, 2rem);
+            animation: 
+                bounceIn 2s ease-out, 
+                glow 2s ease-in-out infinite alternate, 
+                gradientShift 4s ease infinite,
+                textFloat 6s ease-in-out infinite,
+                textRotate 8s ease-in-out infinite;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .main-text:hover {
+            transform: perspective(1000px) rotateX(5deg) scale(1.02);
+            text-shadow: 0 0 50px rgba(255, 20, 147, 0.8), 0 0 80px rgba(138, 43, 226, 0.6);
+            filter: brightness(1.2);
+        }
+        
+        .subtitle {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            background: linear-gradient(45deg, #ffd700, #00ff7f, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin-bottom: clamp(1.5rem, 4vw, 3rem);
+            animation: fadeInUp 2s ease-out 0.5s both, gradientShift 3s ease infinite;
+            font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite, rotate 4s linear infinite;
+            z-index: 5;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-100px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1) translateY(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes backgroundPulse {
+            0%, 100% {
+                background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%;
+            }
+            25% {
+                background-position: 100% 50%, 50% 0%, 25% 75%, 25% 75%;
+            }
+            50% {
+                background-position: 50% 100%, 100% 50%, 50% 0%, 50% 100%;
+            }
+            75% {
+                background-position: 0% 50%, 25% 100%, 75% 25%, 75% 25%;
+            }
+        }
+        
+        @keyframes textFloat {
+            0%, 100% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px);
+            }
+            25% {
+                transform: perspective(1000px) rotateX(3deg) rotateY(1deg) translateY(-5px);
+            }
+            50% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-3px);
+            }
+            75% {
+                transform: perspective(1000px) rotateX(-2deg) rotateY(-0.5deg) translateY(-4px);
+            }
+        }
+        
+        @keyframes textRotate {
+            0%, 100% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            25% {
+                transform: perspective(1000px) rotateX(1deg) rotateY(0.5deg) rotateZ(0.2deg);
+            }
+            50% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            75% {
+                transform: perspective(1000px) rotateX(-0.5deg) rotateY(-0.2deg) rotateZ(-0.1deg);
+            }
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .main-text {
+                font-size: clamp(2rem, 15vw, 8rem);
+                line-height: 1.2;
+            }
+            
+            .subtitle {
+                font-size: clamp(1rem, 5vw, 2rem);
+                line-height: 1.3;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-text {
+                font-size: clamp(1.5rem, 18vw, 6rem);
+                line-height: 1.1;
+            }
+            
+            .subtitle {
+                font-size: clamp(0.8rem, 6vw, 1.5rem);
+                line-height: 1.2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles" aria-hidden="true"></div>
+    
+    <main class="container" role="main">
+        <h1 class="main-text">HI ANTHONY! 👋</h1>
+        <p class="subtitle">Hope you're having an amazing day! 🌟✨</p>
+    </main>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Create floating emojis
+        function createFloatingEmojis() {
+            const emojis = ['🌟', '✨', '🎉', '🎊', '💖', '🚀', '⭐', '💫', '🌈', '🎈', '👋', '😊'];
+            const emojiCount = 20;
+            
+            for (let i = 0; i < emojiCount; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + '%';
+                emoji.style.top = Math.random() * 100 + '%';
+                emoji.style.animationDelay = Math.random() * 8 + 's';
+                emoji.style.animationDuration = (Math.random() * 6 + 6) + 's';
+                emoji.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
+                document.body.appendChild(emoji);
+            }
+        }
+        
+        // Create sparkle effect
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+        
+        // Initialize effects on load
+        window.addEventListener('load', function() {
+            createParticles();
+            createFloatingEmojis();
+            
+            // Add some initial sparkles
+            setTimeout(() => {
+                for (let i = 0; i < 20; i++) {
+                    createSparkle(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }
+            }, 1000);
+        });
+        
+        // Mouse movement sparkles
+        let mouseTimeout;
+        document.addEventListener('mousemove', function(e) {
+            clearTimeout(mouseTimeout);
+            if (Math.random() < 0.1) { // 10% chance
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+        
+        // Resize handler
+        window.addEventListener('resize', function() {
+            // Recreate particles on resize
+            document.getElementById('particles').innerHTML = '';
+            createParticles();
+        });
+    </script>
+</body>
+</html>
