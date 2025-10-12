@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ff1493">
     <meta name="description" content="Celebrate your successful deployment! A fun, interactive celebration page with animations and effects.">
     <meta name="keywords" content="celebration, deployment, success, animation, interactive">
     <meta name="author" content="Deployment Team">
@@ -107,6 +111,46 @@
             }
         }
         
+        /* Performance optimizations for mobile devices */
+        @media (max-width: 768px) {
+            /* Reduce complex animations on mobile for better performance */
+            .main-text {
+                animation: bounceIn 2s ease-out, glow 2s ease-in-out infinite alternate;
+            }
+            
+            .particles {
+                display: none; /* Disable particles on mobile for better performance */
+            }
+            
+            .matrix-rain {
+                display: none; /* Disable matrix rain on mobile for better performance */
+            }
+            
+            .hologram-effect {
+                display: none; /* Disable hologram effect on mobile for better performance */
+            }
+            
+            /* Simplify background animations */
+            body {
+                animation: gradientShift 12s ease infinite;
+            }
+        }
+        
+        /* Further performance optimizations for very small screens */
+        @media (max-width: 480px) {
+            .main-text {
+                animation: bounceIn 2s ease-out, glow 3s ease-in-out infinite alternate;
+            }
+            
+            .celebration-btn {
+                animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite;
+            }
+            
+            .twitter-celebration {
+                animation: slideInUp 1s ease-out 1s both, gradientShift 8s ease infinite;
+            }
+        }
+        
         :root {
             --animation-duration: 1s;
             --transition-duration: 0.3s;
@@ -194,8 +238,8 @@
             background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700);
             background-size: 400% 400%;
             border: 3px solid rgba(255, 255, 255, 0.3);
-            padding: clamp(15px, 3vw, 20px) clamp(30px, 6vw, 40px);
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            padding: clamp(18px, 4vw, 24px) clamp(36px, 7vw, 48px);
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
             font-weight: 700;
             color: white;
             border-radius: 50px;
@@ -209,6 +253,10 @@
             letter-spacing: 1px;
             max-width: 100%;
             white-space: nowrap;
+            min-height: 48px;
+            min-width: 48px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .celebration-btn:hover {
@@ -232,8 +280,8 @@
         .animation-toggle {
             background: linear-gradient(45deg, #666, #999, #ccc);
             border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 24px;
-            font-size: 1rem;
+            padding: clamp(14px, 3vw, 16px) clamp(28px, 5vw, 32px);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             font-weight: 600;
             color: white;
             border-radius: 25px;
@@ -241,6 +289,10 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            min-height: 48px;
+            min-width: 48px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .animation-toggle:hover {
@@ -746,18 +798,56 @@
             }
         }
         
+        /* Mobile-first responsive design improvements */
         @media (max-width: 768px) {
             body {
                 padding: 0.5rem;
+                background-attachment: scroll;
             }
             
             .container {
                 padding: 0 0.5rem;
+                max-width: 100%;
+            }
+            
+            .main-text {
+                font-size: clamp(1.8rem, 8vw, 4rem);
+                line-height: 1.2;
+                margin-bottom: clamp(0.8rem, 4vw, 1.5rem);
+            }
+            
+            .subtitle {
+                font-size: clamp(0.9rem, 3vw, 1.3rem);
+                margin-bottom: clamp(1rem, 5vw, 2rem);
+                line-height: 1.3;
+            }
+            
+            .twitter-celebration {
+                padding: clamp(1.2rem, 4vw, 1.8rem);
+                margin: clamp(0.8rem, 4vw, 1.5rem) 0;
+            }
+            
+            .twitter-title {
+                font-size: clamp(1rem, 4vw, 1.6rem);
+                line-height: 1.3;
+                margin-bottom: clamp(0.8rem, 3vw, 1.2rem);
+            }
+            
+            .twitter-description {
+                font-size: clamp(0.8rem, 2.5vw, 1rem);
+                line-height: 1.4;
+                margin-bottom: clamp(1rem, 4vw, 1.5rem);
             }
             
             .twitter-features {
                 grid-template-columns: 1fr;
-                gap: 0.8rem;
+                gap: clamp(0.6rem, 3vw, 1rem);
+            }
+            
+            .feature-item {
+                padding: clamp(0.6rem, 3vw, 0.9rem);
+                font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+                line-height: 1.3;
             }
             
             .neon-border {
@@ -767,33 +857,161 @@
             
             .controls {
                 flex-direction: column;
-                gap: 0.8rem;
+                gap: clamp(0.8rem, 3vw, 1.2rem);
+                margin-top: clamp(1.5rem, 5vw, 2.5rem);
             }
             
             .celebration-btn,
             .animation-toggle {
                 width: 100%;
-                max-width: 300px;
+                max-width: 320px;
+                margin: 0 auto;
             }
+            
+            .sound-wave {
+                bottom: 10px;
+                gap: 2px;
+            }
+            
+            .wave-bar {
+                width: 3px;
+            }
+            
+            .wave-bar:nth-child(1) { height: 15px; }
+            .wave-bar:nth-child(2) { height: 25px; }
+            .wave-bar:nth-child(3) { height: 35px; }
+            .wave-bar:nth-child(4) { height: 20px; }
+            .wave-bar:nth-child(5) { height: 30px; }
+            .wave-bar:nth-child(6) { height: 18px; }
+            .wave-bar:nth-child(7) { height: 28px; }
+            .wave-bar:nth-child(8) { height: 12px; }
+            .wave-bar:nth-child(9) { height: 40px; }
+            .wave-bar:nth-child(10) { height: 16px; }
         }
         
         @media (max-width: 480px) {
             body {
                 padding: 0.25rem;
+                background-attachment: scroll;
             }
             
             .container {
                 padding: 0 0.25rem;
             }
             
+            .main-text {
+                font-size: clamp(1.5rem, 10vw, 3rem);
+                line-height: 1.1;
+                margin-bottom: clamp(0.6rem, 5vw, 1.2rem);
+            }
+            
+            .subtitle {
+                font-size: clamp(0.8rem, 3.5vw, 1.1rem);
+                margin-bottom: clamp(0.8rem, 6vw, 1.5rem);
+                line-height: 1.2;
+            }
+            
+            .twitter-celebration {
+                padding: clamp(1rem, 5vw, 1.5rem);
+                margin: clamp(0.6rem, 5vw, 1.2rem) 0;
+            }
+            
+            .twitter-title {
+                font-size: clamp(0.9rem, 4.5vw, 1.4rem);
+                line-height: 1.2;
+                margin-bottom: clamp(0.6rem, 4vw, 1rem);
+            }
+            
+            .twitter-description {
+                font-size: clamp(0.7rem, 3vw, 0.9rem);
+                line-height: 1.3;
+                margin-bottom: clamp(0.8rem, 5vw, 1.2rem);
+            }
+            
             .twitter-features {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
+                gap: clamp(0.4rem, 4vw, 0.8rem);
+            }
+            
+            .feature-item {
+                padding: clamp(0.5rem, 4vw, 0.8rem);
+                font-size: clamp(0.6rem, 3vw, 0.8rem);
+                line-height: 1.2;
             }
             
             .neon-border {
                 width: min(95%, 100vw - 0.5rem);
                 height: min(80%, 100vh - 0.5rem);
+            }
+            
+            .controls {
+                gap: clamp(0.6rem, 4vw, 1rem);
+                margin-top: clamp(1rem, 6vw, 2rem);
+            }
+            
+            .celebration-btn,
+            .animation-toggle {
+                max-width: 280px;
+                padding: clamp(16px, 5vw, 20px) clamp(32px, 8vw, 40px);
+                font-size: clamp(1rem, 3.5vw, 1.4rem);
+            }
+            
+            .sound-wave {
+                bottom: 5px;
+                gap: 1px;
+            }
+            
+            .wave-bar {
+                width: 2px;
+            }
+        }
+        
+        /* Additional mobile optimizations */
+        @media (max-width: 360px) {
+            .main-text {
+                font-size: clamp(1.2rem, 12vw, 2.5rem);
+            }
+            
+            .celebration-btn,
+            .animation-toggle {
+                max-width: 260px;
+                padding: clamp(14px, 6vw, 18px) clamp(28px, 10vw, 36px);
+                font-size: clamp(0.9rem, 4vw, 1.2rem);
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 0.2rem;
+            }
+            
+            .main-text {
+                font-size: clamp(1.2rem, 6vw, 2.5rem);
+                margin-bottom: clamp(0.4rem, 3vw, 0.8rem);
+            }
+            
+            .subtitle {
+                font-size: clamp(0.7rem, 2.5vw, 1rem);
+                margin-bottom: clamp(0.6rem, 4vw, 1rem);
+            }
+            
+            .twitter-celebration {
+                padding: clamp(0.8rem, 3vw, 1.2rem);
+                margin: clamp(0.4rem, 3vw, 0.8rem) 0;
+            }
+            
+            .controls {
+                flex-direction: row;
+                gap: clamp(0.6rem, 3vw, 1rem);
+                margin-top: clamp(0.8rem, 4vw, 1.5rem);
+            }
+            
+            .celebration-btn,
+            .animation-toggle {
+                max-width: 200px;
+                padding: clamp(12px, 3vw, 16px) clamp(24px, 5vw, 32px);
+                font-size: clamp(0.8rem, 2.5vw, 1.1rem);
             }
         }
     </style>
