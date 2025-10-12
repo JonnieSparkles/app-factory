@@ -31,3 +31,5 @@
 "2025-10-12T12:42:19.396Z","FAILED","apps/portfolio/index.html","","","","0","2","0","","ANT_PROCESS_ID environment variable is required","NO","NO"
 "2025-10-12T12:43:02.178Z","SUCCESS","apps/portfolio/index.html","ffdc4e5c2783f8db","test-ffdc4e5c2783f8db-1760272982177","ffdc4e5c2783f8db","7865","2","60","test-record-ffdc4e5c2783f8db","","NO","NO"
 "2025-10-12T12:43:39.112Z","SUCCESS","apps/demo-app/index.html","410a782edf29b896","test-410a782edf29b896-1760273019111","410a782edf29b896","1392","2","60","test-record-410a782edf29b896","","NO","NO"
+"2025-10-12T12:53:30.623Z","SUCCESS","apps/calculator/index.html","db139a8bdee84a4e","test-db139a8bdee84a4e-1760273610622","db139a8bdee84a4e","10089","2","60","test-record-db139a8bdee84a4e","","NO","NO"
+"2025-10-12T12:54:30.710Z","FAILED","apps/calculator/index.html","","","","0","15","0","","ANT_PROCESS_ID environment variable is required","NO","NO"

@@ -67,6 +67,17 @@
       "enabled": true,
       "lastDeployed": null,
       "deploymentCount": 0
+    },
+    "calculator": {
+      "name": "Mobile Calculator",
+      "description": "A beautiful, mobile-friendly calculator app with touch support",
+      "type": "static",
+      "entryPoint": "apps/calculator/index.html",
+      "buildCommand": null,
+      "outputDir": "apps/calculator",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
     }
   },
   "settings": {
