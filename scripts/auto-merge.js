@@ -43,7 +43,8 @@ try {
   const prResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
     headers: {
       'Authorization': `token ${token}`,
-      'Accept': 'application/vnd.github.v3+json'
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
     }
   });
   
@@ -58,7 +59,10 @@ try {
     console.log('📝 Converting draft PR to ready for review...');
     console.log(`🔍 PR details: ${pr.title} (draft: ${pr.draft})`);
     
-    // Try using GitHub CLI approach first
+    // Try multiple approaches to convert draft to ready-for-review
+    let conversionSuccessful = false;
+    
+    // Approach 1: GitHub CLI (most reliable)
     try {
       console.log('🔧 Attempting conversion via GitHub CLI...');
       const { execSync } = await import('child_process');
@@ -67,41 +71,83 @@ try {
         env: { ...process.env, GITHUB_TOKEN: token }
       });
       console.log('✅ PR marked as ready for review via GitHub CLI');
+      conversionSuccessful = true;
     } catch (cliError) {
       console.log('⚠️ GitHub CLI failed, trying REST API...');
       console.log(`CLI Error: ${cliError.message}`);
-      
-      // Fallback to REST API
-      const readyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          draft: false
-        })
-      });
-      
-      if (!readyResponse.ok) {
-        const error = await readyResponse.text();
-        console.error(`❌ REST API conversion failed: ${readyResponse.status} ${error}`);
-        throw new Error(`Failed to mark PR as ready: ${readyResponse.status} ${error}`);
+    }
+    
+    // Approach 2: REST API with latest version
+    if (!conversionSuccessful) {
+      try {
+        console.log('🔧 Attempting conversion via REST API (latest version)...');
+        const readyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            draft: false
+          })
+        });
+        
+        if (!readyResponse.ok) {
+          const error = await readyResponse.text();
+          console.error(`❌ REST API conversion failed: ${readyResponse.status} ${error}`);
+          throw new Error(`Failed to mark PR as ready: ${readyResponse.status} ${error}`);
+        }
+        
+        const conversionResult = await readyResponse.json();
+        console.log('✅ PR marked as ready for review via REST API');
+        console.log(`🔍 Conversion result: draft=${conversionResult.draft}`);
+        conversionSuccessful = true;
+      } catch (apiError) {
+        console.error(`❌ REST API conversion failed: ${apiError.message}`);
       }
-      
-      const conversionResult = await readyResponse.json();
-      console.log('✅ PR marked as ready for review via REST API');
-      console.log(`🔍 Conversion result: draft=${conversionResult.draft}`);
+    }
+    
+    // Approach 3: Try with older API version as fallback
+    if (!conversionSuccessful) {
+      try {
+        console.log('🔧 Attempting conversion via REST API (v3 fallback)...');
+        const readyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            draft: false
+          })
+        });
+        
+        if (!readyResponse.ok) {
+          const error = await readyResponse.text();
+          console.error(`❌ REST API v3 conversion failed: ${readyResponse.status} ${error}`);
+          throw new Error(`Failed to mark PR as ready: ${readyResponse.status} ${error}`);
+        }
+        
+        const conversionResult = await readyResponse.json();
+        console.log('✅ PR marked as ready for review via REST API v3');
+        console.log(`🔍 Conversion result: draft=${conversionResult.draft}`);
+        conversionSuccessful = true;
+      } catch (apiError) {
+        console.error(`❌ All conversion methods failed: ${apiError.message}`);
+        throw new Error('Unable to convert draft PR to ready-for-review using any method');
+      }
     }
     
     // Wait for GitHub to process the status change
     console.log('⏳ Waiting for GitHub to process status change...');
-    await new Promise(resolve => setTimeout(resolve, 10000));
+    await new Promise(resolve => setTimeout(resolve, 12000));
     
     // Verify the PR is no longer a draft with retries
     let attempts = 0;
-    let maxAttempts = 5;
+    let maxAttempts = 6;
     
     while (attempts < maxAttempts) {
       attempts++;
@@ -110,7 +156,8 @@ try {
       const verifyResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
         headers: {
           'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json'
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
         }
       });
       
@@ -123,7 +170,7 @@ try {
           break;
         } else if (attempts < maxAttempts) {
           console.log('⏳ Still in draft, waiting longer...');
-          await new Promise(resolve => setTimeout(resolve, 5000));
+          await new Promise(resolve => setTimeout(resolve, 6000));
         } else {
           throw new Error('PR is still in draft status after multiple conversion attempts');
         }
@@ -142,7 +189,8 @@ try {
     method: 'PUT',
     headers: {
       'Authorization': `token ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
