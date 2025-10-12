@@ -484,5 +484,18 @@
     "fileSize": 16432,
     "duration": 5,
     "arnsRecordId": "test-record-ab1a30bfb0f4d6ee"
+  },
+  {
+    "timestamp": "2025-10-12T13:53:15.632Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/calculator/index.html",
+    "commitHash": "4444760d859dff7a",
+    "txId": "test-4444760d859dff7a-1760277195619",
+    "undername": "4444760d859dff7a",
+    "ttl": 60,
+    "fileSize": 16931,
+    "duration": 4,
+    "arnsRecordId": "test-record-4444760d859dff7a"
   }
 ]
