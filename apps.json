@@ -78,6 +78,17 @@
       "enabled": true,
       "lastDeployed": null,
       "deploymentCount": 0
+    },
+    "nsync-fanpage": {
+      "name": "*NSYNC Fan Page",
+      "description": "Early 2000s GeoCities-style *NSYNC fangirl homepage",
+      "type": "static",
+      "entryPoint": "apps/nsync-fanpage/index.html",
+      "buildCommand": null,
+      "outputDir": "apps/nsync-fanpage",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
     }
   },
   "settings": {
