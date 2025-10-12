@@ -45,7 +45,38 @@ jobs:
         run: |
           echo "Environment configured."
 
+      - name: Detect Changed Files
+        id: changed-files
+        run: |
+          echo "🔍 Detecting changed files..."
+          
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "📝 Manual trigger detected"
+            echo "files=${{ github.event.inputs.file_path }}" >> $GITHUB_OUTPUT
+            echo "message=${{ github.event.inputs.message }}" >> $GITHUB_OUTPUT
+          else
+            echo "🔄 Push to main detected - analyzing changes"
+            
+            # Get the list of changed files from the last commit
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+            echo "📁 Changed files: $CHANGED_FILES"
+            
+            # Filter for deployable files (exclude workflow files, logs, etc.)
+            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(txt|html|js|css|json|md)$' | grep -v '^\.github/' | grep -v '^logs/' | grep -v '^scripts/' | grep -v '^lib/' | grep -v '^reply-templates/' | grep -v '^package' | grep -v '^test\.js$' | grep -v '^deploy\.js$' || true)
+            
+            if [ -z "$DEPLOYABLE_FILES" ]; then
+              echo "⚠️ No deployable files found in changes"
+              echo "files=" >> $GITHUB_OUTPUT
+              echo "message=No deployable files changed" >> $GITHUB_OUTPUT
+            else
+              echo "📦 Deployable files: $DEPLOYABLE_FILES"
+              echo "files=$DEPLOYABLE_FILES" >> $GITHUB_OUTPUT
+              echo "message=Auto-deployed changed files after merge to main" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: Deploy to Arweave
+        if: steps.changed-files.outputs.files != ''
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
           OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
@@ -55,13 +86,19 @@ jobs:
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
           APP_NAME: RemoteAgentDeploy
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "🚀 Manual deployment triggered"
-            npm run deploy -- --file "${{ github.event.inputs.file_path }}" --message "${{ github.event.inputs.message }}"
-          else
-            echo "🚀 Automatic deployment triggered by push to main"
-            npm run deploy -- --file "hello-world.txt" --message "Auto-deployed after merge to main"
-          fi
+          echo "🚀 Deploying changed files..."
+          echo "📁 Files to deploy: ${{ steps.changed-files.outputs.files }}"
+          echo "💬 Message: ${{ steps.changed-files.outputs.message }}"
+          
+          # Deploy each changed file
+          for file in ${{ steps.changed-files.outputs.files }}; do
+            if [ -f "$file" ]; then
+              echo "📤 Deploying: $file"
+              npm run deploy -- --file "$file" --message "${{ steps.changed-files.outputs.message }}"
+            else
+              echo "⚠️ File not found: $file"
+            fi
+          done
 
       - name: Commit deployment logs
         if: always()
