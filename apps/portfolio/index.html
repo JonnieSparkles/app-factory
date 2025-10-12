@@ -4,27 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio App - App Factory Demo</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
         header {
             text-align: center;
             margin-bottom: 3rem;
@@ -47,20 +28,6 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
         .feature-icon {
@@ -204,50 +171,6 @@
         </div>
     </div>
     
-    <script>
-        function showCommands() {
-            const commands = `
-📱 App Factory Commands:
-
-# List all apps
-node app-cli.js list
-
-# Create a new app
-node app-cli.js create my-app html
-node app-cli.js create my-react-app react
-
-# Deploy an app
-node app-cli.js deploy my-app
-node app-cli.js deploy all
-
-# Get app info
-node app-cli.js info my-app
-
-# Enable/disable apps
-node app-cli.js enable my-app
-node app-cli.js disable my-app
-
-# Discover apps
-node app-cli.js discover
-
-# Deploy via main script
-node deploy.js --app my-app
-node deploy.js --list-apps
-            `;
-            alert(commands);
-        }
-        
-        function createNewApp() {
-            const appName = prompt('Enter app name (e.g., my-awesome-app):');
-            if (appName) {
-                const template = prompt('Choose template (html or react):', 'html');
-                if (template === 'html' || template === 'react') {
-                    alert(`To create your app, run:\n\nnode app-cli.js create ${appName} ${template}`);
-                } else {
-                    alert('Please choose either "html" or "react"');
-                }
-            }
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
