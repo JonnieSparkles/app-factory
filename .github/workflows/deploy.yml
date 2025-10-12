@@ -1,6 +1,8 @@
 name: 🚀 Deploy to Arweave
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       file_path:
@@ -52,7 +54,14 @@ jobs:
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
           APP_NAME: RemoteAgentDeploy
-        run: npm run deploy -- --file "${{ github.event.inputs.file_path }}" --message "${{ github.event.inputs.message }}"
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "🚀 Manual deployment triggered"
+            npm run deploy -- --file "${{ github.event.inputs.file_path }}" --message "${{ github.event.inputs.message }}"
+          else
+            echo "🚀 Automatic deployment triggered by push to main"
+            npm run deploy -- --file "hello-world.txt" --message "Auto-deployed after merge to main"
+          fi
 
       - name: Commit deployment logs
         if: always()
