@@ -62,8 +62,8 @@ jobs:
             CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
             echo "📁 Changed files: $CHANGED_FILES"
             
-            # Filter for deployable files only from the deploy folder
-            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep '^deploy/' | grep -E '\.(txt|html|js|css|json|md)$' || true)
+            # Filter for deployable files from both deploy and apps folders
+            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep -E '^(deploy/|apps/)' | grep -E '\.(txt|html|js|css|json|md)$' || true)
             
             if [ -z "$DEPLOYABLE_FILES" ]; then
               echo "⚠️ No deployable files found in changes"
@@ -91,15 +91,33 @@ jobs:
           echo "📁 Files to deploy: ${{ steps.changed-files.outputs.files }}"
           echo "💬 Message: ${{ steps.changed-files.outputs.message }}"
           
-          # Deploy each changed file
-          for file in ${{ steps.changed-files.outputs.files }}; do
-            if [ -f "$file" ]; then
-              echo "📤 Deploying: $file"
-              npm run deploy -- --file "$file" --message "${{ steps.changed-files.outputs.message }}"
-            else
-              echo "⚠️ File not found: $file"
-            fi
-          done
+          # Check if any files are in the apps/ directory
+          APPS_FILES=$(echo "${{ steps.changed-files.outputs.files }}" | grep '^apps/' || true)
+          DEPLOY_FILES=$(echo "${{ steps.changed-files.outputs.files }}" | grep '^deploy/' || true)
+          
+          # Deploy apps using app factory if any apps/ files changed
+          if [ -n "$APPS_FILES" ]; then
+            echo "📱 Deploying apps using app factory..."
+            # Extract unique app directories from changed files
+            APP_DIRS=$(echo "$APPS_FILES" | sed 's|apps/\([^/]*\)/.*|\1|' | sort -u)
+            for app_dir in $APP_DIRS; do
+              echo "📤 Deploying app: $app_dir"
+              node deploy.js --app "$app_dir" --message "${{ steps.changed-files.outputs.message }}"
+            done
+          fi
+          
+          # Deploy individual files from deploy/ directory
+          if [ -n "$DEPLOY_FILES" ]; then
+            echo "📁 Deploying individual files from deploy/ directory..."
+            for file in $DEPLOY_FILES; do
+              if [ -f "$file" ]; then
+                echo "📤 Deploying: $file"
+                npm run deploy -- --file "$file" --message "${{ steps.changed-files.outputs.message }}"
+              else
+                echo "⚠️ File not found: $file"
+              fi
+            done
+          fi
 
       - name: Commit deployment logs
         if: always()
