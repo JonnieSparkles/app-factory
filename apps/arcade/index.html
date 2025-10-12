@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕹️ Neon Arcade - Retro Gaming Paradise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="grid-background"></div>
+    
+    <div class="container">
+        <header class="arcade-header">
+            <h1 class="neon-title">
+                <span class="flicker">🕹️</span> NEON ARCADE <span class="flicker">🕹️</span>
+            </h1>
+            <p class="subtitle">YOUR RETRO GAMING PARADISE</p>
+            <div class="year-badge">EST. 1985</div>
+        </header>
+
+        <div class="arcade-cabinet">
+            <div class="screen">
+                <div class="screen-content">
+                    <div class="pixel-art">
+                        <span class="pixel-text">INSERT COIN</span>
+                        <div class="coin-slot">▼</div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <div class="joystick"></div>
+                <div class="buttons">
+                    <button class="arcade-btn red" onclick="playSound('red')">A</button>
+                    <button class="arcade-btn yellow" onclick="playSound('yellow')">B</button>
+                    <button class="arcade-btn blue" onclick="playSound('blue')">START</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="game-grid">
+            <div class="game-card">
+                <div class="game-icon">👾</div>
+                <h3>Space Invaders</h3>
+                <p class="game-score">HIGH SCORE: 99,999</p>
+                <button class="play-btn">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🏃</div>
+                <h3>Pixel Runner</h3>
+                <p class="game-score">HIGH SCORE: 88,888</p>
+                <button class="play-btn">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🐍</div>
+                <h3>Snake Classic</h3>
+                <p class="game-score">HIGH SCORE: 77,777</p>
+                <button class="play-btn">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🎯</div>
+                <h3>Neon Target</h3>
+                <p class="game-score">HIGH SCORE: 66,666</p>
+                <button class="play-btn">PLAY NOW</button>
+            </div>
+        </section>
+
+        <section class="leaderboard">
+            <h2 class="section-title">🏆 HALL OF FAME 🏆</h2>
+            <div class="leaderboard-entries">
+                <div class="entry">
+                    <span class="rank">#1</span>
+                    <span class="player">ACE</span>
+                    <span class="score">999,999</span>
+                </div>
+                <div class="entry">
+                    <span class="rank">#2</span>
+                    <span class="player">NEO</span>
+                    <span class="score">888,888</span>
+                </div>
+                <div class="entry">
+                    <span class="rank">#3</span>
+                    <span class="player">REX</span>
+                    <span class="score">777,777</span>
+                </div>
+                <div class="entry">
+                    <span class="rank">#4</span>
+                    <span class="player">ZEN</span>
+                    <span class="score">666,666</span>
+                </div>
+                <div class="entry">
+                    <span class="rank">#5</span>
+                    <span class="player">MAX</span>
+                    <span class="score">555,555</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="arcade-footer">
+            <p class="glitch" data-text="DEPLOYED ON ARWEAVE">DEPLOYED ON ARWEAVE</p>
+            <p>Powered by App Factory × ArNS</p>
+            <p class="blink">● REC</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple sound effect simulation
+        function playSound(color) {
+            const btn = event.target;
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 100);
+            
+            // Log the button press
+            console.log(`🎮 ${color.toUpperCase()} button pressed!`);
+        }
+
+        // Animate the coin slot
+        const coinSlot = document.querySelector('.coin-slot');
+        setInterval(() => {
+            coinSlot.style.opacity = coinSlot.style.opacity === '0.3' ? '1' : '0.3';
+        }, 500);
+
+        // Add click handlers to play buttons
+        document.querySelectorAll('.play-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const gameName = this.parentElement.querySelector('h3').textContent;
+                alert(`🎮 Loading ${gameName}... Ready Player One!`);
+            });
+        });
+    </script>
+</body>
+</html>
