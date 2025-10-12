@@ -44,6 +44,7 @@ export async function deployFile(options = {}) {
       commitMessage = null,
       dryRun = false,
       testMode = false,
+      announceTwitter = false,
       announceDM = false,
       triggerAnnouncement = false,
       triggerGithubDeploy = false
@@ -99,6 +100,20 @@ export async function deployFile(options = {}) {
         };
         
         await logDeploymentResult(result);
+        
+        // Post template announcement if requested
+        if (announceTwitter && result.success) {
+          try {
+            const announceResult = await postTemplateAnnouncement(result, true); // Force announce even in test mode
+            if (announceResult.success) {
+              console.log('🐦 Template announcement posted to Twitter');
+            } else {
+              console.log(`🐦 Template announcement failed: ${announceResult.error || announceResult.reason}`);
+            }
+          } catch (error) {
+            console.error('🐦 Template announcement error:', error.message);
+          }
+        }
         
         // Send DM announcement if requested
         if (announceDM && result.success) {
@@ -222,6 +237,20 @@ export async function deployFile(options = {}) {
     };
 
     await logDeploymentResult(result);
+    
+    // Post template announcement if requested
+    if (announceTwitter && result.success) {
+      try {
+        const announceResult = await postTemplateAnnouncement(result, true); // Force announce even in test mode
+        if (announceResult.success) {
+          console.log('🐦 Template announcement posted to Twitter');
+        } else {
+          console.log(`🐦 Template announcement failed: ${announceResult.error || announceResult.reason}`);
+        }
+      } catch (error) {
+        console.error('🐦 Template announcement error:', error.message);
+      }
+    }
     
     // Send DM announcement if requested
     if (announceDM && result.success) {
@@ -389,6 +418,8 @@ async function main() {
           process.exit(0);
           break;
         case '--announce-twitter':
+          options.announceTwitter = true;
+          break;
         case '--announce-dm':
           options.announceDM = true;
           break;
@@ -412,7 +443,7 @@ Options:
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
   --test-twitter          Test Twitter API connection
-  --announce-twitter      Send DM announcement to Twitter (same as --announce-dm)
+  --announce-twitter      Post template-based announcement to Twitter
   --announce-dm           Send DM announcement to Twitter
   --trigger-announcement  Trigger GitHub Actions announcement workflow
   --trigger-github-deploy Trigger GitHub Actions deployment workflow
@@ -426,6 +457,7 @@ Examples:
   node deploy.js --logs
   node deploy.js --stats
   node deploy.js --test-twitter
+  node deploy.js --announce-twitter
   node deploy.js --announce-dm
   node deploy.js --trigger-announcement
   node deploy.js --trigger-github-deploy
