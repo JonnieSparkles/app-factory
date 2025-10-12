@@ -400,5 +400,26 @@
     "fileSize": 10089,
     "duration": 2,
     "arnsRecordId": "test-record-c9745490cef44a64"
+  },
+  {
+    "timestamp": "2025-10-12T12:58:47.470Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 3,
+    "filePath": "apps/calculator/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T12:58:51.652Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/calculator/index.html",
+    "commitHash": "a5274469495464fc",
+    "txId": "test-a5274469495464fc-1760273931640",
+    "undername": "a5274469495464fc",
+    "ttl": 60,
+    "fileSize": 10089,
+    "duration": 10,
+    "arnsRecordId": "test-record-a5274469495464fc"
   }
 ]

@@ -114,16 +114,37 @@ jobs:
           # Handle manual deployment
           if [ "${{ steps.changed-files.outputs.deploy_type }}" = "manual" ]; then
             echo "📝 Manual deployment detected"
-            if [ -f "${{ steps.changed-files.outputs.files }}" ]; then
-              echo "📤 Deploying: ${{ steps.changed-files.outputs.files }}"
-              if ! npm run deploy -- --file "${{ steps.changed-files.outputs.files }}" --message "${{ steps.changed-files.outputs.message }}"; then
-                DEPLOYMENT_SUCCESS=false
-                DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy ${{ steps.changed-files.outputs.files }}"
+            FILE_PATH="${{ steps.changed-files.outputs.files }}"
+            
+            # Check if file exists
+            if [ -f "$FILE_PATH" ]; then
+              echo "📤 Deploying: $FILE_PATH"
+              
+              # Check if it's an app directory (apps/*)
+              if [[ "$FILE_PATH" =~ ^apps/ ]]; then
+                # Extract app name from path
+                APP_NAME=$(echo "$FILE_PATH" | sed 's|apps/\([^/]*\)/.*|\1|')
+                echo "📱 Detected app deployment: $APP_NAME"
+                if ! node deploy.js --app "$APP_NAME" --message "${{ steps.changed-files.outputs.message }}"; then
+                  DEPLOYMENT_SUCCESS=false
+                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $APP_NAME"
+                fi
+              else
+                # Deploy as individual file
+                if ! npm run deploy -- --file "$FILE_PATH" --message "${{ steps.changed-files.outputs.message }}"; then
+                  DEPLOYMENT_SUCCESS=false
+                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy: $FILE_PATH"
+                fi
               fi
             else
-              echo "⚠️ File not found: ${{ steps.changed-files.outputs.files }}"
+              echo "⚠️ File not found: $FILE_PATH"
+              echo "💡 Available files in deploy/ directory:"
+              ls -la deploy/ 2>/dev/null || echo "   (deploy/ directory not found)"
+              echo "💡 Available apps:"
+              ls -la apps/ 2>/dev/null || echo "   (apps/ directory not found)"
+              echo "💡 Try using: deploy/hello-world.txt, deploy/index.html, or apps/calculator/index.html"
               DEPLOYMENT_SUCCESS=false
-              DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ File not found: ${{ steps.changed-files.outputs.files }}"
+              DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ File not found: $FILE_PATH"
             fi
           else
             # Handle automatic deployments
