@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Auto-merge PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
