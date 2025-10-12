@@ -32,6 +32,7 @@ jobs:
   announce:
     runs-on: ubuntu-latest
     # Only run if the deploy workflow succeeded or manual trigger
+    # Note: workflow_run trigger will be further validated by checking for deployment hash
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     permissions:
       contents: read
@@ -121,8 +122,19 @@ jobs:
             fi
           fi
 
+      - name: 🔍 Check if deployment occurred
+        id: check-deployment
+        run: |
+          if [ -z "${{ steps.deployment.outputs.hash }}" ]; then
+            echo "⚠️ No deployment hash found - skipping announcement"
+            echo "has_deployment=false" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Deployment hash found: ${{ steps.deployment.outputs.hash }}"
+            echo "has_deployment=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: 📢 Announce on Discord
-        if: steps.deployment.outputs.hash != ''
+        if: steps.check-deployment.outputs.has_deployment == 'true'
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
           OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
