@@ -75,15 +75,18 @@ jobs:
             echo "trigger=manual" >> $GITHUB_OUTPUT
           else
             echo "🔄 Workflow run trigger detected"
-            # Try to get the latest deployment hash from logs
+            # Try to get the latest deployment hash and file path from logs
             if [ -f "logs/deployments.json" ]; then
-              DEPLOYMENT_HASH=$(node -e "
+              DEPLOYMENT_INFO=$(node -e "
                 const fs = require('fs');
                 try {
                   const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
                   const latest = logs[logs.length - 1];
                   if (latest && latest.success && (latest.undername || latest.commitHash)) {
-                    console.log(latest.undername || latest.commitHash);
+                    console.log(JSON.stringify({
+                      hash: latest.undername || latest.commitHash,
+                      filePath: latest.filePath || 'unknown'
+                    }));
                   } else {
                     console.log('');
                   }
@@ -92,12 +95,15 @@ jobs:
                 }
               ")
               
-              if [ -n "$DEPLOYMENT_HASH" ]; then
+              if [ -n "$DEPLOYMENT_INFO" ]; then
+                DEPLOYMENT_HASH=$(echo "$DEPLOYMENT_INFO" | node -e "const data = JSON.parse(require('fs').readFileSync(0, 'utf-8')); console.log(data.hash);")
+                FILE_PATH=$(echo "$DEPLOYMENT_INFO" | node -e "const data = JSON.parse(require('fs').readFileSync(0, 'utf-8')); console.log(data.filePath);")
+                
                 echo "hash=$DEPLOYMENT_HASH" >> $GITHUB_OUTPUT
-                echo "file_path=hello-world.txt" >> $GITHUB_OUTPUT
+                echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
                 echo "message=" >> $GITHUB_OUTPUT
                 echo "trigger=workflow_run" >> $GITHUB_OUTPUT
-                echo "📁 Detected file: hello-world.txt"
+                echo "📁 Detected file: $FILE_PATH"
                 echo "🔑 Found deployment hash: $DEPLOYMENT_HASH"
               else
                 echo "hash=" >> $GITHUB_OUTPUT

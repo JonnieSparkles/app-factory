@@ -33,21 +33,4 @@ jobs:
           echo "🔄 Auto-merging PR #${{ github.event.pull_request.number }}..."
           node scripts/auto-merge.js ${{ github.event.pull_request.number }} squash
           echo "✅ PR auto-merged successfully"
-
-      - name: Trigger Deploy Workflow
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            console.log('🚀 Triggering deploy workflow...');
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'deploy.yml',
-              ref: 'main',
-              inputs: {
-                file_path: 'hello-world.txt',
-                message: 'Auto-deployed after PR merge'
-              }
-            });
-            console.log('✅ Deploy workflow triggered successfully');
+          echo "📝 Deploy workflow will auto-trigger from push to main event"
