@@ -6,12 +6,12 @@ import { postTemplateAnnouncement, postDMAnnouncement } from '../lib/twitter.js'
 
 const deploymentHash = process.argv[2];
 const filePath = process.argv[3] || 'hello-world.txt';
-const announceType = process.argv[4] || 'public'; // 'public' or 'dm'
+const announceType = process.argv[4] || 'dm'; // Default to DM
 
 if (!deploymentHash) {
   console.error('❌ Deployment hash is required');
   console.log('Usage: node scripts/announce.js <deployment_hash> [file_path] [announce_type]');
-  console.log('Announce types: public, dm');
+  console.log('Announce types: dm (default)');
   process.exit(1);
 }
 
@@ -26,28 +26,17 @@ const deploymentData = {
 };
 
 try {
-  let result;
-  
-  if (announceType === 'dm') {
-    console.log('📩 Sending DM announcement...');
-    result = await postDMAnnouncement(deploymentData, 'jonniesparkles', true);
-  } else {
-    console.log('🐦 Sending public announcement...');
-    result = await postTemplateAnnouncement(deploymentData, true);
-  }
+  console.log('📩 Sending DM announcement...');
+  const result = await postDMAnnouncement(deploymentData, 'jonniesparkles', true);
   
   if (result.success) {
-    console.log('✅ Twitter announcement posted successfully');
-    if (announceType === 'dm') {
-      console.log(`📩 DM sent to @${result.recipient} with hash: ${deploymentHash}`);
-    } else {
-      console.log(`🐦 Tweet posted with hash: ${deploymentHash}`);
-    }
+    console.log('✅ DM announcement sent successfully');
+    console.log(`📩 DM sent to @${result.recipient} with hash: ${deploymentHash}`);
   } else {
-    console.log('❌ Twitter announcement failed:', result.error || result.reason);
+    console.log('❌ DM announcement failed:', result.error || result.reason);
     process.exit(1);
   }
 } catch (error) {
-  console.error('❌ Twitter announcement error:', error.message);
+  console.error('❌ DM announcement error:', error.message);
   process.exit(1);
 }
