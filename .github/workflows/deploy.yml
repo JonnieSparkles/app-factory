@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Fetch at least 2 commits to enable diff with HEAD~1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -60,7 +62,13 @@ jobs:
             echo "🔄 Push to main detected - analyzing changes"
             
             # Get the list of changed files from the last commit
-            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+            # Handle case where HEAD~1 doesn't exist (first commit or shallow clone)
+            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+              CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+            else
+              echo "⚠️ HEAD~1 not available (first commit or shallow clone), using all files from current commit"
+              CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+            fi
             echo "📁 Changed files: $CHANGED_FILES"
             
             # Filter for deployable files from both deploy and apps folders
