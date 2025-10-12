@@ -182,5 +182,26 @@
     "fileSize": 65,
     "duration": 261681,
     "arnsRecordId": "NO5ZulFkNJl1FD8ewvNqeg4wK8R-vE_eyoEnGa86dk4"
+  },
+  {
+    "timestamp": "2025-10-12T02:15:59.040Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 13,
+    "filePath": "hello-world.txt"
+  },
+  {
+    "timestamp": "2025-10-12T02:16:06.741Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "hello-world.txt",
+    "commitHash": "cb94b76afd3f6e6b",
+    "txId": "test-cb94b76afd3f6e6b-1760235366739",
+    "undername": "cb94b76afd3f6e6b",
+    "ttl": 60,
+    "fileSize": 20,
+    "duration": 14,
+    "arnsRecordId": "test-record-cb94b76afd3f6e6b"
   }
 ]
