@@ -27,6 +27,7 @@ import {
   getUndernameRecord 
 } from './lib/arns.js';
 import { testTwitterConnection, isTwitterConfigured, postTemplateAnnouncement } from './lib/twitter.js';
+import { sendDiscordNotification, testDiscordConnection, isDiscordConfigured } from './lib/discord.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
 
 // Load environment variables
@@ -46,6 +47,7 @@ export async function deployFile(options = {}) {
       testMode = false,
       announceTwitter = false,
       announceDM = false,
+      announceDiscord = false,
       triggerAnnouncement = false,
       triggerGithubDeploy = false
     } = options;
@@ -127,6 +129,20 @@ export async function deployFile(options = {}) {
             }
           } catch (error) {
             console.error('📩 DM announcement error:', error.message);
+          }
+        }
+        
+        // Send Discord notification if requested
+        if (announceDiscord && result.success) {
+          try {
+            const discordResult = await sendDiscordNotification(result, true); // Force announce even in test mode
+            if (discordResult.success) {
+              console.log('📢 Discord notification sent');
+            } else {
+              console.log(`📢 Discord notification failed: ${discordResult.error || discordResult.reason}`);
+            }
+          } catch (error) {
+            console.error('📢 Discord notification error:', error.message);
           }
         }
         
@@ -267,6 +283,20 @@ export async function deployFile(options = {}) {
       }
     }
     
+    // Send Discord notification if requested
+    if (announceDiscord && result.success) {
+      try {
+        const discordResult = await sendDiscordNotification(result, true); // Force announce even in test mode
+        if (discordResult.success) {
+          console.log('📢 Discord notification sent');
+        } else {
+          console.log(`📢 Discord notification failed: ${discordResult.error || discordResult.reason}`);
+        }
+      } catch (error) {
+        console.error('📢 Discord notification error:', error.message);
+      }
+    }
+    
     // Trigger GitHub Actions announcement if requested
     if (triggerAnnouncement && result.success) {
       try {
@@ -374,6 +404,26 @@ async function testTwitter() {
   }
 }
 
+async function testDiscord() {
+  try {
+    console.log('📢 Testing Discord webhook connection...');
+    
+    if (!isDiscordConfigured()) {
+      console.log('❌ Discord not configured. Set DISCORD_WEBHOOK_URL');
+      return;
+    }
+    
+    const result = await testDiscordConnection();
+    if (result.success) {
+      console.log(`✅ Discord webhook test successful!`);
+    } else {
+      console.log(`❌ Discord webhook test failed: ${result.error}`);
+    }
+  } catch (error) {
+    console.error(`❌ Discord test failed:`, error.message);
+  }
+}
+
 // ---------- CLI interface ----------
 async function main() {
   try {
@@ -417,11 +467,18 @@ async function main() {
           await testTwitter();
           process.exit(0);
           break;
+        case '--test-discord':
+          await testDiscord();
+          process.exit(0);
+          break;
         case '--announce-twitter':
           options.announceTwitter = true;
           break;
         case '--announce-dm':
           options.announceDM = true;
+          break;
+        case '--announce-discord':
+          options.announceDiscord = true;
           break;
         case '--trigger-announcement':
           options.triggerAnnouncement = true;
@@ -443,8 +500,10 @@ Options:
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
   --test-twitter          Test Twitter API connection
+  --test-discord          Test Discord webhook connection
   --announce-twitter      Post template-based announcement to Twitter
   --announce-dm           Send DM announcement to Twitter
+  --announce-discord      Send Discord notification
   --trigger-announcement  Trigger GitHub Actions announcement workflow
   --trigger-github-deploy Trigger GitHub Actions deployment workflow
   -h, --help              Show this help message
@@ -457,8 +516,10 @@ Examples:
   node deploy.js --logs
   node deploy.js --stats
   node deploy.js --test-twitter
+  node deploy.js --test-discord
   node deploy.js --announce-twitter
   node deploy.js --announce-dm
+  node deploy.js --announce-discord
   node deploy.js --trigger-announcement
   node deploy.js --trigger-github-deploy
           `);
