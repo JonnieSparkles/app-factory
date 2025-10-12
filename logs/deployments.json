@@ -534,5 +534,40 @@
     "fileSize": 16888,
     "duration": 25154,
     "arnsRecordId": "UUSDNSwC_qpVa1ziO8KzWUIlsSOQUn1kBz8Q1ibjW_Q"
+  },
+  {
+    "timestamp": "2025-10-12T16:16:27.003Z",
+    "success": false,
+    "error": "require is not defined",
+    "context": "Multi-file app deployment for 'portfolio': ",
+    "duration": 33,
+    "appId": "portfolio",
+    "filePath": "apps/portfolio/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T16:17:57.759Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "deploy/hello-world.txt",
+    "commitHash": "17499d58f3a4a776",
+    "txId": "test-17499d58f3a4a776-1760285877757",
+    "undername": "17499d58f3a4a776",
+    "ttl": 60,
+    "fileSize": 20,
+    "duration": 2,
+    "arnsRecordId": "test-record-17499d58f3a4a776"
+  },
+  {
+    "timestamp": "2025-10-12T16:19:38.343Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "deploy/hello-world.txt",
+    "commitHash": "aeac9330bd7e04b1",
+    "txId": "test-aeac9330bd7e04b1-1760285978341",
+    "undername": "aeac9330bd7e04b1",
+    "ttl": 60,
+    "fileSize": 20,
+    "duration": 1,
+    "arnsRecordId": "test-record-aeac9330bd7e04b1"
   }
 ]

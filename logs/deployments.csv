@@ -46,3 +46,6 @@
 "2025-10-12T14:48:59.322Z","SUCCESS","apps/calculator/index.html","0ee6c0819da33d74","VhouC4PeBwiJykSd4R5vZI0_rAEEpPfI9YrpT3cacbE","0ee6c0819da33d74","16974","7672","60","6Dg4r5KmMjS6OzX0HGIvDJFGgIQLrMbL8V_9EwWXDno","","NO","NO"
 "2025-10-12T15:19:17.607Z","SUCCESS","apps/nsync-fanpage/index.html","9313e12a8faeafe5","test-9313e12a8faeafe5-1760282357605","9313e12a8faeafe5","16888","4","60","test-record-9313e12a8faeafe5","","NO","NO"
 "2025-10-12T15:21:27.592Z","SUCCESS","apps/nsync-fanpage/index.html","7ef83351f2428788","9Nh5-uLKZoRwXz2Q5k-sLnYkmDyxCus46rStCQLcV2U","7ef83351f2428788","16888","25154","60","UUSDNSwC_qpVa1ziO8KzWUIlsSOQUn1kBz8Q1ibjW_Q","","NO","NO"
+"2025-10-12T16:16:27.002Z","FAILED","apps/portfolio/index.html","","","","0","33","0","","require is not defined","NO","NO"
+"2025-10-12T16:17:57.758Z","SUCCESS","deploy/hello-world.txt","17499d58f3a4a776","test-17499d58f3a4a776-1760285877757","17499d58f3a4a776","20","2","60","test-record-17499d58f3a4a776","","NO","NO"
+"2025-10-12T16:19:38.342Z","SUCCESS","deploy/hello-world.txt","aeac9330bd7e04b1","test-aeac9330bd7e04b1-1760285978341","aeac9330bd7e04b1","20","1","60","test-record-aeac9330bd7e04b1","","NO","NO"
