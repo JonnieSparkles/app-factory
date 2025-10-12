@@ -59,6 +59,10 @@ async function main() {
         await discoverApps();
         break;
       
+      case 'status':
+        await showSystemStatus();
+        break;
+      
       case 'help':
       case '--help':
       case '-h':

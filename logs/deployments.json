@@ -379,5 +379,13 @@
     "fileSize": 10089,
     "duration": 2,
     "arnsRecordId": "test-record-db139a8bdee84a4e"
+  },
+  {
+    "timestamp": "2025-10-12T12:54:30.711Z",
+    "success": false,
+    "error": "ANT_PROCESS_ID environment variable is required",
+    "context": "Deployment ",
+    "duration": 15,
+    "filePath": "apps/calculator/index.html"
   }
 ]
