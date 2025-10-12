@@ -33,3 +33,4 @@
 "2025-10-12T12:43:39.112Z","SUCCESS","apps/demo-app/index.html","410a782edf29b896","test-410a782edf29b896-1760273019111","410a782edf29b896","1392","2","60","test-record-410a782edf29b896","","NO","NO"
 "2025-10-12T12:53:30.623Z","SUCCESS","apps/calculator/index.html","db139a8bdee84a4e","test-db139a8bdee84a4e-1760273610622","db139a8bdee84a4e","10089","2","60","test-record-db139a8bdee84a4e","","NO","NO"
 "2025-10-12T12:54:30.710Z","FAILED","apps/calculator/index.html","","","","0","15","0","","ANT_PROCESS_ID environment variable is required","NO","NO"
+"2025-10-12T12:58:11.185Z","SUCCESS","apps/calculator/index.html","c9745490cef44a64","test-c9745490cef44a64-1760273891184","c9745490cef44a64","10089","2","60","test-record-c9745490cef44a64","","NO","NO"
