@@ -471,5 +471,18 @@
     "context": "Deployment ",
     "duration": 3,
     "filePath": "apps/calculator/index.html"
+  },
+  {
+    "timestamp": "2025-10-12T13:41:55.339Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/calculator/index.html",
+    "commitHash": "ab1a30bfb0f4d6ee",
+    "txId": "test-ab1a30bfb0f4d6ee-1760276515336",
+    "undername": "ab1a30bfb0f4d6ee",
+    "ttl": 60,
+    "fileSize": 16432,
+    "duration": 5,
+    "arnsRecordId": "test-record-ab1a30bfb0f4d6ee"
   }
 ]

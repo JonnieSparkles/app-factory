@@ -160,6 +160,52 @@
             font-weight: bold;
         }
 
+        .btn.percent {
+            background: var(--btn-operator);
+            color: white;
+        }
+
+        .btn.percent:hover {
+            background: var(--btn-operator-hover);
+        }
+
+        /* History panel */
+        .history {
+            background: var(--bg-display);
+            color: var(--text-display);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .history-item {
+            padding: 5px 10px;
+            margin: 3px 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+        }
+
+        .history-empty {
+            text-align: center;
+            color: var(--text-display);
+            opacity: 0.5;
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
         /* Mobile optimizations */
         @media (max-width: 480px) {
             .calculator {
@@ -227,22 +273,25 @@
         <button class="theme-switcher" id="themeSwitcher" onclick="toggleTheme()" title="Toggle theme">
             <span id="themeIcon">🌙</span>
         </button>
+        <div class="history" id="history">
+            <div class="history-empty">No calculations yet</div>
+        </div>
         <div class="display" id="display">0</div>
         <div class="buttons">
             <button class="btn clear" onclick="clearDisplay()">C</button>
             <button class="btn clear" onclick="deleteLast()">⌫</button>
+            <button class="btn percent" onclick="applyPercent()">%</button>
             <button class="btn operator" onclick="appendOperator('/')">÷</button>
-            <button class="btn operator" onclick="appendOperator('*')">×</button>
             
             <button class="btn" onclick="appendNumber('7')">7</button>
             <button class="btn" onclick="appendNumber('8')">8</button>
             <button class="btn" onclick="appendNumber('9')">9</button>
-            <button class="btn operator" onclick="appendOperator('-')">−</button>
+            <button class="btn operator" onclick="appendOperator('*')">×</button>
             
             <button class="btn" onclick="appendNumber('4')">4</button>
             <button class="btn" onclick="appendNumber('5')">5</button>
             <button class="btn" onclick="appendNumber('6')">6</button>
-            <button class="btn operator" onclick="appendOperator('+')">+</button>
+            <button class="btn operator" onclick="appendOperator('-')">−</button>
             
             <button class="btn" onclick="appendNumber('1')">1</button>
             <button class="btn" onclick="appendNumber('2')">2</button>
@@ -256,10 +305,12 @@
 
     <script>
         let display = document.getElementById('display');
+        let historyElement = document.getElementById('history');
         let currentInput = '0';
         let operator = null;
         let previousInput = null;
         let shouldResetDisplay = false;
+        let calculationHistory = [];
 
         function updateDisplay() {
             display.textContent = currentInput;
@@ -319,6 +370,7 @@
                 const prev = parseFloat(previousInput);
                 const current = parseFloat(currentInput);
                 let result;
+                let operatorSymbol = operator;
 
                 switch (operator) {
                     case '+':
@@ -326,9 +378,11 @@
                         break;
                     case '-':
                         result = prev - current;
+                        operatorSymbol = '−';
                         break;
                     case '*':
                         result = prev * current;
+                        operatorSymbol = '×';
                         break;
                     case '/':
                         if (current === 0) {
@@ -337,6 +391,7 @@
                             return;
                         }
                         result = prev / current;
+                        operatorSymbol = '÷';
                         break;
                     default:
                         return;
@@ -345,12 +400,49 @@
                 // Handle floating point precision issues
                 result = Math.round(result * 100000000) / 100000000;
                 
+                // Add to history
+                addToHistory(`${prev} ${operatorSymbol} ${current}`, result);
+                
                 currentInput = result.toString();
                 operator = null;
                 previousInput = null;
                 shouldResetDisplay = true;
                 updateDisplay();
             }
+        }
+
+        function applyPercent() {
+            const current = parseFloat(currentInput);
+            currentInput = (current / 100).toString();
+            updateDisplay();
+        }
+
+        function addToHistory(calculation, result) {
+            calculationHistory.unshift({ calculation, result });
+            if (calculationHistory.length > 5) {
+                calculationHistory.pop();
+            }
+            updateHistory();
+        }
+
+        function updateHistory() {
+            if (calculationHistory.length === 0) {
+                historyElement.innerHTML = '<div class="history-empty">No calculations yet</div>';
+            } else {
+                historyElement.innerHTML = calculationHistory.map((item, index) => `
+                    <div class="history-item" onclick="loadFromHistory(${index})">
+                        <span>${item.calculation}</span>
+                        <span>= ${item.result}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function loadFromHistory(index) {
+            const item = calculationHistory[index];
+            currentInput = item.result.toString();
+            shouldResetDisplay = true;
+            updateDisplay();
         }
 
         // Keyboard support
@@ -415,9 +507,10 @@
             setTheme(newTheme);
         }
 
-        // Initialize display and theme
+        // Initialize display, history, and theme
         initTheme();
         updateDisplay();
+        updateHistory();
     </script>
 </body>
 </html>
