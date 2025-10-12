@@ -11,14 +11,55 @@
             box-sizing: border-box;
         }
 
+        :root {
+            /* Light theme variables */
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-calculator: rgba(255, 255, 255, 0.95);
+            --bg-display: #1a1a1a;
+            --text-primary: #333;
+            --text-display: white;
+            --btn-bg: #f8f9fa;
+            --btn-text: #333;
+            --btn-hover: #e9ecef;
+            --btn-operator: #667eea;
+            --btn-operator-hover: #5a6fd8;
+            --btn-equals: #28a745;
+            --btn-equals-hover: #218838;
+            --btn-clear: #dc3545;
+            --btn-clear-hover: #c82333;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-calculator: rgba(30, 30, 30, 0.95);
+            --bg-display: #0a0a0a;
+            --text-primary: #e0e0e0;
+            --text-display: #ffffff;
+            --btn-bg: #404040;
+            --btn-text: #e0e0e0;
+            --btn-hover: #505050;
+            --btn-operator: #667eea;
+            --btn-operator-hover: #5a6fd8;
+            --btn-equals: #28a745;
+            --btn-equals-hover: #218838;
+            --btn-clear: #dc3545;
+            --btn-clear-hover: #c82333;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.4);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-primary);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            transition: background 0.3s ease;
         }
 
         .calculator {
