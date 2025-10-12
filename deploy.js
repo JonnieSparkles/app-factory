@@ -29,6 +29,7 @@ import {
 import { testTwitterConnection, isTwitterConfigured, postTemplateAnnouncement } from './lib/twitter.js';
 import { sendDiscordNotification, testDiscordConnection, isDiscordConfigured } from './lib/discord.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
+import { AppFactory } from './lib/app-factory.js';
 
 // Load environment variables
 dotenv.config();
@@ -424,6 +425,31 @@ async function testDiscord() {
   }
 }
 
+// ---------- App Factory Integration ----------
+async function deployApp(appId, options = {}) {
+  const appFactory = new AppFactory();
+  return await appFactory.deployApp(appId, options);
+}
+
+async function listApps() {
+  const appFactory = new AppFactory();
+  const apps = await appFactory.listApps();
+  
+  console.log('📱 Available Apps:\n');
+  
+  for (const [appId, app] of Object.entries(apps)) {
+    const status = app.enabled ? '✅' : '❌';
+    const lastDeployed = app.lastDeployed ? new Date(app.lastDeployed).toLocaleDateString() : 'Never';
+    const deployCount = app.deploymentCount || 0;
+    
+    console.log(`${status} ${app.name} (${appId})`);
+    console.log(`   📝 ${app.description}`);
+    console.log(`   📁 ${app.entryPoint}`);
+    console.log(`   🚀 Deployments: ${deployCount} | Last: ${lastDeployed}`);
+    console.log('');
+  }
+}
+
 // ---------- CLI interface ----------
 async function main() {
   try {
@@ -431,10 +457,56 @@ async function main() {
     const args = process.argv.slice(2);
     const options = {};
 
+    // Parse options first
+    for (let i = 0; i < args.length; i++) {
+      const arg = args[i];
+      if (arg === '--test-mode') {
+        options.testMode = true;
+      } else if (arg === '--dry-run') {
+        options.dryRun = true;
+      } else if (arg === '--announce-twitter') {
+        options.announceTwitter = true;
+      } else if (arg === '--announce-dm') {
+        options.announceDM = true;
+      } else if (arg === '--announce-discord') {
+        options.announceDiscord = true;
+      } else if (arg === '--trigger-announcement') {
+        options.triggerAnnouncement = true;
+      } else if (arg === '--trigger-github-deploy') {
+        options.triggerGithubDeploy = true;
+      }
+    }
+
+    // Parse commands
     for (let i = 0; i < args.length; i++) {
       const arg = args[i];
       
       switch (arg) {
+        case '--app':
+        case '-a':
+          // Deploy a specific app
+          const appId = args[++i];
+          if (!appId) {
+            console.error('❌ App ID required. Usage: --app <app-id>');
+            process.exit(1);
+          }
+          const result = await deployApp(appId, options);
+          if (!result.success) {
+            console.error(`❌ App deployment failed: ${result.error}`);
+            process.exit(1);
+          }
+          if (result.testMode) {
+            console.log(`🔍 Test mode completed for app '${appId}'`);
+          } else if (result.alreadyDeployed) {
+            console.log(`✅ App '${appId}' already deployed with this content`);
+          } else {
+            console.log(`✅ App '${appId}' deployed successfully!`);
+          }
+          return;
+        case '--list-apps':
+          await listApps();
+          process.exit(0);
+          break;
         case '--file':
         case '-f':
           options.filePath = args[++i];
@@ -448,10 +520,10 @@ async function main() {
           options.commitMessage = args[++i];
           break;
         case '--dry-run':
-          options.dryRun = true;
+          // Already parsed above
           break;
         case '--test-mode':
-          options.testMode = true;
+          // Already parsed above
           break;
         case '--logs':
         case '-l':
@@ -472,31 +544,37 @@ async function main() {
           process.exit(0);
           break;
         case '--announce-twitter':
-          options.announceTwitter = true;
+          // Already parsed above
           break;
         case '--announce-dm':
-          options.announceDM = true;
+          // Already parsed above
           break;
         case '--announce-discord':
-          options.announceDiscord = true;
+          // Already parsed above
           break;
         case '--trigger-announcement':
-          options.triggerAnnouncement = true;
+          // Already parsed above
           break;
         case '--trigger-github-deploy':
-          options.triggerGithubDeploy = true;
+          // Already parsed above
           break;
         case '--help':
         case '-h':
           console.log(`
 Usage: node deploy.js [options]
 
-Options:
+App Factory Options:
+  -a, --app <id>           Deploy a specific app by ID
+  --list-apps              List all available apps
+
+File Deployment Options:
   -f, --file <path>        File path to deploy (default: hello-world.txt)
   -c, --content <text>     Content to write to file before deployment
   -m, --message <text>     Commit message for hash generation
   --dry-run               Show what would be deployed without actually deploying
   --test-mode             Simulate deployment with mock data (no real upload)
+
+Utility Options:
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
   --test-twitter          Test Twitter API connection
@@ -509,8 +587,18 @@ Options:
   -h, --help              Show this help message
 
 Examples:
+  # Deploy a specific app
+  node deploy.js --app hello-world
+  node deploy.js --app celebration
+  
+  # Deploy a file directly
   node deploy.js --file hello-world.txt --content "Hello from agent!"
   node deploy.js --content "Updated content" --message "Agent edit #1"
+  
+  # List available apps
+  node deploy.js --list-apps
+  
+  # Test and utility commands
   node deploy.js --dry-run
   node deploy.js --test-mode
   node deploy.js --logs
@@ -522,6 +610,8 @@ Examples:
   node deploy.js --announce-discord
   node deploy.js --trigger-announcement
   node deploy.js --trigger-github-deploy
+
+For app management, use: node app-cli.js help
           `);
           process.exit(0);
           break;
@@ -534,7 +624,7 @@ Examples:
       }
     }
 
-    // Deploy the file
+    // Deploy the file (legacy behavior)
     const result = await deployFile(options);
     
     if (!result.success) {

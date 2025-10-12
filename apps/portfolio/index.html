@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio App - App Factory Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+        
+        .feature-description {
+            opacity: 0.9;
+        }
+        
+        .cta-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 App Factory Portfolio</h1>
+            <p class="subtitle">Built with the App Factory - Deploy to Arweave with ease!</p>
+        </header>
+        
+        <div class="features">
+            <div class="feature-card">
+                <span class="feature-icon">🏗️</span>
+                <h3 class="feature-title">App Factory</h3>
+                <p class="feature-description">
+                    Create, manage, and deploy multiple apps from a single repository. 
+                    Each app gets its own dedicated space and deployment pipeline.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">☁️</span>
+                <h3 class="feature-title">Arweave Deployment</h3>
+                <p class="feature-description">
+                    Deploy your apps directly to Arweave with unique ArNS undernames. 
+                    Your content is permanently stored and accessible worldwide.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">🔧</span>
+                <h3 class="feature-title">Multiple Templates</h3>
+                <p class="feature-description">
+                    Start with HTML, React, or create custom templates. 
+                    Each app type comes with its own build system and deployment strategy.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">📱</span>
+                <h3 class="feature-title">CLI Management</h3>
+                <p class="feature-description">
+                    Manage all your apps with simple CLI commands. 
+                    Create, deploy, enable/disable, and monitor your apps effortlessly.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">🔄</span>
+                <h3 class="feature-title">Auto-Discovery</h3>
+                <p class="feature-description">
+                    Automatically discover apps in your deploy/ and apps/ folders. 
+                    No manual configuration needed for simple apps.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3 class="feature-title">Deployment Tracking</h3>
+                <p class="feature-description">
+                    Track deployment history, success rates, and app statistics. 
+                    Monitor your app factory's performance and growth.
+                </p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Ready to Build Your App Factory?</h2>
+            <p>Start creating and deploying apps with just a few commands!</p>
+            <button class="cta-button" onclick="showCommands()">Show Commands</button>
+            <button class="cta-button" onclick="createNewApp()">Create New App</button>
+        </div>
+        
+        <div class="footer">
+            <p>Built with ❤️ using the App Factory system</p>
+            <p>Deployed to Arweave • Powered by ArNS</p>
+        </div>
+    </div>
+    
+    <script>
+        function showCommands() {
+            const commands = `
+📱 App Factory Commands:
+
+# List all apps
+node app-cli.js list
+
+# Create a new app
+node app-cli.js create my-app html
+node app-cli.js create my-react-app react
+
+# Deploy an app
+node app-cli.js deploy my-app
+node app-cli.js deploy all
+
+# Get app info
+node app-cli.js info my-app
+
+# Enable/disable apps
+node app-cli.js enable my-app
+node app-cli.js disable my-app
+
+# Discover apps
+node app-cli.js discover
+
+# Deploy via main script
+node deploy.js --app my-app
+node deploy.js --list-apps
+            `;
+            alert(commands);
+        }
+        
+        function createNewApp() {
+            const appName = prompt('Enter app name (e.g., my-awesome-app):');
+            if (appName) {
+                const template = prompt('Choose template (html or react):', 'html');
+                if (template === 'html' || template === 'react') {
+                    alert(`To create your app, run:\n\nnode app-cli.js create ${appName} ${template}`);
+                } else {
+                    alert('Please choose either "html" or "react"');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

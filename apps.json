@@ -1,0 +1,79 @@
+{
+  "version": "1.0.0",
+  "description": "App Factory Configuration - Manage multiple deployable apps",
+  "apps": {
+    "hello-world": {
+      "name": "Hello World App",
+      "description": "Simple text-based greeting app",
+      "type": "static",
+      "entryPoint": "deploy/hello-world.txt",
+      "buildCommand": null,
+      "outputDir": "deploy",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
+    },
+    "hello-anthony": {
+      "name": "Hello Anthony App",
+      "description": "Interactive HTML greeting page for Anthony",
+      "type": "static",
+      "entryPoint": "deploy/hello-anthony.html",
+      "buildCommand": null,
+      "outputDir": "deploy",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
+    },
+    "celebration": {
+      "name": "Deployment Celebration",
+      "description": "Interactive celebration page for successful deployments",
+      "type": "static",
+      "entryPoint": "deploy/index.html",
+      "buildCommand": null,
+      "outputDir": "deploy",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
+    },
+    "index": {
+      "name": "Index",
+      "description": "Auto-discovered index.html app",
+      "type": "static",
+      "entryPoint": "deploy/index.html",
+      "buildCommand": null,
+      "outputDir": "deploy",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
+    },
+    "portfolio": {
+      "name": "Portfolio",
+      "description": "Auto-discovered app in portfolio",
+      "type": "static",
+      "entryPoint": "apps/portfolio/index.html",
+      "buildCommand": null,
+      "outputDir": "apps/portfolio/dist",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
+    },
+    "demo-app": {
+      "name": "HTML App",
+      "description": "A simple HTML application",
+      "type": "html",
+      "entryPoint": "apps/demo-app/index.html",
+      "buildCommand": null,
+      "outputDir": "apps/demo-app",
+      "enabled": true,
+      "lastDeployed": null,
+      "deploymentCount": 0
+    }
+  },
+  "settings": {
+    "defaultAppType": "static",
+    "autoDiscoverApps": true,
+    "deploymentStrategy": "individual",
+    "backupBeforeDeploy": true,
+    "notifyOnDeploy": true
+  }
+}

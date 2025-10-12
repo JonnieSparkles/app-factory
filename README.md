@@ -1,29 +1,63 @@
-# Remote Agent Deployment System
+# App Factory - Remote Agent Deployment System
 
-A complete system for AI agent workflows that automatically deploys edited files to Arweave with unique ArNS undernames, featuring auto-merge GitHub Actions and comprehensive logging.
+A complete app factory system for AI agent workflows that manages and deploys multiple applications to Arweave with unique ArNS undernames, featuring auto-merge GitHub Actions, comprehensive logging, and multi-app management.
 
 ## 🚀 Quick Start
 
 1. **Set up environment variables** (see [REMOTE_AGENT_SETUP.md](./REMOTE_AGENT_SETUP.md))
-2. **Ask the AI agent to make changes** - it will automatically:
+2. **Create your first app**:
+   ```bash
+   npm run apps:create my-first-app html
+   ```
+3. **Deploy your app**:
+   ```bash
+   npm run apps:deploy my-first-app
+   ```
+4. **Or ask the AI agent to make changes** - it will automatically:
    - Create a branch and make changes
    - Create a PR (auto-merge enabled)
    - Deploy to Arweave with ArNS integration
-3. **Monitor deployments** via logs and GitHub Actions
+5. **Monitor deployments** via logs and GitHub Actions
 
 ## Overview
 
-This project enables AI agents to:
-1. **Edit files** (like `hello-world.txt`) with automatic versioning
-2. **Deploy to Arweave** via Turbo SDK with fiat payments
-3. **Create ArNS records** with unique undernames based on commit hashes
-4. **Auto-merge PRs** via GitHub Actions for seamless workflow
-5. **Track all deployments** with comprehensive logging
+This project enables AI agents and developers to:
+1. **Manage multiple apps** in a single repository with dedicated folders
+2. **Create apps from templates** (HTML, React, custom templates)
+3. **Deploy individual apps** or all apps at once to Arweave
+4. **Auto-discover apps** in deploy/ and apps/ folders
+5. **Track deployment history** for each app separately
+6. **Deploy to Arweave** via Turbo SDK with fiat payments
+7. **Create ArNS records** with unique undernames based on commit hashes
+8. **Auto-merge PRs** via GitHub Actions for seamless workflow
+9. **Monitor all deployments** with comprehensive logging
 
 ## 🏗️ Architecture
 
 ```
-AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Deploy to Arweave → Create ArNS Record
+App Factory → Multiple Apps → Individual Deployments → Arweave → ArNS Records
+     ↓
+AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Deploy App → Arweave → ArNS Record
+```
+
+### App Factory Structure
+```
+apps/
+├── portfolio/           # Example portfolio app
+│   └── index.html
+├── my-react-app/        # React app example
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+└── custom-app/          # Custom app
+    └── index.html
+
+deploy/                  # Legacy single-file deployments
+├── hello-world.txt
+├── hello-anthony.html
+└── index.html
+
+apps.json               # App factory configuration
 ```
 
 ### Key Components
@@ -85,29 +119,70 @@ ARWEAVE_GATEWAY=https://arweave.net
 
 ## 🎯 Usage
 
+### App Factory Commands
+
+**Create and manage multiple apps:**
+
+```bash
+# List all apps
+npm run apps:list
+# or
+node app-cli.js list
+
+# Create a new app
+npm run apps:create my-app html
+npm run apps:create my-react-app react
+# or
+node app-cli.js create my-app html
+
+# Deploy a specific app
+npm run apps:deploy my-app
+# or
+node app-cli.js deploy my-app
+
+# Deploy all enabled apps
+node app-cli.js deploy all
+
+# Get detailed app information
+node app-cli.js info my-app
+
+# Enable/disable apps
+node app-cli.js enable my-app
+node app-cli.js disable my-app
+
+# Auto-discover apps in folders
+npm run apps:discover
+# or
+node app-cli.js discover
+```
+
 ### AI Agent Commands
 
 **The agent knows how to use these deployment options:**
 
 ```bash
-# Option 1: Deploy locally (recommended for testing)
-"Update hello-world.txt and deploy it locally"
+# Deploy a specific app
+"Deploy the portfolio app"
+"Update and deploy the hello-world app"
 
-# Option 2: Deploy via GitHub Actions (recommended for production)
-"Update hello-world.txt and deploy it via GitHub Actions"
+# Deploy all apps
+"Deploy all apps to Arweave"
 
-# Option 3: Deploy and announce on Twitter
-"Update hello-world.txt, deploy it, and announce on Twitter"
+# Create new apps
+"Create a new HTML app called my-dashboard"
+"Create a React app for data visualization"
 
-# Option 4: Just announce a previous deployment
-"Announce the latest deployment on Twitter"
+# App management
+"List all available apps"
+"Show me info about the portfolio app"
+"Disable the old-test-app"
 ```
 
 **The agent will automatically:**
-- Use `node deploy.js --file <filename>` for local deployments
-- Use `node deploy.js --trigger-github-deploy` for GitHub Actions deployments
-- Use `node deploy.js --announce-twitter` for Twitter announcements
-- Use `node deploy.js --trigger-announcement` for GitHub Actions announcements
+- Use `node deploy.js --app <app-id>` for app deployments
+- Use `node app-cli.js create` for creating new apps
+- Use `node app-cli.js list` to see available apps
+- Use `node deploy.js --file <filename>` for legacy file deployments
 
 ### Manual Deployment Commands
 ```bash
