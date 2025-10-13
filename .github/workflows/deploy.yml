@@ -30,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Fetch at least 2 commits to enable diff with HEAD~1
+          fetch-depth: 0  # Fetch full history to enable proper incremental deployment
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -185,15 +185,26 @@ jobs:
             exit 1
           fi
 
-      - name: Commit deployment logs
+      - name: Commit deployment logs and manifests
         if: always()
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add logs if they exist
           if [ -f "logs/deployments.json" ]; then
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
             git add logs/
-            git commit -m "Update deployment logs" || echo "No changes to commit"
+          fi
+          
+          # Add any updated app manifests and deployment trackers
+          git add apps/*/manifest.json apps/*/deployment-tracker.json 2>/dev/null || true
+          
+          # Commit if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Update deployment logs and manifests" || echo "No changes to commit"
             git push origin main || echo "Nothing to push"
+          else
+            echo "No changes to commit"
           fi
 
       - name: Trigger Announce Workflow
