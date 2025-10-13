@@ -1,15 +1,15 @@
 {
   "manifest": "arweave/paths",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "index": {
     "path": "index.html"
   },
   "paths": {
     "index.html": {
-      "id": "oMO84hVYGCRixqYKQudos0e6e-NPDeSV9CX46EGD1oQ"
+      "id": "upVtLeMSPiw1glM1tvcWQnzkvrx_t93b52uclhfXCko"
     },
     "style.css": {
-      "id": "ndD6xeqLCBbPmPl9oZOYQSPG6FOKenrp6kxHMzSDeiQ"
+      "id": "4C1z5fKrj8OnMJW8fVQZ_5h2qSskCAJfbySCl66nOUY"
     }
   }
 }
