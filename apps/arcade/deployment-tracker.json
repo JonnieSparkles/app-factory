@@ -1,5 +1,5 @@
 {
-  "lastDeployCommit": "fd7e71114f2891ff",
+  "lastDeployCommit": "1f07155a07846220",
   "deploymentHistory": [
     {
       "version": "0.1.0",
@@ -72,18 +72,28 @@
         "/home/runner/work/agent-tests/agent-tests/apps/arcade/style.css"
       ],
       "deployed": "2025-10-13T14:00:03.510Z"
+    },
+    {
+      "version": "0.1.7",
+      "commit": "1f07155a07846220",
+      "manifestTxId": "test-manifest-1760366042356",
+      "changedFiles": [
+        "/workspace/apps/arcade/index.html",
+        "/workspace/apps/arcade/style.css"
+      ],
+      "deployed": "2025-10-13T14:34:02.356Z"
     }
   ],
   "fileCommitMap": {
-    "index.html": "fd7e71114f2891ff",
-    "style.css": "fd7e71114f2891ff",
+    "index.html": "1f07155a07846220",
+    "style.css": "1f07155a07846220",
     "deployment-tracker.json": "7f94fd3c1e106f07",
     "manifest.json": "7f94fd3c1e106f07"
   },
-  "lastDeployed": "2025-10-13T14:00:03.510Z",
-  "deploymentCount": 7,
+  "lastDeployed": "2025-10-13T14:34:02.356Z",
+  "deploymentCount": 8,
   "fileHashes": {
-    "index.html": "00c538956296da630eb821f527eae29d1c48906f",
+    "index.html": "c4a42b13c280665e8c6aef223d76b8be11a1899d",
     "style.css": "d5784be2c02b1eec83c00a6e6d6c8e9d334c22d1",
     "deployment-tracker.json": "4344e738e9e9b551f2128bb877145f82d9b2d9f3",
     "manifest.json": "2f3c4610880c19cec2946c5449bacc13541b803d"
