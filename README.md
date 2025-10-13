@@ -1,17 +1,17 @@
-# App Factory - Remote Agent Deployment System
+# Remote Agent Deployment System
 
-A complete app factory system for AI agent workflows that manages and deploys multiple applications to Arweave with unique ArNS undernames, featuring **incremental deployment**, auto-merge GitHub Actions, comprehensive logging, and multi-app management.
+A streamlined deployment system for AI agent workflows that deploys files and applications to Arweave with unique ArNS undernames, featuring **incremental deployment**, auto-merge GitHub Actions, and comprehensive logging.
 
 ## 🚀 Quick Start
 
 1. **Set up environment variables** (see [docs/REMOTE_AGENT_SETUP.md](./docs/REMOTE_AGENT_SETUP.md))
-2. **Create your first app**:
+2. **Deploy a file**:
    ```bash
-   npm run apps:create my-first-app html
+   node deploy.js --file apps/hello-world/index.html
    ```
-3. **Deploy your app**:
+3. **Deploy a directory** (uses incremental deployment):
    ```bash
-   npm run apps:deploy my-first-app
+   node deploy.js --file apps/arcade/
    ```
 4. **Or ask the AI agent to make changes** - it will automatically:
    - Create a branch and make changes
@@ -22,34 +22,31 @@ A complete app factory system for AI agent workflows that manages and deploys mu
 ## Overview
 
 This project enables AI agents and developers to:
-1. **Manage multiple apps** in a single repository with dedicated folders
-2. **Create apps from templates** (HTML, React, custom templates)
-3. **Deploy individual apps** or all apps at once to Arweave
-4. **Auto-discover apps** in apps/ folders
-5. **Track deployment history** for each app separately
-6. **Deploy to Arweave** via Turbo SDK with fiat payments
-7. **Create ArNS records** with unique undernames based on commit hashes
-8. **Auto-merge PRs** via GitHub Actions for seamless workflow
-9. **Monitor all deployments** with comprehensive logging
-10. **🆕 Incremental deployment** - only upload changed files, saving costs and time
+1. **Deploy individual files** or entire directories to Arweave
+2. **Smart deployment detection** - automatically uses incremental deployment for directories
+3. **Deploy to Arweave** via Turbo SDK with fiat payments
+4. **Create ArNS records** with unique undernames based on commit hashes
+5. **Auto-merge PRs** via GitHub Actions for seamless workflow
+6. **Monitor all deployments** with comprehensive logging
+7. **🆕 Incremental deployment** - only upload changed files, saving costs and time
 
 ## 🏗️ Architecture
 
 ```
-App Factory → Multiple Apps → Individual Deployments → Arweave → ArNS Records
+Files/Directories → Smart Deployment Detection → Arweave → ArNS Records
      ↓
-AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Deploy App → Arweave → ArNS Record
+AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Deploy → Arweave → ArNS Record
 ```
 
-### App Factory Structure
+### Project Structure
 ```
 apps/
 ├── portfolio/           # Portfolio app
 │   ├── index.html
 │   ├── style.css
 │   ├── app.js
-│   ├── manifest.json          # ← Per-app manifest
-│   └── deployment-tracker.json # ← Deployment history
+│   ├── manifest.json          # ← Per-app manifest (for directories)
+│   └── deployment-tracker.json # ← Deployment history (for directories)
 ├── calculator/          # Calculator app
 │   └── index.html
 ├── hello-world/         # Simple text app
@@ -58,8 +55,6 @@ apps/
 │   └── index.html
 └── celebration/         # Celebration page
     └── index.html
-
-apps.json               # App factory configuration
 ```
 
 ### Key Components
@@ -71,6 +66,7 @@ apps.json               # App factory configuration
 - **📝 ArNS Undername**: Maps commit hash to Arweave transaction ID
 - **📊 Logging System**: Comprehensive JSON/CSV logging of all deployments
 - **🔄 Auto-merge**: GitHub Actions automatically merge agent PRs after validation
+- **🧠 Smart Detection**: Automatically detects files vs directories and uses appropriate deployment method
 
 ## 🔄 Complete Workflow
 
@@ -121,41 +117,31 @@ ARWEAVE_GATEWAY=https://arweave.net
 
 ## 🎯 Usage
 
-### App Factory Commands
+### Deployment Commands
 
-**Create and manage multiple apps:**
+**Deploy files and directories:**
 
 ```bash
-# List all apps
-npm run apps:list
-# or
-node app-cli.js list
+# Deploy a single file
+node deploy.js --file apps/hello-world/index.html
+node deploy.js --file my-app.html
 
-# Create a new app
-npm run apps:create my-app html
-npm run apps:create my-react-app react
-# or
-node app-cli.js create my-app html
+# Deploy a directory (uses incremental deployment)
+node deploy.js --file apps/arcade/
+node deploy.js --file apps/calculator/
 
-# Deploy a specific app
-npm run apps:deploy my-app
-# or
-node app-cli.js deploy my-app
+# Deploy content directly
+node deploy.js --content "Hello, World!"
 
-# Deploy all enabled apps
-node app-cli.js deploy all
+# Test deployment (no real upload)
+node deploy.js --test-mode --file apps/arcade/
 
-# Get detailed app information
-node app-cli.js info my-app
+# Force full deployment (no incremental)
+node deploy.js --no-incremental --file apps/arcade/
 
-# Enable/disable apps
-node app-cli.js enable my-app
-node app-cli.js disable my-app
-
-# Auto-discover apps in folders
-npm run apps:discover
-# or
-node app-cli.js discover
+# View deployment logs and stats
+node deploy.js --logs
+node deploy.js --stats
 ```
 
 ### AI Agent Commands
@@ -163,41 +149,38 @@ node app-cli.js discover
 **The agent knows how to use these deployment options:**
 
 ```bash
-# Deploy a specific app
+# Deploy specific files or directories
 "Deploy the portfolio app"
 "Update and deploy the hello-world app"
+"Deploy the arcade directory"
 
-# Deploy all apps
+# Deploy all files in apps directory
 "Deploy all apps to Arweave"
 
-# Create new apps
-"Create a new HTML app called my-dashboard"
-"Create a React app for data visualization"
-
-# App management
-"List all available apps"
-"Show me info about the portfolio app"
-"Disable the old-test-app"
+# Create and deploy new content
+"Create a new HTML file and deploy it"
+"Deploy this content directly"
 ```
 
 **The agent will automatically:**
-- Use `node deploy.js --app <app-id>` for app deployments
-- Use `node app-cli.js create` for creating new apps
-- Use `node app-cli.js list` to see available apps
+- Use `node deploy.js --file <path>` for file/directory deployments
+- Use `node deploy.js --content <text>` for direct content deployment
+- Automatically detect whether to use incremental or simple deployment
 
 ### Manual Deployment Commands
 ```bash
-# Deploy an app
-npm run apps:deploy hello-world
+# Deploy a file or directory
+node deploy.js --file apps/hello-world/index.html
+node deploy.js --file apps/arcade/
 
 # Test mode (no real deployment)
-npm run deploy -- --test-mode --app hello-world
+node deploy.js --test-mode --file apps/arcade/
 
 # View deployment logs
-npm run logs
+node deploy.js --logs
 
 # View deployment statistics  
-npm run stats
+node deploy.js --stats
 ```
 
 ## 🚀 Incremental Deployment
@@ -228,28 +211,39 @@ The system now features **incremental deployment** - a cost and time-optimized a
 
 ### File Structure
 
-Each app now has its own tracking files:
+Directories automatically get tracking files for incremental deployment:
 
 ```
+apps/arcade/
+├── index.html
+├── style.css
+├── app.js
+├── manifest.json          # Arweave manifest with file IDs (auto-created)
+└── deployment-tracker.json # Deployment history and git tracking (auto-created)
+```
+
+Single files don't need tracking files:
+```
 apps/hello-world/
-├── index.txt
-├── manifest.json          # Arweave manifest with file IDs
-└── deployment-tracker.json # Deployment history and git tracking
+└── index.txt              # Simple file deployment, no tracking needed
 ```
 
 ### Usage
 
-Incremental deployment is **enabled by default**:
+Incremental deployment is **enabled by default for directories**:
 
 ```bash
-# Deploy with incremental deployment (hash-based detection)
-node deploy.js --app hello-world
+# Deploy directory with incremental deployment (hash-based detection)
+node deploy.js --file apps/arcade/
 
-# Deploy with full deployment (all files, skip change detection)
-node deploy.js --app hello-world --no-incremental
+# Deploy directory with full deployment (all files, skip change detection)
+node deploy.js --no-incremental --file apps/arcade/
+
+# Deploy single file (always uses simple deployment)
+node deploy.js --file apps/hello-world/index.html
 
 # Test incremental deployment
-node deploy.js --app hello-world --test-mode
+node deploy.js --test-mode --file apps/arcade/
 ```
 
 ### Change Detection Method
@@ -335,7 +329,6 @@ This means:
 │   ├── hello-world/
 │   └── ...                  # More apps
 ├── lib/
-│   ├── app-factory.js       # App factory management
 │   ├── arns.js              # ArNS utilities
 │   ├── arweave.js           # Arweave/Turbo utilities
 │   ├── logging.js           # Deployment logging system
@@ -348,8 +341,6 @@ This means:
 │   └── deployments.csv      # CSV deployment logs (committed to repo)
 ├── secrets/
 │   └── wallet.json          # Arweave wallet (keep secure!)
-├── apps.json                # App factory configuration
-├── app-cli.js               # App management CLI
 ├── deploy.js                # Main deployment script
 ├── env.example              # Environment variables template
 ├── docs/
@@ -449,7 +440,7 @@ This system is designed for seamless AI agent workflows:
 
 **Manifest has wrong TXIDs:**
 - Ensure GitHub workflow commits manifest.json and deployment-tracker.json back to repo
-- Check the "Commit deployment logs and manifests" step in deploy workflow
+- Check the "Update deployment logs" step in deploy workflow
 - Verify git push succeeds in GitHub Actions logs
 
 **State gets out of sync:**
@@ -491,6 +482,8 @@ This system can be extended with:
 - **Custom validation rules** for different file types
 - **Selective untracked file inclusion** (with explicit allowlist)
 - **Advanced file operation detection** (git mv detection)
+- **Template system** for creating new apps
+- **App discovery** and management features
 
 ## 📚 Documentation
 

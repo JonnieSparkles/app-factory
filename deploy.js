@@ -28,10 +28,79 @@ import {
 } from './lib/arns.js';
 import { sendDiscordNotification, testDiscordConnection, isDiscordConfigured } from './lib/discord.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
-import { AppFactory } from './lib/app-factory.js';
+import { IncrementalDeployer } from './lib/incremental-deploy.js';
 
 // Load environment variables
 dotenv.config();
+
+// ---------- Incremental Directory Deployment ----------
+async function deployDirectoryIncremental(dirPath, options, startTime) {
+  try {
+    console.log(`📁 Detected directory - using incremental deployment`);
+    
+    // Extract app name from directory path
+    const appName = dirPath.split('/').pop() || dirPath.split('\\').pop() || 'app';
+    
+    // Create incremental deployer
+    const deployer = new IncrementalDeployer(appName, dirPath);
+    
+    // Validate directory before deployment
+    const validation = await deployer.validateApp();
+    if (!validation.valid) {
+      throw new Error(`Directory validation failed: ${validation.error}`);
+    }
+
+    // Perform incremental deployment
+    const result = await deployer.deploy(options.testMode);
+    
+    if (result.success && !result.skipped) {
+      // Log deployment result
+      const logResult = {
+        success: true,
+        filePath: dirPath,
+        commitHash: result.commitHash,
+        txId: result.manifestTxId,
+        manifestTxId: result.manifestTxId,
+        undername: result.undername,
+        fileSize: result.stats.totalSize,
+        duration: Date.now() - startTime,
+        testMode: options.testMode,
+        deploymentType: 'incremental',
+        changedFiles: result.changedFiles.length,
+        version: result.version
+      };
+      
+      await logDeploymentResult(logResult);
+      
+      console.log(`✅ Incremental deployment completed for directory: ${dirPath}`);
+      console.log(`   📁 Files changed: ${result.changedFiles.length}`);
+      console.log(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
+      console.log(`   🔗 Manifest TX: ${result.manifestTxId}`);
+      console.log(`   🔗 ArNS: ${result.undername}`);
+      
+      return logResult;
+    } else if (result.skipped) {
+      console.log(`⏭️ Deployment skipped for directory: ${result.reason}`);
+      return {
+        success: true,
+        skipped: true,
+        reason: result.reason,
+        filePath: dirPath,
+        commitHash: result.commitHash
+      };
+    } else {
+      throw new Error(`Incremental deployment failed: ${result.error}`);
+    }
+  } catch (error) {
+    const result = handleError(error, `Incremental directory deployment for '${dirPath}': `);
+    result.duration = Date.now() - startTime;
+    result.filePath = dirPath;
+    result.deploymentType = 'incremental';
+    
+    await logDeploymentResult(result);
+    return result;
+  }
+}
 
 // ---------- Main deployment function ----------
 export async function deployFile(options = {}) {
@@ -47,13 +116,22 @@ export async function deployFile(options = {}) {
       testMode = false,
       announceDiscord = false,
       triggerAnnouncement = false,
-      triggerGithubDeploy = false
+      triggerGithubDeploy = false,
+      useIncremental = true
     } = options;
 
     console.log(`🚀 Starting deployment for: ${filePath}`);
     
     // Validate inputs
     validateFilePath(filePath);
+    
+    // Check if this is a directory (multi-file app) or single file
+    const isDirectory = await fileExists(filePath) && (await import('fs')).statSync(filePath).isDirectory();
+    
+    if (isDirectory && useIncremental) {
+      // Use incremental deployment for directories
+      return await deployDirectoryIncremental(filePath, options, startTime);
+    }
     
     // Read current file content or use provided content
     let fileContent;
@@ -349,36 +427,6 @@ async function testDiscord() {
   }
 }
 
-// ---------- App Factory Integration ----------
-async function deployApp(appId, options = {}) {
-  const appFactory = new AppFactory();
-  
-  // Use incremental deployment by default (can be disabled with --no-incremental)
-  if (options.incremental !== false) {
-    return await appFactory.deployAppIncremental(appId, options);
-  } else {
-    return await appFactory.deployApp(appId, options);
-  }
-}
-
-async function listApps() {
-  const appFactory = new AppFactory();
-  const apps = await appFactory.listApps();
-  
-  console.log('📱 Available Apps:\n');
-  
-  for (const [appId, app] of Object.entries(apps)) {
-    const status = app.enabled ? '✅' : '❌';
-    const lastDeployed = app.lastDeployed ? new Date(app.lastDeployed).toLocaleDateString() : 'Never';
-    const deployCount = app.deploymentCount || 0;
-    
-    console.log(`${status} ${app.name} (${appId})`);
-    console.log(`   📝 ${app.description}`);
-    console.log(`   📁 ${app.entryPoint}`);
-    console.log(`   🚀 Deployments: ${deployCount} | Last: ${lastDeployed}`);
-    console.log('');
-  }
-}
 
 // ---------- CLI interface ----------
 async function main() {
@@ -401,9 +449,7 @@ async function main() {
       } else if (arg === '--trigger-github-deploy') {
         options.triggerGithubDeploy = true;
       } else if (arg === '--no-incremental') {
-        options.incremental = false;
-      } else if (arg === '--use-hashing') {
-        options.useHashing = true;
+        options.useIncremental = false;
       }
     }
 
@@ -412,31 +458,6 @@ async function main() {
       const arg = args[i];
       
       switch (arg) {
-        case '--app':
-        case '-a':
-          // Deploy a specific app
-          const appId = args[++i];
-          if (!appId) {
-            console.error('❌ App ID required. Usage: --app <app-id>');
-            process.exit(1);
-          }
-          const result = await deployApp(appId, options);
-          if (!result.success) {
-            console.error(`❌ App deployment failed: ${result.error}`);
-            process.exit(1);
-          }
-          if (result.testMode) {
-            console.log(`🔍 Test mode completed for app '${appId}'`);
-          } else if (result.alreadyDeployed) {
-            console.log(`✅ App '${appId}' already deployed with this content`);
-          } else {
-            console.log(`✅ App '${appId}' deployed successfully!`);
-          }
-          return;
-        case '--list-apps':
-          await listApps();
-          process.exit(0);
-          break;
         case '--file':
         case '-f':
           options.filePath = args[++i];
@@ -483,15 +504,12 @@ async function main() {
           console.log(`
 Usage: node deploy.js [options]
 
-App Factory Options:
-  -a, --app <id>           Deploy a specific app by ID (uses incremental deployment)
-  --list-apps              List all available apps
-  --no-incremental         Disable incremental deployment (use full deployment)
-  --use-hashing            Use file hashing instead of git for change detection
-
 Deployment Options:
+  -f, --file <path>        Deploy a specific file or directory
+  -c, --content <text>     Deploy content directly
   -m, --message <text>     Commit message for hash generation
   --test-mode             Simulate deployment with mock data (no real upload)
+  --no-incremental        Disable incremental deployment (full deployment)
 
 Utility Options:
   -l, --logs              Show deployment logs
@@ -500,26 +518,28 @@ Utility Options:
   -h, --help              Show this help message
 
 Examples:
-  # Deploy a specific app (incremental deployment)
-  node deploy.js --app hello-world
-  node deploy.js --app celebration
+  # Deploy a file
+  node deploy.js --file apps/hello-world/index.html
+  node deploy.js --file my-app.html
   
-  # Deploy with full deployment (no incremental)
-  node deploy.js --app hello-world --no-incremental
+  # Deploy a directory (uses incremental deployment)
+  node deploy.js --file apps/arcade/
+  node deploy.js --file apps/calculator/
   
-  # Deploy using file hashing (more reliable)
-  node deploy.js --app hello-world --use-hashing
+  # Deploy content directly
+  node deploy.js --content "Hello, World!"
   
-  # List available apps
-  node deploy.js --list-apps
+  # Test deployment
+  node deploy.js --test-mode --file apps/hello-world/index.html
+  node deploy.js --test-mode --file apps/arcade/
   
-  # Test and utility commands
-  node deploy.js --test-mode --app hello-world
+  # Full deployment (no incremental)
+  node deploy.js --no-incremental --file apps/arcade/
+  
+  # View logs and stats
   node deploy.js --logs
   node deploy.js --stats
   node deploy.js --test-discord
-
-For app management, use: node app-cli.js help
           `);
           process.exit(0);
           break;

@@ -110,12 +110,10 @@ jobs:
             if [ -f "$FILE_PATH" ]; then
               echo "📤 Deploying: $FILE_PATH"
               
-              # Extract app name from path (apps/*)
-              APP_NAME=$(echo "$FILE_PATH" | sed 's|apps/\([^/]*\)/.*|\1|')
-              echo "📱 Detected app deployment: $APP_NAME"
-              if ! node deploy.js --app "$APP_NAME" --message "${{ steps.changed-files.outputs.message }}"; then
+              # Deploy the file directly
+              if ! node deploy.js --file "$FILE_PATH" --message "${{ steps.changed-files.outputs.message }}"; then
                 DEPLOYMENT_SUCCESS=false
-                DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $APP_NAME"
+                DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy file: $FILE_PATH"
               fi
             else
               echo "⚠️ File not found: $FILE_PATH"
@@ -126,35 +124,32 @@ jobs:
               DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ File not found: $FILE_PATH"
             fi
           else
-            # Handle automatic deployments using hash-based detection
+            # Handle automatic deployments - deploy all files in apps directory
             if [ "${{ steps.changed-files.outputs.files }}" = "all" ]; then
-              echo "📱 Deploying all apps using hash-based change detection..."
-              # Deploy all apps - the JavaScript code will handle change detection
-              for app_dir in apps/*/; do
-                if [ -d "$app_dir" ]; then
-                  app_name=$(basename "$app_dir")
-                  echo "📤 Deploying app: $app_name"
-                  if ! node deploy.js --app "$app_name" --message "${{ steps.changed-files.outputs.message }}"; then
-                    DEPLOYMENT_SUCCESS=false
-                    DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name"
-                  fi
+              echo "📱 Deploying all files in apps directory..."
+              # Deploy all files in apps directory
+              find apps/ -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.txt" \) | while read -r file; do
+                echo "📤 Deploying file: $file"
+                if ! node deploy.js --file "$file" --message "${{ steps.changed-files.outputs.message }}"; then
+                  DEPLOYMENT_SUCCESS=false
+                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy file: $file"
                 fi
               done
             else
-              # Handle specific files (legacy support)
+              # Handle specific files
               FILES_LIST=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n')
               APPS_FILES=$(echo "$FILES_LIST" | grep '^apps/' || true)
               
-              # Deploy apps using app factory
+              # Deploy specific files and directories
               if [ -n "$APPS_FILES" ]; then
-                echo "📱 Deploying apps using app factory..."
-                # Extract unique app directories from changed files
-                APP_DIRS=$(echo "$APPS_FILES" | sed 's|apps/\([^/]*\)/.*|\1|' | sort -u)
-                for app_dir in $APP_DIRS; do
-                  echo "📤 Deploying app: $app_dir"
-                  if ! node deploy.js --app "$app_dir" --message "${{ steps.changed-files.outputs.message }}"; then
-                    DEPLOYMENT_SUCCESS=false
-                    DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_dir"
+                echo "📱 Deploying specific files and directories..."
+                echo "$APPS_FILES" | while read -r file; do
+                  if [ -f "$file" ] || [ -d "$file" ]; then
+                    echo "📤 Deploying: $file"
+                    if ! node deploy.js --file "$file" --message "${{ steps.changed-files.outputs.message }}"; then
+                      DEPLOYMENT_SUCCESS=false
+                      DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy: $file"
+                    fi
                   fi
                 done
               fi
@@ -182,12 +177,10 @@ jobs:
             git add logs/
           fi
           
-          # Add any updated app manifests and deployment trackers
-          git add apps/*/manifest.json apps/*/deployment-tracker.json 2>/dev/null || true
           
           # Commit if there are changes
           if ! git diff --cached --quiet; then
-            git commit -m "Update deployment logs and manifests" || echo "No changes to commit"
+            git commit -m "Update deployment logs" || echo "No changes to commit"
             git push origin main || echo "Nothing to push"
           else
             echo "No changes to commit"

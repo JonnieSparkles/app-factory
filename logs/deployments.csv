@@ -86,3 +86,6 @@
 "2025-10-13T21:49:40.916Z","SUCCESS","apps/arcade/index.html","fb7bbf3e9e60ec09","ACQKH4eDHp0F8IrLDSTf0BXOz7DfQT9btdDB7g0RcfI","fb7bbf3e9e60ec09","24173","72966","0","","","NO","NO"
 "2025-10-13T22:10:12.768Z","SUCCESS","apps/arcade/index.html","b59737c99949e2ea","zeQXAxXyzuiGF5YGbTz7aVAtRYz-PPm3TaFpbd8e2qM","b59737c99949e2ea","60000","46070","0","","","NO","NO"
 "2025-10-13T22:23:19.898Z","SUCCESS","apps/hello-anthony/index.html","cbb82be6a263c126","BlbBbGThuG7_3y5h1BGm_9PKBrGmQ2N2RgpPFkAfPT0","cbb82be6a263c126","30401","45827","0","","","NO","NO"
+"2025-10-13T23:44:46.191Z","SUCCESS","apps/hello-world/index.txt","5ca5b1463a5f2c38","test-5ca5b1463a5f2c38-1760399086185","5ca5b1463a5f2c38","21","17","60","test-record-5ca5b1463a5f2c38","","NO","NO"
+"2025-10-13T23:47:10.203Z","SUCCESS","apps/hello-world/index.txt","fd5584500514a606","test-fd5584500514a606-1760399230200","fd5584500514a606","21","12","60","test-record-fd5584500514a606","","NO","NO"
+"2025-10-13T23:49:43.958Z","SUCCESS","apps/hello-world/index.txt","38e34c363a093963","test-38e34c363a093963-1760399383951","38e34c363a093963","21","18","60","test-record-38e34c363a093963","","NO","NO"

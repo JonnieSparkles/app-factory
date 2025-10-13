@@ -1118,5 +1118,44 @@
     "deploymentType": "incremental",
     "changedFiles": 2,
     "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-13T23:44:46.195Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "5ca5b1463a5f2c38",
+    "txId": "test-5ca5b1463a5f2c38-1760399086185",
+    "undername": "5ca5b1463a5f2c38",
+    "ttl": 60,
+    "fileSize": 21,
+    "duration": 17,
+    "arnsRecordId": "test-record-5ca5b1463a5f2c38"
+  },
+  {
+    "timestamp": "2025-10-13T23:47:10.206Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "fd5584500514a606",
+    "txId": "test-fd5584500514a606-1760399230200",
+    "undername": "fd5584500514a606",
+    "ttl": 60,
+    "fileSize": 21,
+    "duration": 12,
+    "arnsRecordId": "test-record-fd5584500514a606"
+  },
+  {
+    "timestamp": "2025-10-13T23:49:43.961Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "38e34c363a093963",
+    "txId": "test-38e34c363a093963-1760399383951",
+    "undername": "38e34c363a093963",
+    "ttl": 60,
+    "fileSize": 21,
+    "duration": 18,
+    "arnsRecordId": "test-record-38e34c363a093963"
   }
 ]

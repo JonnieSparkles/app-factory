@@ -1,7 +1,7 @@
 {
   "name": "remote-agent-deployment",
   "version": "1.0.0",
-  "description": "Remote agent workflow system for deploying files to Arweave with ArNS integration",
+  "description": "Simple deployment system for deploying files to Arweave with ArNS integration",
   "type": "module",
   "main": "deploy.js",
   "scripts": {
@@ -10,12 +10,7 @@
     "start": "node deploy.js",
     "test-deploy": "node deploy.js --test-mode",
     "logs": "node deploy.js --logs",
-    "stats": "node deploy.js --stats",
-    "apps": "node app-cli.js",
-    "apps:list": "node app-cli.js list",
-    "apps:create": "node app-cli.js create",
-    "apps:deploy": "node app-cli.js deploy",
-    "apps:discover": "node app-cli.js discover"
+    "stats": "node deploy.js --stats"
   },
   "keywords": [
     "arweave",
