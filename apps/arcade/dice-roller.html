@@ -424,6 +424,12 @@
             50% { opacity: 0.5; }
         }
 
+        @keyframes feedbackPulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .neon-title {
@@ -485,7 +491,7 @@
             <div class="dice-game-container">
                 <div class="dice-game-header">
                     <h2 class="dice-title">🎲 DICE ROLLER 🎲</h2>
-                    <div class="dice-score">Total: <span id="total-score">0</span> | Rolls: <span id="roll-count">0</span></div>
+                    <div class="dice-score">Current Roll: <span id="current-roll">0</span> | Total Score: <span id="total-score">0</span> | Rolls: <span id="roll-count">0</span></div>
                 </div>
 
                 <!-- Game Modes -->
@@ -515,6 +521,7 @@
                 <!-- Controls -->
                 <div class="dice-controls">
                     <button class="roll-btn" id="roll-btn" onclick="rollDice()">ROLL DICE</button>
+                    <button class="roll-btn" id="reset-btn" onclick="resetGame()" style="background: var(--neon-pink); margin-left: 1rem;">RESET GAME</button>
                     <div id="rolling-text" class="rolling-text" style="display: none;">ROLLING...</div>
                 </div>
 
@@ -543,6 +550,7 @@
                     <p>Choose between single, double, or triple dice modes!</p>
                     <p>Try to get the highest possible score!</p>
                     <p>Track your statistics and beat your records!</p>
+                    <p><strong>Controls:</strong> SPACE/ENTER to roll, 1/2/3 for modes, R to reset</p>
                 </div>
             </div>
         </div>
@@ -554,11 +562,12 @@
         // Game variables
         let gameMode = 'single';
         let diceValues = [];
-        let totalScore = 0;
+        let currentRollTotal = 0;
+        let totalScore = 0; // Total of all roll totals
         let rollCount = 0;
-        let highestRoll = 0;
-        let lowestRoll = 0;
-        let allRolls = [];
+        let highestRollTotal = 0; // Highest single roll total
+        let lowestRollTotal = 0; // Lowest single roll total
+        let allRollTotals = []; // Array of roll totals, not individual dice
         let luckyStreak = 0;
         let maxLuckyStreak = 0;
         let isRolling = false;
@@ -568,7 +577,7 @@
             // Load high score from localStorage
             const savedHighScore = localStorage.getItem('diceHighScore');
             if (savedHighScore) {
-                highestRoll = parseInt(savedHighScore);
+                highestRollTotal = parseInt(savedHighScore);
             }
             
             updateDisplay();
@@ -644,11 +653,11 @@
                 // Update dice display
                 updateDiceDisplay();
                 
-                // Calculate total
-                const currentTotal = diceValues.reduce((sum, val) => sum + val, 0);
-                totalScore += currentTotal;
+                // Calculate current roll total
+                currentRollTotal = diceValues.reduce((sum, val) => sum + val, 0);
+                totalScore += currentRollTotal;
                 rollCount++;
-                allRolls.push(...diceValues);
+                allRollTotals.push(currentRollTotal);
                 
                 // Update stats
                 updateStats();
@@ -664,8 +673,9 @@
                 rollingText.style.display = 'none';
                 isRolling = false;
                 
-                // Check for lucky streak
-                checkLuckyStreak(currentTotal);
+                // Check for lucky streak and high scores
+                checkLuckyStreak(currentRollTotal);
+                checkHighScore(currentRollTotal);
                 
             }, 1500);
         }
@@ -684,29 +694,30 @@
         }
 
         function updateDisplay() {
+            document.getElementById('current-roll').textContent = currentRollTotal;
             document.getElementById('total-score').textContent = totalScore;
             document.getElementById('roll-count').textContent = rollCount;
         }
 
         function updateStats() {
-            if (allRolls.length === 0) return;
+            if (allRollTotals.length === 0) return;
             
-            const currentHighest = Math.max(...allRolls);
-            const currentLowest = Math.min(...allRolls);
-            const average = Math.round(allRolls.reduce((sum, val) => sum + val, 0) / allRolls.length);
+            const currentHighest = Math.max(...allRollTotals);
+            const currentLowest = Math.min(...allRollTotals);
+            const average = Math.round(allRollTotals.reduce((sum, val) => sum + val, 0) / allRollTotals.length);
             
-            if (currentHighest > highestRoll) {
-                highestRoll = currentHighest;
+            if (currentHighest > highestRollTotal) {
+                highestRollTotal = currentHighest;
                 // Save high score to localStorage
-                localStorage.setItem('diceHighScore', highestRoll);
+                localStorage.setItem('diceHighScore', highestRollTotal);
             }
             
-            if (lowestRoll === 0 || currentLowest < lowestRoll) {
-                lowestRoll = currentLowest;
+            if (lowestRollTotal === 0 || currentLowest < lowestRollTotal) {
+                lowestRollTotal = currentLowest;
             }
             
-            document.getElementById('highest-roll').textContent = highestRoll;
-            document.getElementById('lowest-roll').textContent = lowestRoll;
+            document.getElementById('highest-roll').textContent = highestRollTotal;
+            document.getElementById('lowest-roll').textContent = lowestRollTotal;
             document.getElementById('average-roll').textContent = average;
             document.getElementById('lucky-streak').textContent = maxLuckyStreak;
         }
@@ -715,16 +726,55 @@
             const diceCount = gameMode === 'single' ? 1 : gameMode === 'double' ? 2 : 3;
             const maxPossible = diceCount * 6;
             
-            if (currentTotal >= maxPossible * 0.8) { // 80% of max possible
+            // Consider a "lucky" roll as 80% or more of max possible
+            if (currentTotal >= maxPossible * 0.8) {
                 luckyStreak++;
                 if (luckyStreak > maxLuckyStreak) {
                     maxLuckyStreak = luckyStreak;
                 }
+                // Show lucky streak feedback
+                showFeedback(`Lucky Streak: ${luckyStreak}!`, 'lucky');
             } else {
-                luckyStreak = 0;
+                luckyStreak = 0; // Reset streak on non-lucky roll
             }
             
             updateStats();
+        }
+
+        function checkHighScore(currentTotal) {
+            if (currentTotal > highestRollTotal) {
+                showFeedback(`New High Score: ${currentTotal}!`, 'high-score');
+            }
+        }
+
+        function showFeedback(message, type) {
+            // Create feedback element
+            const feedback = document.createElement('div');
+            feedback.textContent = message;
+            feedback.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: ${type === 'high-score' ? 'var(--neon-green)' : 'var(--neon-yellow)'};
+                color: #000;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                font-family: 'Press Start 2P', cursive;
+                font-size: 0.8rem;
+                z-index: 1000;
+                box-shadow: 0 0 30px ${type === 'high-score' ? 'var(--neon-green)' : 'var(--neon-yellow)'};
+                animation: feedbackPulse 0.5s ease-in-out;
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            // Remove after 2 seconds
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 2000);
         }
 
         function goBack() {
@@ -761,11 +811,12 @@
         });
 
         function resetGame() {
+            currentRollTotal = 0;
             totalScore = 0;
             rollCount = 0;
-            highestRoll = 0;
-            lowestRoll = 0;
-            allRolls = [];
+            highestRollTotal = 0;
+            lowestRollTotal = 0;
+            allRollTotals = [];
             luckyStreak = 0;
             maxLuckyStreak = 0;
             diceValues = [];
