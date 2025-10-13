@@ -503,6 +503,100 @@ body {
     }
 }
 
+/* Snake Game Styles */
+.snake-game-container {
+    text-align: center;
+    padding: 1rem;
+}
+
+.snake-game-header {
+    margin-bottom: 1rem;
+}
+
+.snake-title {
+    color: var(--neon-green);
+    text-shadow: 0 0 20px var(--neon-green);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.snake-score {
+    color: var(--neon-blue);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+#snakeCanvas {
+    border: 3px solid var(--neon-purple);
+    border-radius: 10px;
+    background: #000;
+    box-shadow: 0 0 30px var(--neon-purple);
+    margin: 1rem 0;
+}
+
+.snake-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.control-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.snake-btn {
+    width: 50px;
+    height: 50px;
+    background: var(--neon-purple);
+    color: white;
+    border: 2px solid var(--neon-blue);
+    border-radius: 8px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+.snake-btn:hover {
+    background: var(--neon-pink);
+    box-shadow: 0 0 25px var(--neon-pink);
+    transform: scale(1.05);
+}
+
+.snake-btn:active {
+    transform: scale(0.95);
+}
+
+.start-btn {
+    width: 120px;
+    height: 40px;
+    font-size: 0.5rem;
+    background: var(--neon-green);
+    color: #000;
+    border-color: var(--neon-green);
+}
+
+.start-btn:hover {
+    background: var(--neon-yellow);
+    box-shadow: 0 0 25px var(--neon-yellow);
+}
+
+.snake-instructions {
+    margin-top: 1rem;
+    color: var(--neon-blue);
+    font-size: 0.6rem;
+    line-height: 1.4;
+}
+
+.snake-instructions p {
+    margin: 0.3rem 0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .neon-title {
@@ -548,5 +642,31 @@ body {
         flex-direction: column;
         gap: 0.5rem;
         text-align: center;
+    }
+    
+    /* Snake game mobile adjustments */
+    #snakeCanvas {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .snake-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.5rem;
+    }
+    
+    .start-btn {
+        width: 100px;
+        height: 35px;
+        font-size: 0.4rem;
+    }
+    
+    .snake-title {
+        font-size: 1rem;
+    }
+    
+    .snake-score {
+        font-size: 0.6rem;
     }
 }
