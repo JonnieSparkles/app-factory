@@ -363,7 +363,8 @@
                     </div>
                 </div>
                 <div class="snake-instructions">
-                    <p>Use arrow keys or buttons to control the snake!</p>
+                    <p>Use arrow keys or WASD to control the snake!</p>
+                    <p>Press SPACE or P to pause/resume, R to restart!</p>
                     <p>Eat the food to grow and increase your score!</p>
                     <p>Don't hit the walls or yourself!</p>
                 </div>
@@ -587,7 +588,8 @@
                         </div>
                     </div>
                     <div class="snake-instructions">
-                        <p>Use arrow keys or buttons to control the snake!</p>
+                        <p>Use arrow keys or WASD to control the snake!</p>
+                        <p>Press SPACE or P to pause/resume, R to restart!</p>
                         <p>Eat the food to grow and increase your score!</p>
                         <p>Don't hit the walls or yourself!</p>
                     </div>
@@ -605,40 +607,73 @@
             window.location.href = 'index.html';
         }
 
-        // Add keyboard controls
+        // Enhanced keyboard controls
         document.addEventListener('keydown', (e) => {
-            if (gameRunning) {
-                // Snake game controls
-                switch(e.key) {
-                    case 'ArrowUp':
-                    case 'w':
-                    case 'W':
-                        e.preventDefault();
+            // Snake game controls - work even when game is not running for start
+            switch(e.key) {
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    e.preventDefault();
+                    if (!gameRunning) {
+                        startGameLoop();
+                    } else {
                         changeDirection('up');
-                        break;
-                    case 'ArrowDown':
-                    case 's':
-                    case 'S':
-                        e.preventDefault();
+                    }
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    e.preventDefault();
+                    if (!gameRunning) {
+                        startGameLoop();
+                    } else {
                         changeDirection('down');
-                        break;
-                    case 'ArrowLeft':
-                    case 'a':
-                    case 'A':
-                        e.preventDefault();
+                    }
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    e.preventDefault();
+                    if (!gameRunning) {
+                        startGameLoop();
+                    } else {
                         changeDirection('left');
-                        break;
-                    case 'ArrowRight':
-                    case 'd':
-                    case 'D':
-                        e.preventDefault();
+                    }
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    e.preventDefault();
+                    if (!gameRunning) {
+                        startGameLoop();
+                    } else {
                         changeDirection('right');
-                        break;
-                    case ' ':
-                        e.preventDefault();
+                    }
+                    break;
+                case ' ':
+                case 'p':
+                case 'P':
+                    e.preventDefault();
+                    if (gameRunning) {
                         pauseGame();
-                        break;
-                }
+                    } else {
+                        startGameLoop();
+                    }
+                    break;
+                case 'r':
+                case 'R':
+                    e.preventDefault();
+                    if (!gameRunning) {
+                        restartGame();
+                    }
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    if (gameRunning) {
+                        pauseGame();
+                    }
+                    break;
             }
         });
 
