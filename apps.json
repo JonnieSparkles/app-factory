@@ -90,11 +90,11 @@
       "buildCommand": null,
       "outputDir": "apps/arcade",
       "enabled": true,
-      "lastDeployed": "2025-10-13T13:41:38.297Z",
-      "deploymentCount": 4,
-      "lastCommitHash": "7f94fd3c1e106f07",
-      "lastTxId": "test-manifest-1760362898091",
-      "lastVersion": "0.1.4"
+      "lastDeployed": "2025-10-13T13:53:12.015Z",
+      "deploymentCount": 5,
+      "lastCommitHash": "9c90c14690357234",
+      "lastTxId": "test-manifest-1760363591973",
+      "lastVersion": "0.1.5"
     }
   },
   "settings": {
