@@ -19,8 +19,8 @@ const deploymentData = {
   undername: deploymentHash,
   commitHash: deploymentHash,
   filePath: filePath,
-  txId: manifestTxId || `github-action-${Date.now()}`,
-  manifestTxId: manifestTxId || `github-action-${Date.now()}`,
+  txId: manifestTxId,
+  manifestTxId: manifestTxId,
   fileSize: 0,
   duration: 0
 };
