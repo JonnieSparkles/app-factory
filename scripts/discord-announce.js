@@ -22,7 +22,8 @@ const deploymentData = {
   txId: manifestTxId,
   manifestTxId: manifestTxId,
   fileSize: 0,
-  duration: 0
+  duration: 0,
+  ownerArnsName: process.env.OWNER_ARNS_NAME || 'testing-testing-123'
 };
 
 try {
