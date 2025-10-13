@@ -20,28 +20,6 @@
             <div class="year-badge">EST. 1985 • REBORN 2024</div>
         </header>
 
-        <div class="arcade-cabinet">
-            <div class="screen">
-                <div class="screen-content">
-                    <div class="pixel-art">
-                        <span class="pixel-text">INSERT COIN</span>
-                        <div class="coin-slot" onclick="addCoin()" title="Click to insert coin!">▼</div>
-                        <div class="coin-counter">
-                            <span class="coin-icon">🪙</span>
-                            <span id="coin-count">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="controls">
-                <div class="joystick"></div>
-                <div class="buttons">
-                    <button class="arcade-btn red" onclick="handleButtonPress('red')">A</button>
-                    <button class="arcade-btn yellow" onclick="handleButtonPress('yellow')">B</button>
-                    <button class="arcade-btn blue" onclick="handleButtonPress('blue')">START</button>
-                </div>
-            </div>
-        </div>
 
         <section class="game-grid">
             <div class="game-card coming-soon">
@@ -166,14 +144,6 @@
     </div>
 
     <script>
-        // Game state management
-        let currentGame = null;
-        let gameScore = 0;
-        let isPlaying = false;
-        let totalCoins = 0;
-        let powerUps = 0;
-        let level = 1;
-        let coinCount = 0;
 
         // Game high scores for display
         let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
@@ -183,312 +153,15 @@
         let starCollectorHighScore = localStorage.getItem('starCollectorHighScore') || 0;
 
 
-        // Start arcade mode
-        function startArcadeMode() {
-            isPlaying = true;
-            const screen = document.querySelector('.screen-content');
-            screen.innerHTML = `
-                <div class="pixel-art">
-                    <span class="pixel-text">ARCADE MODE ACTIVE</span>
-                    <div class="coin-slot">🎮</div>
-                    <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
-                        Select a game to begin!
-                    </p>
-                </div>
-            `;
-        }
-
-        // Game launcher
-        function startGame(gameType) {
-            // Check if game is available
-            const availableGames = ['snake', 'dice-roller', 'neon-target', 'pixel-runner', 'star-collector'];
-            if (!availableGames.includes(gameType)) {
-                showComingSoonMessage(gameType);
-                return;
-            }
-            
-            if (!isPlaying) {
-                startArcadeMode();
-            }
-            
-            const gameNames = {
-                'space-invaders': 'Space Invaders',
-                'pixel-runner': 'Pixel Runner',
-                'snake': 'Snake Classic',
-                'neon-target': 'Neon Target',
-                'puzzle-quest': 'Puzzle Quest',
-                'rocket-race': 'Rocket Race',
-                'tetris-classic': 'Tetris Classic',
-                'ghost-chase': 'Ghost Chase',
-                'fruit-collector': 'Fruit Collector',
-                'maze-runner': 'Maze Runner',
-                'dice-roller': 'Dice Roller',
-                'pixel-painter': 'Pixel Painter',
-                'star-collector': 'Star Collector'
-            };
-            
-            const gameName = gameNames[gameType] || gameType;
-            currentGame = gameType;
-            gameScore = 0;
-            
-            // Update screen with game info
-            const screen = document.querySelector('.screen-content');
-            screen.innerHTML = `
-                <div class="pixel-art">
-                    <span class="pixel-text">${gameName.toUpperCase()}</span>
-                    <div class="coin-slot">🎮</div>
-                    <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
-                        Score: ${gameScore} | Level: 1
-                    </p>
-                    <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
-                        Use arrow keys or buttons to play!
-                    </p>
-                </div>
-            `;
-            
-            // Start game simulation
-            simulateGameplay(gameType);
-        }
-
-        // Show coming soon message
-        function showComingSoonMessage(gameType) {
-            const gameNames = {
-                'space-invaders': 'Space Invaders',
-                'pixel-runner': 'Pixel Runner',
-                'neon-target': 'Neon Target',
-                'puzzle-quest': 'Puzzle Quest',
-                'rocket-race': 'Rocket Race',
-                'tetris-classic': 'Tetris Classic',
-                'ghost-chase': 'Ghost Chase',
-                'fruit-collector': 'Fruit Collector',
-                'maze-runner': 'Maze Runner',
-                'dice-roller': 'Dice Roller',
-                'pixel-painter': 'Pixel Painter',
-                'star-collector': 'Star Collector'
-            };
-            
-            const gameName = gameNames[gameType] || gameType;
-            const screen = document.querySelector('.screen-content');
-            screen.innerHTML = `
-                <div class="pixel-art">
-                    <span class="pixel-text">${gameName.toUpperCase()}</span>
-                    <div class="coin-slot">⏳</div>
-                    <p style="color: var(--neon-yellow); font-size: 1rem; margin-top: 1rem;">
-                        COMING SOON!
-                    </p>
-                    <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
-                        This game is under development
-                    </p>
-                    <p style="color: var(--neon-pink); font-size: 0.7rem; margin-top: 0.5rem;">
-                        Check back later for updates!
-                    </p>
-                </div>
-            `;
-            
-            // Add shake effect to the screen
-            screen.classList.add('shake');
-            setTimeout(() => {
-                screen.classList.remove('shake');
-            }, 500);
-        }
-
-        // Simulate gameplay
-        function simulateGameplay(gameType) {
-            const screen = document.querySelector('.screen-content');
-            let level = 1;
-            let score = 0;
-            let coins = 0;
-            let powerUps = 0;
-            
-            const gameInterval = setInterval(() => {
-                // Enhanced scoring system
-                const baseScore = Math.floor(Math.random() * 100) + 50;
-                const levelBonus = level * 10;
-                const coinBonus = coins * 5;
-                const powerUpBonus = powerUps * 25;
-                
-                score += baseScore + levelBonus + coinBonus + powerUpBonus;
-                level = Math.floor(score / 1000) + 1;
-                
-                // Random events
-                if (Math.random() < 0.3) {
-                    coins += Math.floor(Math.random() * 3) + 1;
-                }
-                if (Math.random() < 0.1) {
-                    powerUps += 1;
-                }
-                
-                // Special effects for different games
-                let gameIcon = '🎮';
-                let specialEffect = '';
-                
-                switch(gameType) {
-                    case 'dice-roller':
-                        gameIcon = '🎲';
-                        specialEffect = `Dice: ${Math.floor(Math.random() * 6) + 1}`;
-                        break;
-                    case 'pixel-painter':
-                        gameIcon = '🎨';
-                        specialEffect = `Pixels: ${Math.floor(Math.random() * 100)}`;
-                        break;
-                    case 'star-collector':
-                        gameIcon = '🌟';
-                        specialEffect = `Stars: ${Math.floor(Math.random() * 20)}`;
-                        break;
-                    case 'space-invaders':
-                        gameIcon = '👾';
-                        specialEffect = `Aliens: ${Math.floor(Math.random() * 10)}`;
-                        break;
-                    default:
-                        gameIcon = '🎮';
-                        specialEffect = `Combo: x${level}`;
-                }
-                
-                screen.innerHTML = `
-                    <div class="pixel-art">
-                        <span class="pixel-text">${gameType.replace('-', ' ').toUpperCase()}</span>
-                        <div class="coin-slot">${gameIcon}</div>
-                        <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
-                            Score: ${score.toLocaleString()} | Level: ${level}
-                        </p>
-                        <p style="color: var(--neon-yellow); font-size: 0.8rem; margin-top: 0.5rem;">
-                            Coins: ${coins} | Power-ups: ${powerUps}
-                        </p>
-                        <p style="color: var(--neon-pink); font-size: 0.7rem; margin-top: 0.5rem;">
-                            ${specialEffect}
-                        </p>
-                        <p style="color: var(--neon-blue); font-size: 0.6rem; margin-top: 0.5rem;">
-                            Press ESC to exit game
-                        </p>
-                    </div>
-                `;
-            }, 800);
-            
-            // Stop game on ESC key
-            const keyHandler = (e) => {
-                if (e.key === 'Escape') {
-                    clearInterval(gameInterval);
-                    document.removeEventListener('keydown', keyHandler);
-                    endGame(score, level);
-                }
-            };
-            document.addEventListener('keydown', keyHandler);
-        }
-
-        // End game
-        function endGame(finalScore, finalLevel) {
-            isPlaying = false;
-            currentGame = null;
-            
-            const screen = document.querySelector('.screen-content');
-            screen.innerHTML = `
-                <div class="pixel-art">
-                    <span class="pixel-text">GAME OVER</span>
-                    <div class="coin-slot">💀</div>
-                    <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
-                        Final Score: ${finalScore.toLocaleString()}
-                    </p>
-                    <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
-                        Level Reached: ${finalLevel}
-                    </p>
-                    <p style="color: var(--neon-pink); font-size: 0.7rem; margin-top: 0.5rem;">
-                        Insert coin to play again!
-                    </p>
-                </div>
-            `;
-            
-        }
 
 
-        // Animate the coin slot
-        const coinSlot = document.querySelector('.coin-slot');
-        setInterval(() => {
-            coinSlot.style.opacity = coinSlot.style.opacity === '0.3' ? '1' : '0.3';
-        }, 500);
 
-        // Add keyboard controls
-        document.addEventListener('keydown', (e) => {
-            if (isPlaying && currentGame) {
-                // Game controls
-                switch(e.key) {
-                    case 'ArrowUp':
-                    case 'w':
-                    case 'W':
-                        playSound('red');
-                        break;
-                    case 'ArrowDown':
-                    case 's':
-                    case 'S':
-                        playSound('yellow');
-                        break;
-                    case ' ':
-                    case 'Enter':
-                        playSound('blue');
-                        break;
-                }
-            } else {
-                // General controls
-                switch(e.key) {
-                    case 'c':
-                    case 'C':
-                        addCoin();
-                        break;
-                    case ' ':
-                    case 'Enter':
-                        if (!isPlaying) {
-                            startArcadeMode();
-                        }
-                        break;
-                }
-            }
-        });
 
-        // Particle effect system
-        function createParticle(x, y, color = 'var(--neon-pink)') {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = x + 'px';
-            particle.style.top = y + 'px';
-            particle.style.background = color;
-            particle.style.position = 'absolute';
-            particle.style.zIndex = '1000';
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-            }, 3000);
-        }
 
-        // Enhanced button press effects
-        function handleButtonPress(color) {
-            const btn = event.target;
-            btn.style.transform = 'scale(0.95)';
-            btn.classList.add('shake');
-            
-            // Create particle effect
-            const rect = btn.getBoundingClientRect();
-            createParticle(rect.left + rect.width/2, rect.top + rect.height/2, 
-                color === 'red' ? 'var(--neon-pink)' : 
-                color === 'yellow' ? 'var(--neon-yellow)' : 'var(--neon-blue)');
-            
-            setTimeout(() => {
-                btn.style.transform = 'scale(1)';
-                btn.classList.remove('shake');
-            }, 100);
-            
-            // Log the button press
-            console.log(`🎮 ${color.toUpperCase()} button pressed!`);
-            
-            // Add visual feedback
-            if (color === 'blue' && !isPlaying) {
-                startArcadeMode();
-            }
-            
-            // Play sound effect
-            playSound(color);
-        }
+
+
+
+
 
         // Add rainbow effect to title on hover
         document.addEventListener('DOMContentLoaded', function() {
@@ -499,56 +172,9 @@
             title.addEventListener('mouseleave', function() {
                 this.classList.remove('rainbow-text');
             });
-            
-            // Add glow effect to arcade cabinet
-            const cabinet = document.querySelector('.arcade-cabinet');
-            cabinet.addEventListener('mouseenter', function() {
-                this.classList.add('glow-effect');
-            });
-            cabinet.addEventListener('mouseleave', function() {
-                this.classList.remove('glow-effect');
-            });
         });
 
-        // Coin system
-        function addCoin() {
-            coinCount++;
-            updateCoinDisplay();
-            createParticle(400, 200, 'var(--neon-yellow)');
-            playSound('coin');
-        }
 
-        function updateCoinDisplay() {
-            const coinDisplay = document.getElementById('coin-count');
-            if (coinDisplay) {
-                coinDisplay.textContent = coinCount;
-            }
-        }
-
-        function playSound(type) {
-            // Simple sound effect simulation
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            let frequency = 440;
-            switch(type) {
-                case 'red': frequency = 523; break;
-                case 'yellow': frequency = 659; break;
-                case 'blue': frequency = 784; break;
-                case 'coin': frequency = 1047; break;
-            }
-            
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
 
         // Initialize arcade
         console.log('🕹️ Neon Arcade initialized! Ready for testing!');
@@ -567,16 +193,6 @@
             setInterval(updatePixelRunnerHighScore, 2000);
             setInterval(updateStarCollectorHighScore, 2000);
             
-            // Add click handlers for coming soon buttons
-            const comingSoonButtons = document.querySelectorAll('.coming-soon-btn');
-            comingSoonButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const gameCard = this.closest('.game-card');
-                    const gameName = gameCard.querySelector('h3').textContent.toLowerCase().replace(' ', '-');
-                    showComingSoonMessage(gameName);
-                });
-            });
         });
 
         function updateSnakeHighScore() {
