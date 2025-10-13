@@ -428,7 +428,13 @@ async function testDiscord() {
 // ---------- App Factory Integration ----------
 async function deployApp(appId, options = {}) {
   const appFactory = new AppFactory();
-  return await appFactory.deployApp(appId, options);
+  
+  // Use incremental deployment by default (can be disabled with --no-incremental)
+  if (options.incremental !== false) {
+    return await appFactory.deployAppIncremental(appId, options);
+  } else {
+    return await appFactory.deployApp(appId, options);
+  }
 }
 
 async function listApps() {
@@ -474,6 +480,10 @@ async function main() {
         options.triggerAnnouncement = true;
       } else if (arg === '--trigger-github-deploy') {
         options.triggerGithubDeploy = true;
+      } else if (arg === '--no-incremental') {
+        options.incremental = false;
+      } else if (arg === '--use-hashing') {
+        options.useHashing = true;
       }
     }
 
@@ -564,8 +574,10 @@ async function main() {
 Usage: node deploy.js [options]
 
 App Factory Options:
-  -a, --app <id>           Deploy a specific app by ID
+  -a, --app <id>           Deploy a specific app by ID (uses incremental deployment)
   --list-apps              List all available apps
+  --no-incremental         Disable incremental deployment (use full deployment)
+  --use-hashing            Use file hashing instead of git for change detection
 
 Deployment Options:
   -m, --message <text>     Commit message for hash generation
@@ -579,9 +591,15 @@ Utility Options:
   -h, --help              Show this help message
 
 Examples:
-  # Deploy a specific app
+  # Deploy a specific app (incremental deployment)
   node deploy.js --app hello-world
   node deploy.js --app celebration
+  
+  # Deploy with full deployment (no incremental)
+  node deploy.js --app hello-world --no-incremental
+  
+  # Deploy using file hashing (more reliable)
+  node deploy.js --app hello-world --use-hashing
   
   # List available apps
   node deploy.js --list-apps

@@ -588,5 +588,73 @@
       "index.html": "Era7i9eup1DUrFtumfan2DQhIKnEh9EAzlTaj9y_X54",
       "style.css": "RQrFIpVuYIDjkNXwvoC3p8kBocWQCYdhULVkrdQf_CU"
     }
+  },
+  {
+    "timestamp": "2025-10-13T13:03:48.705Z",
+    "success": false,
+    "error": "App validation failed: file.endsWith is not a function",
+    "context": "Incremental deployment for 'hello-world': ",
+    "duration": 4,
+    "appId": "hello-world",
+    "filePath": "apps/hello-world/index.txt",
+    "deploymentType": "incremental"
+  },
+  {
+    "timestamp": "2025-10-13T13:05:58.022Z",
+    "success": false,
+    "error": "App validation failed: No entry point found for app hello-world",
+    "context": "Incremental deployment for 'hello-world': ",
+    "duration": 4,
+    "appId": "hello-world",
+    "filePath": "apps/hello-world/index.txt",
+    "deploymentType": "incremental"
+  },
+  {
+    "timestamp": "2025-10-13T13:07:11.765Z",
+    "success": true,
+    "appId": "hello-world",
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "be9126ae2c999b6f",
+    "txId": "test-manifest-1760360831684",
+    "manifestTxId": "test-manifest-1760360831684",
+    "undername": "be9126ae2c999b6f",
+    "fileSize": 21,
+    "duration": 1009,
+    "testMode": true,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.1.1"
+  },
+  {
+    "timestamp": "2025-10-13T13:10:59.479Z",
+    "success": true,
+    "appId": "hello-world",
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "be9126ae2c999b6f",
+    "txId": "test-manifest-1760361059459",
+    "manifestTxId": "test-manifest-1760361059459",
+    "undername": "be9126ae2c999b6f",
+    "fileSize": 21,
+    "duration": 482,
+    "testMode": true,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.1.2"
+  },
+  {
+    "timestamp": "2025-10-13T13:16:29.145Z",
+    "success": true,
+    "appId": "hello-world",
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "be9126ae2c999b6f",
+    "txId": "test-manifest-1760361389116",
+    "manifestTxId": "test-manifest-1760361389116",
+    "undername": "be9126ae2c999b6f",
+    "fileSize": 21,
+    "duration": 653,
+    "testMode": true,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.1.3"
   }
 ]

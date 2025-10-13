@@ -1,6 +1,6 @@
 # App Factory - Remote Agent Deployment System
 
-A complete app factory system for AI agent workflows that manages and deploys multiple applications to Arweave with unique ArNS undernames, featuring auto-merge GitHub Actions, comprehensive logging, and multi-app management.
+A complete app factory system for AI agent workflows that manages and deploys multiple applications to Arweave with unique ArNS undernames, featuring **incremental deployment**, auto-merge GitHub Actions, comprehensive logging, and multi-app management.
 
 ## 🚀 Quick Start
 
@@ -25,12 +25,13 @@ This project enables AI agents and developers to:
 1. **Manage multiple apps** in a single repository with dedicated folders
 2. **Create apps from templates** (HTML, React, custom templates)
 3. **Deploy individual apps** or all apps at once to Arweave
-4. **Auto-discover apps** in deploy/ and apps/ folders
+4. **Auto-discover apps** in apps/ folders
 5. **Track deployment history** for each app separately
 6. **Deploy to Arweave** via Turbo SDK with fiat payments
 7. **Create ArNS records** with unique undernames based on commit hashes
 8. **Auto-merge PRs** via GitHub Actions for seamless workflow
 9. **Monitor all deployments** with comprehensive logging
+10. **🆕 Incremental deployment** - only upload changed files, saving costs and time
 
 ## 🏗️ Architecture
 
@@ -46,7 +47,9 @@ apps/
 ├── portfolio/           # Portfolio app
 │   ├── index.html
 │   ├── style.css
-│   └── app.js
+│   ├── app.js
+│   ├── manifest.json          # ← Per-app manifest
+│   └── deployment-tracker.json # ← Deployment history
 ├── calculator/          # Calculator app
 │   └── index.html
 ├── hello-world/         # Simple text app
@@ -197,6 +200,119 @@ npm run logs
 npm run stats
 ```
 
+## 🚀 Incremental Deployment
+
+The system now features **incremental deployment** - a cost and time-optimized approach that only uploads files that have actually changed since the last deployment.
+
+### How It Works
+
+1. **Dual change detection** - Uses git-based detection (default) or file hashing (more reliable)
+2. **Per-app manifests** - Each app maintains its own `manifest.json` and `deployment-tracker.json`
+3. **Smart file tracking** - Only uploads files that have changed content
+4. **Version control** - Automatic version incrementing and deployment history
+5. **Cost optimization** - Pay only for files that actually changed
+
+### Benefits
+
+- ✅ **Cost savings** - Only pay for changed files (can save 90%+ on small updates)
+- ✅ **Faster deployments** - Less data to upload
+- ✅ **Version control** - See what changed when
+- ✅ **Deployment history** - Track all deployments per app
+- ✅ **Git integration** - Leverages existing git workflow
+- ✅ **Rollback capability** - Can revert to any version
+
+### File Structure
+
+Each app now has its own tracking files:
+
+```
+apps/hello-world/
+├── index.txt
+├── manifest.json          # Arweave manifest with file IDs
+└── deployment-tracker.json # Deployment history and git tracking
+```
+
+### Usage
+
+Incremental deployment is **enabled by default**:
+
+```bash
+# Deploy with incremental deployment (git-based, default)
+node deploy.js --app hello-world
+
+# Deploy using file hashing (more reliable)
+node deploy.js --app hello-world --use-hashing
+
+# Deploy with full deployment (all files)
+node deploy.js --app hello-world --no-incremental
+
+# Test incremental deployment
+node deploy.js --app hello-world --test-mode
+```
+
+### Change Detection Methods
+
+**Git-based (Default - Fast)**
+- Uses `git diff` to find changed files
+- Leverages git's optimized change detection
+- Fast for large repositories
+- Good for most use cases
+
+**File Hashing (Reliable)**
+- Calculates SHA-256 hash of each file
+- Compares with stored hashes
+- More reliable, catches all changes
+- Independent of git history
+- Use `--use-hashing` flag
+
+### GitHub Actions Integration
+
+The GitHub Actions workflow automatically uses incremental deployment:
+
+```yaml
+# In .github/workflows/deploy.yml
+node deploy.js --app "$app_dir" --message "${{ steps.changed-files.outputs.message }}"
+```
+
+This means:
+- **First deployment** - Uploads all files
+- **Subsequent deployments** - Only uploads changed files (git-based detection)
+- **No changes** - Skips deployment entirely
+- **For maximum reliability** - Use `--use-hashing` in GitHub Actions
+
+### Deployment Flow
+
+1. **Detect changes** using git diff or file hashing since last deployment
+2. **Upload only changed files** to Arweave
+3. **Update manifest** with new file IDs
+4. **Upload updated manifest** to Arweave
+5. **Create ArNS record** pointing to manifest
+6. **Update tracking files** and commit to git
+7. **Store file hashes** for future change detection
+
+### Example Output
+
+```
+🚀 Starting incremental deployment for app: arcade
+📝 Current commit: a1b2c3d4 - Add new feature
+🔍 Last deployment commit: x9y8z7w6
+📁 Changed files: 2
+📤 Uploading 2 changed files...
+[1/2] Uploading style.css...
+✅ Uploaded: abc123...
+[2/2] Uploading index.html...
+✅ Uploaded: def456...
+📋 Updated manifest with 2 new file IDs
+✅ Manifest uploaded: xyz789...
+🔗 Creating ArNS record: a1b2c3d4 → xyz789...
+✅ ArNS record created: a1b2c3d4
+🎉 Incremental deployment complete!
+   📁 Files changed: 2
+   📦 Total size: 15.2 KB
+   🔗 Manifest TX: xyz789...
+   🔗 ArNS: a1b2c3d4
+```
+
 ## 📁 File Structure
 
 ```
@@ -215,7 +331,10 @@ npm run stats
 │   ├── arns.js              # ArNS utilities
 │   ├── arweave.js           # Arweave/Turbo utilities
 │   ├── logging.js           # Deployment logging system
-│   └── utils.js             # General utilities
+│   ├── utils.js             # General utilities
+│   ├── manifest-manager.js  # Per-app manifest management
+│   ├── git-tracker.js       # Git-based change detection
+│   └── incremental-deploy.js # Incremental deployment logic
 ├── logs/
 │   ├── deployments.json     # Structured deployment logs (committed to repo)
 │   └── deployments.csv      # CSV deployment logs (committed to repo)

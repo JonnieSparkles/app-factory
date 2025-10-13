@@ -50,3 +50,8 @@
 "2025-10-12T16:17:57.758Z","SUCCESS","deploy/hello-world.txt","17499d58f3a4a776","test-17499d58f3a4a776-1760285877757","17499d58f3a4a776","20","2","60","test-record-17499d58f3a4a776","","NO","NO"
 "2025-10-12T16:19:38.342Z","SUCCESS","deploy/hello-world.txt","aeac9330bd7e04b1","test-aeac9330bd7e04b1-1760285978341","aeac9330bd7e04b1","20","1","60","test-record-aeac9330bd7e04b1","","NO","NO"
 "2025-10-13T12:29:44.147Z","SUCCESS","apps/arcade/index.html","09dd30690ba6c56e","n5X9xVX4KxlBFF185NvHn0a9ZAl6KHwo4mZ3SZgs3Lo","09dd30690ba6c56e","0","32236","60","XKSpB2OmOkC-WIuI6THOt-2Xre5W1Iwe5D9aGn3PKwk","","NO","NO"
+"2025-10-13T13:03:48.682Z","FAILED","apps/hello-world/index.txt","","","","0","4","0","","App validation failed: file.endsWith is not a function","NO","NO"
+"2025-10-13T13:05:58.019Z","FAILED","apps/hello-world/index.txt","","","","0","4","0","","App validation failed: No entry point found for app hello-world","NO","NO"
+"2025-10-13T13:07:11.753Z","SUCCESS","apps/hello-world/index.txt","be9126ae2c999b6f","test-manifest-1760360831684","be9126ae2c999b6f","21","1009","0","","","NO","NO"
+"2025-10-13T13:10:59.478Z","SUCCESS","apps/hello-world/index.txt","be9126ae2c999b6f","test-manifest-1760361059459","be9126ae2c999b6f","21","482","0","","","NO","NO"
+"2025-10-13T13:16:29.143Z","SUCCESS","apps/hello-world/index.txt","be9126ae2c999b6f","test-manifest-1760361389116","be9126ae2c999b6f","21","653","0","","","NO","NO"

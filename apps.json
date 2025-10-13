@@ -10,8 +10,11 @@
       "buildCommand": null,
       "outputDir": "apps/hello-world",
       "enabled": true,
-      "lastDeployed": null,
-      "deploymentCount": 0
+      "lastDeployed": "2025-10-13T13:16:29.138Z",
+      "deploymentCount": 3,
+      "lastCommitHash": "be9126ae2c999b6f",
+      "lastTxId": "test-manifest-1760361389116",
+      "lastVersion": "0.1.3"
     },
     "hello-anthony": {
       "name": "Hello Anthony App",
