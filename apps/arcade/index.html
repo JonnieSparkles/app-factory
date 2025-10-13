@@ -136,36 +136,6 @@
             </div>
         </section>
 
-        <section class="leaderboard">
-            <h2 class="section-title">🏆 HALL OF FAME 🏆</h2>
-            <div class="leaderboard-entries">
-                <div class="entry">
-                    <span class="rank">#1</span>
-                    <span class="player">ACE</span>
-                    <span class="score">999,999</span>
-                </div>
-                <div class="entry">
-                    <span class="rank">#2</span>
-                    <span class="player">NEO</span>
-                    <span class="score">888,888</span>
-                </div>
-                <div class="entry">
-                    <span class="rank">#3</span>
-                    <span class="player">REX</span>
-                    <span class="score">777,777</span>
-                </div>
-                <div class="entry">
-                    <span class="rank">#4</span>
-                    <span class="player">ZEN</span>
-                    <span class="score">666,666</span>
-                </div>
-                <div class="entry">
-                    <span class="rank">#5</span>
-                    <span class="player">MAX</span>
-                    <span class="score">555,555</span>
-                </div>
-            </div>
-        </section>
 
         <footer class="arcade-footer">
             <div class="footer-content">
@@ -427,35 +397,8 @@
                 </div>
             `;
             
-            // Update leaderboard if high score
-            updateLeaderboard(finalScore);
         }
 
-        // Update leaderboard
-        function updateLeaderboard(score) {
-            const entries = document.querySelectorAll('.leaderboard-entries .entry');
-            const scores = Array.from(entries).map(entry => {
-                const scoreText = entry.querySelector('.score').textContent;
-                return parseInt(scoreText.replace(/,/g, ''));
-            });
-            
-            // Check if this is a high score
-            const minScore = Math.min(...scores);
-            if (score > minScore) {
-                // Replace lowest score
-                const lowestEntry = Array.from(entries).find(entry => {
-                    const scoreText = entry.querySelector('.score').textContent;
-                    return parseInt(scoreText.replace(/,/g, '')) === minScore;
-                });
-                
-                if (lowestEntry) {
-                    lowestEntry.querySelector('.player').textContent = 'YOU';
-                    lowestEntry.querySelector('.score').textContent = score.toLocaleString();
-                    lowestEntry.style.background = 'rgba(255, 0, 110, 0.3)';
-                    lowestEntry.style.borderLeftColor = 'var(--neon-pink)';
-                }
-            }
-        }
 
         // Animate the coin slot
         const coinSlot = document.querySelector('.coin-slot');
