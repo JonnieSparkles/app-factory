@@ -1,15 +1,15 @@
 {
   "manifest": "arweave/paths",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "index": {
     "path": "index.html"
   },
   "paths": {
     "index.html": {
-      "id": "test-1760363591846-0"
+      "id": "test-1760363916921-0"
     },
     "style.css": {
-      "id": "test-1760363591968-1"
+      "id": "test-1760363916926-1"
     }
   }
 }
