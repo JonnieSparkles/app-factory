@@ -1,28 +1,6 @@
 {
-  "lastDeployCommit": "e3a8b8e8aaeff843",
+  "lastDeployCommit": "d540330e073b4270",
   "deploymentHistory": [
-    {
-      "version": "0.1.0",
-      "commit": "60f99d2188bb0787",
-      "manifestTxId": "test-manifest-1760362252325",
-      "changedFiles": [
-        "/workspace/apps/arcade/index.html",
-        "/workspace/apps/arcade/style.css"
-      ],
-      "deployed": "2025-10-13T13:30:52.326Z"
-    },
-    {
-      "version": "0.1.1",
-      "commit": "7f94fd3c1e106f07",
-      "manifestTxId": "test-manifest-1760362568490",
-      "changedFiles": [
-        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\deployment-tracker.json",
-        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\index.html",
-        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\manifest.json",
-        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\style.css"
-      ],
-      "deployed": "2025-10-13T13:36:08.506Z"
-    },
     {
       "version": "0.1.2",
       "commit": "7f94fd3c1e106f07",
@@ -102,20 +80,46 @@
         "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\style.css"
       ],
       "deployed": "2025-10-13T15:36:11.503Z"
+    },
+    {
+      "version": "0.2.0",
+      "commit": "d540330e073b4270",
+      "manifestTxId": "test-manifest-1760379861611",
+      "changedFiles": [
+        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\dice-roller.html",
+        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\index.html"
+      ],
+      "deployed": "2025-10-13T18:24:21.616Z"
+    },
+    {
+      "version": "0.2.0",
+      "commit": "d540330e073b4270",
+      "manifestTxId": "test-manifest-1760380780417",
+      "changedFiles": [
+        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\dice-roller.html",
+        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\index.html",
+        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\snake.html",
+        "C:\\Users\\jp\\Desktop\\Coding\\agent-tests\\apps\\arcade\\style.css"
+      ],
+      "deployed": "2025-10-13T18:39:40.423Z"
     }
   ],
   "fileCommitMap": {
-    "index.html": "e3a8b8e8aaeff843",
-    "style.css": "e3a8b8e8aaeff843",
+    "index.html": "d540330e073b4270",
+    "style.css": "d540330e073b4270",
     "deployment-tracker.json": "7f94fd3c1e106f07",
-    "manifest.json": "7f94fd3c1e106f07"
+    "manifest.json": "7f94fd3c1e106f07",
+    "dice-roller.html": "d540330e073b4270",
+    "snake.html": "d540330e073b4270"
   },
-  "lastDeployed": "2025-10-13T15:36:11.503Z",
-  "deploymentCount": 10,
+  "lastDeployed": "2025-10-13T18:39:40.423Z",
+  "deploymentCount": 12,
   "fileHashes": {
-    "index.html": "592b4180dcdebb0d338c05b14ae0bcfbe4e67674",
-    "style.css": "ab1406369a5c95a6d3b8b22380178cdc82aeac61",
+    "index.html": "3a816cd619e3f3c66c972f95afd1dafe260ff64a",
+    "style.css": "22153922a682a2a2e37a0f5d89caca9a87c160d6",
     "deployment-tracker.json": "4344e738e9e9b551f2128bb877145f82d9b2d9f3",
-    "manifest.json": "2f3c4610880c19cec2946c5449bacc13541b803d"
+    "manifest.json": "2f3c4610880c19cec2946c5449bacc13541b803d",
+    "dice-roller.html": "3d1f4b8f4829479592ea107394262e00d1a5e51c",
+    "snake.html": "c8c787151c872e64559387befb0f367894cd099d"
   }
 }

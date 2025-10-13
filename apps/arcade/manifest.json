@@ -6,10 +6,16 @@
   },
   "paths": {
     "index.html": {
-      "id": "upVtLeMSPiw1glM1tvcWQnzkvrx_t93b52uclhfXCko"
+      "id": "test-1760380779353-1"
     },
     "style.css": {
-      "id": "4C1z5fKrj8OnMJW8fVQZ_5h2qSskCAJfbySCl66nOUY"
+      "id": "test-1760380780411-3"
+    },
+    "dice-roller.html": {
+      "id": "test-1760380779112-0"
+    },
+    "snake.html": {
+      "id": "test-1760380779783-2"
     }
   }
 }

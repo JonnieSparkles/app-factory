@@ -1,10 +1,13 @@
 {
   "name": "success",
   "description": "Success template for successful deployments",
-  "template": "Success, new version deployed! 🎉\n\n🔗 https://{undername}_{ownerArnsName}.arweave.net",
+  "template": "Success, new version deployed! 🎉\n\n🔗 https://{undername}_{ownerArnsName}.arweave.net/\n📁 File\n{filePath}\n🔑 Hash\n{undername}\n⏱️ Duration\n{duration}\n🔗 Deployment\n[View Deployment](https://arweave.net/raw/{manifestTxId})",
   "variables": {
     "undername": "The ArNS undername (commit hash)",
-    "ownerArnsName": "The owner's ArNS name"
+    "ownerArnsName": "The owner's ArNS name",
+    "filePath": "The deployed file path",
+    "duration": "Deployment duration",
+    "manifestTxId": "The manifest transaction ID"
   },
-  "example": "Success! 🎉\n\n🔗 a1b2c3d4e5f6g7h8_mycoolname.arweave.net"
+  "example": "Success, new version deployed! 🎉\n\n🔗 https://a1b2c3d4e5f6g7h8_mycoolname.arweave.net/\n📁 File\napps/arcade/index.html\n🔑 Hash\na1b2c3d4e5f6g7h8\n⏱️ Duration\n2.5s\n🔗 Deployment\n[View Deployment](https://arweave.net/raw/abc123def456)"
 }
