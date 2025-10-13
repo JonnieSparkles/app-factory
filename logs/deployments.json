@@ -829,5 +829,20 @@
     "deploymentType": "incremental",
     "changedFiles": 2,
     "version": "0.2.1"
+  },
+  {
+    "timestamp": "2025-10-13T16:08:45.677Z",
+    "success": true,
+    "appId": "arcade",
+    "filePath": "apps/arcade/index.html",
+    "commitHash": "377aac695074c6be",
+    "txId": "3LuqOUfeUpCVvXE6gzZg-LaY6VSt8jin0FMPlPLritw",
+    "manifestTxId": "3LuqOUfeUpCVvXE6gzZg-LaY6VSt8jin0FMPlPLritw",
+    "undername": "377aac695074c6be",
+    "fileSize": 42853,
+    "duration": 1505,
+    "deploymentType": "incremental",
+    "changedFiles": 2,
+    "version": "0.2.0"
   }
 ]
