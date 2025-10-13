@@ -55,3 +55,4 @@
 "2025-10-13T13:07:11.753Z","SUCCESS","apps/hello-world/index.txt","be9126ae2c999b6f","test-manifest-1760360831684","be9126ae2c999b6f","21","1009","0","","","NO","NO"
 "2025-10-13T13:10:59.478Z","SUCCESS","apps/hello-world/index.txt","be9126ae2c999b6f","test-manifest-1760361059459","be9126ae2c999b6f","21","482","0","","","NO","NO"
 "2025-10-13T13:16:29.143Z","SUCCESS","apps/hello-world/index.txt","be9126ae2c999b6f","test-manifest-1760361389116","be9126ae2c999b6f","21","653","0","","","NO","NO"
+"2025-10-13T13:30:52.330Z","SUCCESS","apps/arcade/index.html","60f99d2188bb0787","test-manifest-1760362252325","60f99d2188bb0787","22762","81","0","","","NO","NO"

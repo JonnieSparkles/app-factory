@@ -1,0 +1,25 @@
+{
+  "lastDeployCommit": "60f99d2188bb0787",
+  "deploymentHistory": [
+    {
+      "version": "0.1.0",
+      "commit": "60f99d2188bb0787",
+      "manifestTxId": "test-manifest-1760362252325",
+      "changedFiles": [
+        "/workspace/apps/arcade/index.html",
+        "/workspace/apps/arcade/style.css"
+      ],
+      "deployed": "2025-10-13T13:30:52.326Z"
+    }
+  ],
+  "fileCommitMap": {
+    "index.html": "60f99d2188bb0787",
+    "style.css": "60f99d2188bb0787"
+  },
+  "lastDeployed": "2025-10-13T13:30:52.326Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "0999495058b40257901d332ad2f4e5da941bd96c",
+    "style.css": "d5784be2c02b1eec83c00a6e6d6c8e9d334c22d1"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "manifest": "arweave/paths",
+  "version": "0.1.1",
+  "index": {
+    "path": "index.html"
+  },
+  "paths": {
+    "index.html": {
+      "id": "test-1760362252319-0"
+    },
+    "style.css": {
+      "id": "test-1760362252324-1"
+    }
+  }
+}

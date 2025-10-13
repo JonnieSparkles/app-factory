@@ -80,6 +80,13 @@
                 <p class="game-score">HIGH SCORE: 44,444</p>
                 <button class="play-btn" onclick="startGame('rocket-race')">PLAY NOW</button>
             </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🧱</div>
+                <h3>Tetris Classic</h3>
+                <p class="game-score">HIGH SCORE: 33,333</p>
+                <button class="play-btn" onclick="startGame('tetris-classic')">PLAY NOW</button>
+            </div>
         </section>
 
         <section class="leaderboard">
@@ -170,7 +177,8 @@
                 'snake': 'Snake Classic',
                 'neon-target': 'Neon Target',
                 'puzzle-quest': 'Puzzle Quest',
-                'rocket-race': 'Rocket Race'
+                'rocket-race': 'Rocket Race',
+                'tetris-classic': 'Tetris Classic'
             };
             
             const gameName = gameNames[gameType] || gameType;
