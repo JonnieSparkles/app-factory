@@ -760,5 +760,13 @@
     "context": "Deployment ",
     "duration": 16,
     "filePath": "hello-world.txt"
+  },
+  {
+    "timestamp": "2025-10-13T14:22:29.507Z",
+    "success": false,
+    "error": "File not found: hello-world.txt",
+    "context": "Deployment ",
+    "duration": 18,
+    "filePath": "hello-world.txt"
   }
 ]
