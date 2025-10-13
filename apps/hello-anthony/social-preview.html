@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Anthony - Social Preview</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 1200px;
+            height: 630px;
+            font-family: 'Poppins', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 20, 147, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 191, 255, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(255, 215, 0, 0.4) 0%, transparent 50%),
+                linear-gradient(135deg, #ff1493 0%, #8a2be2 20%, #00bfff 40%, #00ff7f 60%, #ffd700 80%, #ff69b4 100%);
+            background-size: 400% 400%, 300% 300%, 500% 500%, 350% 350%, 400% 400%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            max-width: 90%;
+        }
+        
+        .main-text {
+            font-size: 8rem;
+            font-weight: 900;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(45deg, #ff1493, #8a2be2, #00bfff, #00ff7f, #ffd700, #ff69b4, #ff1493);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.9),
+                0 0 60px rgba(138, 43, 226, 0.7),
+                0 0 90px rgba(0, 191, 255, 0.5),
+                0 0 120px rgba(255, 215, 0, 0.3);
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+        
+        .subtitle {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ffd700, #00ff7f, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .fun-text {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.8;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <main class="container">
+        <h1 class="main-text">HI ANTHONY! 👋</h1>
+        <p class="subtitle">Hope you're having an amazing day! 🌟✨</p>
+        <p class="fun-text">🎉 Welcome to your special page! 🎉</p>
+    </main>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Create floating emojis
+        function createFloatingEmojis() {
+            const emojis = ['🌟', '✨', '🎉', '🎊', '💖', '🚀', '⭐', '💫', '🌈', '🎈', '👋', '😊'];
+            const emojiCount = 15;
+            
+            for (let i = 0; i < emojiCount; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + '%';
+                emoji.style.top = Math.random() * 100 + '%';
+                emoji.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
+                document.body.appendChild(emoji);
+            }
+        }
+        
+        // Create sparkle effect
+        function createSparkles() {
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                document.body.appendChild(sparkle);
+            }
+        }
+        
+        // Initialize effects
+        window.addEventListener('load', function() {
+            createParticles();
+            createFloatingEmojis();
+            createSparkles();
+        });
+    </script>
+</body>
+</html>
