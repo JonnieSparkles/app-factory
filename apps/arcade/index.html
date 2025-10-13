@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🕹️ Neon Arcade - Retro Gaming Paradise (CI Test!)</title>
+    <title>🕹️ Neon Arcade - Ultimate Retro Gaming Experience</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,8 +15,9 @@
             <h1 class="neon-title">
                 <span class="flicker">🕹️</span> NEON ARCADE <span class="flicker">🕹️</span>
             </h1>
-            <p class="subtitle">YOUR RETRO GAMING PARADISE</p>
-            <div class="year-badge">EST. 1985</div>
+            <p class="subtitle">YOUR ULTIMATE RETRO GAMING EXPERIENCE</p>
+            <p class="welcome-message">Step into the future of the past! Experience classic arcade games with modern neon aesthetics and cutting-edge gameplay.</p>
+            <div class="year-badge">EST. 1985 • REBORN 2024</div>
         </header>
 
         <div class="arcade-cabinet">
@@ -24,16 +25,20 @@
                 <div class="screen-content">
                     <div class="pixel-art">
                         <span class="pixel-text">INSERT COIN</span>
-                        <div class="coin-slot">▼</div>
+                        <div class="coin-slot" onclick="addCoin()" title="Click to insert coin!">▼</div>
+                        <div class="coin-counter">
+                            <span class="coin-icon">🪙</span>
+                            <span id="coin-count">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="controls">
                 <div class="joystick"></div>
                 <div class="buttons">
-                    <button class="arcade-btn red" onclick="playSound('red')">A</button>
-                    <button class="arcade-btn yellow" onclick="playSound('yellow')">B</button>
-                    <button class="arcade-btn blue" onclick="playSound('blue')">START</button>
+                    <button class="arcade-btn red" onclick="handleButtonPress('red')">A</button>
+                    <button class="arcade-btn yellow" onclick="handleButtonPress('yellow')">B</button>
+                    <button class="arcade-btn blue" onclick="handleButtonPress('blue')">START</button>
                 </div>
             </div>
         </div>
@@ -42,6 +47,7 @@
             <div class="game-card coming-soon">
                 <div class="game-icon">👾</div>
                 <h3>Space Invaders</h3>
+                <p class="game-description">Defend Earth from alien invasion!</p>
                 <p class="game-score">COMING SOON</p>
                 <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
@@ -49,6 +55,7 @@
             <div class="game-card available">
                 <div class="game-icon">🏃</div>
                 <h3>Pixel Runner</h3>
+                <p class="game-description">Endless running adventure!</p>
                 <p class="game-score" id="pixel-runner-high-score">HIGH SCORE: 0</p>
                 <button class="play-btn" onclick="window.open('pixel-runner.html', '_blank')">PLAY NOW</button>
             </div>
@@ -56,6 +63,7 @@
             <div class="game-card available">
                 <div class="game-icon">🐍</div>
                 <h3>Snake Classic</h3>
+                <p class="game-description">Grow your snake, avoid walls!</p>
                 <p class="game-score" id="snake-high-score">HIGH SCORE: 0</p>
                 <button class="play-btn" onclick="window.open('snake.html', '_blank')">PLAY NOW</button>
             </div>
@@ -63,6 +71,7 @@
             <div class="game-card available">
                 <div class="game-icon">🎯</div>
                 <h3>Neon Target</h3>
+                <p class="game-description">Hit the targets with precision!</p>
                 <p class="game-score" id="neon-target-high-score">HIGH SCORE: 0</p>
                 <button class="play-btn" onclick="window.open('neon-target.html', '_blank')">PLAY NOW</button>
             </div>
@@ -106,6 +115,7 @@
             <div class="game-card available">
                 <div class="game-icon">🎲</div>
                 <h3>Dice Roller</h3>
+                <p class="game-description">Roll the dice, test your luck!</p>
                 <p class="game-score" id="dice-high-score">HIGH SCORE: 0</p>
                 <button class="play-btn" onclick="window.open('dice-roller.html', '_blank')">PLAY NOW</button>
             </div>
@@ -120,6 +130,7 @@
             <div class="game-card available">
                 <div class="game-icon">🌟</div>
                 <h3>Star Collector</h3>
+                <p class="game-description">Collect stars in space!</p>
                 <p class="game-score" id="star-collector-high-score">HIGH SCORE: 0</p>
                 <button class="play-btn" onclick="window.open('star-collector.html', '_blank')">PLAY NOW</button>
             </div>
@@ -157,9 +168,30 @@
         </section>
 
         <footer class="arcade-footer">
-            <p class="glitch" data-text="DEPLOYED ON ARWEAVE">DEPLOYED ON ARWEAVE</p>
-            <p>Powered by App Factory × ArNS</p>
-            <p class="blink">● REC</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🎮 GAME STATS</h4>
+                    <p>Total Games: 5 Available</p>
+                    <p>Coming Soon: 8 Games</p>
+                    <p>Total Plays: <span id="total-plays">∞</span></p>
+                </div>
+                <div class="footer-section">
+                    <h4>🚀 TECHNOLOGY</h4>
+                    <p class="glitch" data-text="DEPLOYED ON ARWEAVE">DEPLOYED ON ARWEAVE</p>
+                    <p>Powered by App Factory × ArNS</p>
+                    <p>Built with HTML5 & CSS3</p>
+                </div>
+                <div class="footer-section">
+                    <h4>🎯 FEATURES</h4>
+                    <p>High Score Tracking</p>
+                    <p>Responsive Design</p>
+                    <p>Retro Aesthetics</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="blink">● REC</p>
+                <p>© 2024 Neon Arcade - All Rights Reserved</p>
+            </div>
         </footer>
     </div>
 
@@ -171,6 +203,7 @@
         let totalCoins = 0;
         let powerUps = 0;
         let level = 1;
+        let coinCount = 0;
 
         // Game high scores for display
         let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
@@ -450,6 +483,20 @@
                         playSound('blue');
                         break;
                 }
+            } else {
+                // General controls
+                switch(e.key) {
+                    case 'c':
+                    case 'C':
+                        addCoin();
+                        break;
+                    case ' ':
+                    case 'Enter':
+                        if (!isPlaying) {
+                            startArcadeMode();
+                        }
+                        break;
+                }
             }
         });
 
@@ -472,7 +519,7 @@
         }
 
         // Enhanced button press effects
-        function playSound(color) {
+        function handleButtonPress(color) {
             const btn = event.target;
             btn.style.transform = 'scale(0.95)';
             btn.classList.add('shake');
@@ -495,6 +542,9 @@
             if (color === 'blue' && !isPlaying) {
                 startArcadeMode();
             }
+            
+            // Play sound effect
+            playSound(color);
         }
 
         // Add rainbow effect to title on hover
@@ -516,6 +566,46 @@
                 this.classList.remove('glow-effect');
             });
         });
+
+        // Coin system
+        function addCoin() {
+            coinCount++;
+            updateCoinDisplay();
+            createParticle(400, 200, 'var(--neon-yellow)');
+            playSound('coin');
+        }
+
+        function updateCoinDisplay() {
+            const coinDisplay = document.getElementById('coin-count');
+            if (coinDisplay) {
+                coinDisplay.textContent = coinCount;
+            }
+        }
+
+        function playSound(type) {
+            // Simple sound effect simulation
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            let frequency = 440;
+            switch(type) {
+                case 'red': frequency = 523; break;
+                case 'yellow': frequency = 659; break;
+                case 'blue': frequency = 784; break;
+                case 'coin': frequency = 1047; break;
+            }
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
 
         // Initialize arcade
         console.log('🕹️ Neon Arcade initialized! Ready for testing!');
