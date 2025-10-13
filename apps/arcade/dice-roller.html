@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎲 Dice Roller - Neon Arcade</title>
+    <style>
+        /* Retro Synthwave Gaming Arcade Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --neon-pink: #ff006e;
+            --neon-blue: #00f5ff;
+            --neon-purple: #8338ec;
+            --neon-green: #00ff41;
+            --neon-yellow: #ffbe0b;
+            --dark-bg: #0a0a0a;
+            --grid-color: #ff006e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive, monospace;
+            background: var(--dark-bg);
+            color: var(--neon-blue);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Scanline effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Animated grid background */
+        .grid-background {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-image: 
+                linear-gradient(var(--grid-color) 2px, transparent 2px),
+                linear-gradient(90deg, var(--grid-color) 2px, transparent 2px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: top;
+            opacity: 0.2;
+            animation: gridMove 2s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 50px; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Header Styles */
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .neon-title {
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 40px var(--neon-purple),
+                0 0 70px var(--neon-purple);
+            animation: neonGlow 2s ease-in-out infinite alternate;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes neonGlow {
+            from { text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 40px var(--neon-purple);
+            }
+            to { text-shadow: 
+                0 0 20px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                0 0 50px var(--neon-purple),
+                0 0 80px var(--neon-purple);
+            }
+        }
+
+        .flicker {
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.4; }
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            letter-spacing: 5px;
+            margin-bottom: 2rem;
+        }
+
+        /* Game Container */
+        .game-container {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1e);
+            border: 4px solid var(--neon-purple);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 
+                0 0 30px var(--neon-purple),
+                inset 0 0 30px rgba(131, 56, 236, 0.2);
+        }
+
+        .game-header {
+            margin-bottom: 1rem;
+        }
+
+        .dice-title {
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dice-score {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Dice Area */
+        .dice-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .dice {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #ffffff, #e0e0e0);
+            border: 4px solid var(--neon-purple);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #000;
+            box-shadow: 
+                0 0 20px var(--neon-purple),
+                inset 0 0 20px rgba(131, 56, 236, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dice.rolling {
+            animation: diceRoll 0.5s ease-in-out infinite;
+        }
+
+        @keyframes diceRoll {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(0.9); }
+            75% { transform: rotate(270deg) scale(1.1); }
+        }
+
+        .dice:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 30px var(--neon-pink),
+                inset 0 0 20px rgba(255, 0, 110, 0.3);
+        }
+
+        /* Dice Dots */
+        .dice-dots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Dice Face Patterns */
+        .dice-face-1 .dot:nth-child(5) { display: block; }
+        .dice-face-1 .dot:not(:nth-child(5)) { display: none; }
+
+        .dice-face-2 .dot:nth-child(1),
+        .dice-face-2 .dot:nth-child(9) { display: block; }
+        .dice-face-2 .dot:not(:nth-child(1)):not(:nth-child(9)) { display: none; }
+
+        .dice-face-3 .dot:nth-child(1),
+        .dice-face-3 .dot:nth-child(5),
+        .dice-face-3 .dot:nth-child(9) { display: block; }
+        .dice-face-3 .dot:not(:nth-child(1)):not(:nth-child(5)):not(:nth-child(9)) { display: none; }
+
+        .dice-face-4 .dot:nth-child(1),
+        .dice-face-4 .dot:nth-child(3),
+        .dice-face-4 .dot:nth-child(7),
+        .dice-face-4 .dot:nth-child(9) { display: block; }
+        .dice-face-4 .dot:not(:nth-child(1)):not(:nth-child(3)):not(:nth-child(7)):not(:nth-child(9)) { display: none; }
+
+        .dice-face-5 .dot:nth-child(1),
+        .dice-face-5 .dot:nth-child(3),
+        .dice-face-5 .dot:nth-child(5),
+        .dice-face-5 .dot:nth-child(7),
+        .dice-face-5 .dot:nth-child(9) { display: block; }
+        .dice-face-5 .dot:not(:nth-child(1)):not(:nth-child(3)):not(:nth-child(5)):not(:nth-child(7)):not(:nth-child(9)) { display: none; }
+
+        .dice-face-6 .dot:nth-child(1),
+        .dice-face-6 .dot:nth-child(3),
+        .dice-face-6 .dot:nth-child(4),
+        .dice-face-6 .dot:nth-child(6),
+        .dice-face-6 .dot:nth-child(7),
+        .dice-face-6 .dot:nth-child(9) { display: block; }
+        .dice-face-6 .dot:not(:nth-child(1)):not(:nth-child(3)):not(:nth-child(4)):not(:nth-child(6)):not(:nth-child(7)):not(:nth-child(9)) { display: none; }
+
+        /* Controls */
+        .dice-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .roll-btn {
+            background: var(--neon-green);
+            color: #000;
+            border: 3px solid var(--neon-green);
+            padding: 1rem 3rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px var(--neon-green);
+            text-transform: uppercase;
+        }
+
+        .roll-btn:hover {
+            background: var(--neon-yellow);
+            border-color: var(--neon-yellow);
+            box-shadow: 0 0 30px var(--neon-yellow);
+            transform: scale(1.05);
+        }
+
+        .roll-btn:active {
+            transform: scale(0.95);
+        }
+
+        .roll-btn:disabled {
+            background: #333;
+            color: #666;
+            border-color: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .roll-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Game Modes */
+        .game-modes {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            background: var(--neon-purple);
+            color: white;
+            border: 2px solid var(--neon-purple);
+            padding: 0.5rem 1rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .mode-btn:hover {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px var(--neon-pink);
+        }
+
+        .mode-btn.active {
+            background: var(--neon-green);
+            border-color: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 25px var(--neon-green);
+        }
+
+        /* Stats Display */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--neon-blue);
+            font-size: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            color: var(--neon-green);
+            font-size: 1rem;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* Instructions */
+        .dice-instructions {
+            margin-top: 2rem;
+            color: var(--neon-blue);
+            font-size: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .dice-instructions p {
+            margin: 0.3rem 0;
+        }
+
+        .back-btn {
+            background: var(--neon-pink);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px var(--neon-pink);
+            margin-top: 2rem;
+        }
+
+        .back-btn:hover {
+            background: var(--neon-purple);
+            box-shadow: 0 0 30px var(--neon-purple);
+            transform: scale(1.05);
+        }
+
+        /* Rolling Animation */
+        .rolling-text {
+            color: var(--neon-yellow);
+            font-size: 1.2rem;
+            text-shadow: 0 0 20px var(--neon-yellow);
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .neon-title {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.6rem;
+                letter-spacing: 2px;
+            }
+            
+            .game-container {
+                padding: 1rem;
+            }
+            
+            .dice {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
+            .dice-area {
+                gap: 1rem;
+            }
+            
+            .roll-btn {
+                padding: 0.8rem 2rem;
+                font-size: 0.8rem;
+            }
+            
+            .mode-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.5rem;
+            }
+            
+            .dice-title {
+                font-size: 1rem;
+            }
+            
+            .dice-score {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="grid-background"></div>
+    
+    <div class="container">
+        <header class="game-header">
+            <h1 class="neon-title">
+                <span class="flicker">🎲</span> DICE ROLLER <span class="flicker">🎲</span>
+            </h1>
+            <p class="subtitle">RETRO GAMING PARADISE</p>
+        </header>
+
+        <div class="game-container">
+            <div class="dice-game-container">
+                <div class="dice-game-header">
+                    <h2 class="dice-title">🎲 DICE ROLLER 🎲</h2>
+                    <div class="dice-score">Total: <span id="total-score">0</span> | Rolls: <span id="roll-count">0</span></div>
+                </div>
+
+                <!-- Game Modes -->
+                <div class="game-modes">
+                    <button class="mode-btn active" onclick="setGameMode('single')">SINGLE DIE</button>
+                    <button class="mode-btn" onclick="setGameMode('double')">DOUBLE DICE</button>
+                    <button class="mode-btn" onclick="setGameMode('triple')">TRIPLE DICE</button>
+                </div>
+
+                <!-- Dice Area -->
+                <div class="dice-area" id="dice-area">
+                    <div class="dice" id="dice1">
+                        <div class="dice-dots dice-face-6">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="dice-controls">
+                    <button class="roll-btn" id="roll-btn" onclick="rollDice()">ROLL DICE</button>
+                    <div id="rolling-text" class="rolling-text" style="display: none;">ROLLING...</div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-label">HIGHEST ROLL</div>
+                        <div class="stat-value" id="highest-roll">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">LOWEST ROLL</div>
+                        <div class="stat-value" id="lowest-roll">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">AVERAGE</div>
+                        <div class="stat-value" id="average-roll">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">LUCKY STREAK</div>
+                        <div class="stat-value" id="lucky-streak">0</div>
+                    </div>
+                </div>
+
+                <div class="dice-instructions">
+                    <p>Click ROLL DICE to roll the dice!</p>
+                    <p>Choose between single, double, or triple dice modes!</p>
+                    <p>Try to get the highest possible score!</p>
+                    <p>Track your statistics and beat your records!</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">← BACK TO ARCADE</button>
+    </div>
+
+    <script>
+        // Game variables
+        let gameMode = 'single';
+        let diceValues = [];
+        let totalScore = 0;
+        let rollCount = 0;
+        let highestRoll = 0;
+        let lowestRoll = 0;
+        let allRolls = [];
+        let luckyStreak = 0;
+        let maxLuckyStreak = 0;
+        let isRolling = false;
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load high score from localStorage
+            const savedHighScore = localStorage.getItem('diceHighScore');
+            if (savedHighScore) {
+                highestRoll = parseInt(savedHighScore);
+            }
+            
+            updateDisplay();
+            updateStats();
+        });
+
+        function setGameMode(mode) {
+            gameMode = mode;
+            
+            // Update active button
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update dice area
+            updateDiceArea();
+        }
+
+        function updateDiceArea() {
+            const diceArea = document.getElementById('dice-area');
+            diceArea.innerHTML = '';
+            
+            const diceCount = gameMode === 'single' ? 1 : gameMode === 'double' ? 2 : 3;
+            
+            for (let i = 0; i < diceCount; i++) {
+                const dice = document.createElement('div');
+                dice.className = 'dice';
+                dice.id = `dice${i + 1}`;
+                dice.innerHTML = `
+                    <div class="dice-dots dice-face-6">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                `;
+                diceArea.appendChild(dice);
+            }
+        }
+
+        function rollDice() {
+            if (isRolling) return;
+            
+            isRolling = true;
+            const rollBtn = document.getElementById('roll-btn');
+            const rollingText = document.getElementById('rolling-text');
+            
+            rollBtn.disabled = true;
+            rollingText.style.display = 'block';
+            
+            // Add rolling animation to all dice
+            const diceElements = document.querySelectorAll('.dice');
+            diceElements.forEach(dice => {
+                dice.classList.add('rolling');
+            });
+            
+            // Roll dice after animation
+            setTimeout(() => {
+                diceValues = [];
+                const diceCount = gameMode === 'single' ? 1 : gameMode === 'double' ? 2 : 3;
+                
+                for (let i = 0; i < diceCount; i++) {
+                    const value = Math.floor(Math.random() * 6) + 1;
+                    diceValues.push(value);
+                }
+                
+                // Update dice display
+                updateDiceDisplay();
+                
+                // Calculate total
+                const currentTotal = diceValues.reduce((sum, val) => sum + val, 0);
+                totalScore += currentTotal;
+                rollCount++;
+                allRolls.push(...diceValues);
+                
+                // Update stats
+                updateStats();
+                updateDisplay();
+                
+                // Remove rolling animation
+                diceElements.forEach(dice => {
+                    dice.classList.remove('rolling');
+                });
+                
+                // Reset button
+                rollBtn.disabled = false;
+                rollingText.style.display = 'none';
+                isRolling = false;
+                
+                // Check for lucky streak
+                checkLuckyStreak(currentTotal);
+                
+            }, 1500);
+        }
+
+        function updateDiceDisplay() {
+            diceValues.forEach((value, index) => {
+                const dice = document.getElementById(`dice${index + 1}`);
+                const dots = dice.querySelector('.dice-dots');
+                
+                // Remove all face classes
+                dots.className = 'dice-dots';
+                
+                // Add appropriate face class
+                dots.classList.add(`dice-face-${value}`);
+            });
+        }
+
+        function updateDisplay() {
+            document.getElementById('total-score').textContent = totalScore;
+            document.getElementById('roll-count').textContent = rollCount;
+        }
+
+        function updateStats() {
+            if (allRolls.length === 0) return;
+            
+            const currentHighest = Math.max(...allRolls);
+            const currentLowest = Math.min(...allRolls);
+            const average = Math.round(allRolls.reduce((sum, val) => sum + val, 0) / allRolls.length);
+            
+            if (currentHighest > highestRoll) {
+                highestRoll = currentHighest;
+                // Save high score to localStorage
+                localStorage.setItem('diceHighScore', highestRoll);
+            }
+            
+            if (lowestRoll === 0 || currentLowest < lowestRoll) {
+                lowestRoll = currentLowest;
+            }
+            
+            document.getElementById('highest-roll').textContent = highestRoll;
+            document.getElementById('lowest-roll').textContent = lowestRoll;
+            document.getElementById('average-roll').textContent = average;
+            document.getElementById('lucky-streak').textContent = maxLuckyStreak;
+        }
+
+        function checkLuckyStreak(currentTotal) {
+            const diceCount = gameMode === 'single' ? 1 : gameMode === 'double' ? 2 : 3;
+            const maxPossible = diceCount * 6;
+            
+            if (currentTotal >= maxPossible * 0.8) { // 80% of max possible
+                luckyStreak++;
+                if (luckyStreak > maxLuckyStreak) {
+                    maxLuckyStreak = luckyStreak;
+                }
+            } else {
+                luckyStreak = 0;
+            }
+            
+            updateStats();
+        }
+
+        function goBack() {
+            // Go back to the arcade
+            window.location.href = 'index.html';
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case ' ':
+                case 'Enter':
+                    e.preventDefault();
+                    rollDice();
+                    break;
+                case '1':
+                    e.preventDefault();
+                    setGameMode('single');
+                    break;
+                case '2':
+                    e.preventDefault();
+                    setGameMode('double');
+                    break;
+                case '3':
+                    e.preventDefault();
+                    setGameMode('triple');
+                    break;
+                case 'r':
+                case 'R':
+                    e.preventDefault();
+                    resetGame();
+                    break;
+            }
+        });
+
+        function resetGame() {
+            totalScore = 0;
+            rollCount = 0;
+            highestRoll = 0;
+            lowestRoll = 0;
+            allRolls = [];
+            luckyStreak = 0;
+            maxLuckyStreak = 0;
+            diceValues = [];
+            
+            updateDisplay();
+            updateStats();
+            updateDiceArea();
+        }
+
+        // Initialize game
+        console.log('🎲 Dice Roller initialized!');
+    </script>
+</body>
+</html>
