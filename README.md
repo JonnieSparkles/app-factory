@@ -4,7 +4,7 @@ A complete app factory system for AI agent workflows that manages and deploys mu
 
 ## 🚀 Quick Start
 
-1. **Set up environment variables** (see [REMOTE_AGENT_SETUP.md](./REMOTE_AGENT_SETUP.md))
+1. **Set up environment variables** (see [docs/REMOTE_AGENT_SETUP.md](./docs/REMOTE_AGENT_SETUP.md))
 2. **Create your first app**:
    ```bash
    npm run apps:create my-first-app html
@@ -91,7 +91,7 @@ apps.json               # App factory configuration
 
 ## ⚙️ Environment Setup
 
-**📋 For detailed setup instructions, see [REMOTE_AGENT_SETUP.md](./REMOTE_AGENT_SETUP.md)**
+**📋 For detailed setup instructions, see [docs/REMOTE_AGENT_SETUP.md](./docs/REMOTE_AGENT_SETUP.md)**
 
 ### Required Environment Variables
 
@@ -203,6 +203,8 @@ npm run stats
 ## 🚀 Incremental Deployment
 
 The system now features **incremental deployment** - a cost and time-optimized approach that only uploads files that have actually changed since the last deployment.
+
+**📋 For detailed technical documentation, see [docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md)**
 
 ### How It Works
 
@@ -350,7 +352,10 @@ This means:
 ├── app-cli.js               # App management CLI
 ├── deploy.js                # Main deployment script
 ├── env.example              # Environment variables template
-├── REMOTE_AGENT_SETUP.md    # Detailed setup guide
+├── docs/
+│   ├── REMOTE_AGENT_SETUP.md    # Detailed setup guide
+│   ├── WORKFLOW_DOCUMENTATION.md # Workflow documentation
+│   └── INCREMENTAL_ARWEAVE_DEPLOYMENT.md # Technical documentation
 └── README.md                # This file
 ```
 
@@ -399,7 +404,7 @@ This means:
 This system is designed for seamless AI agent workflows:
 
 ### Standard Workflow Steps
-**📋 For detailed workflow documentation, see [WORKFLOW_DOCUMENTATION.md](./WORKFLOW_DOCUMENTATION.md)**
+**📋 For detailed workflow documentation, see [docs/WORKFLOW_DOCUMENTATION.md](./docs/WORKFLOW_DOCUMENTATION.md)**
 
 1. **Make Updates Requested** - Analyze and implement changes
 2. **Test If Appropriate** - Verify functionality works as expected  
@@ -489,6 +494,8 @@ This system can be extended with:
 
 ## 📚 Documentation
 
-- **[REMOTE_AGENT_SETUP.md](./REMOTE_AGENT_SETUP.md)** - Detailed setup instructions
+- **[docs/REMOTE_AGENT_SETUP.md](./docs/REMOTE_AGENT_SETUP.md)** - Detailed setup instructions
+- **[docs/WORKFLOW_DOCUMENTATION.md](./docs/WORKFLOW_DOCUMENTATION.md)** - Workflow documentation
+- **[docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md)** - Technical documentation
 - **[env.example](./env.example)** - Environment variables template
 - **GitHub Actions** - See `.github/workflows/` for workflow details

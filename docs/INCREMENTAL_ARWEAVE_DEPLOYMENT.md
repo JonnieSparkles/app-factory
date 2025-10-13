@@ -220,4 +220,23 @@ apps/my-app/
   # Commits manifest and tracker files back to repo
 ```
 
+## Development History
+
+### System Evolution (October 2025)
+
+The incremental deployment system was significantly simplified by removing complex git diff logic and using pure hash-based change detection. This refactoring made the system more reliable, simpler to maintain, and eliminated git history dependencies.
+
+**Key Changes:**
+- **Simplified GitTracker**: Removed ~140 lines of complex git diff/comparison logic
+- **Enhanced ManifestManager**: Added hash-based change detection as single source of truth
+- **Streamlined Deployer**: Removed `useHashing` parameter - always uses hashing now
+- **Optimized CI/CD**: Changed from `fetch-depth: 0` to `fetch-depth: 1` for faster checkouts
+- **Code Reduction**: ~200 lines of complex git diff logic removed
+
+**Benefits of Refactoring:**
+- **Reliability**: No git history dependencies, works with shallow clones
+- **Simplicity**: One code path for change detection, easier to debug
+- **Performance**: Fast hash comparison, minimal git operations
+- **Maintenance**: Significantly easier to understand and maintain
+
 This system provides true incremental deployment by using deterministic hash-based change detection, eliminating git history dependencies while maintaining all the benefits of incremental uploads.
