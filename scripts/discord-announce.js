@@ -6,10 +6,11 @@ import { sendDiscordNotification } from '../lib/discord.js';
 
 const deploymentHash = process.argv[2];
 const filePath = process.argv[3] || 'hello-world.txt';
+const manifestTxId = process.argv[4] || null;
 
 if (!deploymentHash) {
   console.error('❌ Deployment hash is required');
-  console.log('Usage: node scripts/discord-announce.js <deployment_hash> [file_path]');
+  console.log('Usage: node scripts/discord-announce.js <deployment_hash> [file_path] [manifest_tx_id]');
   process.exit(1);
 }
 
@@ -18,7 +19,8 @@ const deploymentData = {
   undername: deploymentHash,
   commitHash: deploymentHash,
   filePath: filePath,
-  txId: `github-action-${Date.now()}`,
+  txId: manifestTxId || `github-action-${Date.now()}`,
+  manifestTxId: manifestTxId || `github-action-${Date.now()}`,
   fileSize: 0,
   duration: 0
 };

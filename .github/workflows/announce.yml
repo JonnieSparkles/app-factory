@@ -86,7 +86,8 @@ jobs:
                   if (latest && latest.success && (latest.undername || latest.commitHash)) {
                     console.log(JSON.stringify({
                       hash: latest.undername || latest.commitHash,
-                      filePath: latest.filePath || 'unknown'
+                      filePath: latest.filePath || 'unknown',
+                      manifestTxId: latest.manifestTxId || latest.txId || 'unknown'
                     }));
                   } else {
                     console.log('');
@@ -99,13 +100,16 @@ jobs:
               if [ -n "$DEPLOYMENT_INFO" ]; then
                 DEPLOYMENT_HASH=$(echo "$DEPLOYMENT_INFO" | node -e "const data = JSON.parse(require('fs').readFileSync(0, 'utf-8')); console.log(data.hash);")
                 FILE_PATH=$(echo "$DEPLOYMENT_INFO" | node -e "const data = JSON.parse(require('fs').readFileSync(0, 'utf-8')); console.log(data.filePath);")
+                MANIFEST_TX_ID=$(echo "$DEPLOYMENT_INFO" | node -e "const data = JSON.parse(require('fs').readFileSync(0, 'utf-8')); console.log(data.manifestTxId);")
                 
                 echo "hash=$DEPLOYMENT_HASH" >> $GITHUB_OUTPUT
                 echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
+                echo "manifest_tx_id=$MANIFEST_TX_ID" >> $GITHUB_OUTPUT
                 echo "message=" >> $GITHUB_OUTPUT
                 echo "trigger=workflow_run" >> $GITHUB_OUTPUT
                 echo "📁 Detected file: $FILE_PATH"
                 echo "🔑 Found deployment hash: $DEPLOYMENT_HASH"
+                echo "📋 Found manifest TX ID: $MANIFEST_TX_ID"
               else
                 echo "hash=" >> $GITHUB_OUTPUT
                 echo "file_path=" >> $GITHUB_OUTPUT
@@ -151,7 +155,7 @@ jobs:
           echo "🎯 Trigger: ${{ steps.deployment.outputs.trigger }}"
           echo "📢 Type: Discord notification"
           
-          if node scripts/discord-announce.js "${{ steps.deployment.outputs.hash }}" "${{ steps.deployment.outputs.file_path }}"; then
+          if node scripts/discord-announce.js "${{ steps.deployment.outputs.hash }}" "${{ steps.deployment.outputs.file_path }}" "${{ steps.deployment.outputs.manifest_tx_id }}"; then
             echo "✅ Discord notification sent successfully!"
           else
             echo "❌ Discord notification failed"
