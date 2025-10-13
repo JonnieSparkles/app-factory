@@ -74,6 +74,28 @@ jobs:
             echo "file_path=${{ github.event.inputs.file_path }}" >> $GITHUB_OUTPUT
             echo "message=${{ github.event.inputs.custom_message }}" >> $GITHUB_OUTPUT
             echo "trigger=manual" >> $GITHUB_OUTPUT
+            
+            # Also try to get manifest TX ID from logs for manual triggers
+            if [ -f "logs/deployments.json" ]; then
+              MANIFEST_TX_ID=$(node -e "
+                const fs = require('fs');
+                try {
+                  const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
+                  const latest = logs[logs.length - 1];
+                  console.log(latest?.manifestTxId || latest?.txId || '');
+                } catch (e) {
+                  console.log('');
+                }
+              ")
+              if [ -n "$MANIFEST_TX_ID" ]; then
+                echo "manifest_tx_id=$MANIFEST_TX_ID" >> $GITHUB_OUTPUT
+                echo "📋 Found manifest TX ID: $MANIFEST_TX_ID"
+              else
+                echo "manifest_tx_id=" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "manifest_tx_id=" >> $GITHUB_OUTPUT
+            fi
           else
             echo "🔄 Workflow run trigger detected"
             # Try to get the latest deployment hash and file path from logs
