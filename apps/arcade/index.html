@@ -117,11 +117,11 @@
                 <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
             
-            <div class="game-card coming-soon">
+            <div class="game-card available">
                 <div class="game-icon">🌟</div>
                 <h3>Star Collector</h3>
-                <p class="game-score">COMING SOON</p>
-                <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
+                <p class="game-score" id="star-collector-high-score">HIGH SCORE: 0</p>
+                <button class="play-btn" onclick="window.open('star-collector.html', '_blank')">PLAY NOW</button>
             </div>
         </section>
 
@@ -177,6 +177,7 @@
         let diceHighScore = localStorage.getItem('diceHighScore') || 0;
         let neonTargetHighScore = localStorage.getItem('neonTargetHighScore') || 0;
         let pixelRunnerHighScore = localStorage.getItem('pixelRunnerHighScore') || 0;
+        let starCollectorHighScore = localStorage.getItem('starCollectorHighScore') || 0;
 
 
         // Start arcade mode
@@ -197,7 +198,7 @@
         // Game launcher
         function startGame(gameType) {
             // Check if game is available
-            const availableGames = ['snake', 'dice-roller', 'neon-target', 'pixel-runner'];
+            const availableGames = ['snake', 'dice-roller', 'neon-target', 'pixel-runner', 'star-collector'];
             if (!availableGames.includes(gameType)) {
                 showComingSoonMessage(gameType);
                 return;
@@ -525,11 +526,13 @@
             updateDiceHighScore();
             updateNeonTargetHighScore();
             updatePixelRunnerHighScore();
+            updateStarCollectorHighScore();
             // Update high scores every 2 seconds to sync with standalone games
             setInterval(updateSnakeHighScore, 2000);
             setInterval(updateDiceHighScore, 2000);
             setInterval(updateNeonTargetHighScore, 2000);
             setInterval(updatePixelRunnerHighScore, 2000);
+            setInterval(updateStarCollectorHighScore, 2000);
             
             // Add click handlers for coming soon buttons
             const comingSoonButtons = document.querySelectorAll('.coming-soon-btn');
@@ -572,6 +575,14 @@
             const pixelRunnerHighScoreElement = document.getElementById('pixel-runner-high-score');
             if (pixelRunnerHighScoreElement) {
                 pixelRunnerHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
+            }
+        }
+
+        function updateStarCollectorHighScore() {
+            const currentHighScore = localStorage.getItem('starCollectorHighScore') || 0;
+            const starCollectorHighScoreElement = document.getElementById('star-collector-high-score');
+            if (starCollectorHighScoreElement) {
+                starCollectorHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
             }
         }
     </script>
