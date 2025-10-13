@@ -1,5 +1,5 @@
 {
-  "lastDeployCommit": "fb7bbf3e9e60ec09",
+  "lastDeployCommit": "b59737c99949e2ea",
   "deploymentHistory": [
     {
       "version": "0.2.0",
@@ -25,25 +25,36 @@
         "apps/arcade/style.css"
       ],
       "deployed": "2025-10-13T21:49:40.910Z"
+    },
+    {
+      "version": "0.2.0",
+      "commit": "b59737c99949e2ea",
+      "manifestTxId": "zeQXAxXyzuiGF5YGbTz7aVAtRYz-PPm3TaFpbd8e2qM",
+      "changedFiles": [
+        "apps/arcade/dice-roller.html",
+        "apps/arcade/index.html",
+        "apps/arcade/snake.html"
+      ],
+      "deployed": "2025-10-13T22:10:12.763Z"
     }
   ],
   "fileCommitMap": {
-    "dice-roller.html": "0f0dd43d696ba9ee",
-    "index.html": "fb7bbf3e9e60ec09",
+    "dice-roller.html": "b59737c99949e2ea",
+    "index.html": "b59737c99949e2ea",
     "neon-target.html": "0f0dd43d696ba9ee",
     "pixel-runner.html": "0f0dd43d696ba9ee",
-    "snake.html": "0f0dd43d696ba9ee",
+    "snake.html": "b59737c99949e2ea",
     "star-collector.html": "0f0dd43d696ba9ee",
     "style.css": "fb7bbf3e9e60ec09"
   },
-  "lastDeployed": "2025-10-13T21:49:40.910Z",
-  "deploymentCount": 2,
+  "lastDeployed": "2025-10-13T22:10:12.763Z",
+  "deploymentCount": 3,
   "fileHashes": {
-    "dice-roller.html": "3d1f4b8f4829479592ea107394262e00d1a5e51c",
-    "index.html": "c7ad176cbb3bb5a7289736f429d688d1777f3501",
+    "dice-roller.html": "8e793c96b508cfcd29b3d27bba6595e80204eda4",
+    "index.html": "8b1e2a5b850d6d49029b24b25e623c9544fe6d64",
     "neon-target.html": "9f2cc9b721dfe3624ffd874a2753a9e989f4b4bc",
     "pixel-runner.html": "c634d71bf72d2dc567eafa0c2fec4a36900bcdd6",
-    "snake.html": "c8c787151c872e64559387befb0f367894cd099d",
+    "snake.html": "ecbc657fdf140f103aead08e42f4aaffa0213189",
     "star-collector.html": "202f5f6638abc793d92fd53e73d50b4849832779",
     "style.css": "ca0f8735cbcbc60d3ecc7396246dcf83a24b44a2"
   }
