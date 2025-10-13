@@ -1,7 +1,9 @@
 name: 🚀 Deploy to Arweave
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Auto-merge Agent PRs"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
     inputs:
@@ -19,6 +21,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Only run if the auto-merge workflow succeeded or manual trigger
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     permissions:
       contents: write
       actions: write
