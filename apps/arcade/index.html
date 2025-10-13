@@ -46,11 +46,11 @@
                 <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
             
-            <div class="game-card coming-soon">
+            <div class="game-card available">
                 <div class="game-icon">🏃</div>
                 <h3>Pixel Runner</h3>
-                <p class="game-score">COMING SOON</p>
-                <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
+                <p class="game-score" id="pixel-runner-high-score">HIGH SCORE: 0</p>
+                <button class="play-btn" onclick="window.open('pixel-runner.html', '_blank')">PLAY NOW</button>
             </div>
             
             <div class="game-card available">
@@ -176,6 +176,7 @@
         let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
         let diceHighScore = localStorage.getItem('diceHighScore') || 0;
         let neonTargetHighScore = localStorage.getItem('neonTargetHighScore') || 0;
+        let pixelRunnerHighScore = localStorage.getItem('pixelRunnerHighScore') || 0;
 
 
         // Start arcade mode
@@ -196,7 +197,7 @@
         // Game launcher
         function startGame(gameType) {
             // Check if game is available
-            const availableGames = ['snake', 'dice-roller', 'neon-target'];
+            const availableGames = ['snake', 'dice-roller', 'neon-target', 'pixel-runner'];
             if (!availableGames.includes(gameType)) {
                 showComingSoonMessage(gameType);
                 return;
@@ -523,10 +524,12 @@
             updateSnakeHighScore();
             updateDiceHighScore();
             updateNeonTargetHighScore();
+            updatePixelRunnerHighScore();
             // Update high scores every 2 seconds to sync with standalone games
             setInterval(updateSnakeHighScore, 2000);
             setInterval(updateDiceHighScore, 2000);
             setInterval(updateNeonTargetHighScore, 2000);
+            setInterval(updatePixelRunnerHighScore, 2000);
             
             // Add click handlers for coming soon buttons
             const comingSoonButtons = document.querySelectorAll('.coming-soon-btn');
@@ -561,6 +564,14 @@
             const neonTargetHighScoreElement = document.getElementById('neon-target-high-score');
             if (neonTargetHighScoreElement) {
                 neonTargetHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
+            }
+        }
+
+        function updatePixelRunnerHighScore() {
+            const currentHighScore = localStorage.getItem('pixelRunnerHighScore') || 0;
+            const pixelRunnerHighScoreElement = document.getElementById('pixel-runner-high-score');
+            if (pixelRunnerHighScoreElement) {
+                pixelRunnerHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
             }
         }
     </script>
