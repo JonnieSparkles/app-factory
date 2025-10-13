@@ -30,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history to enable proper incremental deployment
+          fetch-depth: 1  # Shallow clone - we use hash-based change detection
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

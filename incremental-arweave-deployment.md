@@ -1,62 +1,53 @@
-# Incremental Arweave Deployment with Git
+# Incremental Arweave Deployment with Hash-Based Detection
 
 ## Overview
-A system for deploying only changed files to Arweave using git-based change detection, saving costs and time by avoiding full deployments.
+A simplified system for deploying only changed files to Arweave using hash-based change detection, saving costs and time by avoiding full deployments.
 
 ## Core Concept
-Instead of calculating file hashes, leverage git's existing change tracking to determine which files actually changed since the last deployment.
+Compare SHA-256 file hashes to determine which files have changed since the last deployment. This approach is deterministic, reliable, and independent of git history.
 
 ## How It Works
 
-### 1. Git-Based Change Detection
-- Use `git diff --name-only <last-deployment-tag> HEAD` to get changed files
-- Git only returns files where content actually changed
-- Handles multiple commits between deployments correctly
+### 1. Hash-Based Change Detection
+- Calculate SHA-256 hash for each file using `git hash-object`
+- Compare current hashes with stored hashes from deployment-tracker.json
+- Upload only files where hash has changed
+- Store updated hashes for next deployment
 
 ### 2. True Incremental Deployment
 - Deploy only files that actually changed content
-- Pay only for files that actually changed
-- Upload only files that actually changed
+- Pay only for files that changed
+- Upload only files with different hashes
 - Perfect cost and time optimization
 
-## Git Commands for Change Detection
+## Hash Calculation
 
-### Files Changed Since Last Deployment
+### File Hashing
 ```bash
-# Compare with last deployment tag
-git diff --name-only $(git describe --tags --abbrev=0) HEAD
+# Calculate hash for a single file
+git hash-object path/to/file.html
 
-# Compare with specific commit
-git diff --name-only last-deployment-commit HEAD
+# Hash is deterministic
+# Same content = Same hash = No re-upload
 ```
 
-### Working Directory Changes
-```bash
-# Files modified but not committed
-git diff --name-only
-
-# Files staged for commit
-git diff --name-only --cached
-```
+### Benefits of Hash-Based Detection
+- **Deterministic**: Same file content always produces same hash
+- **Git independent**: Works with shallow clones (fetch-depth: 1)
+- **Reliable**: No merge conflicts or git history issues
+- **Simple**: One code path, easy to debug
 
 ## Deployment Strategies
 
-### 1. Tag-Based Deployment (Recommended)
-- Tag each deployment: `git tag -a "deploy-v1.0" -m "Deployed to Arweave"`
-- Always deploy since last tag: `git diff --name-only deploy-v1.0 HEAD`
-- Handles multiple commits between deployments automatically
-
-### 2. Commit-Based Deployment
-- Deploy files changed in specific commits
-- Good for precise control over what gets deployed
-- More complex but more granular
-
-### 3. Working Directory Deployment
-- Deploy only uncommitted changes
-- Good for quick testing
-- Risk of losing track of what's deployed
+### Hash-Based (Current Implementation)
+- Compare file hashes with deployment-tracker.json
+- Upload files with changed hashes
+- Update tracker with new hashes
+- Works everywhere (local, CI, shallow clones)
 
 ## Arweave Manifest Structure
+
+The manifest maintains Arweave transaction IDs for all files:
 
 ```json
 {
@@ -79,114 +70,154 @@ git diff --name-only --cached
 }
 ```
 
-### Required Tags for Manifest
-- `Content-Type: application/x.arweave-manifest+json`
-- `Type: manifest`
+### Deployment Tracker Structure
+
+Stores file hashes and deployment metadata:
+
+```json
+{
+  "lastDeployCommit": "a1b2c3d4e5f6g7h8",
+  "lastDeployed": "2025-10-13T12:00:00.000Z",
+  "deploymentCount": 5,
+  "fileHashes": {
+    "index.html": "caec3826ccfb35618dc56489b7902f97a3aa424d",
+    "style.css": "22153922a682a2a2e37a0f5d89caca9a87c160d6",
+    "app.js": "3d1f4b8f4829479592ea107394262e00d1a5e51c"
+  },
+  "deploymentHistory": [
+    {
+      "commit": "a1b2c3d4e5f6g7h8",
+      "manifestTxId": "xyz789...",
+      "deployed": "2025-10-13T12:00:00.000Z"
+    }
+  ]
+}
+```
 
 ## Workflow Example
 
 ### Timeline
-- **Monday**: Deploy v1.0 (tagged)
-- **Tuesday**: Commit "Add new feature" (changes 2 files)
-- **Wednesday**: Commit "Fix bug" (changes 1 file)
-- **Thursday**: Commit "Add styling" (changes 3 files)
+- **Monday**: Deploy v1.0 (all files)
+- **Tuesday**: Change index.html
+- **Wednesday**: Change style.css
 - **Friday**: Deploy v1.1
 
 ### What Gets Deployed on Friday
-```bash
-git diff --name-only deploy-v1.0 HEAD
-# Returns only files that actually changed:
-# css/theme.css
-# css/layout.css
-# js/main.js
-# images/hero.jpg
-# components/header.js
+```
+🔍 Using hash-based change detection...
+📝 File changed: index.html (modified)
+📝 File changed: style.css (modified)
+📁 Changed files: 2
 ```
 
 ### Result
-- 5 files deployed (only changed ones)
-- Updated manifest
-- Total: 6 files instead of 100
-- 94% cost savings
+- 2 files deployed (only changed ones)
+- Updated manifest with new TXIDs for changed files
+- Preserved existing TXIDs for unchanged files
+- Total: 3 files (2 changed + manifest) instead of 100
+- 97% cost savings
 
 ## Performance Benefits
 
-### Git is Optimized
-- Change detection in milliseconds for thousands of files
-- Handles file renames, moves, and deletions correctly
-- Scales to massive repositories
-- No hash calculation needed
+### Hash-Based is Reliable
+- Deterministic change detection
+- Works with shallow git clones
+- No git history dependencies
+- Handles any deployment scenario
 
 ### Cost Optimization
 - Only pay for files that actually changed
 - Significant savings for small updates
-- Faster deployments
+- Faster deployments (less to upload)
 - Less bandwidth usage
 
 ## Best Practices
 
-### 1. Tag Every Deployment
-- Creates deployment history
-- Enables "deploy since last tag" workflow
-- Easy to track what's deployed
+### 1. Commit Tracker Files
+- Always commit manifest.json and deployment-tracker.json
+- GitHub workflow automatically commits these
+- Ensures state is preserved between deployments
 
-### 2. Use Semantic Versioning
-- Tag as v1.0, v1.1, v1.2
-- Standard practice
-- Easy to understand changes
+### 2. Use Git for Versioning
+- Git commit hash used as ArNS undername
+- Provides deployment versioning
+- Easy rollback to any commit
 
 ### 3. Deploy Frequently
-- Don't let too many commits accumulate
+- Smaller deployments = fewer files to upload
 - Easier to debug issues
-- Smaller, manageable deployments
+- Better cost efficiency
 
 ### 4. Handle Edge Cases
-- Check if in git repository
-- Handle first deployment (no tags)
-- Handle no changes detected
+- First deployment: No stored hashes, uploads all files
+- No changes: Skips deployment entirely
+- Deleted files: Removed from manifest automatically
 
 ## Integration Points
 
 ### With Current Deploy System
-- Add `--git` flag to deploy command
-- Use git diff instead of hash calculation
-- Everything else stays the same
+- Hash-based detection is always active
+- No flags needed, works automatically
+- Seamless integration with existing workflow
 
 ### With CI/CD
-- Git-based detection works in automated systems
-- CI systems are already git-aware
-- Natural fit for deployment pipelines
+- Works with shallow clones (fetch-depth: 1)
+- Fast checkouts in GitHub Actions
+- Reliable across all environments
 
 ## Key Benefits
 
-### True Incremental Deployment
-- Deploy only what actually changed
-- Never miss changes (git tracks everything)
-- Handle multiple commits correctly
-- Perfect cost and time optimization
+### Simplified Change Detection
+- One code path (hash-based)
+- Easy to understand and debug
+- No git history complexity
+- Works everywhere
 
-### Git Integration
-- Leverages existing git workflow
-- No additional tools needed
-- Handles complex scenarios automatically
-- Scales to any repository size
+### Git Independence
+- No need for full git history
+- Works with shallow clones
+- No merge conflict issues
+- Deterministic results
 
-## Implementation Notes
+### Cost & Performance
+- Only upload changed files
+- Predictable behavior
+- Fast change detection
+- Scalable to any app size
+
+## Implementation
 
 ### File Structure
 ```
-├── manifest.json              # Arweave manifest (committed)
-├── .arweave-cache/           # Local cache (optional)
-│   └── last-deployment.json  # Last deployment info
-└── deploy-incremental.js     # Incremental deployment script
+apps/my-app/
+├── index.html
+├── style.css
+├── app.js
+├── manifest.json           # Arweave TXIDs (committed)
+└── deployment-tracker.json # File hashes (committed)
 ```
 
-### Change Detection Logic
-1. Get last deployment tag/commit
-2. Run `git diff --name-only <last> HEAD`
-3. Upload only changed files
-4. Update manifest with new file IDs
-5. Upload updated manifest
-6. Tag new deployment
+### Change Detection Flow
+1. Load deployment-tracker.json
+2. Hash all files in app directory
+3. Compare current hashes with stored hashes
+4. Upload only files with different hashes
+5. Update manifest with new Arweave TXIDs
+6. Upload updated manifest
+7. Update tracker with new hashes and commit info
+8. Commit tracker and manifest back to repo
 
-This system provides true incremental deployment by leveraging git's existing change tracking capabilities.
+### GitHub Actions Integration
+```yaml
+- name: Checkout
+  uses: actions/checkout@v4
+  with:
+    fetch-depth: 1  # Shallow clone - we use hash-based detection
+
+- name: Deploy to Arweave
+  run: node deploy.js --app my-app
+  # Automatically uses hash-based detection
+  # Commits manifest and tracker files back to repo
+```
+
+This system provides true incremental deployment by using deterministic hash-based change detection, eliminating git history dependencies while maintaining all the benefits of incremental uploads.

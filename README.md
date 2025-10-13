@@ -206,20 +206,21 @@ The system now features **incremental deployment** - a cost and time-optimized a
 
 ### How It Works
 
-1. **Dual change detection** - Uses git-based detection (default) or file hashing (more reliable)
+1. **Hash-based change detection** - Compares SHA-256 file hashes for deterministic change detection
 2. **Per-app manifests** - Each app maintains its own `manifest.json` and `deployment-tracker.json`
 3. **Smart file tracking** - Only uploads files that have changed content
 4. **Version control** - Automatic version incrementing and deployment history
 5. **Cost optimization** - Pay only for files that actually changed
+6. **Git independence** - Works with shallow clones, no git history needed
 
 ### Benefits
 
 - ✅ **Cost savings** - Only pay for changed files (can save 90%+ on small updates)
 - ✅ **Faster deployments** - Less data to upload
-- ✅ **Version control** - See what changed when
+- ✅ **Deterministic** - Same file content = same hash = no re-upload
 - ✅ **Deployment history** - Track all deployments per app
-- ✅ **Git integration** - Leverages existing git workflow
-- ✅ **Rollback capability** - Can revert to any version
+- ✅ **Git efficient** - Works with shallow clones (fetch-depth: 1)
+- ✅ **Reliable** - No git history dependencies or merge conflicts
 
 ### File Structure
 
@@ -237,58 +238,53 @@ apps/hello-world/
 Incremental deployment is **enabled by default**:
 
 ```bash
-# Deploy with incremental deployment (git-based, default)
+# Deploy with incremental deployment (hash-based detection)
 node deploy.js --app hello-world
 
-# Deploy using file hashing (more reliable)
-node deploy.js --app hello-world --use-hashing
-
-# Deploy with full deployment (all files)
+# Deploy with full deployment (all files, skip change detection)
 node deploy.js --app hello-world --no-incremental
 
 # Test incremental deployment
 node deploy.js --app hello-world --test-mode
 ```
 
-### Change Detection Methods
+### Change Detection Method
 
-**Git-based (Default - Fast)**
-- Uses `git diff` to find changed files
-- Leverages git's optimized change detection
-- Fast for large repositories
-- Good for most use cases
-
-**File Hashing (Reliable)**
-- Calculates SHA-256 hash of each file
-- Compares with stored hashes
-- More reliable, catches all changes
-- Independent of git history
-- Use `--use-hashing` flag
+**Hash-based Detection (Always Active)**
+- Calculates SHA-256 hash of each file using `git hash-object`
+- Compares current hashes with stored hashes in deployment-tracker.json
+- Deterministic: same content = same hash = no re-upload
+- Works with shallow git clones (no history needed)
+- Independent of git commit history or merge states
 
 ### GitHub Actions Integration
 
-The GitHub Actions workflow automatically uses incremental deployment:
+The GitHub Actions workflow automatically uses incremental deployment with shallow clones:
 
 ```yaml
 # In .github/workflows/deploy.yml
-node deploy.js --app "$app_dir" --message "${{ steps.changed-files.outputs.message }}"
+- name: Checkout
+  uses: actions/checkout@v4
+  with:
+    fetch-depth: 1  # Shallow clone - we use hash-based change detection
 ```
 
 This means:
-- **First deployment** - Uploads all files
-- **Subsequent deployments** - Only uploads changed files (git-based detection)
+- **First deployment** - Uploads all files (no stored hashes yet)
+- **Subsequent deployments** - Only uploads files with changed content hashes
 - **No changes** - Skips deployment entirely
-- **For maximum reliability** - Use `--use-hashing` in GitHub Actions
+- **Fast checkouts** - Minimal git history needed (just current commit)
 
 ### Deployment Flow
 
-1. **Detect changes** using git diff or file hashing since last deployment
-2. **Upload only changed files** to Arweave
-3. **Update manifest** with new file IDs
-4. **Upload updated manifest** to Arweave
-5. **Create ArNS record** pointing to manifest
-6. **Update tracking files** and commit to git
-7. **Store file hashes** for future change detection
+1. **Hash all files** in the app directory using SHA-256
+2. **Compare hashes** with stored hashes in deployment-tracker.json
+3. **Upload only changed files** to Arweave
+4. **Update manifest** with new file IDs (preserving unchanged file IDs)
+5. **Upload updated manifest** to Arweave
+6. **Create ArNS record** pointing to manifest (using commit hash as undername)
+7. **Update tracking files** with new hashes and commit info
+8. **Commit back to repo** (manifest.json and deployment-tracker.json)
 
 ### Example Output
 
@@ -296,6 +292,9 @@ This means:
 🚀 Starting incremental deployment for app: arcade
 📝 Current commit: a1b2c3d4 - Add new feature
 🔍 Last deployment commit: x9y8z7w6
+🔍 Using hash-based change detection...
+📝 File changed: index.html (modified)
+📝 File changed: style.css (modified)
 📁 Changed files: 2
 📤 Uploading 2 changed files...
 [1/2] Uploading style.css...
@@ -332,8 +331,8 @@ This means:
 │   ├── arweave.js           # Arweave/Turbo utilities
 │   ├── logging.js           # Deployment logging system
 │   ├── utils.js             # General utilities
-│   ├── manifest-manager.js  # Per-app manifest management
-│   ├── git-tracker.js       # Git-based change detection
+│   ├── manifest-manager.js  # Per-app manifest and hash-based change detection
+│   ├── git-tracker.js       # Git commit info and file hashing utilities
 │   └── incremental-deploy.js # Incremental deployment logic
 ├── logs/
 │   ├── deployments.json     # Structured deployment logs (committed to repo)
@@ -418,11 +417,33 @@ This system is designed for seamless AI agent workflows:
 
 ## 🔧 Troubleshooting
 
+### General Issues
 - **Upload fails**: Check Turbo balance and wallet configuration
 - **ArNS fails**: Verify ANT_PROCESS_ID and wallet permissions
 - **Auto-merge fails**: Check if PR is in draft status (workflow handles this automatically)
 - **TTL issues**: Ensure ARNS_UNDERNAME_TTL is set to 60 seconds
-- **Hash collision**: Extremely unlikely with SHA-256, but system handles gracefully
+
+### Incremental Deployment Issues
+
+**All files re-upload on every deployment:**
+- Check that deployment-tracker.json exists and has fileHashes
+- Verify GitHub workflow is committing tracker files back to repo
+- Ensure app directory has proper permissions
+
+**Files not detected as changed:**
+- Hash-based detection is deterministic - same content = same hash
+- If you expect changes but they're not detected, check file content actually differs
+- Delete deployment-tracker.json to force a full redeployment
+
+**Manifest has wrong TXIDs:**
+- Ensure GitHub workflow commits manifest.json and deployment-tracker.json back to repo
+- Check the "Commit deployment logs and manifests" step in deploy workflow
+- Verify git push succeeds in GitHub Actions logs
+
+**State gets out of sync:**
+- The deployment-tracker.json and manifest.json must be committed after each deployment
+- If they're not in git, the next deployment won't know what was previously deployed
+- Solution: Our workflow now automatically commits these files back to repo
 
 ## 📈 Monitoring & Logs
 
