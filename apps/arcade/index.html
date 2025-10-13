@@ -43,28 +43,42 @@
                 <div class="game-icon">👾</div>
                 <h3>Space Invaders</h3>
                 <p class="game-score">HIGH SCORE: 99,999</p>
-                <button class="play-btn">PLAY NOW</button>
+                <button class="play-btn" onclick="startGame('space-invaders')">PLAY NOW</button>
             </div>
             
             <div class="game-card">
                 <div class="game-icon">🏃</div>
                 <h3>Pixel Runner</h3>
                 <p class="game-score">HIGH SCORE: 88,888</p>
-                <button class="play-btn">PLAY NOW</button>
+                <button class="play-btn" onclick="startGame('pixel-runner')">PLAY NOW</button>
             </div>
             
             <div class="game-card">
                 <div class="game-icon">🐍</div>
                 <h3>Snake Classic</h3>
                 <p class="game-score">HIGH SCORE: 77,777</p>
-                <button class="play-btn">PLAY NOW</button>
+                <button class="play-btn" onclick="startGame('snake')">PLAY NOW</button>
             </div>
             
             <div class="game-card">
                 <div class="game-icon">🎯</div>
                 <h3>Neon Target</h3>
                 <p class="game-score">HIGH SCORE: 66,666</p>
-                <button class="play-btn">PLAY NOW</button>
+                <button class="play-btn" onclick="startGame('neon-target')">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🧩</div>
+                <h3>Puzzle Quest</h3>
+                <p class="game-score">HIGH SCORE: 55,555</p>
+                <button class="play-btn" onclick="startGame('puzzle-quest')">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🚀</div>
+                <h3>Rocket Race</h3>
+                <p class="game-score">HIGH SCORE: 44,444</p>
+                <button class="play-btn" onclick="startGame('rocket-race')">PLAY NOW</button>
             </div>
         </section>
 
@@ -107,6 +121,11 @@
     </div>
 
     <script>
+        // Game state management
+        let currentGame = null;
+        let gameScore = 0;
+        let isPlaying = false;
+
         // Simple sound effect simulation
         function playSound(color) {
             const btn = event.target;
@@ -117,6 +136,151 @@
             
             // Log the button press
             console.log(`🎮 ${color.toUpperCase()} button pressed!`);
+            
+            // Add visual feedback
+            if (color === 'blue' && !isPlaying) {
+                startArcadeMode();
+            }
+        }
+
+        // Start arcade mode
+        function startArcadeMode() {
+            isPlaying = true;
+            const screen = document.querySelector('.screen-content');
+            screen.innerHTML = `
+                <div class="pixel-art">
+                    <span class="pixel-text">ARCADE MODE ACTIVE</span>
+                    <div class="coin-slot">🎮</div>
+                    <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
+                        Select a game to begin!
+                    </p>
+                </div>
+            `;
+        }
+
+        // Game launcher
+        function startGame(gameType) {
+            if (!isPlaying) {
+                startArcadeMode();
+            }
+            
+            const gameNames = {
+                'space-invaders': 'Space Invaders',
+                'pixel-runner': 'Pixel Runner',
+                'snake': 'Snake Classic',
+                'neon-target': 'Neon Target',
+                'puzzle-quest': 'Puzzle Quest',
+                'rocket-race': 'Rocket Race'
+            };
+            
+            const gameName = gameNames[gameType] || gameType;
+            currentGame = gameType;
+            gameScore = 0;
+            
+            // Update screen with game info
+            const screen = document.querySelector('.screen-content');
+            screen.innerHTML = `
+                <div class="pixel-art">
+                    <span class="pixel-text">${gameName.toUpperCase()}</span>
+                    <div class="coin-slot">🎮</div>
+                    <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
+                        Score: ${gameScore} | Level: 1
+                    </p>
+                    <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
+                        Use arrow keys or buttons to play!
+                    </p>
+                </div>
+            `;
+            
+            // Start game simulation
+            simulateGameplay(gameType);
+        }
+
+        // Simulate gameplay
+        function simulateGameplay(gameType) {
+            const screen = document.querySelector('.screen-content');
+            let level = 1;
+            let score = 0;
+            
+            const gameInterval = setInterval(() => {
+                score += Math.floor(Math.random() * 100) + 50;
+                level = Math.floor(score / 1000) + 1;
+                
+                screen.innerHTML = `
+                    <div class="pixel-art">
+                        <span class="pixel-text">${gameType.replace('-', ' ').toUpperCase()}</span>
+                        <div class="coin-slot">🎮</div>
+                        <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
+                            Score: ${score.toLocaleString()} | Level: ${level}
+                        </p>
+                        <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
+                            Press ESC to exit game
+                        </p>
+                    </div>
+                `;
+            }, 1000);
+            
+            // Stop game on ESC key
+            const keyHandler = (e) => {
+                if (e.key === 'Escape') {
+                    clearInterval(gameInterval);
+                    document.removeEventListener('keydown', keyHandler);
+                    endGame(score, level);
+                }
+            };
+            document.addEventListener('keydown', keyHandler);
+        }
+
+        // End game
+        function endGame(finalScore, finalLevel) {
+            isPlaying = false;
+            currentGame = null;
+            
+            const screen = document.querySelector('.screen-content');
+            screen.innerHTML = `
+                <div class="pixel-art">
+                    <span class="pixel-text">GAME OVER</span>
+                    <div class="coin-slot">💀</div>
+                    <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
+                        Final Score: ${finalScore.toLocaleString()}
+                    </p>
+                    <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
+                        Level Reached: ${finalLevel}
+                    </p>
+                    <p style="color: var(--neon-pink); font-size: 0.7rem; margin-top: 0.5rem;">
+                        Insert coin to play again!
+                    </p>
+                </div>
+            `;
+            
+            // Update leaderboard if high score
+            updateLeaderboard(finalScore);
+        }
+
+        // Update leaderboard
+        function updateLeaderboard(score) {
+            const entries = document.querySelectorAll('.leaderboard-entries .entry');
+            const scores = Array.from(entries).map(entry => {
+                const scoreText = entry.querySelector('.score').textContent;
+                return parseInt(scoreText.replace(/,/g, ''));
+            });
+            
+            // Check if this is a high score
+            const minScore = Math.min(...scores);
+            if (score > minScore) {
+                // Replace lowest score
+                const lowestEntry = Array.from(entries).find(entry => {
+                    const scoreText = entry.querySelector('.score').textContent;
+                    return parseInt(scoreText.replace(/,/g, '')) === minScore;
+                });
+                
+                if (lowestEntry) {
+                    lowestEntry.querySelector('.player').textContent = 'YOU';
+                    lowestEntry.querySelector('.score').textContent = score.toLocaleString();
+                    lowestEntry.style.background = 'rgba(255, 0, 110, 0.3)';
+                    lowestEntry.style.borderLeftColor = 'var(--neon-pink)';
+                }
+            }
         }
 
         // Animate the coin slot
@@ -125,13 +289,30 @@
             coinSlot.style.opacity = coinSlot.style.opacity === '0.3' ? '1' : '0.3';
         }, 500);
 
-        // Add click handlers to play buttons
-        document.querySelectorAll('.play-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const gameName = this.parentElement.querySelector('h3').textContent;
-                alert(`🎮 Loading ${gameName}... Ready Player One!`);
-            });
+        // Add keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (isPlaying && currentGame) {
+                switch(e.key) {
+                    case 'ArrowUp':
+                    case 'w':
+                    case 'W':
+                        playSound('red');
+                        break;
+                    case 'ArrowDown':
+                    case 's':
+                    case 'S':
+                        playSound('yellow');
+                        break;
+                    case ' ':
+                    case 'Enter':
+                        playSound('blue');
+                        break;
+                }
+            }
         });
+
+        // Initialize arcade
+        console.log('🕹️ Neon Arcade initialized! Ready for testing!');
     </script>
 </body>
 </html>
