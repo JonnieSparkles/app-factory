@@ -558,7 +558,7 @@ async function main() {
         case '--trigger-github-deploy':
           // Already parsed above
           break;
-        case '--help':
+          case '--help':
         case '-h':
           console.log(`
 Usage: node deploy.js [options]
@@ -567,11 +567,8 @@ App Factory Options:
   -a, --app <id>           Deploy a specific app by ID
   --list-apps              List all available apps
 
-File Deployment Options:
-  -f, --file <path>        File path to deploy (default: hello-world.txt)
-  -c, --content <text>     Content to write to file before deployment
+Deployment Options:
   -m, --message <text>     Commit message for hash generation
-  --dry-run               Show what would be deployed without actually deploying
   --test-mode             Simulate deployment with mock data (no real upload)
 
 Utility Options:
@@ -579,11 +576,6 @@ Utility Options:
   -s, --stats             Show deployment statistics
   --test-twitter          Test Twitter API connection
   --test-discord          Test Discord webhook connection
-  --announce-twitter      Post template-based announcement to Twitter
-  --announce-dm           Send DM announcement to Twitter
-  --announce-discord      Send Discord notification
-  --trigger-announcement  Trigger GitHub Actions announcement workflow
-  --trigger-github-deploy Trigger GitHub Actions deployment workflow
   -h, --help              Show this help message
 
 Examples:
@@ -591,25 +583,15 @@ Examples:
   node deploy.js --app hello-world
   node deploy.js --app celebration
   
-  # Deploy a file directly
-  node deploy.js --file hello-world.txt --content "Hello from agent!"
-  node deploy.js --content "Updated content" --message "Agent edit #1"
-  
   # List available apps
   node deploy.js --list-apps
   
   # Test and utility commands
-  node deploy.js --dry-run
-  node deploy.js --test-mode
+  node deploy.js --test-mode --app hello-world
   node deploy.js --logs
   node deploy.js --stats
   node deploy.js --test-twitter
   node deploy.js --test-discord
-  node deploy.js --announce-twitter
-  node deploy.js --announce-dm
-  node deploy.js --announce-discord
-  node deploy.js --trigger-announcement
-  node deploy.js --trigger-github-deploy
 
 For app management, use: node app-cli.js help
           `);

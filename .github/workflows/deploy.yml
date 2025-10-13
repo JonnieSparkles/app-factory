@@ -71,12 +71,11 @@ jobs:
             fi
             echo "📁 Changed files: $CHANGED_FILES"
             
-            # Filter for deployable files from both deploy and apps folders
-            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep -E '^(deploy/|apps/)' | grep -E '\.(txt|html|js|css|json|md)$' || true)
+            # Filter for deployable files from apps folder only
+            DEPLOYABLE_FILES=$(echo "$CHANGED_FILES" | grep -E '^apps/' | grep -E '\.(txt|html|js|css|json|md)$' || true)
             
             # Check for app factory changes
             APPS_FILES=$(echo "$CHANGED_FILES" | grep '^apps/' || true)
-            DEPLOY_FILES=$(echo "$CHANGED_FILES" | grep '^deploy/' || true)
             
             if [ -z "$DEPLOYABLE_FILES" ]; then
               echo "⚠️ No deployable files found in changes"
@@ -85,17 +84,13 @@ jobs:
               echo "deploy_type=none" >> $GITHUB_OUTPUT
             else
               echo "📦 Deployable files: $DEPLOYABLE_FILES"
-              echo "files=$DEPLOYABLE_FILES" >> $GITHUB_OUTPUT
+              # Convert newlines to spaces for proper GitHub Actions output format
+              DEPLOYABLE_FILES_FORMATTED=$(echo "$DEPLOYABLE_FILES" | tr '\n' ' ')
+              echo "files=$DEPLOYABLE_FILES_FORMATTED" >> $GITHUB_OUTPUT
               echo "message=Auto-deployed changed files after merge to main" >> $GITHUB_OUTPUT
               
-              # Determine deployment type
-              if [ -n "$APPS_FILES" ] && [ -n "$DEPLOY_FILES" ]; then
-                echo "deploy_type=mixed" >> $GITHUB_OUTPUT
-              elif [ -n "$APPS_FILES" ]; then
-                echo "deploy_type=apps" >> $GITHUB_OUTPUT
-              else
-                echo "deploy_type=deploy" >> $GITHUB_OUTPUT
-              fi
+              # Deployment type is always apps now
+              echo "deploy_type=apps" >> $GITHUB_OUTPUT
             fi
           fi
 
@@ -126,10 +121,12 @@ jobs:
             echo "📝 Manual deployment detected"
             FILE_PATH="${{ steps.changed-files.outputs.files }}"
             
-            # If file path doesn't start with deploy/ or apps/, try adding deploy/ prefix
-            if [[ ! "$FILE_PATH" =~ ^(deploy/|apps/) ]]; then
-              if [ -f "deploy/$FILE_PATH" ]; then
-                FILE_PATH="deploy/$FILE_PATH"
+            # If file path doesn't start with apps/, try adding apps/ prefix
+            if [[ ! "$FILE_PATH" =~ ^apps/ ]]; then
+              # Try to find the app in apps directory
+              POSSIBLE_APP=$(echo "$FILE_PATH" | cut -d'/' -f1)
+              if [ -d "apps/$POSSIBLE_APP" ]; then
+                FILE_PATH="apps/$FILE_PATH"
                 echo "📁 Adjusted file path to: $FILE_PATH"
               fi
             fi
@@ -138,38 +135,28 @@ jobs:
             if [ -f "$FILE_PATH" ]; then
               echo "📤 Deploying: $FILE_PATH"
               
-              # Check if it's an app directory (apps/*)
-              if [[ "$FILE_PATH" =~ ^apps/ ]]; then
-                # Extract app name from path
-                APP_NAME=$(echo "$FILE_PATH" | sed 's|apps/\([^/]*\)/.*|\1|')
-                echo "📱 Detected app deployment: $APP_NAME"
-                if ! node deploy.js --app "$APP_NAME" --message "${{ steps.changed-files.outputs.message }}"; then
-                  DEPLOYMENT_SUCCESS=false
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $APP_NAME"
-                fi
-              else
-                # Deploy as individual file
-                if ! npm run deploy -- --file "$FILE_PATH" --message "${{ steps.changed-files.outputs.message }}"; then
-                  DEPLOYMENT_SUCCESS=false
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy: $FILE_PATH"
-                fi
+              # Extract app name from path (apps/*)
+              APP_NAME=$(echo "$FILE_PATH" | sed 's|apps/\([^/]*\)/.*|\1|')
+              echo "📱 Detected app deployment: $APP_NAME"
+              if ! node deploy.js --app "$APP_NAME" --message "${{ steps.changed-files.outputs.message }}"; then
+                DEPLOYMENT_SUCCESS=false
+                DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $APP_NAME"
               fi
             else
               echo "⚠️ File not found: $FILE_PATH"
-              echo "💡 Available files in deploy/ directory:"
-              ls -la deploy/ 2>/dev/null || echo "   (deploy/ directory not found)"
               echo "💡 Available apps:"
               ls -la apps/ 2>/dev/null || echo "   (apps/ directory not found)"
-              echo "💡 Try using: deploy/hello-world.txt, deploy/index.html, or apps/calculator/index.html"
+              echo "💡 Try using an app name like: calculator, portfolio, etc."
               DEPLOYMENT_SUCCESS=false
               DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ File not found: $FILE_PATH"
             fi
           else
             # Handle automatic deployments
-            APPS_FILES=$(echo "${{ steps.changed-files.outputs.files }}" | grep '^apps/' || true)
-            DEPLOY_FILES=$(echo "${{ steps.changed-files.outputs.files }}" | grep '^deploy/' || true)
+            # Convert space-separated files back to newline-separated for processing
+            FILES_LIST=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n')
+            APPS_FILES=$(echo "$FILES_LIST" | grep '^apps/' || true)
             
-            # Deploy apps using app factory if any apps/ files changed
+            # Deploy apps using app factory
             if [ -n "$APPS_FILES" ]; then
               echo "📱 Deploying apps using app factory..."
               # Extract unique app directories from changed files
@@ -179,24 +166,6 @@ jobs:
                 if ! node deploy.js --app "$app_dir" --message "${{ steps.changed-files.outputs.message }}"; then
                   DEPLOYMENT_SUCCESS=false
                   DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_dir"
-                fi
-              done
-            fi
-            
-            # Deploy individual files from deploy/ directory
-            if [ -n "$DEPLOY_FILES" ]; then
-              echo "📁 Deploying individual files from deploy/ directory..."
-              for file in $DEPLOY_FILES; do
-                if [ -f "$file" ]; then
-                  echo "📤 Deploying: $file"
-                  if ! npm run deploy -- --file "$file" --message "${{ steps.changed-files.outputs.message }}"; then
-                    DEPLOYMENT_SUCCESS=false
-                    DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy: $file"
-                  fi
-                else
-                  echo "⚠️ File not found: $file"
-                  DEPLOYMENT_SUCCESS=false
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ File not found: $file"
                 fi
               done
             fi

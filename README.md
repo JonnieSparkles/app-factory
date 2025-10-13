@@ -43,19 +43,18 @@ AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Dep
 ### App Factory Structure
 ```
 apps/
-├── portfolio/           # Example portfolio app
+├── portfolio/           # Portfolio app
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── calculator/          # Calculator app
 │   └── index.html
-├── my-react-app/        # React app example
-│   ├── src/
-│   ├── package.json
-│   └── vite.config.js
-└── custom-app/          # Custom app
+├── hello-world/         # Simple text app
+│   └── index.txt
+├── hello-anthony/       # Greeting app
+│   └── index.html
+└── celebration/         # Celebration page
     └── index.html
-
-deploy/                  # Legacy single-file deployments
-├── hello-world.txt
-├── hello-anthony.html
-└── index.html
 
 apps.json               # App factory configuration
 ```
@@ -182,18 +181,14 @@ node app-cli.js discover
 - Use `node deploy.js --app <app-id>` for app deployments
 - Use `node app-cli.js create` for creating new apps
 - Use `node app-cli.js list` to see available apps
-- Use `node deploy.js --file <filename>` for legacy file deployments
 
 ### Manual Deployment Commands
 ```bash
-# Deploy with content
-npm run deploy -- --content "Hello from remote agent!"
-
-# Deploy specific file
-npm run deploy -- --file hello-world.txt --content "Updated content"
+# Deploy an app
+npm run apps:deploy hello-world
 
 # Test mode (no real deployment)
-npm run deploy -- --test-mode
+npm run deploy -- --test-mode --app hello-world
 
 # View deployment logs
 npm run logs
@@ -210,7 +205,13 @@ npm run stats
 │       ├── auto-merge.yml    # Auto-merge agent PRs
 │       ├── manual-merge.yml  # Manual merge workflow
 │       └── deploy.yml        # Deploy to Arweave
+├── apps/
+│   ├── portfolio/           # Example apps
+│   ├── calculator/
+│   ├── hello-world/
+│   └── ...                  # More apps
 ├── lib/
+│   ├── app-factory.js       # App factory management
 │   ├── arns.js              # ArNS utilities
 │   ├── arweave.js           # Arweave/Turbo utilities
 │   ├── logging.js           # Deployment logging system
@@ -220,7 +221,8 @@ npm run stats
 │   └── deployments.csv      # CSV deployment logs (committed to repo)
 ├── secrets/
 │   └── wallet.json          # Arweave wallet (keep secure!)
-├── hello-world.txt          # Example target file
+├── apps.json                # App factory configuration
+├── app-cli.js               # App management CLI
 ├── deploy.js                # Main deployment script
 ├── env.example              # Environment variables template
 ├── REMOTE_AGENT_SETUP.md    # Detailed setup guide
