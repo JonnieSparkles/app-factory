@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 Snake Classic - Neon Arcade</title>
+    <style>
+        /* Retro Synthwave Gaming Arcade Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --neon-pink: #ff006e;
+            --neon-blue: #00f5ff;
+            --neon-purple: #8338ec;
+            --neon-green: #00ff41;
+            --neon-yellow: #ffbe0b;
+            --dark-bg: #0a0a0a;
+            --grid-color: #ff006e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive, monospace;
+            background: var(--dark-bg);
+            color: var(--neon-blue);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Scanline effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Animated grid background */
+        .grid-background {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-image: 
+                linear-gradient(var(--grid-color) 2px, transparent 2px),
+                linear-gradient(90deg, var(--grid-color) 2px, transparent 2px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: top;
+            opacity: 0.2;
+            animation: gridMove 2s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 50px; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Header Styles */
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .neon-title {
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 40px var(--neon-purple),
+                0 0 70px var(--neon-purple);
+            animation: neonGlow 2s ease-in-out infinite alternate;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes neonGlow {
+            from { text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 40px var(--neon-purple);
+            }
+            to { text-shadow: 
+                0 0 20px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                0 0 50px var(--neon-purple),
+                0 0 80px var(--neon-purple);
+            }
+        }
+
+        .flicker {
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.4; }
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            letter-spacing: 5px;
+            margin-bottom: 2rem;
+        }
+
+        /* Game Container */
+        .game-container {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1e);
+            border: 4px solid var(--neon-purple);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 
+                0 0 30px var(--neon-purple),
+                inset 0 0 30px rgba(131, 56, 236, 0.2);
+        }
+
+        .game-header {
+            margin-bottom: 1rem;
+        }
+
+        .snake-title {
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .snake-score {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        #snakeCanvas {
+            border: 3px solid var(--neon-purple);
+            border-radius: 10px;
+            background: #000;
+            box-shadow: 0 0 30px var(--neon-purple);
+            margin: 1rem 0;
+        }
+
+        .snake-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .snake-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--neon-purple);
+            color: white;
+            border: 2px solid var(--neon-blue);
+            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .snake-btn:hover {
+            background: var(--neon-pink);
+            box-shadow: 0 0 25px var(--neon-pink);
+            transform: scale(1.05);
+        }
+
+        .snake-btn:active {
+            transform: scale(0.95);
+        }
+
+        .start-btn {
+            width: 120px;
+            height: 40px;
+            font-size: 0.5rem;
+            background: var(--neon-green);
+            color: #000;
+            border-color: var(--neon-green);
+        }
+
+        .start-btn:hover {
+            background: var(--neon-yellow);
+            box-shadow: 0 0 25px var(--neon-yellow);
+        }
+
+        .snake-instructions {
+            margin-top: 1rem;
+            color: var(--neon-blue);
+            font-size: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .snake-instructions p {
+            margin: 0.3rem 0;
+        }
+
+        .back-btn {
+            background: var(--neon-pink);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px var(--neon-pink);
+            margin-top: 2rem;
+        }
+
+        .back-btn:hover {
+            background: var(--neon-purple);
+            box-shadow: 0 0 30px var(--neon-purple);
+            transform: scale(1.05);
+        }
+
+        /* Game Over Screen */
+        .game-over {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .game-over h2 {
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-score {
+            color: var(--neon-green);
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        .high-score {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .neon-title {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.6rem;
+                letter-spacing: 2px;
+            }
+            
+            .game-container {
+                padding: 1rem;
+            }
+            
+            #snakeCanvas {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .snake-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.5rem;
+            }
+            
+            .start-btn {
+                width: 100px;
+                height: 35px;
+                font-size: 0.4rem;
+            }
+            
+            .snake-title {
+                font-size: 1rem;
+            }
+            
+            .snake-score {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="grid-background"></div>
+    
+    <div class="container">
+        <header class="game-header">
+            <h1 class="neon-title">
+                <span class="flicker">🐍</span> SNAKE CLASSIC <span class="flicker">🐍</span>
+            </h1>
+            <p class="subtitle">RETRO GAMING PARADISE</p>
+        </header>
+
+        <div class="game-container">
+            <div class="snake-game-container">
+                <div class="snake-game-header">
+                    <h2 class="snake-title">🐍 SNAKE CLASSIC 🐍</h2>
+                    <div class="snake-score">Score: <span id="current-score">0</span> | High: <span id="high-score">0</span></div>
+                </div>
+                <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                <div class="snake-controls">
+                    <div class="control-row">
+                        <button class="snake-btn" onclick="changeDirection('up')">↑</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="snake-btn" onclick="changeDirection('left')">←</button>
+                        <button class="snake-btn" onclick="pauseGame()">⏸️</button>
+                        <button class="snake-btn" onclick="changeDirection('right')">→</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="snake-btn" onclick="changeDirection('down')">↓</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="snake-btn start-btn" onclick="startGameLoop()">START GAME</button>
+                    </div>
+                </div>
+                <div class="snake-instructions">
+                    <p>Use arrow keys or buttons to control the snake!</p>
+                    <p>Eat the food to grow and increase your score!</p>
+                    <p>Don't hit the walls or yourself!</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">← BACK TO ARCADE</button>
+    </div>
+
+    <script>
+        // Snake game variables
+        let snakeGame = null;
+        let snakeCanvas = null;
+        let snakeCtx = null;
+        let snake = [];
+        let food = {};
+        let dx = 0;
+        let dy = 0;
+        let snakeScore = 0;
+        let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
+        let gameRunning = false;
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize canvas
+            snakeCanvas = document.getElementById('snakeCanvas');
+            snakeCtx = snakeCanvas.getContext('2d');
+            
+            // Update high score display
+            document.getElementById('high-score').textContent = snakeHighScore;
+            
+            // Initialize game
+            initSnakeGame();
+        });
+
+        function initSnakeGame() {
+            // Reset game state
+            snake = [{x: 200, y: 200}];
+            dx = 0;
+            dy = 0;
+            snakeScore = 0;
+            gameRunning = false;
+            
+            // Generate first food
+            generateFood();
+            
+            // Draw initial state
+            drawSnakeGame();
+        }
+
+        function startGameLoop() {
+            if (gameRunning) return;
+            
+            gameRunning = true;
+            snakeGame = setInterval(gameLoop, 150);
+            
+            // Start with right direction
+            dx = 20;
+            dy = 0;
+        }
+
+        function pauseGame() {
+            if (gameRunning) {
+                clearInterval(snakeGame);
+                gameRunning = false;
+            } else {
+                startGameLoop();
+            }
+        }
+
+        function gameLoop() {
+            if (!gameRunning) return;
+            
+            // Move snake
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            
+            // Check wall collision
+            if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height) {
+                gameOver();
+                return;
+            }
+            
+            // Check self collision
+            for (let segment of snake) {
+                if (head.x === segment.x && head.y === segment.y) {
+                    gameOver();
+                    return;
+                }
+            }
+            
+            snake.unshift(head);
+            
+            // Check food collision
+            if (head.x === food.x && head.y === food.y) {
+                snakeScore += 10;
+                updateScore();
+                generateFood();
+            } else {
+                snake.pop();
+            }
+            
+            drawSnakeGame();
+        }
+
+        function changeDirection(direction) {
+            if (!gameRunning) return;
+            
+            switch(direction) {
+                case 'up':
+                    if (dy !== 20) { dx = 0; dy = -20; }
+                    break;
+                case 'down':
+                    if (dy !== -20) { dx = 0; dy = 20; }
+                    break;
+                case 'left':
+                    if (dx !== 20) { dx = -20; dy = 0; }
+                    break;
+                case 'right':
+                    if (dx !== -20) { dx = 20; dy = 0; }
+                    break;
+            }
+        }
+
+        function generateFood() {
+            food = {
+                x: Math.floor(Math.random() * (snakeCanvas.width / 20)) * 20,
+                y: Math.floor(Math.random() * (snakeCanvas.height / 20)) * 20
+            };
+            
+            // Make sure food doesn't spawn on snake
+            for (let segment of snake) {
+                if (food.x === segment.x && food.y === segment.y) {
+                    generateFood();
+                    return;
+                }
+            }
+        }
+
+        function drawSnakeGame() {
+            // Clear canvas
+            snakeCtx.fillStyle = '#000';
+            snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+            
+            // Draw snake
+            snakeCtx.fillStyle = '#00ff41';
+            snake.forEach((segment, index) => {
+                if (index === 0) {
+                    // Head - brighter green
+                    snakeCtx.fillStyle = '#00ff41';
+                    snakeCtx.shadowColor = '#00ff41';
+                    snakeCtx.shadowBlur = 10;
+                } else {
+                    // Body - darker green
+                    snakeCtx.fillStyle = '#00cc33';
+                    snakeCtx.shadowBlur = 0;
+                }
+                snakeCtx.fillRect(segment.x, segment.y, 18, 18);
+            });
+            
+            // Draw food
+            snakeCtx.fillStyle = '#ff006e';
+            snakeCtx.shadowColor = '#ff006e';
+            snakeCtx.shadowBlur = 15;
+            snakeCtx.fillRect(food.x, food.y, 18, 18);
+            
+            // Reset shadow
+            snakeCtx.shadowBlur = 0;
+        }
+
+        function updateScore() {
+            document.getElementById('current-score').textContent = snakeScore;
+        }
+
+        function gameOver() {
+            clearInterval(snakeGame);
+            gameRunning = false;
+            
+            // Update high score
+            if (snakeScore > snakeHighScore) {
+                snakeHighScore = snakeScore;
+                localStorage.setItem('snakeHighScore', snakeHighScore);
+                document.getElementById('high-score').textContent = snakeHighScore;
+            }
+            
+            // Show game over screen
+            const gameContainer = document.querySelector('.game-container');
+            gameContainer.innerHTML = `
+                <div class="game-over">
+                    <h2>GAME OVER</h2>
+                    <div class="final-score">Final Score: ${snakeScore}</div>
+                    <div class="high-score">High Score: ${snakeHighScore}</div>
+                    <button class="snake-btn start-btn" onclick="restartGame()" style="margin-top: 1rem;">PLAY AGAIN</button>
+                </div>
+            `;
+        }
+
+        function restartGame() {
+            // Reset the game container
+            const gameContainer = document.querySelector('.game-container');
+            gameContainer.innerHTML = `
+                <div class="snake-game-container">
+                    <div class="snake-game-header">
+                        <h2 class="snake-title">🐍 SNAKE CLASSIC 🐍</h2>
+                        <div class="snake-score">Score: <span id="current-score">0</span> | High: <span id="high-score">${snakeHighScore}</span></div>
+                    </div>
+                    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                    <div class="snake-controls">
+                        <div class="control-row">
+                            <button class="snake-btn" onclick="changeDirection('up')">↑</button>
+                        </div>
+                        <div class="control-row">
+                            <button class="snake-btn" onclick="changeDirection('left')">←</button>
+                            <button class="snake-btn" onclick="pauseGame()">⏸️</button>
+                            <button class="snake-btn" onclick="changeDirection('right')">→</button>
+                        </div>
+                        <div class="control-row">
+                            <button class="snake-btn" onclick="changeDirection('down')">↓</button>
+                        </div>
+                        <div class="control-row">
+                            <button class="snake-btn start-btn" onclick="startGameLoop()">START GAME</button>
+                        </div>
+                    </div>
+                    <div class="snake-instructions">
+                        <p>Use arrow keys or buttons to control the snake!</p>
+                        <p>Eat the food to grow and increase your score!</p>
+                        <p>Don't hit the walls or yourself!</p>
+                    </div>
+                </div>
+            `;
+            
+            // Re-initialize canvas and game
+            snakeCanvas = document.getElementById('snakeCanvas');
+            snakeCtx = snakeCanvas.getContext('2d');
+            initSnakeGame();
+        }
+
+        function goBack() {
+            // Go back to the arcade
+            window.location.href = 'index.html';
+        }
+
+        // Add keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (gameRunning) {
+                // Snake game controls
+                switch(e.key) {
+                    case 'ArrowUp':
+                    case 'w':
+                    case 'W':
+                        e.preventDefault();
+                        changeDirection('up');
+                        break;
+                    case 'ArrowDown':
+                    case 's':
+                    case 'S':
+                        e.preventDefault();
+                        changeDirection('down');
+                        break;
+                    case 'ArrowLeft':
+                    case 'a':
+                    case 'A':
+                        e.preventDefault();
+                        changeDirection('left');
+                        break;
+                    case 'ArrowRight':
+                    case 'd':
+                    case 'D':
+                        e.preventDefault();
+                        changeDirection('right');
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        pauseGame();
+                        break;
+                }
+            }
+        });
+
+        // Initialize game
+        console.log('🐍 Snake Classic initialized!');
+    </script>
+</body>
+</html>
