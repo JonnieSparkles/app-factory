@@ -768,5 +768,21 @@
     "context": "Deployment ",
     "duration": 18,
     "filePath": "hello-world.txt"
+  },
+  {
+    "timestamp": "2025-10-13T14:34:02.362Z",
+    "success": true,
+    "appId": "arcade",
+    "filePath": "apps/arcade/index.html",
+    "commitHash": "1f07155a07846220",
+    "txId": "test-manifest-1760366042356",
+    "manifestTxId": "test-manifest-1760366042356",
+    "undername": "1f07155a07846220",
+    "fileSize": 23846,
+    "duration": 80,
+    "testMode": true,
+    "deploymentType": "incremental",
+    "changedFiles": 2,
+    "version": "0.1.8"
   }
 ]
