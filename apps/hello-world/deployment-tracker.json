@@ -1,0 +1,22 @@
+{
+  "lastDeployCommit": "0f0dd43d696ba9ee",
+  "deploymentHistory": [
+    {
+      "version": "0.2.0",
+      "commit": "0f0dd43d696ba9ee",
+      "manifestTxId": "WpCVbk0vRAD5ML4W6jOJaeuTKudAgpdER0oV4PhV55g",
+      "changedFiles": [
+        "apps/hello-world/index.txt"
+      ],
+      "deployed": "2025-10-13T21:28:43.449Z"
+    }
+  ],
+  "fileCommitMap": {
+    "index.txt": "0f0dd43d696ba9ee"
+  },
+  "lastDeployed": "2025-10-13T21:28:43.449Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.txt": "bf5595f0ba872b6f0f97af58ac515ed65cefbcf4"
+  }
+}

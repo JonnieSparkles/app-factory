@@ -1,0 +1,30 @@
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": {
+    "path": "index.html"
+  },
+  "paths": {
+    "dice-roller.html": {
+      "id": "ryePhSLxjN5Se0O63CFNIGYwW7nFeWoMSogIW-Rh0KY"
+    },
+    "index.html": {
+      "id": "tNfP7BPoV2p-Ud9q74q2GYSxj-KZLlwrtDPnxQCQbnc"
+    },
+    "neon-target.html": {
+      "id": "Xyi_IBQD5aEl0WUz4p5e2nGUAuUVtlLGacWkAsRxzWE"
+    },
+    "pixel-runner.html": {
+      "id": "zMBQX302bnDhgPDYCh5wGl-T_6QP7oWxpS7XEe2QNM8"
+    },
+    "snake.html": {
+      "id": "QRiEVjxx4ozVMiDJIXNApap28VWTSxkLRa_Yg7fFs8c"
+    },
+    "star-collector.html": {
+      "id": "mU0vcNrTZF9Fb9-EB6E_NP0cLgeafgHhr2EF1dZdcF0"
+    },
+    "style.css": {
+      "id": "ygQitkEjYvWPhnEUXuFTx0Mznd004sA_6B0yAFjB_M4"
+    }
+  }
+}

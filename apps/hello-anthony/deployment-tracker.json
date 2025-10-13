@@ -1,0 +1,22 @@
+{
+  "lastDeployCommit": "0f0dd43d696ba9ee",
+  "deploymentHistory": [
+    {
+      "version": "0.2.0",
+      "commit": "0f0dd43d696ba9ee",
+      "manifestTxId": "3Odv26MurxylKEwfFBWZQ_VAi3k4j45zUSTHyhinnfw",
+      "changedFiles": [
+        "apps/hello-anthony/index.html"
+      ],
+      "deployed": "2025-10-13T21:28:33.684Z"
+    }
+  ],
+  "fileCommitMap": {
+    "index.html": "0f0dd43d696ba9ee"
+  },
+  "lastDeployed": "2025-10-13T21:28:33.684Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "f84c51526b00b483008ed5e61cc6c00c2627874d"
+  }
+}

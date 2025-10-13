@@ -1,0 +1,40 @@
+{
+  "lastDeployCommit": "0f0dd43d696ba9ee",
+  "deploymentHistory": [
+    {
+      "version": "0.2.0",
+      "commit": "0f0dd43d696ba9ee",
+      "manifestTxId": "gKv04X4kPahHfNIsm5B3bJe5eoa-L8Nhyg6wTaJ-Mxc",
+      "changedFiles": [
+        "apps/arcade/dice-roller.html",
+        "apps/arcade/index.html",
+        "apps/arcade/neon-target.html",
+        "apps/arcade/pixel-runner.html",
+        "apps/arcade/snake.html",
+        "apps/arcade/star-collector.html",
+        "apps/arcade/style.css"
+      ],
+      "deployed": "2025-10-13T21:25:47.173Z"
+    }
+  ],
+  "fileCommitMap": {
+    "dice-roller.html": "0f0dd43d696ba9ee",
+    "index.html": "0f0dd43d696ba9ee",
+    "neon-target.html": "0f0dd43d696ba9ee",
+    "pixel-runner.html": "0f0dd43d696ba9ee",
+    "snake.html": "0f0dd43d696ba9ee",
+    "star-collector.html": "0f0dd43d696ba9ee",
+    "style.css": "0f0dd43d696ba9ee"
+  },
+  "lastDeployed": "2025-10-13T21:25:47.173Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "dice-roller.html": "3d1f4b8f4829479592ea107394262e00d1a5e51c",
+    "index.html": "9ed50fb7723ecfffb0a9336dc9b27932bad5ed65",
+    "neon-target.html": "9f2cc9b721dfe3624ffd874a2753a9e989f4b4bc",
+    "pixel-runner.html": "c634d71bf72d2dc567eafa0c2fec4a36900bcdd6",
+    "snake.html": "c8c787151c872e64559387befb0f367894cd099d",
+    "star-collector.html": "202f5f6638abc793d92fd53e73d50b4849832779",
+    "style.css": "d440de907cc3f13ea9862b8ee39ae7163652dd8c"
+  }
+}

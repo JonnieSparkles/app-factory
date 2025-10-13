@@ -1,0 +1,22 @@
+{
+  "lastDeployCommit": "0f0dd43d696ba9ee",
+  "deploymentHistory": [
+    {
+      "version": "0.2.0",
+      "commit": "0f0dd43d696ba9ee",
+      "manifestTxId": "oaMf7xmMjSNvbxDQ4gtFmGzoGwZ4zkwypeiSNW-ZgEk",
+      "changedFiles": [
+        "apps/nsync-fanpage/index.html"
+      ],
+      "deployed": "2025-10-13T21:28:52.157Z"
+    }
+  ],
+  "fileCommitMap": {
+    "index.html": "0f0dd43d696ba9ee"
+  },
+  "lastDeployed": "2025-10-13T21:28:52.157Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "2a7dff7a90843484c81ab730b6bb30b1e0f7c377"
+  }
+}

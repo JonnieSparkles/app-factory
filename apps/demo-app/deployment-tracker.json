@@ -1,0 +1,22 @@
+{
+  "lastDeployCommit": "0f0dd43d696ba9ee",
+  "deploymentHistory": [
+    {
+      "version": "0.2.0",
+      "commit": "0f0dd43d696ba9ee",
+      "manifestTxId": "WffxODDVTZzvvVC5EdcUqxlVAovjY-Vbtn5PVHUoSnA",
+      "changedFiles": [
+        "apps/demo-app/index.html"
+      ],
+      "deployed": "2025-10-13T21:28:13.904Z"
+    }
+  ],
+  "fileCommitMap": {
+    "index.html": "0f0dd43d696ba9ee"
+  },
+  "lastDeployed": "2025-10-13T21:28:13.904Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "6109ef73a1505e2f2018d0078c9b2ed722b2d4b9"
+  }
+}
