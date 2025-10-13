@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏃 Pixel Runner - Neon Arcade</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Pixel Runner specific styles */
+        .pixel-runner-container {
+            text-align: center;
+            padding: 1rem;
+            background: var(--dark-bg);
+            min-height: 100vh;
+        }
+
+        .pixel-runner-header {
+            margin-bottom: 1rem;
+        }
+
+        .pixel-runner-title {
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pixel-runner-score {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        #pixelRunnerCanvas {
+            border: 3px solid var(--neon-purple);
+            border-radius: 10px;
+            background: #000;
+            box-shadow: 0 0 30px var(--neon-purple);
+            margin: 1rem 0;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-runner-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .pixel-runner-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--neon-purple);
+            color: white;
+            border: 2px solid var(--neon-blue);
+            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .pixel-runner-btn:hover {
+            background: var(--neon-pink);
+            box-shadow: 0 0 25px var(--neon-pink);
+            transform: scale(1.05);
+        }
+
+        .pixel-runner-btn:active {
+            transform: scale(0.95);
+        }
+
+        .start-btn {
+            width: 120px;
+            height: 40px;
+            font-size: 0.5rem;
+            background: var(--neon-green);
+            color: #000;
+            border-color: var(--neon-green);
+        }
+
+        .start-btn:hover {
+            background: var(--neon-yellow);
+            box-shadow: 0 0 25px var(--neon-yellow);
+        }
+
+        .pixel-runner-instructions {
+            margin-top: 1rem;
+            color: var(--neon-blue);
+            font-size: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .pixel-runner-instructions p {
+            margin: 0.3rem 0;
+        }
+
+        .game-over-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid var(--neon-pink);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            color: var(--neon-green);
+            z-index: 1000;
+            display: none;
+        }
+
+        .game-over-title {
+            font-size: 1.2rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+            margin-bottom: 1rem;
+        }
+
+        .final-score {
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+        }
+
+        .restart-btn {
+            background: var(--neon-green);
+            color: #000;
+            border: 2px solid var(--neon-green);
+            padding: 0.5rem 1rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .restart-btn:hover {
+            background: var(--neon-yellow);
+            box-shadow: 0 0 20px var(--neon-yellow);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            #pixelRunnerCanvas {
+                width: 300px;
+                height: 200px;
+            }
+            
+            .pixel-runner-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.5rem;
+            }
+            
+            .start-btn {
+                width: 100px;
+                height: 35px;
+                font-size: 0.4rem;
+            }
+            
+            .pixel-runner-title {
+                font-size: 1rem;
+            }
+            
+            .pixel-runner-score {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="grid-background"></div>
+    
+    <div class="pixel-runner-container">
+        <div class="pixel-runner-header">
+            <h1 class="pixel-runner-title">🏃 PIXEL RUNNER</h1>
+            <div class="pixel-runner-score">
+                <span>SCORE: <span id="score">0</span></span> | 
+                <span>HIGH SCORE: <span id="highScore">0</span></span> | 
+                <span>SPEED: <span id="speed">1</span></span>
+            </div>
+        </div>
+
+        <div style="position: relative; display: inline-block;">
+            <canvas id="pixelRunnerCanvas" width="400" height="200"></canvas>
+            <div class="game-over-screen" id="gameOverScreen">
+                <div class="game-over-title">GAME OVER!</div>
+                <div class="final-score">FINAL SCORE: <span id="finalScore">0</span></div>
+                <button class="restart-btn" onclick="restartGame()">PLAY AGAIN</button>
+            </div>
+        </div>
+
+        <div class="pixel-runner-controls">
+            <div class="control-row">
+                <button class="pixel-runner-btn" onclick="jump()">JUMP</button>
+            </div>
+            <div class="control-row">
+                <button class="start-btn" onclick="startGame()" id="startBtn">START GAME</button>
+            </div>
+        </div>
+
+        <div class="pixel-runner-instructions">
+            <p>🏃 Use SPACEBAR or JUMP button to avoid obstacles!</p>
+            <p>🎯 Collect coins for bonus points!</p>
+            <p>⚡ Speed increases as you progress!</p>
+            <p>💀 Don't hit the obstacles or you're done!</p>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        const canvas = document.getElementById('pixelRunnerCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let gameRunning = false;
+        let gameSpeed = 1;
+        let score = 0;
+        let highScore = localStorage.getItem('pixelRunnerHighScore') || 0;
+        
+        // Player
+        const player = {
+            x: 50,
+            y: 150,
+            width: 20,
+            height: 20,
+            velocityY: 0,
+            isJumping: false,
+            color: '#00ff41'
+        };
+        
+        // Game objects
+        let obstacles = [];
+        let coins = [];
+        let particles = [];
+        
+        // Game settings
+        const GRAVITY = 0.8;
+        const JUMP_FORCE = -12;
+        const OBSTACLE_SPEED = 3;
+        const COIN_SPEED = 3;
+        const GROUND_Y = 150;
+        
+        // Initialize high score display
+        document.getElementById('highScore').textContent = highScore;
+        
+        // Game loop
+        function gameLoop() {
+            if (!gameRunning) return;
+            
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw ground
+            ctx.fillStyle = '#333';
+            ctx.fillRect(0, GROUND_Y + 20, canvas.width, canvas.height - GROUND_Y - 20);
+            
+            // Update and draw player
+            updatePlayer();
+            drawPlayer();
+            
+            // Update and draw obstacles
+            updateObstacles();
+            drawObstacles();
+            
+            // Update and draw coins
+            updateCoins();
+            drawCoins();
+            
+            // Update and draw particles
+            updateParticles();
+            drawParticles();
+            
+            // Check collisions
+            checkCollisions();
+            
+            // Update score and speed
+            score += 1;
+            gameSpeed = Math.floor(score / 500) + 1;
+            
+            // Update display
+            document.getElementById('score').textContent = score;
+            document.getElementById('speed').textContent = gameSpeed;
+            
+            // Spawn obstacles
+            if (Math.random() < 0.01 * gameSpeed) {
+                spawnObstacle();
+            }
+            
+            // Spawn coins
+            if (Math.random() < 0.005 * gameSpeed) {
+                spawnCoin();
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        function updatePlayer() {
+            // Apply gravity
+            player.velocityY += GRAVITY;
+            player.y += player.velocityY;
+            
+            // Ground collision
+            if (player.y >= GROUND_Y) {
+                player.y = GROUND_Y;
+                player.velocityY = 0;
+                player.isJumping = false;
+            }
+        }
+        
+        function drawPlayer() {
+            // Draw player as a simple rectangle with pixel art style
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Add some pixel art details
+            ctx.fillStyle = '#00cc33';
+            ctx.fillRect(player.x + 2, player.y + 2, player.width - 4, 4);
+            ctx.fillRect(player.x + 2, player.y + player.height - 6, player.width - 4, 4);
+            
+            // Eyes
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(player.x + 4, player.y + 6, 3, 3);
+            ctx.fillRect(player.x + 13, player.y + 6, 3, 3);
+        }
+        
+        function spawnObstacle() {
+            obstacles.push({
+                x: canvas.width,
+                y: GROUND_Y,
+                width: 15,
+                height: 20,
+                color: '#ff006e'
+            });
+        }
+        
+        function updateObstacles() {
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].x -= OBSTACLE_SPEED * gameSpeed;
+                
+                // Remove obstacles that are off screen
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                }
+            }
+        }
+        
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                // Draw obstacle as a spike
+                ctx.fillStyle = obstacle.color;
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                
+                // Add spike details
+                ctx.fillStyle = '#cc0044';
+                ctx.fillRect(obstacle.x + 2, obstacle.y + 2, obstacle.width - 4, 4);
+            });
+        }
+        
+        function spawnCoin() {
+            coins.push({
+                x: canvas.width,
+                y: GROUND_Y - 30,
+                width: 12,
+                height: 12,
+                color: '#ffbe0b',
+                collected: false
+            });
+        }
+        
+        function updateCoins() {
+            for (let i = coins.length - 1; i >= 0; i--) {
+                if (!coins[i].collected) {
+                    coins[i].x -= COIN_SPEED * gameSpeed;
+                    
+                    // Remove coins that are off screen
+                    if (coins[i].x + coins[i].width < 0) {
+                        coins.splice(i, 1);
+                    }
+                }
+            }
+        }
+        
+        function drawCoins() {
+            coins.forEach(coin => {
+                if (!coin.collected) {
+                    // Draw coin as a circle
+                    ctx.fillStyle = coin.color;
+                    ctx.beginPath();
+                    ctx.arc(coin.x + coin.width/2, coin.y + coin.height/2, coin.width/2, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Add shine effect
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(coin.x + coin.width/2 - 2, coin.y + coin.height/2 - 2, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+        
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].x += particles[i].velocityX;
+                particles[i].y += particles[i].velocityY;
+                particles[i].life--;
+                
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+        
+        function drawParticles() {
+            particles.forEach(particle => {
+                ctx.fillStyle = particle.color;
+                ctx.globalAlpha = particle.life / 30;
+                ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
+                ctx.globalAlpha = 1;
+            });
+        }
+        
+        function checkCollisions() {
+            // Check obstacle collisions
+            obstacles.forEach(obstacle => {
+                if (player.x < obstacle.x + obstacle.width &&
+                    player.x + player.width > obstacle.x &&
+                    player.y < obstacle.y + obstacle.height &&
+                    player.y + player.height > obstacle.y) {
+                    gameOver();
+                }
+            });
+            
+            // Check coin collisions
+            coins.forEach(coin => {
+                if (!coin.collected &&
+                    player.x < coin.x + coin.width &&
+                    player.x + player.width > coin.x &&
+                    player.y < coin.y + coin.height &&
+                    player.y + player.height > coin.y) {
+                    coin.collected = true;
+                    score += 100;
+                    createParticles(coin.x + coin.width/2, coin.y + coin.height/2, '#ffbe0b');
+                }
+            });
+        }
+        
+        function createParticles(x, y, color) {
+            for (let i = 0; i < 5; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    velocityX: (Math.random() - 0.5) * 4,
+                    velocityY: (Math.random() - 0.5) * 4,
+                    size: 3,
+                    color: color,
+                    life: 30
+                });
+            }
+        }
+        
+        function jump() {
+            if (!player.isJumping && gameRunning) {
+                player.velocityY = JUMP_FORCE;
+                player.isJumping = true;
+            }
+        }
+        
+        function startGame() {
+            if (!gameRunning) {
+                gameRunning = true;
+                score = 0;
+                obstacles = [];
+                coins = [];
+                particles = [];
+                player.y = GROUND_Y;
+                player.velocityY = 0;
+                player.isJumping = false;
+                
+                document.getElementById('startBtn').textContent = 'RUNNING...';
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('gameOverScreen').style.display = 'none';
+                
+                gameLoop();
+            }
+        }
+        
+        function gameOver() {
+            gameRunning = false;
+            document.getElementById('startBtn').textContent = 'START GAME';
+            document.getElementById('startBtn').disabled = false;
+            
+            // Update high score
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('pixelRunnerHighScore', highScore);
+                document.getElementById('highScore').textContent = highScore;
+            }
+            
+            // Show game over screen
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOverScreen').style.display = 'block';
+        }
+        
+        function restartGame() {
+            startGame();
+        }
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        });
+        
+        // Initialize game
+        console.log('🏃 Pixel Runner initialized!');
+    </script>
+</body>
+</html>
