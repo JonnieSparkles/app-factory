@@ -221,6 +221,8 @@ The system now features **incremental deployment** - a cost and time-optimized a
 - ✅ **Deployment history** - Track all deployments per app
 - ✅ **Git efficient** - Works with shallow clones (fetch-depth: 1)
 - ✅ **Reliable** - No git history dependencies or merge conflicts
+- ✅ **Safe by default** - Only deploys git-tracked files (prevents accidental secret leaks)
+- ✅ **Handles file operations** - Automatically handles renames, moves, and deletions
 
 ### File Structure
 
@@ -256,6 +258,8 @@ node deploy.js --app hello-world --test-mode
 - Deterministic: same content = same hash = no re-upload
 - Works with shallow git clones (no history needed)
 - Independent of git commit history or merge states
+- **Safety filter**: Only processes git-tracked files (prevents untracked file deployment)
+- **File operation support**: Detects renames, moves, and deletions automatically
 
 ### GitHub Actions Integration
 
@@ -277,14 +281,16 @@ This means:
 
 ### Deployment Flow
 
-1. **Hash all files** in the app directory using SHA-256
-2. **Compare hashes** with stored hashes in deployment-tracker.json
-3. **Upload only changed files** to Arweave
-4. **Update manifest** with new file IDs (preserving unchanged file IDs)
-5. **Upload updated manifest** to Arweave
-6. **Create ArNS record** pointing to manifest (using commit hash as undername)
-7. **Update tracking files** with new hashes and commit info
-8. **Commit back to repo** (manifest.json and deployment-tracker.json)
+1. **Discover all files** in the app directory
+2. **Filter to git-tracked files** (safety check - prevents untracked file deployment)
+3. **Hash tracked files** using SHA-256 via `git hash-object`
+4. **Compare hashes** with stored hashes in deployment-tracker.json
+5. **Upload only changed files** to Arweave
+6. **Update manifest** with new file IDs and remove deleted/moved file entries
+7. **Upload updated manifest** to Arweave
+8. **Create ArNS record** pointing to manifest (using commit hash as undername)
+9. **Update tracking files** with new hashes and commit info
+10. **Commit back to repo** (manifest.json and deployment-tracker.json)
 
 ### Example Output
 
@@ -295,6 +301,7 @@ This means:
 🔍 Using hash-based change detection...
 📝 File changed: index.html (modified)
 📝 File changed: style.css (modified)
+🗑️ File deleted: old-game.html
 📁 Changed files: 2
 📤 Uploading 2 changed files...
 [1/2] Uploading style.css...
@@ -445,6 +452,12 @@ This system is designed for seamless AI agent workflows:
 - If they're not in git, the next deployment won't know what was previously deployed
 - Solution: Our workflow now automatically commits these files back to repo
 
+**File operations (rename/move/delete) not working:**
+- The system now automatically handles file renames, moves, and deletions
+- Deleted files are removed from the manifest automatically
+- Renamed files are detected as deletion + new file (both operations handled)
+- If issues persist, check that files are properly git-tracked before deployment
+
 ## 📈 Monitoring & Logs
 
 - **GitHub Actions**: Monitor workflow runs in the Actions tab
@@ -471,6 +484,8 @@ This system can be extended with:
 - **Webhook notifications** for deployment status
 - **Multi-environment support** (staging/production)
 - **Custom validation rules** for different file types
+- **Selective untracked file inclusion** (with explicit allowlist)
+- **Advanced file operation detection** (git mv detection)
 
 ## 📚 Documentation
 
