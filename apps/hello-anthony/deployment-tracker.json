@@ -1,5 +1,5 @@
 {
-  "lastDeployCommit": "0f0dd43d696ba9ee",
+  "lastDeployCommit": "cbb82be6a263c126",
   "deploymentHistory": [
     {
       "version": "0.2.0",
@@ -9,14 +9,26 @@
         "apps/hello-anthony/index.html"
       ],
       "deployed": "2025-10-13T21:28:33.684Z"
+    },
+    {
+      "version": "0.2.0",
+      "commit": "cbb82be6a263c126",
+      "manifestTxId": "BlbBbGThuG7_3y5h1BGm_9PKBrGmQ2N2RgpPFkAfPT0",
+      "changedFiles": [
+        "apps/hello-anthony/index.html",
+        "apps/hello-anthony/social-preview.html"
+      ],
+      "deployed": "2025-10-13T22:23:19.894Z"
     }
   ],
   "fileCommitMap": {
-    "index.html": "0f0dd43d696ba9ee"
+    "index.html": "cbb82be6a263c126",
+    "social-preview.html": "cbb82be6a263c126"
   },
-  "lastDeployed": "2025-10-13T21:28:33.684Z",
-  "deploymentCount": 1,
+  "lastDeployed": "2025-10-13T22:23:19.894Z",
+  "deploymentCount": 2,
   "fileHashes": {
-    "index.html": "f84c51526b00b483008ed5e61cc6c00c2627874d"
+    "index.html": "0cd2a11312956585efc72d967b03f20b19b96fe8",
+    "social-preview.html": "6f3787910a8d3f391ee768c4b76c858d645fe7b6"
   }
 }
