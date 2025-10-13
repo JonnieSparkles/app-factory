@@ -569,5 +569,24 @@
     "fileSize": 20,
     "duration": 1,
     "arnsRecordId": "test-record-aeac9330bd7e04b1"
+  },
+  {
+    "timestamp": "2025-10-13T12:29:44.149Z",
+    "success": true,
+    "appId": "arcade",
+    "filePath": "apps/arcade/index.html",
+    "commitHash": "09dd30690ba6c56e",
+    "txId": "n5X9xVX4KxlBFF185NvHn0a9ZAl6KHwo4mZ3SZgs3Lo",
+    "manifestTxId": "n5X9xVX4KxlBFF185NvHn0a9ZAl6KHwo4mZ3SZgs3Lo",
+    "undername": "09dd30690ba6c56e",
+    "ttl": 60,
+    "fileCount": 2,
+    "totalSize": 22394,
+    "duration": 32236,
+    "arnsRecordId": "XKSpB2OmOkC-WIuI6THOt-2Xre5W1Iwe5D9aGn3PKwk",
+    "files": {
+      "index.html": "Era7i9eup1DUrFtumfan2DQhIKnEh9EAzlTaj9y_X54",
+      "style.css": "RQrFIpVuYIDjkNXwvoC3p8kBocWQCYdhULVkrdQf_CU"
+    }
   }
 ]
