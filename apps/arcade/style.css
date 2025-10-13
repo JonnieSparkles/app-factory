@@ -438,6 +438,71 @@ body {
     50%, 100% { opacity: 0; }
 }
 
+/* Enhanced animations and effects */
+@keyframes rainbow {
+    0% { color: var(--neon-pink); }
+    16% { color: var(--neon-blue); }
+    33% { color: var(--neon-purple); }
+    50% { color: var(--neon-green); }
+    66% { color: var(--neon-yellow); }
+    83% { color: var(--neon-pink); }
+    100% { color: var(--neon-blue); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px var(--neon-blue); }
+    50% { box-shadow: 0 0 40px var(--neon-pink), 0 0 60px var(--neon-purple); }
+}
+
+.rainbow-text {
+    animation: rainbow 2s linear infinite;
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.glow-effect {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Enhanced game card hover effects */
+.game-card:hover .game-icon {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+.game-card:hover .play-btn {
+    animation: glow 1s ease-in-out infinite;
+}
+
+/* Particle effect simulation */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--neon-pink);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat 3s linear infinite;
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .neon-title {
