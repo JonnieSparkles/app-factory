@@ -108,6 +108,27 @@
                 <p class="game-score">HIGH SCORE: 15,555</p>
                 <button class="play-btn" onclick="startGame('maze-runner')">PLAY NOW</button>
             </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🎲</div>
+                <h3>Dice Roller</h3>
+                <p class="game-score">HIGH SCORE: 6,666</p>
+                <button class="play-btn" onclick="startGame('dice-roller')">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🎨</div>
+                <h3>Pixel Painter</h3>
+                <p class="game-score">HIGH SCORE: 9,999</p>
+                <button class="play-btn" onclick="startGame('pixel-painter')">PLAY NOW</button>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-icon">🌟</div>
+                <h3>Star Collector</h3>
+                <p class="game-score">HIGH SCORE: 12,345</p>
+                <button class="play-btn" onclick="startGame('star-collector')">PLAY NOW</button>
+            </div>
         </section>
 
         <section class="leaderboard">
@@ -153,23 +174,10 @@
         let currentGame = null;
         let gameScore = 0;
         let isPlaying = false;
+        let totalCoins = 0;
+        let powerUps = 0;
+        let level = 1;
 
-        // Simple sound effect simulation
-        function playSound(color) {
-            const btn = event.target;
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                btn.style.transform = 'scale(1)';
-            }, 100);
-            
-            // Log the button press
-            console.log(`🎮 ${color.toUpperCase()} button pressed!`);
-            
-            // Add visual feedback
-            if (color === 'blue' && !isPlaying) {
-                startArcadeMode();
-            }
-        }
 
         // Start arcade mode
         function startArcadeMode() {
@@ -202,7 +210,10 @@
                 'tetris-classic': 'Tetris Classic',
                 'ghost-chase': 'Ghost Chase',
                 'fruit-collector': 'Fruit Collector',
-                'maze-runner': 'Maze Runner'
+                'maze-runner': 'Maze Runner',
+                'dice-roller': 'Dice Roller',
+                'pixel-painter': 'Pixel Painter',
+                'star-collector': 'Star Collector'
             };
             
             const gameName = gameNames[gameType] || gameType;
@@ -233,24 +244,72 @@
             const screen = document.querySelector('.screen-content');
             let level = 1;
             let score = 0;
+            let coins = 0;
+            let powerUps = 0;
             
             const gameInterval = setInterval(() => {
-                score += Math.floor(Math.random() * 100) + 50;
+                // Enhanced scoring system
+                const baseScore = Math.floor(Math.random() * 100) + 50;
+                const levelBonus = level * 10;
+                const coinBonus = coins * 5;
+                const powerUpBonus = powerUps * 25;
+                
+                score += baseScore + levelBonus + coinBonus + powerUpBonus;
                 level = Math.floor(score / 1000) + 1;
+                
+                // Random events
+                if (Math.random() < 0.3) {
+                    coins += Math.floor(Math.random() * 3) + 1;
+                }
+                if (Math.random() < 0.1) {
+                    powerUps += 1;
+                }
+                
+                // Special effects for different games
+                let gameIcon = '🎮';
+                let specialEffect = '';
+                
+                switch(gameType) {
+                    case 'dice-roller':
+                        gameIcon = '🎲';
+                        specialEffect = `Dice: ${Math.floor(Math.random() * 6) + 1}`;
+                        break;
+                    case 'pixel-painter':
+                        gameIcon = '🎨';
+                        specialEffect = `Pixels: ${Math.floor(Math.random() * 100)}`;
+                        break;
+                    case 'star-collector':
+                        gameIcon = '🌟';
+                        specialEffect = `Stars: ${Math.floor(Math.random() * 20)}`;
+                        break;
+                    case 'space-invaders':
+                        gameIcon = '👾';
+                        specialEffect = `Aliens: ${Math.floor(Math.random() * 10)}`;
+                        break;
+                    default:
+                        gameIcon = '🎮';
+                        specialEffect = `Combo: x${level}`;
+                }
                 
                 screen.innerHTML = `
                     <div class="pixel-art">
                         <span class="pixel-text">${gameType.replace('-', ' ').toUpperCase()}</span>
-                        <div class="coin-slot">🎮</div>
+                        <div class="coin-slot">${gameIcon}</div>
                         <p style="color: var(--neon-green); font-size: 1rem; margin-top: 1rem;">
                             Score: ${score.toLocaleString()} | Level: ${level}
                         </p>
-                        <p style="color: var(--neon-blue); font-size: 0.8rem; margin-top: 0.5rem;">
+                        <p style="color: var(--neon-yellow); font-size: 0.8rem; margin-top: 0.5rem;">
+                            Coins: ${coins} | Power-ups: ${powerUps}
+                        </p>
+                        <p style="color: var(--neon-pink); font-size: 0.7rem; margin-top: 0.5rem;">
+                            ${specialEffect}
+                        </p>
+                        <p style="color: var(--neon-blue); font-size: 0.6rem; margin-top: 0.5rem;">
                             Press ESC to exit game
                         </p>
                     </div>
                 `;
-            }, 1000);
+            }, 800);
             
             // Stop game on ESC key
             const keyHandler = (e) => {
@@ -341,6 +400,70 @@
                         break;
                 }
             }
+        });
+
+        // Particle effect system
+        function createParticle(x, y, color = 'var(--neon-pink)') {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.background = color;
+            particle.style.position = 'absolute';
+            particle.style.zIndex = '1000';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 3000);
+        }
+
+        // Enhanced button press effects
+        function playSound(color) {
+            const btn = event.target;
+            btn.style.transform = 'scale(0.95)';
+            btn.classList.add('shake');
+            
+            // Create particle effect
+            const rect = btn.getBoundingClientRect();
+            createParticle(rect.left + rect.width/2, rect.top + rect.height/2, 
+                color === 'red' ? 'var(--neon-pink)' : 
+                color === 'yellow' ? 'var(--neon-yellow)' : 'var(--neon-blue)');
+            
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+                btn.classList.remove('shake');
+            }, 100);
+            
+            // Log the button press
+            console.log(`🎮 ${color.toUpperCase()} button pressed!`);
+            
+            // Add visual feedback
+            if (color === 'blue' && !isPlaying) {
+                startArcadeMode();
+            }
+        }
+
+        // Add rainbow effect to title on hover
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('.neon-title');
+            title.addEventListener('mouseenter', function() {
+                this.classList.add('rainbow-text');
+            });
+            title.addEventListener('mouseleave', function() {
+                this.classList.remove('rainbow-text');
+            });
+            
+            // Add glow effect to arcade cabinet
+            const cabinet = document.querySelector('.arcade-cabinet');
+            cabinet.addEventListener('mouseenter', function() {
+                this.classList.add('glow-effect');
+            });
+            cabinet.addEventListener('mouseleave', function() {
+                this.classList.remove('glow-effect');
+            });
         });
 
         // Initialize arcade
