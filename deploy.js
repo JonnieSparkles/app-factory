@@ -26,7 +26,6 @@ import {
   createUndernameRecord, 
   getUndernameRecord 
 } from './lib/arns.js';
-import { testTwitterConnection, isTwitterConfigured, postTemplateAnnouncement } from './lib/twitter.js';
 import { sendDiscordNotification, testDiscordConnection, isDiscordConfigured } from './lib/discord.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
 import { AppFactory } from './lib/app-factory.js';
@@ -46,8 +45,6 @@ export async function deployFile(options = {}) {
       commitMessage = null,
       dryRun = false,
       testMode = false,
-      announceTwitter = false,
-      announceDM = false,
       announceDiscord = false,
       triggerAnnouncement = false,
       triggerGithubDeploy = false
@@ -104,34 +101,7 @@ export async function deployFile(options = {}) {
         
         await logDeploymentResult(result);
         
-        // Post template announcement if requested
-        if (announceTwitter && result.success) {
-          try {
-            const announceResult = await postTemplateAnnouncement(result, true); // Force announce even in test mode
-            if (announceResult.success) {
-              console.log('🐦 Template announcement posted to Twitter');
-            } else {
-              console.log(`🐦 Template announcement failed: ${announceResult.error || announceResult.reason}`);
-            }
-          } catch (error) {
-            console.error('🐦 Template announcement error:', error.message);
-          }
-        }
         
-        // Send DM announcement if requested
-        if (announceDM && result.success) {
-          try {
-            const { postDMAnnouncement } = await import('./lib/twitter.js');
-            const dmResult = await postDMAnnouncement(result, 'jonniesparkles', true); // Force announce even in test mode
-            if (dmResult.success) {
-              console.log('📩 DM announcement sent to Twitter');
-            } else {
-              console.log(`📩 DM announcement failed: ${dmResult.error || dmResult.reason}`);
-            }
-          } catch (error) {
-            console.error('📩 DM announcement error:', error.message);
-          }
-        }
         
         // Send Discord notification if requested
         if (announceDiscord && result.success) {
@@ -255,34 +225,7 @@ export async function deployFile(options = {}) {
 
     await logDeploymentResult(result);
     
-    // Post template announcement if requested
-    if (announceTwitter && result.success) {
-      try {
-        const announceResult = await postTemplateAnnouncement(result, true); // Force announce even in test mode
-        if (announceResult.success) {
-          console.log('🐦 Template announcement posted to Twitter');
-        } else {
-          console.log(`🐦 Template announcement failed: ${announceResult.error || announceResult.reason}`);
-        }
-      } catch (error) {
-        console.error('🐦 Template announcement error:', error.message);
-      }
-    }
     
-    // Send DM announcement if requested
-    if (announceDM && result.success) {
-      try {
-        const { postDMAnnouncement } = await import('./lib/twitter.js');
-        const dmResult = await postDMAnnouncement(result, 'jonniesparkles', true); // Force announce even in test mode
-        if (dmResult.success) {
-          console.log('📩 DM announcement sent to Twitter');
-        } else {
-          console.log(`📩 DM announcement failed: ${dmResult.error || dmResult.reason}`);
-        }
-      } catch (error) {
-        console.error('📩 DM announcement error:', error.message);
-      }
-    }
     
     // Send Discord notification if requested
     if (announceDiscord && result.success) {
@@ -385,25 +328,6 @@ async function showStats() {
   }
 }
 
-async function testTwitter() {
-  try {
-    console.log('🐦 Testing Twitter connection...');
-    
-    if (!isTwitterConfigured()) {
-      console.log('❌ Twitter not configured. Set TWITTER_APP_KEY, TWITTER_APP_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_SECRET');
-      return;
-    }
-    
-    const result = await testTwitterConnection();
-    if (result.success) {
-      console.log(`✅ Twitter connection successful! Logged in as: @${result.username}`);
-    } else {
-      console.log(`❌ Twitter connection failed: ${result.error}`);
-    }
-  } catch (error) {
-    console.error(`❌ Twitter test failed:`, error.message);
-  }
-}
 
 async function testDiscord() {
   try {
@@ -470,10 +394,6 @@ async function main() {
         options.testMode = true;
       } else if (arg === '--dry-run') {
         options.dryRun = true;
-      } else if (arg === '--announce-twitter') {
-        options.announceTwitter = true;
-      } else if (arg === '--announce-dm') {
-        options.announceDM = true;
       } else if (arg === '--announce-discord') {
         options.announceDiscord = true;
       } else if (arg === '--trigger-announcement') {
@@ -545,19 +465,9 @@ async function main() {
           await showStats();
           process.exit(0);
           break;
-        case '--test-twitter':
-          await testTwitter();
-          process.exit(0);
-          break;
         case '--test-discord':
           await testDiscord();
           process.exit(0);
-          break;
-        case '--announce-twitter':
-          // Already parsed above
-          break;
-        case '--announce-dm':
-          // Already parsed above
           break;
         case '--announce-discord':
           // Already parsed above
@@ -586,7 +496,6 @@ Deployment Options:
 Utility Options:
   -l, --logs              Show deployment logs
   -s, --stats             Show deployment statistics
-  --test-twitter          Test Twitter API connection
   --test-discord          Test Discord webhook connection
   -h, --help              Show this help message
 
@@ -608,7 +517,6 @@ Examples:
   node deploy.js --test-mode --app hello-world
   node deploy.js --logs
   node deploy.js --stats
-  node deploy.js --test-twitter
   node deploy.js --test-discord
 
 For app management, use: node app-cli.js help
