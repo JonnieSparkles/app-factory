@@ -219,7 +219,7 @@ apps/arcade/
 ├── style.css
 ├── app.js
 ├── manifest.json          # Arweave manifest with file IDs (auto-created)
-└── deployment-tracker.json # Deployment history and git tracking (auto-created)
+└── deployment-tracker.json # Optimized deployment tracking (auto-created)
 ```
 
 Single files don't need tracking files:
@@ -227,6 +227,37 @@ Single files don't need tracking files:
 apps/hello-world/
 └── index.txt              # Simple file deployment, no tracking needed
 ```
+
+### Optimized Deployment Tracking
+
+The `deployment-tracker.json` uses an optimized structure for better performance:
+
+```json
+{
+  "version": "1.0.0",
+  "lastDeployCommit": "abc123...",
+  "lastDeployed": "2025-10-13T22:10:12.763Z",
+  "deploymentCount": 3,
+  "fileHashes": {
+    "index.html": "sha256-hash-here",
+    "style.css": "sha256-hash-here"
+  },
+  "recentDeployments": [
+    {
+      "commit": "abc123...",
+      "manifestTxId": "arweave-tx-id",
+      "changedFiles": ["index.html", "style.css"],
+      "deployed": "2025-10-13T22:10:12.763Z"
+    }
+  ]
+}
+```
+
+**Key optimizations:**
+- **Limited history**: Only keeps 3 most recent deployments (vs unlimited)
+- **Essential data only**: Removed redundant fields for faster processing
+- **Hash-based detection**: Uses SHA-256 hashes for deterministic change detection
+- **Schema versioning**: Version field for future structure evolution
 
 ### Usage
 
@@ -430,6 +461,7 @@ This system is designed for seamless AI agent workflows:
 
 **All files re-upload on every deployment:**
 - Check that deployment-tracker.json exists and has fileHashes
+- Verify the tracker has version "1.0.0" (optimized structure)
 - Verify GitHub workflow is committing tracker files back to repo
 - Ensure app directory has proper permissions
 
@@ -447,6 +479,11 @@ This system is designed for seamless AI agent workflows:
 - The deployment-tracker.json and manifest.json must be committed after each deployment
 - If they're not in git, the next deployment won't know what was previously deployed
 - Solution: Our workflow now automatically commits these files back to repo
+
+**Old deployment-tracker.json structure:**
+- The system automatically migrates old tracker files to the optimized structure
+- If you see version "1.0.0" in your tracker, it's using the optimized format
+- Old trackers are automatically converted on first use
 
 **File operations (rename/move/delete) not working:**
 - The system now automatically handles file renames, moves, and deletions

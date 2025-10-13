@@ -1,8 +1,19 @@
 {
+  "version": "1.0.0",
   "lastDeployCommit": "b59737c99949e2ea",
-  "deploymentHistory": [
+  "lastDeployed": "2025-10-13T22:10:12.763Z",
+  "deploymentCount": 3,
+  "fileHashes": {
+    "dice-roller.html": "8e793c96b508cfcd29b3d27bba6595e80204eda4",
+    "index.html": "8b1e2a5b850d6d49029b24b25e623c9544fe6d64",
+    "neon-target.html": "9f2cc9b721dfe3624ffd874a2753a9e989f4b4bc",
+    "pixel-runner.html": "c634d71bf72d2dc567eafa0c2fec4a36900bcdd6",
+    "snake.html": "ecbc657fdf140f103aead08e42f4aaffa0213189",
+    "star-collector.html": "202f5f6638abc793d92fd53e73d50b4849832779",
+    "style.css": "ca0f8735cbcbc60d3ecc7396246dcf83a24b44a2"
+  },
+  "recentDeployments": [
     {
-      "version": "0.2.0",
       "commit": "0f0dd43d696ba9ee",
       "manifestTxId": "gKv04X4kPahHfNIsm5B3bJe5eoa-L8Nhyg6wTaJ-Mxc",
       "changedFiles": [
@@ -17,7 +28,6 @@
       "deployed": "2025-10-13T21:25:47.173Z"
     },
     {
-      "version": "0.2.0",
       "commit": "fb7bbf3e9e60ec09",
       "manifestTxId": "ACQKH4eDHp0F8IrLDSTf0BXOz7DfQT9btdDB7g0RcfI",
       "changedFiles": [
@@ -27,7 +37,6 @@
       "deployed": "2025-10-13T21:49:40.910Z"
     },
     {
-      "version": "0.2.0",
       "commit": "b59737c99949e2ea",
       "manifestTxId": "zeQXAxXyzuiGF5YGbTz7aVAtRYz-PPm3TaFpbd8e2qM",
       "changedFiles": [
@@ -37,25 +46,5 @@
       ],
       "deployed": "2025-10-13T22:10:12.763Z"
     }
-  ],
-  "fileCommitMap": {
-    "dice-roller.html": "b59737c99949e2ea",
-    "index.html": "b59737c99949e2ea",
-    "neon-target.html": "0f0dd43d696ba9ee",
-    "pixel-runner.html": "0f0dd43d696ba9ee",
-    "snake.html": "b59737c99949e2ea",
-    "star-collector.html": "0f0dd43d696ba9ee",
-    "style.css": "fb7bbf3e9e60ec09"
-  },
-  "lastDeployed": "2025-10-13T22:10:12.763Z",
-  "deploymentCount": 3,
-  "fileHashes": {
-    "dice-roller.html": "8e793c96b508cfcd29b3d27bba6595e80204eda4",
-    "index.html": "8b1e2a5b850d6d49029b24b25e623c9544fe6d64",
-    "neon-target.html": "9f2cc9b721dfe3624ffd874a2753a9e989f4b4bc",
-    "pixel-runner.html": "c634d71bf72d2dc567eafa0c2fec4a36900bcdd6",
-    "snake.html": "ecbc657fdf140f103aead08e42f4aaffa0213189",
-    "star-collector.html": "202f5f6638abc793d92fd53e73d50b4849832779",
-    "style.css": "ca0f8735cbcbc60d3ecc7396246dcf83a24b44a2"
-  }
+  ]
 }

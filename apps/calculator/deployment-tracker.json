@@ -1,8 +1,13 @@
 {
+  "version": "1.0.0",
   "lastDeployCommit": "0f0dd43d696ba9ee",
-  "deploymentHistory": [
+  "lastDeployed": "2025-10-13T21:27:47.296Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "209e934f55b30bededf3d00a73d65efde572501e"
+  },
+  "recentDeployments": [
     {
-      "version": "0.2.0",
       "commit": "0f0dd43d696ba9ee",
       "manifestTxId": "cgLpHobWMiZasMFDixUgT9ZCE37q5HUBrqpSjWVbnu4",
       "changedFiles": [
@@ -10,13 +15,5 @@
       ],
       "deployed": "2025-10-13T21:27:47.296Z"
     }
-  ],
-  "fileCommitMap": {
-    "index.html": "0f0dd43d696ba9ee"
-  },
-  "lastDeployed": "2025-10-13T21:27:47.296Z",
-  "deploymentCount": 1,
-  "fileHashes": {
-    "index.html": "209e934f55b30bededf3d00a73d65efde572501e"
-  }
+  ]
 }

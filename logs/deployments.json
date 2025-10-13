@@ -1157,5 +1157,18 @@
     "fileSize": 21,
     "duration": 18,
     "arnsRecordId": "test-record-38e34c363a093963"
+  },
+  {
+    "timestamp": "2025-10-13T23:54:42.372Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "94ddca7400ef2e7b",
+    "txId": "test-94ddca7400ef2e7b-1760399682357",
+    "undername": "94ddca7400ef2e7b",
+    "ttl": 60,
+    "fileSize": 21,
+    "duration": 25,
+    "arnsRecordId": "test-record-94ddca7400ef2e7b"
   }
 ]
