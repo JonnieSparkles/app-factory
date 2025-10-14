@@ -32,6 +32,7 @@ This project enables AI agents and developers to:
 5. **Auto-merge PRs** via GitHub Actions for seamless workflow
 6. **Monitor all deployments** with comprehensive logging
 7. **🆕 Incremental deployment** - only upload changed files, saving costs and time
+8. **🆕 Shared credits support** - automatically use shared Turbo credits for larger files
 
 ## 🏗️ Architecture
 
@@ -123,6 +124,12 @@ DEFAULT_TTL_SECONDS=60
 # Turbo Configuration
 TURBO_PAYMENT_SERVICE_URL=https://payment.ardrive.dev
 TURBO_UPLOAD_SERVICE_URL=https://upload.ardrive.dev
+
+# Shared Credits Configuration (Optional)
+# Enable automatic shared credits usage for larger files
+# SDK will automatically find and use available credit share approvals
+# (closest to expiration first, then lowest amounts, then signer's balance)
+TURBO_USE_SHARED_CREDITS=true
 
 # Application Configuration
 APP_NAME=RemoteAgentDeploy
