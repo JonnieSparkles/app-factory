@@ -1,0 +1,192 @@
+/* Enhanced Animations for Neon Arcade */
+
+/* Pulse animation for game cards */
+@keyframes cardPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px var(--neon-purple);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 30px var(--neon-pink);
+    }
+}
+
+/* Floating animation for game icons */
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Glitch effect for special elements */
+@keyframes glitchEffect {
+    0% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+    10% {
+        transform: translate(-2px, 2px);
+        filter: hue-rotate(90deg);
+    }
+    20% {
+        transform: translate(2px, -2px);
+        filter: hue-rotate(180deg);
+    }
+    30% {
+        transform: translate(-2px, -2px);
+        filter: hue-rotate(270deg);
+    }
+    40% {
+        transform: translate(2px, 2px);
+        filter: hue-rotate(360deg);
+    }
+    50% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* Neon flicker for retro effect */
+@keyframes neonFlicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow: 
+            0 0 10px var(--neon-pink),
+            0 0 20px var(--neon-pink),
+            0 0 30px var(--neon-pink);
+    }
+    20%, 24%, 55% {
+        opacity: 0.8;
+        text-shadow: 
+            0 0 5px var(--neon-pink),
+            0 0 10px var(--neon-pink);
+    }
+}
+
+/* Matrix-style rain effect */
+@keyframes matrixRain {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* Power-up glow animation */
+@keyframes powerUpGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px var(--neon-green),
+            inset 0 0 20px rgba(0, 255, 65, 0.3);
+    }
+    50% {
+        box-shadow: 
+            0 0 40px var(--neon-yellow),
+            inset 0 0 40px rgba(255, 190, 11, 0.5);
+    }
+}
+
+/* Score counter animation */
+@keyframes scoreCount {
+    0% {
+        transform: scale(1);
+        color: var(--neon-blue);
+    }
+    50% {
+        transform: scale(1.1);
+        color: var(--neon-green);
+    }
+    100% {
+        transform: scale(1);
+        color: var(--neon-blue);
+    }
+}
+
+/* Apply animations to elements */
+.game-card:hover {
+    animation: cardPulse 1s ease-in-out infinite;
+}
+
+.game-icon {
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+.neon-title {
+    animation: neonFlicker 3s infinite;
+}
+
+.power-up {
+    animation: powerUpGlow 2s ease-in-out infinite;
+}
+
+.score-counter {
+    animation: scoreCount 0.5s ease-in-out;
+}
+
+/* Matrix rain background */
+.matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.matrix-rain::before {
+    content: '';
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--neon-green) 50%,
+        transparent 100%
+    );
+    animation: matrixRain 10s linear infinite;
+    opacity: 0.1;
+}
+
+/* Retro scanline effect */
+.scanlines::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.03) 2px,
+        rgba(0, 255, 65, 0.03) 4px
+    );
+    pointer-events: none;
+    animation: scanlineMove 0.1s linear infinite;
+}
+
+@keyframes scanlineMove {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(4px);
+    }
+}
