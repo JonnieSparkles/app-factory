@@ -1,24 +1,13 @@
-# Incremental Arweave Deployment with Hash-Based Detection
+# Incremental Arweave Deployment
 
-## Overview
-A simplified system for deploying only changed files to Arweave using hash-based change detection, saving costs and time by avoiding full deployments.
-
-## Core Concept
-Compare SHA-256 file hashes to determine which files have changed since the last deployment. This approach is deterministic, reliable, and independent of git history.
+Deploys only changed files to Arweave using hash-based detection, saving costs and time.
 
 ## How It Works
 
-### 1. Hash-Based Change Detection
-- Calculate SHA-256 hash for each file using `git hash-object`
-- Compare current hashes with stored hashes from deployment-tracker.json
-- Upload only files where hash has changed
-- Store updated hashes for next deployment
-
-### 2. True Incremental Deployment
-- Deploy only files that actually changed content
-- Pay only for files that changed
-- Upload only files with different hashes
-- Perfect cost and time optimization
+1. **Hash Calculation** - Calculate SHA-256 hash for each file using `git hash-object`
+2. **Change Detection** - Compare current hashes with stored hashes from deployment-tracker.json
+3. **Selective Upload** - Upload only files where hash changed
+4. **State Update** - Store updated hashes for next deployment
 
 ## Hash Calculation
 
@@ -31,19 +20,12 @@ git hash-object path/to/file.html
 # Same content = Same hash = No re-upload
 ```
 
-### Benefits of Hash-Based Detection
-- **Deterministic**: Same file content always produces same hash
+### Benefits
+- **Deterministic**: Same file content = same hash = no re-upload
 - **Git independent**: Works with shallow clones (fetch-depth: 1)
 - **Reliable**: No merge conflicts or git history issues
 - **Simple**: One code path, easy to debug
 
-## Deployment Strategies
-
-### Hash-Based (Current Implementation)
-- Compare file hashes with deployment-tracker.json
-- Upload files with changed hashes
-- Update tracker with new hashes
-- Works everywhere (local, CI, shallow clones)
 
 ## Arweave Manifest Structure
 

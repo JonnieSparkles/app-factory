@@ -123,29 +123,7 @@ See [Technical Documentation](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md) for impl
 
 ## Environment Variables
 
-Required:
-```env
-ANT_PROCESS_ID=your-ant-process-id
-OWNER_ARNS_NAME=your-domain
-WALLET_ADDRESS=your-wallet-address
-
-# Wallet (choose one)
-ARWEAVE_JWK_JSON={"kty":"RSA",...}
-# OR
-ARWEAVE_WALLET_PATH=./secrets/wallet.json
-```
-
-Optional:
-```env
-ARNS_UNDERNAME_TTL=60
-TURBO_USE_SHARED_CREDITS=true  # Auto-use shared credit approvals
-
-# GitHub Actions Configuration (Required for auto-merge)
-TRUSTED_USERS=JonnieSparkles,AnotherUser  # Comma-separated list of trusted usernames
-AGENT_BRANCH_PREFIX=cursor/  # Prefix for AI agent branches (auto-merge only processes these)
-```
-
-See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for full configuration.
+See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for complete configuration.
 
 ## Security
 
@@ -169,17 +147,11 @@ Keep your primary wallet offline. The deployment wallet has limited revokable fu
 
 ### GitHub Secrets Configuration
 
-For the auto-merge workflow to work, configure these secrets in your GitHub repository:
+Configure repository secrets for auto-merge:
+- `TRUSTED_USERS` - Comma-separated GitHub usernames for auto-merge
+- `AGENT_BRANCH_PREFIX` - Branch prefix for AI agents (default: `cursor/`)
 
-1. **Go to your repository** → Settings → Secrets and variables → Actions
-2. **Add these repository secrets:**
-   - `GITHUB_TOKEN` (usually auto-provided by GitHub)
-   - `TRUSTED_USERS` - Comma-separated list of GitHub usernames who can trigger auto-merge
-     - Example: `JonnieSparkles,AnotherUser,ThirdUser`
-     - Only PRs from these users will be auto-merged
-   - `AGENT_BRANCH_PREFIX` - Prefix for AI agent branches (optional, defaults to `cursor/`)
-     - Example: `cursor/`, `ai/`, `bot/`, `agent/`
-     - Only branches starting with this prefix will be auto-merged
+See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for complete list.
 
 ## GitHub Actions Integration
 
@@ -202,26 +174,23 @@ Three workflows:
 
 ## AI Agent Workflow
 
-The agent follows this sequence:
-
 1. **Make Updates** - Implement requested changes
-2. **Test** - Verify changes work (if appropriate)
+2. **Test** - Verify changes work (if appropriate)  
 3. **Deploy** - Run deployment command
 4. **Announce** - Post completion notice (if requested)
 
-**Commands Available:**
+**Commands:**
 ```bash
-node deploy.js --file <path>        # Deploy file or directory
-node deploy.js --content <text>     # Deploy content directly
-node deploy.js --test-mode          # Dry run
-node deploy.js --logs               # View history
+node deploy.js --file <path>     # Deploy file/directory
+node deploy.js --test-mode       # Dry run
+node deploy.js --logs            # View history
+node deploy.js --stats           # Deployment statistics
 ```
 
-The system automatically:
-- Detects file vs directory
-- Uses incremental deployment for directories
-- Creates ArNS records with commit-hash subdomains
-- Logs all deployments
+### Auto-Deploy Behavior
+- **Apps changes**: Auto-merge → Deploy workflow triggered
+- **Non-app changes**: Auto-merge only, no deployment
+- **Manual trigger**: Deploy all apps regardless of changes
 
 ## Project Structure
 
@@ -275,10 +244,9 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 
 ## Documentation
 
-- [Remote Agent Setup](./docs/REMOTE_AGENT_SETUP.md) - Full configuration guide
-- [Workflow Documentation](./docs/WORKFLOW_DOCUMENTATION.md) - Detailed workflow reference
-- [Incremental Deployment](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md) - Technical implementation
-- [Environment Template](./env.example) - Variable reference
+- [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) - Complete configuration
+- [Technical Implementation](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md) - How incremental deployment works
+- [Edge Cases & Troubleshooting](./docs/DEPLOYMENT_SCENARIOS_AND_EDGE_CASES.md) - Comprehensive deployment scenarios
 
 ## Dependencies
 
