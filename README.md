@@ -448,7 +448,6 @@ The overrides are merged into the manifest during deployment and take precedence
 - **Rotate keys regularly** - Especially for production deployments
 - **Use different wallets** - Separate wallets for different environments
 - **GitHub Secrets** - Store sensitive data in GitHub repository secrets
-
 ## 📊 Example Output
 
 ```
@@ -611,3 +610,4 @@ This system can be extended with:
 - **[docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md)** - Technical documentation
 - **[env.example](./env.example)** - Environment variables template
 - **GitHub Actions** - See `.github/workflows/` for workflow details
+
