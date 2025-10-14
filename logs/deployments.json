@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T13:53:12.030Z",
-    "success": true,
-    "appId": "arcade",
-    "filePath": "apps/arcade/index.html",
-    "commitHash": "9c90c14690357234",
-    "txId": "test-manifest-1760363591973",
-    "manifestTxId": "test-manifest-1760363591973",
-    "undername": "9c90c14690357234",
-    "fileSize": 23575,
-    "duration": 1307,
-    "testMode": true,
-    "deploymentType": "incremental",
-    "changedFiles": 2,
-    "version": "0.1.5"
-  },
-  {
     "timestamp": "2025-10-13T13:58:36.934Z",
     "success": true,
     "appId": "arcade",
@@ -694,6 +678,20 @@
     "undername": "b3c7333e2ea201eb",
     "fileSize": 19003,
     "duration": 295111,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T11:37:30.384Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "cab4979b85f7685f",
+    "txId": "VZ2nP0-Sb4zfX6rNWprgEL9XrSjadQwhAZLYNdL3p7g",
+    "manifestTxId": "VZ2nP0-Sb4zfX6rNWprgEL9XrSjadQwhAZLYNdL3p7g",
+    "undername": "cab4979b85f7685f",
+    "fileSize": 25,
+    "duration": 299766,
     "deploymentType": "incremental",
     "changedFiles": 1,
     "version": "0.2.0"
