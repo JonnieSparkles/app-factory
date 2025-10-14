@@ -134,6 +134,10 @@ TURBO_USE_SHARED_CREDITS=true
 # Application Configuration
 APP_NAME=RemoteAgentDeploy
 ARWEAVE_GATEWAY=https://arweave.net
+
+# GitHub Actions Configuration (Required for auto-merge)
+REPO_TOKEN=your_github_personal_access_token
+TRUSTED_USERS=JonnieSparkles,AnotherUser  # Comma-separated list of trusted usernames
 ```
 
 ## 🎯 Usage
@@ -448,6 +452,19 @@ The overrides are merged into the manifest during deployment and take precedence
 - **Rotate keys regularly** - Especially for production deployments
 - **Use different wallets** - Separate wallets for different environments
 - **GitHub Secrets** - Store sensitive data in GitHub repository secrets
+
+### GitHub Secrets Configuration
+
+For the auto-merge workflow to work, you need to configure these secrets in your GitHub repository:
+
+1. **Go to your repository** → Settings → Secrets and variables → Actions
+2. **Add these repository secrets:**
+   - `GITHUB_TOKEN` (usually auto-provided by GitHub)
+   - `REPO_TOKEN` - Your GitHub Personal Access Token with repo permissions
+   - `TRUSTED_USERS` - Comma-separated list of GitHub usernames who can trigger auto-merge
+     - Example: `JonnieSparkles,AnotherUser,ThirdUser`
+     - Only PRs from these users will be auto-merged
+     - Only works for branches starting with `cursor/`
 ## 📊 Example Output
 
 ```
