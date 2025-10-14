@@ -11,13 +11,14 @@
 1. [System Overview](#system-overview)
 2. [Core Deployment Flow](#core-deployment-flow)
 3. [Happy Path Scenario](#happy-path-scenario)
-4. [Edge Cases & Special Scenarios](#edge-cases--special-scenarios)
-5. [Error Handling & Recovery](#error-handling--recovery)
-6. [CI/CD Specific Behaviors](#cicd-specific-behaviors)
-7. [Data Integrity & State Management](#data-integrity--state-management)
-8. [Security Considerations](#security-considerations)
-9. [Performance Characteristics](#performance-characteristics)
-10. [Recommendations](#recommendations)
+4. [New App Deployment (Base Case)](#new-app-deployment-base-case)
+5. [Edge Cases & Special Scenarios](#edge-cases--special-scenarios)
+6. [Error Handling & Recovery](#error-handling--recovery)
+7. [CI/CD Specific Behaviors](#cicd-specific-behaviors)
+8. [Data Integrity & State Management](#data-integrity--state-management)
+9. [Security Considerations](#security-considerations)
+10. [Performance Characteristics](#performance-characteristics)
+11. [Recommendations](#recommendations)
 
 ---
 
@@ -260,6 +261,148 @@ The app is accessible at:
 - `https://a1b2c3d4e5f6g7h8_owner-name.arweave.dev`
 - Resolves to manifest `manifest-txid-xyz`
 - Serves files with updated transaction IDs
+
+---
+
+## New App Deployment (Base Case)
+
+### Scenario Description
+
+A developer creates a brand new app and deploys it for the first time - no deployment history, no manifest, no tracker files exist.
+
+### Pre-conditions
+
+- New app directory created with files
+- No `manifest.json` exists
+- No `deployment-tracker.json` exists
+- No previous deployment history
+- Git repository is clean and configured
+- All files are tracked by git
+
+### Steps
+
+1. **Developer creates new app**
+   ```
+   apps/brand-new-app/
+   ├── index.html
+   ├── style.css
+   ├── app.js
+   └── assets/
+       ├── logo.png
+       └── icon.svg
+   # No manifest.json
+   # No deployment-tracker.json
+   ```
+
+2. **Commit initial files**
+   ```bash
+   git add apps/brand-new-app/
+   git commit -m "Initial commit: brand new app"
+   # Commit: f1e2d3c4b5a6978
+   ```
+
+3. **Trigger first deployment**
+   ```bash
+   node deploy.js --file apps/brand-new-app/
+   ```
+
+4. **System execution**
+   ```
+   🚀 Starting incremental deployment for app: brand-new-app
+   📝 Current commit: f1e2d3c4b5a6978 - Initial commit: brand new app
+   🔍 Last deployment commit: none (first deployment)
+   🔍 Using hash-based change detection...
+   📝 File changed: index.html (new)
+   📝 File changed: style.css (new)
+   📝 File changed: app.js (new)
+   📝 File changed: assets/logo.png (new)
+   📝 File changed: assets/icon.svg (new)
+   📁 Changed files: 5
+   📤 Uploading 5 changed files...
+   [1/5] Uploading index.html...
+   ✅ Uploaded: txid-index-abc123
+   [2/5] Uploading style.css...
+   ✅ Uploaded: txid-style-def456
+   [3/5] Uploading app.js...
+   ✅ Uploaded: txid-app-ghi789
+   [4/5] Uploading assets/logo.png...
+   ✅ Uploaded: txid-logo-jkl012
+   [5/5] Uploading assets/icon.svg...
+   ✅ Uploaded: txid-icon-mno345
+   📋 Creating new manifest with 5 file IDs
+   ☁️ Uploading manifest to Arweave...
+   ✅ Manifest uploaded: manifest-txid-xyz789
+   🔗 Creating ArNS record: f1e2d3c4b5a6978 → manifest-txid-xyz789
+   ✅ ArNS record created
+   📝 Created deployment commit
+   🎉 Incremental deployment complete!
+   ```
+
+5. **Result**
+   - All 5 files uploaded to Arweave
+   - New manifest created with all transaction IDs
+   - ArNS record maps commit hash to manifest
+   - deployment-tracker.json created with all file hashes
+   - Deployment commit created automatically
+
+### Files Created
+
+**apps/brand-new-app/manifest.json**
+```json
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": { "path": "index.html" },
+  "paths": {
+    "index.html": { "id": "txid-index-abc123" },
+    "style.css": { "id": "txid-style-def456" },
+    "app.js": { "id": "txid-app-ghi789" },
+    "assets/logo.png": { "id": "txid-logo-jkl012" },
+    "assets/icon.svg": { "id": "txid-icon-mno345" }
+  }
+}
+```
+
+**apps/brand-new-app/deployment-tracker.json**
+```json
+{
+  "version": "1.0.0",
+  "lastDeployCommit": "f1e2d3c4b5a6978",
+  "lastDeployed": "2025-10-14T12:00:00.000Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "hash-index-abc123",
+    "style.css": "hash-style-def456",
+    "app.js": "hash-app-ghi789",
+    "assets/logo.png": "hash-logo-jkl012",
+    "assets/icon.svg": "hash-icon-mno345"
+  },
+  "recentDeployments": [
+    {
+      "commit": "f1e2d3c4b5a6978",
+      "manifestTxId": "manifest-txid-xyz789",
+      "changedFiles": ["index.html", "style.css", "app.js", "assets/logo.png", "assets/icon.svg"],
+      "deployed": "2025-10-14T12:00:00.000Z"
+    }
+  ]
+}
+```
+
+### Access
+
+The app is accessible at:
+- `https://f1e2d3c4b5a6978_owner-name.arweave.dev`
+- Resolves to manifest `manifest-txid-xyz789`
+- Serves all files with their transaction IDs
+
+### Key Characteristics
+
+- **All files uploaded** - no previous state to compare against
+- **New manifest created** - not updating existing one
+- **Tracker initialized** - first deployment count = 1
+- **Entry point detected** - automatically finds index.html
+- **Full deployment cost** - no incremental savings on first deploy
+- **Foundation for future incremental deployments** - sets up tracking system
 
 ---
 
