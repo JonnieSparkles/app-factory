@@ -4,12 +4,27 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to auto-merge'
+        required: true
+        type: string
+      merge_method:
+        description: 'Merge method'
+        required: false
+        type: choice
+        default: 'squash'
+        options:
+          - 'merge'
+          - 'squash'
+          - 'rebase'
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Only run for PRs from cursor/ branches
-    if: startsWith(github.head_ref, 'cursor/')
+    # Only run for PRs from cursor/ branches OR manual workflow dispatch
+    if: startsWith(github.head_ref, 'cursor/') || github.event_name == 'workflow_dispatch'
     permissions:
       contents: write
       pull-requests: write
@@ -38,7 +53,11 @@ jobs:
             echo "❌ User '${{ github.actor }}' is not in trusted users list"
             echo "is_trusted=false" >> $GITHUB_OUTPUT
             echo "Trusted users: ${{ secrets.TRUSTED_USERS }}"
-            exit 1
+            if [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+              exit 1
+            else
+              echo "⚠️ Manual workflow dispatch - allowing execution but user not in trusted list"
+            fi
           fi
 
       - name: Setup Git References
@@ -53,36 +72,50 @@ jobs:
         run: |
           echo "🔍 Checking if this PR contains changes to apps/ directory..."
           
-          # Get the list of changed files in this PR using GitHub Actions context
-          # Use the base and head refs from the PR context
-          BASE_REF="${{ github.event.pull_request.base.ref }}"
-          HEAD_REF="${{ github.event.pull_request.head.ref }}"
-          
-          echo "Base ref: $BASE_REF"
-          echo "Head ref: $HEAD_REF"
-          
-          # Fetch the base branch to ensure we have the reference
-          git fetch origin $BASE_REF
-          
-          # Get changed files using the proper git references
-          CHANGED_FILES=$(git diff --name-only origin/$BASE_REF...HEAD)
-          echo "Changed files in PR: $CHANGED_FILES"
-          
-          # Check if any files in apps/ directory were changed
-          if echo "$CHANGED_FILES" | grep -q "^apps/"; then
-            echo "✅ Changes detected in apps/ directory"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "📋 Manual workflow dispatch - checking PR #${{ github.event.inputs.pr_number }}"
+            # For manual dispatch, we'll assume there might be changes and let the deploy workflow decide
             echo "has_apps_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ Manual dispatch - assuming apps changes for safety"
           else
-            echo "⏭️ No changes in apps/ directory"
-            echo "has_apps_changes=false" >> $GITHUB_OUTPUT
+            # Get the list of changed files in this PR using GitHub Actions context
+            # Use the base and head refs from the PR context
+            BASE_REF="${{ github.event.pull_request.base.ref }}"
+            HEAD_REF="${{ github.event.pull_request.head.ref }}"
+            
+            echo "Base ref: $BASE_REF"
+            echo "Head ref: $HEAD_REF"
+            
+            # Fetch the base branch to ensure we have the reference
+            git fetch origin $BASE_REF
+            
+            # Get changed files using the proper git references
+            CHANGED_FILES=$(git diff --name-only origin/$BASE_REF...HEAD)
+            echo "Changed files in PR: $CHANGED_FILES"
+            
+            # Check if any files in apps/ directory were changed
+            if echo "$CHANGED_FILES" | grep -q "^apps/"; then
+              echo "✅ Changes detected in apps/ directory"
+              echo "has_apps_changes=true" >> $GITHUB_OUTPUT
+            else
+              echo "⏭️ No changes in apps/ directory"
+              echo "has_apps_changes=false" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - name: Auto-merge Agent PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "🔄 Auto-merging PR #${{ github.event.pull_request.number }}..."
-          node scripts/auto-merge.js ${{ github.event.pull_request.number }} squash
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PR_NUMBER="${{ github.event.inputs.pr_number }}"
+            MERGE_METHOD="${{ github.event.inputs.merge_method || 'squash' }}"
+            echo "🔄 Manual auto-merge of PR #$PR_NUMBER using $MERGE_METHOD method..."
+            node scripts/auto-merge.js $PR_NUMBER $MERGE_METHOD
+          else
+            echo "🔄 Auto-merging PR #${{ github.event.pull_request.number }}..."
+            node scripts/auto-merge.js ${{ github.event.pull_request.number }} squash
+          fi
           echo "✅ PR auto-merged successfully"
           if [ "${{ steps.check-apps-changes.outputs.has_apps_changes }}" = "true" ]; then
             echo "📝 Apps changes detected - will trigger deploy workflow after merge"
