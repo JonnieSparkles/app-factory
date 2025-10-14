@@ -636,6 +636,41 @@ No mention of phantom-file.js - it's silently removed.
 
 ---
 
+### Manual Transaction ID Overrides (manifest-overrides.json)
+
+**Scenario:** Developer creates manifest-overrides.json to include external files
+
+**Purpose:** Reference files already uploaded to Arweave without managing them locally
+
+**Example:**
+```json
+{
+  "jquery.min.js": "abc123...external-txid",
+  "shared-logo.png": "def456...external-txid"
+}
+```
+
+**Behavior:**
+- Overrides loaded at deployment time
+- Merged into manifest.paths after local files processed
+- Take precedence if same path exists in local files
+- Committed to git as part of app configuration
+- Works in both local and CI/CD deployments
+
+**Result:**
+- External files included in manifest without local file
+- No upload cost for these files
+- Manifest references external transaction IDs
+- Files served as part of app via Arweave gateway
+
+**Edge Cases:**
+- Missing overrides file: Gracefully ignored (no error)
+- Invalid JSON: Warning logged, deployment continues
+- Invalid TXIDs: No validation - manifest will fail to resolve at runtime
+- Overrides for existing local files: Override takes precedence
+
+---
+
 ### 4. File in Folder But Not Tracked by Git
 
 **Scenario:** A file exists in the app directory but is not tracked by git (not added, or in .gitignore)

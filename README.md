@@ -244,7 +244,8 @@ your-app/
 ├── style.css
 ├── app.js
 ├── manifest.json          # Arweave manifest with file IDs (auto-created)
-└── deployment-tracker.json # Optimized deployment tracking (auto-created)
+├── deployment-tracker.json # Optimized deployment tracking (auto-created)
+└── manifest-overrides.json # Manual TXID overrides (optional)
 ```
 
 Single files don't need tracking files:
@@ -370,6 +371,27 @@ This means:
    🔗 Manifest TX: xyz789...
    🔗 ArNS: a1b2c3d4
 ```
+
+### Manual Transaction ID Overrides
+
+For referencing files that are already uploaded to Arweave or managed externally, you can create a `manifest-overrides.json` file in your app directory:
+
+**apps/my-app/manifest-overrides.json**
+```json
+{
+  "external-library.js": "abc123def456789_arweave_txid",
+  "shared-assets/logo.png": "xyz789uvw012345_arweave_txid",
+  "cdn/jquery.min.js": "def456ghi789jkl_arweave_txid"
+}
+```
+
+Benefits:
+- Reference shared libraries already on Arweave
+- Include CDN-style resources without re-uploading
+- Manage large assets separately
+- Reuse files across multiple apps
+
+The overrides are merged into the manifest during deployment and take precedence over local files.
 
 ## 📁 File Structure
 

@@ -94,6 +94,19 @@ Stores file hashes and deployment metadata:
 }
 ```
 
+### Manual Override Structure
+
+Optional `manifest-overrides.json` for external file references:
+
+```json
+{
+  "external-lib.js": "arweave-transaction-id-here",
+  "shared-asset.png": "another-arweave-txid"
+}
+```
+
+These are merged into the manifest during deployment, allowing apps to reference files already on Arweave without managing them locally.
+
 ## Workflow Example
 
 ### Timeline

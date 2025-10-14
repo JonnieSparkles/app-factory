@@ -180,7 +180,7 @@ jobs:
           fi
           
           # Add deployment tracker files and manifests from all apps
-          find apps/ -name "deployment-tracker.json" -o -name "manifest.json" | while read -r file; do
+          find apps/ -name "deployment-tracker.json" -o -name "manifest.json" -o -name "manifest-overrides.json" | while read -r file; do
             if [ -f "$file" ]; then
               git add "$file"
             fi
