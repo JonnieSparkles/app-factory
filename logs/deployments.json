@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T21:25:47.182Z",
-    "success": true,
-    "appId": "arcade",
-    "filePath": "apps/arcade/index.html",
-    "commitHash": "0f0dd43d696ba9ee",
-    "txId": "gKv04X4kPahHfNIsm5B3bJe5eoa-L8Nhyg6wTaJ-Mxc",
-    "manifestTxId": "gKv04X4kPahHfNIsm5B3bJe5eoa-L8Nhyg6wTaJ-Mxc",
-    "undername": "0f0dd43d696ba9ee",
-    "fileSize": 173784,
-    "duration": 45815,
-    "deploymentType": "incremental",
-    "changedFiles": 7,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-13T21:27:47.301Z",
     "success": true,
     "appId": "calculator",
@@ -691,5 +676,14 @@
     "deploymentType": "incremental",
     "changedFiles": 1,
     "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T19:11:24.183Z",
+    "success": false,
+    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "duration": 1083,
+    "filePath": "apps/playdead",
+    "deploymentType": "incremental"
   }
 ]
