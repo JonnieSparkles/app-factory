@@ -111,7 +111,7 @@ Once environment variables are set, AI agents can use these deployment options:
 npm run deploy -- --content "Hello from AI agent!"
 
 # Deploy specific file locally
-npm run deploy -- --file hello-world.txt --content "Updated content"
+npm run deploy -- --file your-file.txt --content "Updated content"
 ```
 
 ### GitHub Actions Deployment (Recommended for Production)
@@ -120,13 +120,13 @@ npm run deploy -- --file hello-world.txt --content "Updated content"
 node deploy.js --trigger-github-deploy
 
 # Deploy specific file via GitHub Actions
-node deploy.js --file hello-world.txt --trigger-github-deploy
+node deploy.js --file your-file.txt --trigger-github-deploy
 ```
 
 ### Discord Announcements
 ```bash
 # Deploy and announce on Discord
-node deploy.js --file hello-world.txt --announce-discord
+node deploy.js --file your-file.txt --announce-discord
 
 # Just announce latest deployment
 node deploy.js --trigger-announcement

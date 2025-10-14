@@ -2,22 +2,25 @@
 
 A streamlined deployment system for AI agent workflows that deploys files and applications to Arweave with unique ArNS undernames, featuring **incremental deployment**, auto-merge GitHub Actions, and comprehensive logging.
 
+> **Note**: The `apps/` folder contains example applications. Replace these with your own projects and applications.
+
 ## 🚀 Quick Start
 
 1. **Set up environment variables** (see [docs/REMOTE_AGENT_SETUP.md](./docs/REMOTE_AGENT_SETUP.md))
-2. **Deploy a file**:
+2. **Replace example apps** with your own projects in the `apps/` folder
+3. **Deploy a file**:
    ```bash
-   node deploy.js --file apps/hello-world/index.html
+   node deploy.js --file path/to/your/file.html
    ```
-3. **Deploy a directory** (uses incremental deployment):
+4. **Deploy a directory** (uses incremental deployment):
    ```bash
-   node deploy.js --file apps/arcade/
+   node deploy.js --file path/to/your/app/
    ```
-4. **Or ask the AI agent to make changes** - it will automatically:
+5. **Or ask the AI agent to make changes** - it will automatically:
    - Create a branch and make changes
    - Create a PR (auto-merge enabled)
    - Deploy to Arweave with ArNS integration
-5. **Monitor deployments** via logs and GitHub Actions
+6. **Monitor deployments** via logs and GitHub Actions
 
 ## Overview
 
@@ -40,22 +43,25 @@ AI Agent → Create Branch → Make Changes → Create PR → Auto-merge → Dep
 
 ### Project Structure
 ```
-apps/
-├── portfolio/           # Portfolio app
-│   ├── index.html
-│   ├── style.css
-│   ├── app.js
-│   ├── manifest.json          # ← Per-app manifest (for directories)
-│   └── deployment-tracker.json # ← Deployment history (for directories)
-├── calculator/          # Calculator app
-│   └── index.html
-├── hello-world/         # Simple text app
-│   └── index.txt
-├── hello-anthony/       # Greeting app
-│   └── index.html
-└── celebration/         # Celebration page
-    └── index.html
+your-project/
+├── apps/                # Your applications (replace examples with your own)
+│   ├── web-app/         # Example web application
+│   │   ├── index.html
+│   │   ├── style.css
+│   │   ├── app.js
+│   │   ├── manifest.json          # ← Per-app manifest (auto-created for directories)
+│   │   └── deployment-tracker.json # ← Deployment history (auto-created for directories)
+│   ├── static-site/     # Example static site
+│   │   └── index.html
+│   └── simple-file/     # Example single file
+│       └── content.txt
+└── ...                  # Your other project files
 ```
+
+**Customizing Your Project:**
+- Replace the example apps in `apps/` with your own applications
+- You can organize your apps however you prefer (by type, client, etc.)
+- The system works with any file structure - just point to your files/directories
 
 ### Key Components
 
@@ -82,6 +88,13 @@ apps/
 9. **📊 Logging**: Deployment logged to JSON file with rolling history
 10. **📢 Announce**: Post deployment announcement to Discord (if requested)
 11. **🎉 Completion**: Agent ready for next task
+
+**AI Agent Instructions:**
+- Always follow the sequence: Make Updates → Test → Deploy → Announce
+- Use `node deploy.js --file <path>` for file/directory deployments
+- Use `node deploy.js --content <text>` for direct content deployment
+- Test deployments with `--test-mode` before real deployments
+- Check logs with `node deploy.js --logs` and stats with `node deploy.js --stats`
 
 **Key Principle: Always follow the sequence: Make Updates → Test → Deploy → Announce**
 
@@ -123,21 +136,21 @@ ARWEAVE_GATEWAY=https://arweave.net
 
 ```bash
 # Deploy a single file
-node deploy.js --file apps/hello-world/index.html
+node deploy.js --file path/to/your/file.html
 node deploy.js --file my-app.html
 
 # Deploy a directory (uses incremental deployment)
-node deploy.js --file apps/arcade/
-node deploy.js --file apps/calculator/
+node deploy.js --file path/to/your/app/
+node deploy.js --file apps/your-project/
 
 # Deploy content directly
 node deploy.js --content "Hello, World!"
 
 # Test deployment (no real upload)
-node deploy.js --test-mode --file apps/arcade/
+node deploy.js --test-mode --file path/to/your/app/
 
 # Force full deployment (no incremental)
-node deploy.js --no-incremental --file apps/arcade/
+node deploy.js --no-incremental --file path/to/your/app/
 
 # View deployment logs and stats
 node deploy.js --logs
@@ -150,11 +163,11 @@ node deploy.js --stats
 
 ```bash
 # Deploy specific files or directories
-"Deploy the portfolio app"
-"Update and deploy the hello-world app"
-"Deploy the arcade directory"
+"Deploy the web app"
+"Update and deploy the static site"
+"Deploy the project directory"
 
-# Deploy all files in apps directory
+# Deploy all files in a directory
 "Deploy all apps to Arweave"
 
 # Create and deploy new content
@@ -170,11 +183,11 @@ node deploy.js --stats
 ### Manual Deployment Commands
 ```bash
 # Deploy a file or directory
-node deploy.js --file apps/hello-world/index.html
-node deploy.js --file apps/arcade/
+node deploy.js --file path/to/your/file.html
+node deploy.js --file path/to/your/app/
 
 # Test mode (no real deployment)
-node deploy.js --test-mode --file apps/arcade/
+node deploy.js --test-mode --file path/to/your/app/
 
 # View deployment logs
 node deploy.js --logs
@@ -214,7 +227,7 @@ The system now features **incremental deployment** - a cost and time-optimized a
 Directories automatically get tracking files for incremental deployment:
 
 ```
-apps/arcade/
+your-app/
 ├── index.html
 ├── style.css
 ├── app.js
@@ -224,8 +237,8 @@ apps/arcade/
 
 Single files don't need tracking files:
 ```
-apps/hello-world/
-└── index.txt              # Simple file deployment, no tracking needed
+your-simple-file/
+└── content.txt            # Simple file deployment, no tracking needed
 ```
 
 ### Optimized Deployment Tracking
@@ -265,16 +278,16 @@ Incremental deployment is **enabled by default for directories**:
 
 ```bash
 # Deploy directory with incremental deployment (hash-based detection)
-node deploy.js --file apps/arcade/
+node deploy.js --file path/to/your/app/
 
 # Deploy directory with full deployment (all files, skip change detection)
-node deploy.js --no-incremental --file apps/arcade/
+node deploy.js --no-incremental --file path/to/your/app/
 
 # Deploy single file (always uses simple deployment)
-node deploy.js --file apps/hello-world/index.html
+node deploy.js --file path/to/your/file.html
 
 # Test incremental deployment
-node deploy.js --test-mode --file apps/arcade/
+node deploy.js --test-mode --file path/to/your/app/
 ```
 
 ### Change Detection Method
@@ -322,13 +335,13 @@ This means:
 ### Example Output
 
 ```
-🚀 Starting incremental deployment for app: arcade
+🚀 Starting incremental deployment for app: your-app
 📝 Current commit: a1b2c3d4 - Add new feature
 🔍 Last deployment commit: x9y8z7w6
 🔍 Using hash-based change detection...
 📝 File changed: index.html (modified)
 📝 File changed: style.css (modified)
-🗑️ File deleted: old-game.html
+🗑️ File deleted: old-file.html
 📁 Changed files: 2
 📤 Uploading 2 changed files...
 [1/2] Uploading style.css...
@@ -354,11 +367,11 @@ This means:
 │       ├── auto-merge.yml    # Auto-merge agent PRs
 │       ├── manual-merge.yml  # Manual merge workflow
 │       └── deploy.yml        # Deploy to Arweave
-├── apps/
-│   ├── portfolio/           # Example apps
-│   ├── calculator/
-│   ├── hello-world/
-│   └── ...                  # More apps
+├── apps/                    # Your applications (examples)
+│   ├── web-app/            # Example web application
+│   ├── static-site/        # Example static site
+│   ├── simple-file/        # Example single file
+│   └── ...                 # Your other apps
 ├── lib/
 │   ├── arns.js              # ArNS utilities
 │   ├── arweave.js           # Arweave/Turbo utilities
@@ -398,7 +411,7 @@ This means:
 ## 📊 Example Output
 
 ```
-🚀 Starting deployment for: hello-world.txt
+🚀 Starting deployment for: your-file.txt
 📝 Using provided content (20 Bytes)
 🔑 Generated commit hash: aec46ab7485ec172...
 ☁️ Uploading to Arweave...
@@ -407,7 +420,7 @@ This means:
 ✅ ArNS record created: xyz789...
 
 🎉 Deployment complete!
-   File: hello-world.txt
+   File: your-file.txt
    Commit: aec46ab7485ec172
    TX ID: abc123...def456
    ArNS: aec46ab7485ec172 (expires in 0 days)
@@ -423,9 +436,27 @@ This means:
 
 This system is designed for seamless AI agent workflows:
 
-### Standard Workflow Steps
+### AI Agent Quick Reference
 **📋 For detailed workflow documentation, see [docs/WORKFLOW_DOCUMENTATION.md](./docs/WORKFLOW_DOCUMENTATION.md)**
 
+**Essential Commands for AI Agents:**
+```bash
+# Deploy files/directories
+node deploy.js --file path/to/your/file.html
+node deploy.js --file path/to/your/app/
+
+# Deploy content directly
+node deploy.js --content "Your content here"
+
+# Test before deploying
+node deploy.js --test-mode --file path/to/your/app/
+
+# Check deployment status
+node deploy.js --logs
+node deploy.js --stats
+```
+
+**AI Workflow Checklist:**
 1. **Make Updates Requested** - Analyze and implement changes
 2. **Test If Appropriate** - Verify functionality works as expected  
 3. **Deploy** - Deploy changes to target environment
@@ -446,6 +477,14 @@ This system is designed for seamless AI agent workflows:
 5. GitHub Actions deploys to Arweave
 6. Agent ready for next task
 ```
+
+### AI-Specific Considerations
+- **File Paths**: Always use relative paths from project root
+- **Testing**: Use `--test-mode` to verify deployments before real uploads
+- **Error Handling**: Check logs with `--logs` if deployments fail
+- **Incremental Deployments**: System automatically detects changes in directories
+- **Content Deployment**: Use `--content` for simple text/HTML content
+- **Environment**: Ensure all required environment variables are set
 
 ## 🔧 Troubleshooting
 

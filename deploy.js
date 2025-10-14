@@ -518,22 +518,22 @@ Utility Options:
 
 Examples:
   # Deploy a file
-  node deploy.js --file apps/hello-world/index.html
+  node deploy.js --file path/to/your/file.html
   node deploy.js --file my-app.html
   
   # Deploy a directory (uses incremental deployment)
-  node deploy.js --file apps/arcade/
-  node deploy.js --file apps/calculator/
+  node deploy.js --file path/to/your/app/
+  node deploy.js --file apps/your-project/
   
   # Deploy content directly
   node deploy.js --content "Hello, World!"
   
   # Test deployment
-  node deploy.js --test-mode --file apps/hello-world/index.html
-  node deploy.js --test-mode --file apps/arcade/
+  node deploy.js --test-mode --file path/to/your/file.html
+  node deploy.js --test-mode --file path/to/your/app/
   
   # Full deployment (no incremental)
-  node deploy.js --no-incremental --file apps/arcade/
+  node deploy.js --no-incremental --file path/to/your/app/
   
   # View logs and stats
   node deploy.js --logs
