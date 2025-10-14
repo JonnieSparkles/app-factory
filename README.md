@@ -8,7 +8,7 @@ This system is a pipeline of **modular, optional components** that work together
 
 1. **Remote Agent Integration** - Compatible with configurable agent branch prefix workflows for autonomous development
 2. **Incremental Deployment** - Only changed files are re-uploaded to Arweave, reducing costs and deployment time
-3. **ArNS Smart Domains** - Assigns smart, human-readable subdomains on Arweave for each deployment (recommended for easier access and management)
+3. **ArNS Smart Domains** - Assigns smart, human-readable undernames on Arweave for each deployment (recommended for easier access and management)
 4. **Announcement System** - Completed work is automatically announced with deployment details
 
 ## Full Agent Mode
@@ -16,14 +16,14 @@ This system is a pipeline of **modular, optional components** that work together
 Enables continuous development cycles for both refining existing sites/apps and creating new proofs-of-concept:
 
 ```
-Prompt → Create → Push to Git → Publish to Arweave → Assign ArNS Domain → Announce → Repeat
+Prompt → Create → Push to Git → Publish to Arweave → Assign ArNS Undername → Announce → Repeat
 ```
 
 The agent autonomously:
 - Creates feature branches and implements changes
 - Pushes to GitHub where auto-merge validates and merges PRs
 - Triggers deployment to Arweave with permanent storage
-- Assigns human-readable ArNS subdomains (commit-hash based)
+- Assigns human-readable ArNS undernames (commit-hash based)
 - Announces completed deployments with live URLs
 - Ready for next iteration
 
@@ -51,7 +51,7 @@ Deploy (incremental: only changed files)
     ↓
 Arweave (permanent storage)
     ↓
-ArNS (subdomain: commit-hash_your-domain.ar.io)
+ArNS (undername: commit-hash_your-domain.ar.io)
     ↓
 Announce (optional Discord notification)
 ```
@@ -63,7 +63,7 @@ All components are modular and optional:
 - **Incremental Deployment**: Hash-based change detection uploads only modified files
 - **Auto-Merge Workflow**: Validates and merges agent PRs automatically (configurable branch prefix)
 - **Conditional Triggering**: Only deploys when `apps/` directory changes
-- **ArNS Integration**: Automatic subdomain assignment using commit hashes
+- **ArNS Integration**: Automatic undername assignment using commit hashes
 - **Announcement System**: Posts deployment details to Discord
 
 ## Deployment Methods
@@ -72,7 +72,7 @@ All components are modular and optional:
 ```bash
 node deploy.js --file path/to/file.html
 ```
-Deploys a single file to Arweave with ArNS subdomain.
+Deploys a single file to Arweave with ArNS undername.
 
 ### Directory Deployment (Incremental)
 ```bash
@@ -106,7 +106,7 @@ node deploy.js --content "Hello, World!"
 3. Hashes compared with `deployment-tracker.json`
 4. Only changed files uploaded to Arweave
 5. Manifest updated and uploaded
-6. ArNS record created with commit hash subdomain
+6. ArNS record created with commit hash undername
 7. Tracking files committed to repository
 
 **Tracking Files** (auto-created):
@@ -251,5 +251,5 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 ## Dependencies
 
 - `@ardrive/turbo-sdk` - Arweave uploads with fiat payments
-- `@ar.io/sdk` - ArNS management
+- `@ar.io/sdk` - ArNS name system management
 - `dotenv` - Environment configuration
