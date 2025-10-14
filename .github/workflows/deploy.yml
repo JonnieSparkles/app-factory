@@ -107,6 +107,21 @@ jobs:
             # Then check for any number of changed files > 0
             elif echo "$DEPLOY_OUTPUT" | grep -q "📁 Changed files: [1-9]"; then
               echo "✅ App $app_name had changes and was deployed"
+              
+              # Extract key deployment details from the output
+              CHANGED_FILES_COUNT=$(echo "$DEPLOY_OUTPUT" | grep "📁 Changed files:" | sed 's/.*📁 Changed files: \([0-9]*\).*/\1/')
+              MANIFEST_TX_ID=$(echo "$DEPLOY_OUTPUT" | grep "🔗 Manifest TX:" | sed 's/.*🔗 Manifest TX: \([^[:space:]]*\).*/\1/')
+              ARNS_NAME=$(echo "$DEPLOY_OUTPUT" | grep "🔗 ArNS:" | sed 's/.*🔗 ArNS: \([^[:space:]]*\).*/\1/')
+              
+              # Display the key details
+              echo "   📁 Changed files: $CHANGED_FILES_COUNT"
+              if [ -n "$MANIFEST_TX_ID" ]; then
+                echo "   🔗 Manifest TX: $MANIFEST_TX_ID"
+              fi
+              if [ -n "$ARNS_NAME" ]; then
+                echo "   🏷️ ArNS: $ARNS_NAME"
+              fi
+              
               APPS_WITH_CHANGES=$((APPS_WITH_CHANGES + 1))
             else
               echo "⚠️ App $app_name - unclear deployment status"
