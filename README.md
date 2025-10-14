@@ -80,7 +80,7 @@ apps/
 7. **☁️ Deploy**: File uploaded to Arweave via Turbo SDK
 8. **🏷️ ArNS Assignment**: Transaction ID assigned to undername (commit hash)
 9. **📊 Logging**: Deployment logged to JSON file with rolling history
-10. **🐦 Announce**: Post deployment announcement to Twitter (if requested)
+10. **📢 Announce**: Post deployment announcement to Discord (if requested)
 11. **🎉 Completion**: Agent ready for next task
 
 **Key Principle: Always follow the sequence: Make Updates → Test → Deploy → Announce**
@@ -429,7 +429,7 @@ This system is designed for seamless AI agent workflows:
 1. **Make Updates Requested** - Analyze and implement changes
 2. **Test If Appropriate** - Verify functionality works as expected  
 3. **Deploy** - Deploy changes to target environment
-4. **Announce (If Prompted)** - Use Twitter announcement feature AFTER successful deploy
+4. **Announce (If Prompted)** - Use Discord announcement feature AFTER successful deploy
 
 ### GitHub Actions Integration
 - **Auto-merge workflow** automatically merges agent PRs after validation
@@ -496,16 +496,16 @@ This system is designed for seamless AI agent workflows:
 - **Statistics**: Run `npm run stats` to see deployment metrics
 - **Real-time**: Watch GitHub Actions for live deployment status
 
-### How Twitter Announcements Work
+### How Discord Announcements Work
 
-The Twitter announcement system automatically gets deployment information:
+The Discord announcement system automatically gets deployment information:
 
 1. **Local Deployments**: Logs are written to `logs/deployments.json` locally
 2. **GitHub Actions Deployments**: Logs are committed back to the repository
 3. **Announce Workflow**: Reads the latest deployment from `logs/deployments.json`
-4. **Twitter Post**: Uses the actual Arweave deployment hash (undername) for the link
+4. **Discord Post**: Uses the actual Arweave deployment hash (undername) for the link
 
-This ensures Twitter announcements always use the correct deployment hash, whether deployed locally or via GitHub Actions.
+This ensures Discord announcements always use the correct deployment hash, whether deployed locally or via GitHub Actions.
 
 ## 🚀 Future Enhancements
 

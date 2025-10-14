@@ -34,11 +34,8 @@ TURBO_UPLOAD_SERVICE_URL=https://upload.ardrive.dev
 APP_NAME=RemoteAgentDeploy
 ARWEAVE_GATEWAY=https://arweave.net
 
-# Twitter API (optional)
-TWITTER_APP_KEY=your_app_key
-TWITTER_APP_SECRET=your_app_secret
-TWITTER_ACCESS_TOKEN=your_access_token
-TWITTER_ACCESS_SECRET=your_access_secret
+# Discord API (optional)
+DISCORD_WEBHOOK_URL=your_discord_webhook_url
 
 # GitHub API (for triggering workflows and auto-merge)
 REPO_TOKEN=your_github_personal_access_token
@@ -126,10 +123,10 @@ node deploy.js --trigger-github-deploy
 node deploy.js --file hello-world.txt --trigger-github-deploy
 ```
 
-### Twitter Announcements
+### Discord Announcements
 ```bash
-# Deploy and announce on Twitter
-node deploy.js --file hello-world.txt --announce-twitter
+# Deploy and announce on Discord
+node deploy.js --file hello-world.txt --announce-discord
 
 # Just announce latest deployment
 node deploy.js --trigger-announcement

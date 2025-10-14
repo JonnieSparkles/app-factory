@@ -24,7 +24,7 @@ When working with AI agents on this project, always follow these steps in order:
 
 ### 4. Announce (If Prompted)
 - Only announce AFTER successful deployment
-- Use the Twitter announcement feature
+- Use the Discord announcement feature
 - Ensure GitHub secrets are properly configured
 - Verify announcement was posted successfully
 
@@ -35,11 +35,11 @@ When working with AI agents on this project, always follow these steps in order:
 # Test deployment in test mode
 node deploy.js --test-mode --file <filename> --content "<content>"
 
-# Test Twitter connection
-node deploy.js --test-twitter
+# Test Discord connection
+node deploy.js --test-discord
 
 # Test with announcement (will fail without credentials)
-node deploy.js --test-mode --announce-twitter --file <filename>
+node deploy.js --test-mode --announce-discord --file <filename>
 ```
 
 ### Deployment Phase
@@ -48,7 +48,7 @@ node deploy.js --test-mode --announce-twitter --file <filename>
 node deploy.js --file <filename> --content "<content>"
 
 # Deploy with announcement
-node deploy.js --file <filename> --content "<content>" --announce-twitter
+node deploy.js --file <filename> --content "<content>" --announce-discord
 
 # Deploy and trigger GitHub Actions announcement
 node deploy.js --file <filename> --content "<content>" --trigger-announcement
@@ -56,7 +56,7 @@ node deploy.js --file <filename> --content "<content>" --trigger-announcement
 
 ### Announcement Phase
 ```bash
-# Direct Twitter announcement
+# Direct Discord announcement
 node scripts/announce.js <deployment_hash> <file_path>
 
 # GitHub Actions announcement
@@ -77,11 +77,8 @@ ARWEAVE_JWK_JSON={"kty":"RSA","e":"AQAB","n":"...","d":"..."}
 # OR
 ARWEAVE_WALLET_PATH=./secrets/wallet.json
 
-# Twitter Configuration (for announcements)
-TWITTER_APP_KEY=your_app_key
-TWITTER_APP_SECRET=your_app_secret
-TWITTER_ACCESS_TOKEN=your_access_token
-TWITTER_ACCESS_SECRET=your_access_secret
+# Discord Configuration (for announcements)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN
 ```
 
 ## Best Practices
@@ -98,8 +95,8 @@ TWITTER_ACCESS_SECRET=your_access_secret
 - Create `./secrets/wallet.json` with valid Arweave wallet
 - Or set `ARWEAVE_JWK_JSON` environment variable
 
-### Twitter 401 Error
-- Check Twitter API credentials are set correctly
+### Discord 401 Error
+- Check Discord webhook URL is set correctly
 - Verify tokens are valid and not expired
 
 ### Deployment Fails
@@ -108,6 +105,6 @@ TWITTER_ACCESS_SECRET=your_access_secret
 - Check network connectivity
 
 ### Announcement Fails
-- Verify Twitter credentials are configured
+- Verify Discord webhook URL is configured
 - Check if announcement is appropriate for the deployment type
 - Ensure deployment was successful before attempting announcement
