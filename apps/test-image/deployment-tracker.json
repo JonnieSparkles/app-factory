@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "lastDeployCommit": "f569dbfc39547993",
+  "lastDeployed": "2025-10-14T21:12:30.386Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "jonniesparkles.png": "b75b4693cf9ec6d1182c3553a1cfd80f47814a94"
+  },
+  "recentDeployments": [
+    {
+      "commit": "f569dbfc39547993",
+      "manifestTxId": "brhxCzIW1wByS2lP8n7PvRe-X9M1IIyKRnm_KwD5vmI",
+      "changedFiles": [
+        "jonniesparkles.png"
+      ],
+      "deployed": "2025-10-14T21:12:30.386Z"
+    }
+  ]
+}
