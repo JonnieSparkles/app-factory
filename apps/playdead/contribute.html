@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ar://playdead - Contribute</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+
+</head>
+<body class="contribute-page">
+    <button id="back-button" onclick="window.location.href='index.html'" title="Back to Albums">←</button>
+    <img id="app-logo" class="logo" src="./assets/app-logo.png" alt="ar://playdead Logo">
+    <h1>Contribute to ar://playdead</h1>
+
+    <div class="content">
+        <h2>About ar://playdead</h2>
+        <p>
+            ar://playdead is a community-driven platform that celebrates and preserves music forever.
+            Albums uploaded here are saved on Arweave, a decentralized network that ensures permanent,
+            uncensorable storage. Whether you're sharing audience recordings or public domain music,
+            your contributions will live on as part of this timeless archive.
+        </p>
+
+        <h2>Contribution Guidelines</h2>
+        <p>
+            We accept audience recordings and music that is explicitly open-source or in the public domain.
+            Please ensure that any music you upload respects these guidelines to honor the artists and their
+            communities.
+        </p>
+
+        <h2>Preparing Your Album</h2>
+        <p>
+            You may setup your album folder manually - or - use the Album Setup Tool to help you prepare your albums correctly:
+        </p>
+        <ol>
+            <li><strong>Download the Album Setup Tool</strong> from <a href="tools/album-setup-tool/setup_album.py" download>setup_album.py</a></li>
+            <li><strong>Run the tool</strong> (<code>python setup_album.py</code>) and choose from four modes:
+                <ul>
+                    <li>Create complete album structure (start fresh)</li>
+                    <li>Create blank album.json template</li>
+                    <li>Generate album.json from files</li>
+                    <li>Rename files based on album.json</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>Album Specification</h2>
+        <p>Each album requires the following structure, which can be automatically created using our setup tool:</p>
+
+        <h3>1. <code>album.json</code></h3>
+        <p>The metadata file describing the album. Examples:</p>
+        
+        <!-- Audio Album Example -->
+        <p><strong>Audio Album:</strong></p>
+        <pre>
+{
+    "version": "2.0.0",
+    "type": "audio",
+    "band": "Band Name",
+    "title": "Album Title",
+    "date": "YYYY-MM-DD",
+    "source": "Source information (e.g., Audience recording by...)",
+    "cover": "TXID_OF_COVER_IMAGE",
+    "info": "TXID_OF_INFO_FILE",
+    "tracks": [
+        {"number": 1, "title": "Example Track 1", "id": "TXID_OF_TRACK_1"},
+        {"number": 2, "title": "Example Track 2", "id": "TXID_OF_TRACK_2"}
+    ]
+}
+        </pre>
+
+        <!-- Video Album Example -->
+        <p><strong>Video Album:</strong></p>
+        <pre>
+{
+    "version": "2.0.0",
+    "type": "video",
+    "band": "Band Name",
+    "title": "Album Title",
+    "date": "YYYY-MM-DD",
+    "source": "Source information (e.g., Audience recording by...)",
+    "cover": "TXID_OF_COVER_IMAGE",
+    "info": "TXID_OF_INFO_FILE",
+    "reels": [
+        {"number": 1, "title": "Complete Show Part 1", "id": "TXID_OF_VIDEO_1"},
+        {"number": 2, "title": "Complete Show Part 2", "id": "TXID_OF_VIDEO_2"}
+    ]
+}
+        </pre>
+
+        <h3>2. Media Files</h3>
+        <p>Place media files in the appropriate folder:</p>
+        <ul>
+            <li><strong>Audio:</strong> Place all track files in a <code>Tracks/</code> folder.</li>
+            <li><strong>Video:</strong> Place all video files in a <code>Reels/</code> folder.</li>
+        </ul>
+        <p><strong>Naming Format:</strong> The Album Setup Tool will handle file naming automatically, but the format is:</p>
+        <ul>
+            <li>Audio: <code>01 - Track Name.mp3</code></li>
+            <li>Video: <code>01 - Show Part 1.mp4</code></li>
+        </ul>
+        <p><strong>Supported Formats:</strong></p>
+        <ul>
+            <li>Audio: .mp3, .flac, .wav</li>
+            <li>Video: .mp4, .webm</li>
+        </ul>
+
+        <h2>Folder Structure</h2>
+        <p>The Album Setup Tool can create this structure automatically with Mode 4:</p>
+        <pre>
+/Album Directory
+├── album.json
+├── album_cover.png
+├── more_info.txt
+├── Tracks/                      # For audio albums
+│   └── 01 - Track Name.mp3
+└── Reels/                       # For video albums
+    └── 01 - Complete Show.mp4
+        </pre>
+
+        <h2>How to Submit</h2>
+        <ol>
+            <li><strong>Prepare Your Album:</strong>
+                <ul>
+                    <li>Use the Album Setup Tool to create and validate your album structure</li>
+                    <li>Add your media files to the appropriate directory</li>
+                    <li>Add album artwork as album_cover.png</li>
+                    <li>Add additional information to more_info.txt</li>
+                </ul>
+            </li>
+            <li><strong>Upload to Arweave:</strong>
+                <ul>
+                    <li>Upload each file individually to Arweave using your preferred client (e.g., <a href="https://ardrive.io" target="_blank">ArDrive</a>)</li>
+                    <li>Make note of the TXID for each uploaded file:
+                        <ul>
+                            <li>Consider using ArDrive's export feature to manage your uploads efficiently</li>
+                            <li>Or create a manifest file to keep track of all TXIDs</li>
+                        </ul>
+                    </li>
+                    <li>Update your album.json with the TXIDs for:
+                        <ul>
+                            <li>Album cover image</li>
+                            <li>Info file</li>
+                            <li>Each track/reel file</li>
+                            <li>Leverage AI tools to automate the process of recording TXIDs</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Share Your Album:</strong>
+                <ul>
+                    <li>Upload your final album.json to Arweave</li>
+                    <li>Share the TXID of your album.json for inclusion in the catalog</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+</body>
+</html>
