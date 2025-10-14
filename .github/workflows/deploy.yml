@@ -47,26 +47,21 @@ jobs:
         run: |
           echo "Environment configured."
 
-      - name: Detect Changed Files
-        id: changed-files
+      - name: Prepare Deployment
+        id: prepare-deployment
         run: |
-          echo "🔍 Using hash-based change detection in JavaScript deployment code..."
+          echo "🚀 Preparing deployment for apps/ changes..."
           
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "📝 Manual trigger detected - deploying changed files"
-            echo "files=all" >> $GITHUB_OUTPUT
+            echo "📝 Manual trigger detected - deploying all apps"
             echo "message=${{ github.event.inputs.message }}" >> $GITHUB_OUTPUT
-            echo "deploy_type=apps" >> $GITHUB_OUTPUT
           else
-            echo "🔄 Push to main detected - using hash-based detection"
-            echo "files=all" >> $GITHUB_OUTPUT
-            echo "message=Auto-deployed using hash-based change detection" >> $GITHUB_OUTPUT
-            echo "deploy_type=apps" >> $GITHUB_OUTPUT
+            echo "🔄 Auto-triggered by merge with apps/ changes"
+            echo "message=Auto-deployed after merge with apps/ changes" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy to Arweave
         id: deploy
-        if: steps.changed-files.outputs.files != ''
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
           OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
@@ -76,50 +71,24 @@ jobs:
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
           APP_NAME: RemoteAgentDeploy
         run: |
-          echo "🚀 Deploying changed files..."
-          echo "📁 Files to deploy: ${{ steps.changed-files.outputs.files }}"
-          echo "💬 Message: ${{ steps.changed-files.outputs.message }}"
-          echo "🎯 Deploy type: ${{ steps.changed-files.outputs.deploy_type }}"
+          echo "🚀 Deploying apps after merge with apps/ changes..."
+          echo "💬 Message: ${{ steps.prepare-deployment.outputs.message }}"
           
           # Initialize deployment tracking
           DEPLOYMENT_SUCCESS=true
           DEPLOYMENT_ERRORS=""
           echo "deployed=false" >> $GITHUB_OUTPUT
           
-          # Handle deployments using incremental detection
-          if [ "${{ steps.changed-files.outputs.deploy_type }}" = "apps" ]; then
-            # Handle deployments - deploy only changed files using incremental detection
-            if [ "${{ steps.changed-files.outputs.files }}" = "all" ]; then
-              echo "📱 Deploying changed files using incremental detection..."
-              # Use incremental deployment for each app directory
-              find apps/ -type d -mindepth 1 -maxdepth 1 | while read -r app_dir; do
-                app_name=$(basename "$app_dir")
-                echo "📁 Checking app: $app_name"
-                if ! node deploy.js --file "$app_dir" --message "${{ steps.changed-files.outputs.message }}"; then
-                  DEPLOYMENT_SUCCESS=false
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name"
-                fi
-              done
-            else
-              # Handle specific files
-              FILES_LIST=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n')
-              APPS_FILES=$(echo "$FILES_LIST" | grep '^apps/' || true)
-              
-              # Deploy specific files and directories
-              if [ -n "$APPS_FILES" ]; then
-                echo "📱 Deploying specific files and directories..."
-                echo "$APPS_FILES" | while read -r file; do
-                  if [ -f "$file" ] || [ -d "$file" ]; then
-                    echo "📤 Deploying: $file"
-                    if ! node deploy.js --file "$file" --message "${{ steps.changed-files.outputs.message }}"; then
-                      DEPLOYMENT_SUCCESS=false
-                      DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy: $file"
-                    fi
-                  fi
-                done
-              fi
+          # Deploy all apps using incremental detection
+          echo "📱 Deploying all apps using incremental detection..."
+          find apps/ -type d -mindepth 1 -maxdepth 1 | while read -r app_dir; do
+            app_name=$(basename "$app_dir")
+            echo "📁 Deploying app: $app_name"
+            if ! node deploy.js --file "$app_dir" --message "${{ steps.prepare-deployment.outputs.message }}"; then
+              DEPLOYMENT_SUCCESS=false
+              DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name"
             fi
-          fi
+          done
           
           # Report deployment results
           if [ "$DEPLOYMENT_SUCCESS" = "true" ]; then

@@ -28,6 +28,64 @@ When working with AI agents on this project, always follow these steps in order:
 - Ensure GitHub secrets are properly configured
 - Verify announcement was posted successfully
 
+## 🔄 GitHub Actions Workflow
+
+### Auto-Merge Workflow (`auto-merge.yml`)
+The auto-merge workflow now includes **smart deployment triggering**:
+
+1. **PR Validation**: Validates the pull request
+2. **Change Detection**: Checks if changes affect the `apps/` directory
+3. **Auto-Merge**: Merges the PR if valid
+4. **Conditional Deploy**: Only triggers deploy workflow if `apps/` changes detected
+
+**Benefits:**
+- **Resource Optimization**: Skips unnecessary deployments when only non-app files change
+- **Cost Savings**: Reduces GitHub Actions usage and deployment costs
+- **Efficient Workflow**: Only deploys when meaningful changes are made
+
+### Deploy Workflow (`deploy.yml`)
+The deploy workflow is now **simplified and optimized**:
+
+1. **Triggered Conditionally**: Only runs when `apps/` changes are detected
+2. **Incremental Deployment**: Uses hash-based change detection for efficiency
+3. **All Apps Deployment**: Deploys all apps when triggered (since we know changes exist)
+4. **Logging & Manifest Updates**: Commits deployment logs and manifests back to repo
+
+**Key Changes:**
+- Removed complex file detection logic (now handled by auto-merge)
+- Simplified deployment logic (always deploys all apps when triggered)
+- Maintains incremental deployment benefits within each app
+
+### Workflow Behavior Examples
+
+**Scenario 1: Changes to `apps/` directory**
+```
+1. Agent modifies apps/arcade/index.html
+2. Agent creates PR
+3. Auto-merge workflow detects apps/ changes
+4. PR is merged
+5. Deploy workflow is triggered
+6. All apps are deployed using incremental detection
+7. Deployment logs and manifests are committed
+```
+
+**Scenario 2: Changes to non-app files**
+```
+1. Agent modifies README.md or docs/
+2. Agent creates PR
+3. Auto-merge workflow detects no apps/ changes
+4. PR is merged
+5. Deploy workflow is NOT triggered
+6. Resources saved, no unnecessary deployment
+```
+
+**Scenario 3: Manual deployment**
+```
+1. User manually triggers deploy workflow via GitHub Actions
+2. Deploy workflow runs regardless of file changes
+3. All apps are deployed (useful for maintenance deployments)
+```
+
 ## Implementation Details
 
 ### Testing Phase

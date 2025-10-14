@@ -26,6 +26,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check for Apps Changes
+        id: check-apps-changes
+        run: |
+          echo "🔍 Checking if this PR contains changes to apps/ directory..."
+          
+          # Get the list of changed files in this PR
+          CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+          echo "Changed files in PR: $CHANGED_FILES"
+          
+          # Check if any files in apps/ directory were changed
+          if echo "$CHANGED_FILES" | grep -q "^apps/"; then
+            echo "✅ Changes detected in apps/ directory"
+            echo "has_apps_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "⏭️ No changes in apps/ directory"
+            echo "has_apps_changes=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Auto-merge Agent PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,13 +51,18 @@ jobs:
           echo "🔄 Auto-merging PR #${{ github.event.pull_request.number }}..."
           node scripts/auto-merge.js ${{ github.event.pull_request.number }} squash
           echo "✅ PR auto-merged successfully"
-          echo "📝 Preparing to trigger deploy workflow..."
+          if [ "${{ steps.check-apps-changes.outputs.has_apps_changes }}" = "true" ]; then
+            echo "📝 Apps changes detected - will trigger deploy workflow after merge"
+          else
+            echo "📝 No apps changes - skipping deploy workflow"
+          fi
 
       - name: Trigger Deploy Workflow
+        if: steps.check-apps-changes.outputs.has_apps_changes == 'true'
         uses: actions/github-script@v7
         with:
           script: |
-            console.log('🚀 Triggering deploy workflow after auto-merge...');
+            console.log('🚀 Triggering deploy workflow after auto-merge (apps changes detected)...');
             
             // Wait a moment for the merge to complete
             await new Promise(resolve => setTimeout(resolve, 2000));

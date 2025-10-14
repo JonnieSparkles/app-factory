@@ -83,11 +83,12 @@ your-project/
 4. **🌿 Branch Creation**: Agent creates `cursor/feature-branch` 
 5. **📋 PR Creation**: Agent creates pull request against main
 6. **✅ Auto-merge**: GitHub Actions validates and auto-merges PR
-7. **☁️ Deploy**: File uploaded to Arweave via Turbo SDK
-8. **🏷️ ArNS Assignment**: Transaction ID assigned to undername (commit hash)
-9. **📊 Logging**: Deployment logged to JSON file with rolling history
-10. **📢 Announce**: Post deployment announcement to Discord (if requested)
-11. **🎉 Completion**: Agent ready for next task
+7. **🔍 Change Detection**: Auto-merge workflow checks if changes affect `apps/` directory
+8. **☁️ Conditional Deploy**: Only deploys if `apps/` changes detected (saves resources)
+9. **🏷️ ArNS Assignment**: Transaction ID assigned to undername (commit hash)
+10. **📊 Logging**: Deployment logged to JSON file with rolling history
+11. **📢 Announce**: Post deployment announcement to Discord (if requested)
+12. **🎉 Completion**: Agent ready for next task
 
 **AI Agent Instructions:**
 - Always follow the sequence: Make Updates → Test → Deploy → Announce
@@ -196,9 +197,20 @@ node deploy.js --logs
 node deploy.js --stats
 ```
 
-## 🚀 Incremental Deployment
+## 🚀 Smart Deployment System
 
-The system now features **incremental deployment** - a cost and time-optimized approach that only uploads files that have actually changed since the last deployment.
+The system features two key optimizations for efficient deployments:
+
+### 🔍 Conditional Deployment Triggering
+**New Feature**: The auto-merge workflow now intelligently checks if changes affect the `apps/` directory before triggering deployments.
+
+- **Smart Detection**: Only deploys when `apps/` directory changes are detected
+- **Resource Savings**: Skips unnecessary deployments when only non-app files change (docs, configs, etc.)
+- **Manual Override**: Manual deployments via GitHub Actions still work for all scenarios
+- **Efficient Workflow**: Reduces GitHub Actions usage and deployment costs
+
+### ⚡ Incremental Deployment
+**Cost and time-optimized approach** that only uploads files that have actually changed since the last deployment.
 
 **📋 For detailed technical documentation, see [docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md](./docs/INCREMENTAL_ARWEAVE_DEPLOYMENT.md)**
 
@@ -464,8 +476,10 @@ node deploy.js --stats
 
 ### GitHub Actions Integration
 - **Auto-merge workflow** automatically merges agent PRs after validation
-- **Deploy workflow** automatically deploys merged changes to Arweave
+- **Smart deployment triggering** - only deploys when `apps/` directory changes are detected
+- **Deploy workflow** automatically deploys merged changes to Arweave (when triggered)
 - **Draft PR handling** automatically marks draft PRs as ready for review
+- **Resource optimization** - skips unnecessary deployments when no app changes exist
 
 ### Agent Workflow
 ```javascript
@@ -474,8 +488,10 @@ node deploy.js --stats
 2. Agent makes changes to files
 3. Agent creates PR (auto-merge handles the rest)
 4. GitHub Actions validates and merges
-5. GitHub Actions deploys to Arweave
-6. Agent ready for next task
+5. GitHub Actions checks for apps/ changes
+6. If apps/ changes detected: GitHub Actions deploys to Arweave
+7. If no apps/ changes: deployment skipped (saves resources)
+8. Agent ready for next task
 ```
 
 ### AI-Specific Considerations
