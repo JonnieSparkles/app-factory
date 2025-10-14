@@ -2,11 +2,11 @@
   "manifest": "arweave/paths",
   "version": "0.2.0",
   "index": {
-    "path": "index.html"
+    "path": "index.txt"
   },
   "paths": {
     "index.txt": {
-      "id": "test-1760401124239-0"
+      "id": "test-1760403196720-0"
     }
   }
 }
