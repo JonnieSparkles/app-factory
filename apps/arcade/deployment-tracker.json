@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "fadd77d049684c2a",
-  "lastDeployed": "2025-10-14T16:27:27.309Z",
-  "deploymentCount": 4,
+  "lastDeployCommit": "3640368dd88d03de",
+  "lastDeployed": "2025-10-14T16:35:45.641Z",
+  "deploymentCount": 5,
   "fileHashes": {
     "dice-roller.html": "8e793c96b508cfcd29b3d27bba6595e80204eda4",
     "index.html": "e0d957286243300ac1799406fe7680e2bed7c0f9",
@@ -10,9 +10,18 @@
     "pixel-runner.html": "c634d71bf72d2dc567eafa0c2fec4a36900bcdd6",
     "snake.html": "ecbc657fdf140f103aead08e42f4aaffa0213189",
     "star-collector.html": "202f5f6638abc793d92fd53e73d50b4849832779",
-    "style.css": "ca0f8735cbcbc60d3ecc7396246dcf83a24b44a2"
+    "style.css": "ca0f8735cbcbc60d3ecc7396246dcf83a24b44a2",
+    "space-invaders.html": "972bdcd09179921bd92674dd3d0ae8934dd18a5a"
   },
   "recentDeployments": [
+    {
+      "commit": "3640368dd88d03de",
+      "manifestTxId": "iM3yEEVkpn9M57b5BHDMWL4zLyWPdphCAXuNYQ4saHs",
+      "changedFiles": [
+        "space-invaders.html"
+      ],
+      "deployed": "2025-10-14T16:35:45.641Z"
+    },
     {
       "commit": "fadd77d049684c2a",
       "manifestTxId": "SrnN4GJ-BLr1PC4rJfJNY43Q5s4DbIVB1XWIh7Bu68k",
@@ -34,15 +43,6 @@
         "apps/arcade/style.css"
       ],
       "deployed": "2025-10-13T21:25:47.173Z"
-    },
-    {
-      "commit": "fb7bbf3e9e60ec09",
-      "manifestTxId": "ACQKH4eDHp0F8IrLDSTf0BXOz7DfQT9btdDB7g0RcfI",
-      "changedFiles": [
-        "apps/arcade/index.html",
-        "apps/arcade/style.css"
-      ],
-      "deployed": "2025-10-13T21:49:40.910Z"
     }
   ]
 }
