@@ -43,6 +43,7 @@ jobs:
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
+          TURBO_USE_SHARED_CREDITS: ${{ secrets.TURBO_USE_SHARED_CREDITS }}
           APP_NAME: RemoteAgentDeploy
         run: |
           echo "Environment configured."
@@ -69,6 +70,7 @@ jobs:
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
           TURBO_UPLOAD_SERVICE_URL: ${{ secrets.TURBO_UPLOAD_SERVICE_URL }}
+          TURBO_USE_SHARED_CREDITS: ${{ secrets.TURBO_USE_SHARED_CREDITS }}
           APP_NAME: RemoteAgentDeploy
         run: |
           echo "🚀 Deploying apps after merge with apps/ changes..."

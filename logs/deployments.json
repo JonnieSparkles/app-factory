@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T21:28:52.162Z",
-    "success": true,
-    "appId": "nsync-fanpage",
-    "filePath": "apps/nsync-fanpage/index.html",
-    "commitHash": "0f0dd43d696ba9ee",
-    "txId": "oaMf7xmMjSNvbxDQ4gtFmGzoGwZ4zkwypeiSNW-ZgEk",
-    "manifestTxId": "oaMf7xmMjSNvbxDQ4gtFmGzoGwZ4zkwypeiSNW-ZgEk",
-    "undername": "0f0dd43d696ba9ee",
-    "fileSize": 17074,
-    "duration": 7586,
-    "deploymentType": "incremental",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-13T21:49:40.917Z",
     "success": true,
     "appId": "arcade",
