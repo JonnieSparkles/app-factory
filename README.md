@@ -8,7 +8,8 @@ This system is a pipeline of **modular, optional components** that work together
 
 1. **Remote Agent Integration** - Compatible with configurable agent branch prefix workflows for autonomous development
 2. **Incremental Deployment** - Only changed files are re-uploaded to Arweave, reducing costs and deployment time
-3. **Announcement System** - Completed work is automatically announced with deployment details
+3. **ArNS Smart Domains** - Assigns smart, human-readable subdomains on Arweave for each deployment (recommended for easier access and management)
+4. **Announcement System** - Completed work is automatically announced with deployment details
 
 ## Full Agent Mode
 
@@ -29,7 +30,7 @@ The agent autonomously:
 ## Quick Start
 
 1. Configure environment variables (see [Setup Guide](./docs/REMOTE_AGENT_SETUP.md))
-2. Place your projects in `apps/` directory
+2. Place your project(s) in `apps/` directory
 3. Deploy:
    ```bash
    node deploy.js --file path/to/file.html          # Single file
@@ -50,7 +51,7 @@ Deploy (incremental: only changed files)
     ↓
 Arweave (permanent storage)
     ↓
-ArNS (subdomain: commit-hash.your-domain.ar.io)
+ArNS (subdomain: commit-hash_your-domain.ar.io)
     ↓
 Announce (optional Discord notification)
 ```
@@ -158,7 +159,7 @@ For production deployments, share credits from a secure primary wallet to a dedi
 TURBO_USE_SHARED_CREDITS=true
 ```
 
-Keep your primary wallet offline. The deployment wallet has limited funds and can be rotated regularly.
+Keep your primary wallet offline. The deployment wallet has limited revokable funds and can be rotated regularly.
 
 **General Security:**
 - Never commit wallet files to git
