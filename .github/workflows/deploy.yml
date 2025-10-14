@@ -93,9 +93,14 @@ jobs:
                 app_name=$(basename "$app_dir")
             echo "📁 Deploying app: $app_name"
             
-            # Capture the output to check if changes were detected
+            # Run deployment and capture full output
+            echo "🚀 Starting deployment for: $app_dir"
             DEPLOY_OUTPUT=$(node deploy.js --file "$app_dir" --message "${{ steps.prepare-deployment.outputs.message }}" 2>&1)
             DEPLOY_EXIT_CODE=$?
+            
+            # Display the full deployment output for detailed logging
+            echo "📋 Full deployment output for $app_name:"
+            echo "$DEPLOY_OUTPUT"
             
             # Check if the output indicates changes were made
             # First check for explicit "no changes" message
@@ -112,9 +117,13 @@ jobs:
               CHANGED_FILES_COUNT=$(echo "$DEPLOY_OUTPUT" | grep "📁 Changed files:" | sed 's/.*📁 Changed files: \([0-9]*\).*/\1/')
               MANIFEST_TX_ID=$(echo "$DEPLOY_OUTPUT" | grep "🔗 Manifest TX:" | sed 's/.*🔗 Manifest TX: \([^[:space:]]*\).*/\1/')
               ARNS_NAME=$(echo "$DEPLOY_OUTPUT" | grep "🔗 ArNS:" | sed 's/.*🔗 ArNS: \([^[:space:]]*\).*/\1/')
+              TOTAL_SIZE=$(echo "$DEPLOY_OUTPUT" | grep "📦 Total size:" | sed 's/.*📦 Total size: \([^[:space:]]*\).*/\1/')
+              DURATION=$(echo "$DEPLOY_OUTPUT" | grep "Duration:" | sed 's/.*Duration: \([^[:space:]]*\).*/\1/')
               
-              # Display the key details
+              # Display the key details in a clean format
               echo "   📁 Changed files: $CHANGED_FILES_COUNT"
+              echo "   📦 Total size: $TOTAL_SIZE"
+              echo "   ⏱️ Duration: $DURATION"
               if [ -n "$MANIFEST_TX_ID" ]; then
                 echo "   🔗 Manifest TX: $MANIFEST_TX_ID"
               fi
@@ -125,8 +134,7 @@ jobs:
               APPS_WITH_CHANGES=$((APPS_WITH_CHANGES + 1))
             else
               echo "⚠️ App $app_name - unclear deployment status"
-              echo "📋 Deployment output:"
-              echo "$DEPLOY_OUTPUT"
+              echo "📋 Deployment output (already shown above)"
             fi
             
             TOTAL_APPS=$((TOTAL_APPS + 1))
