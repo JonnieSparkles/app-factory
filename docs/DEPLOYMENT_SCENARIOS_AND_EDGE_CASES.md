@@ -10,8 +10,8 @@
 
 1. [System Overview](#system-overview)
 2. [Core Deployment Flow](#core-deployment-flow)
-3. [Happy Path Scenario](#happy-path-scenario)
-4. [New App Deployment (Base Case)](#new-app-deployment-base-case)
+3. [New App Deployment (Base Case)](#new-app-deployment-base-case)
+4. [Happy Path Scenario](#happy-path-scenario)
 5. [Edge Cases & Special Scenarios](#edge-cases--special-scenarios)
 6. [Error Handling & Recovery](#error-handling--recovery)
 7. [CI/CD Specific Behaviors](#cicd-specific-behaviors)
@@ -147,120 +147,6 @@ git hash-object path/to/file.html
   }
 }
 ```
-
----
-
-## Happy Path Scenario
-
-### Scenario Description
-
-A developer makes changes to 2 files in an existing app and triggers deployment.
-
-### Pre-conditions
-
-- App has been deployed before
-- deployment-tracker.json exists with file hashes
-- manifest.json exists with current transaction IDs
-- Git repository is clean and configured
-- All files are tracked by git
-
-### Steps
-
-1. **Developer modifies files**
-   ```
-   Modified: apps/my-app/index.html
-   Modified: apps/my-app/style.css
-   Unchanged: apps/my-app/app.js (50 other files)
-   ```
-
-2. **Commit changes**
-   ```bash
-   git add apps/my-app/
-   git commit -m "Update homepage design"
-   # Commit: a1b2c3d4e5f6g7h8i9j0
-   ```
-
-3. **Trigger deployment**
-   ```bash
-   node deploy.js --file apps/my-app/
-   ```
-
-4. **System execution**
-   ```
-   🚀 Starting incremental deployment for app: my-app
-   📝 Current commit: a1b2c3d4e5f6g7h8 - Update homepage design
-   🔍 Last deployment commit: x9y8z7w6v5u4t3s2
-   🔍 Using hash-based change detection...
-   📝 File changed: index.html (modified)
-   📝 File changed: style.css (modified)
-   📁 Changed files: 2
-   📤 Uploading 2 changed files...
-   [1/2] Uploading index.html...
-   ✅ Uploaded: new-txid-index-abc
-   [2/2] Uploading style.css...
-   ✅ Uploaded: new-txid-style-def
-   📋 Updated manifest with 2 new file IDs
-   ☁️ Uploading manifest to Arweave...
-   ✅ Manifest uploaded: manifest-txid-xyz
-   🔗 Creating ArNS record: a1b2c3d4e5f6g7h8 → manifest-txid-xyz
-   ✅ ArNS record created
-   📝 Created deployment commit
-   🎉 Incremental deployment complete!
-   ```
-
-5. **Result**
-   - Only 2 files uploaded (not all 52 files)
-   - Cost savings: 96%
-   - Manifest updated with new transaction IDs
-   - ArNS record maps commit hash to manifest
-   - deployment-tracker.json updated with new hashes
-   - Deployment commit created automatically
-
-### Files Updated
-
-**apps/my-app/manifest.json**
-```json
-{
-  "manifest": "arweave/paths",
-  "version": "0.2.0",
-  "index": { "path": "index.html" },
-  "paths": {
-    "index.html": { "id": "new-txid-index-abc" },
-    "style.css": { "id": "new-txid-style-def" },
-    "app.js": { "id": "old-txid-unchanged" }
-  }
-}
-```
-
-**apps/my-app/deployment-tracker.json**
-```json
-{
-  "version": "1.0.0",
-  "lastDeployCommit": "a1b2c3d4e5f6g7h8",
-  "lastDeployed": "2025-10-14T12:00:00.000Z",
-  "deploymentCount": 5,
-  "fileHashes": {
-    "index.html": "new-hash-abc123",
-    "style.css": "new-hash-def456",
-    "app.js": "old-hash-unchanged"
-  },
-  "recentDeployments": [
-    {
-      "commit": "a1b2c3d4e5f6g7h8",
-      "manifestTxId": "manifest-txid-xyz",
-      "changedFiles": ["index.html", "style.css"],
-      "deployed": "2025-10-14T12:00:00.000Z"
-    }
-  ]
-}
-```
-
-### Access
-
-The app is accessible at:
-- `https://a1b2c3d4e5f6g7h8_owner-name.arweave.dev`
-- Resolves to manifest `manifest-txid-xyz`
-- Serves files with updated transaction IDs
 
 ---
 
@@ -403,6 +289,120 @@ The app is accessible at:
 - **Entry point detected** - automatically finds index.html
 - **Full deployment cost** - no incremental savings on first deploy
 - **Foundation for future incremental deployments** - sets up tracking system
+
+---
+
+## Happy Path Scenario
+
+### Scenario Description
+
+A developer makes changes to 2 files in an existing app and triggers deployment.
+
+### Pre-conditions
+
+- App has been deployed before
+- deployment-tracker.json exists with file hashes
+- manifest.json exists with current transaction IDs
+- Git repository is clean and configured
+- All files are tracked by git
+
+### Steps
+
+1. **Developer modifies files**
+   ```
+   Modified: apps/my-app/index.html
+   Modified: apps/my-app/style.css
+   Unchanged: apps/my-app/app.js (50 other files)
+   ```
+
+2. **Commit changes**
+   ```bash
+   git add apps/my-app/
+   git commit -m "Update homepage design"
+   # Commit: a1b2c3d4e5f6g7h8i9j0
+   ```
+
+3. **Trigger deployment**
+   ```bash
+   node deploy.js --file apps/my-app/
+   ```
+
+4. **System execution**
+   ```
+   🚀 Starting incremental deployment for app: my-app
+   📝 Current commit: a1b2c3d4e5f6g7h8 - Update homepage design
+   🔍 Last deployment commit: x9y8z7w6v5u4t3s2
+   🔍 Using hash-based change detection...
+   📝 File changed: index.html (modified)
+   📝 File changed: style.css (modified)
+   📁 Changed files: 2
+   📤 Uploading 2 changed files...
+   [1/2] Uploading index.html...
+   ✅ Uploaded: new-txid-index-abc
+   [2/2] Uploading style.css...
+   ✅ Uploaded: new-txid-style-def
+   📋 Updated manifest with 2 new file IDs
+   ☁️ Uploading manifest to Arweave...
+   ✅ Manifest uploaded: manifest-txid-xyz
+   🔗 Creating ArNS record: a1b2c3d4e5f6g7h8 → manifest-txid-xyz
+   ✅ ArNS record created
+   📝 Created deployment commit
+   🎉 Incremental deployment complete!
+   ```
+
+5. **Result**
+   - Only 2 files uploaded (not all 52 files)
+   - Cost savings: 96%
+   - Manifest updated with new transaction IDs
+   - ArNS record maps commit hash to manifest
+   - deployment-tracker.json updated with new hashes
+   - Deployment commit created automatically
+
+### Files Updated
+
+**apps/my-app/manifest.json**
+```json
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": { "path": "index.html" },
+  "paths": {
+    "index.html": { "id": "new-txid-index-abc" },
+    "style.css": { "id": "new-txid-style-def" },
+    "app.js": { "id": "old-txid-unchanged" }
+  }
+}
+```
+
+**apps/my-app/deployment-tracker.json**
+```json
+{
+  "version": "1.0.0",
+  "lastDeployCommit": "a1b2c3d4e5f6g7h8",
+  "lastDeployed": "2025-10-14T12:00:00.000Z",
+  "deploymentCount": 5,
+  "fileHashes": {
+    "index.html": "new-hash-abc123",
+    "style.css": "new-hash-def456",
+    "app.js": "old-hash-unchanged"
+  },
+  "recentDeployments": [
+    {
+      "commit": "a1b2c3d4e5f6g7h8",
+      "manifestTxId": "manifest-txid-xyz",
+      "changedFiles": ["index.html", "style.css"],
+      "deployed": "2025-10-14T12:00:00.000Z"
+    }
+  ]
+}
+```
+
+### Access
+
+The app is accessible at:
+- `https://a1b2c3d4e5f6g7h8_owner-name.arweave.dev`
+- Resolves to manifest `manifest-txid-xyz`
+- Serves files with updated transaction IDs
 
 ---
 
@@ -736,135 +736,8 @@ git commit -m "Remove temp file from tracking"
 
 ---
 
-### 5. First Deployment (No Tracker Exists)
 
-**Scenario:** Deploying an app for the first time - no deployment-tracker.json exists
-
-#### Initial State
-
-```
-apps/new-app/
-├── index.html
-├── style.css
-└── app.js
-# No manifest.json
-# No deployment-tracker.json
-```
-
-#### Behavior
-
-```javascript
-// ManifestManager.loadDeploymentTracker()
-if (await fileExists(this.trackerPath)) {
-  // Load existing
-} else {
-  return this.createEmptyTracker();  // First deployment
-}
-
-createEmptyTracker() {
-  return {
-    version: '1.0.0',
-    lastDeployCommit: null,  // No previous deployment
-    lastDeployed: null,
-    deploymentCount: 0,
-    fileHashes: {},  // Empty - no stored hashes
-    recentDeployments: []
-  };
-}
-```
-
-#### Hash Comparison
-
-```javascript
-// ManifestManager.getChangedFilesByHash()
-const storedHashes = tracker.fileHashes || {};  // Empty object
-
-for (const filePath of trackedFiles) {
-  const currentHash = await gitTracker.getFileHash(filePath);
-  const storedHash = storedHashes[relativePath];  // undefined
-  
-  if (!storedHash || currentHash !== storedHash) {
-    changedFiles.push(filePath);  // All files are "changed"
-  }
-}
-```
-
-#### Result
-
-- **ALL files marked as changed** (no stored hashes to compare against)
-- **ALL files uploaded to Arweave**
-- **New manifest created** with all transaction IDs
-- **Manifest uploaded to Arweave**
-- **ArNS record created**
-- **Tracker created and saved** with all file hashes
-- **Deployment commit created**
-
-#### Logging
-
-```
-🚀 Starting incremental deployment for app: new-app
-📝 Current commit: a1b2c3d4e5f6g7h8
-🔍 Last deployment commit: none (first deployment)
-🔍 Using hash-based change detection...
-📝 File changed: index.html (new)
-📝 File changed: style.css (new)
-📝 File changed: app.js (new)
-📁 Changed files: 3
-📤 Uploading 3 changed files...
-```
-
-#### Files Created
-
-**apps/new-app/manifest.json**
-```json
-{
-  "manifest": "arweave/paths",
-  "version": "0.2.0",
-  "index": { "path": "index.html" },
-  "paths": {
-    "index.html": { "id": "txid-abc" },
-    "style.css": { "id": "txid-def" },
-    "app.js": { "id": "txid-ghi" }
-  }
-}
-```
-
-**apps/new-app/deployment-tracker.json**
-```json
-{
-  "version": "1.0.0",
-  "lastDeployCommit": "a1b2c3d4e5f6g7h8",
-  "lastDeployed": "2025-10-14T12:00:00.000Z",
-  "deploymentCount": 1,
-  "fileHashes": {
-    "index.html": "hash-abc",
-    "style.css": "hash-def",
-    "app.js": "hash-ghi"
-  },
-  "recentDeployments": [
-    {
-      "commit": "a1b2c3d4e5f6g7h8",
-      "manifestTxId": "manifest-txid",
-      "changedFiles": ["index.html", "style.css", "app.js"],
-      "deployed": "2025-10-14T12:00:00.000Z"
-    }
-  ]
-}
-```
-
-#### Deployment Commit
-
-```
-Deploy app:new-app v0.2.0
-
-Files changed: index.html, style.css, app.js
-Manifest: manifest-txid...
-ArNS: new-app
-```
-
----
-
-### 6. No Changes Detected (Skip Deployment)
+### 5. No Changes Detected (Skip Deployment)
 
 **Scenario:** Deployment triggered but no files have changed since last deployment
 
@@ -933,7 +806,7 @@ if (result.skipped) {
 
 ---
 
-### 7. Partial Upload Failure
+### 6. Partial Upload Failure
 
 **Scenario:** Some files upload successfully, but one fails mid-deployment
 
@@ -1009,7 +882,7 @@ Current implementation: **fail-fast, preserve state**
 
 ---
 
-### 8. Manifest Corruption
+### 7. Manifest Corruption
 
 **Scenario:** manifest.json or deployment-tracker.json is corrupted or has invalid JSON
 
@@ -1082,9 +955,9 @@ try {
 
 ---
 
-### 9. Git Repository Issues
+### 8. Git Repository Issues
 
-#### Scenario 9a: Not a Git Repository
+#### Scenario 8a: Not a Git Repository
 
 **Setup:**
 ```bash
@@ -1113,7 +986,7 @@ git commit -m "Initial commit"
 # Now deployment will work
 ```
 
-#### Scenario 9b: Git Not Configured
+#### Scenario 8b: Git Not Configured
 
 **Setup:**
 ```bash
@@ -1141,7 +1014,7 @@ try {
 - **Auto-configured** with temporary identity
 - **Warning logged** but not fatal
 
-#### Scenario 9c: Shallow Clone (fetch-depth: 1)
+#### Scenario 8c: Shallow Clone (fetch-depth: 1)
 
 **Setup:**
 ```yaml
@@ -1161,7 +1034,7 @@ try {
 - Stored hashes in deployment-tracker.json
 - No git diff needed
 
-#### Scenario 9d: Detached HEAD State
+#### Scenario 8d: Detached HEAD State
 
 **Setup:**
 ```bash
@@ -1182,9 +1055,9 @@ const output = execSync(`git log --format="%H|%s|%an|%ad" -n 1 ${hash}`);
 
 ---
 
-### 10. Network and Upload Failures
+### 9. Network and Upload Failures
 
-#### Scenario 10a: Arweave Upload Timeout
+#### Scenario 9a: Arweave Upload Timeout
 
 **Behavior:**
 ```javascript
@@ -1205,7 +1078,7 @@ const uploadResult = await turbo.uploadFile({...});
 - Implement retry logic
 - Progress feedback for large files
 
-#### Scenario 10b: ArNS Assignment Timeout
+#### Scenario 9b: ArNS Assignment Timeout
 
 **Behavior:**
 ```javascript
@@ -1242,7 +1115,7 @@ if (error.message?.includes('timeout')) {
 - But not referenced in ArNS (deployment incomplete)
 - Manual recovery needed to create ArNS record
 
-#### Scenario 10c: Insufficient Turbo Balance
+#### Scenario 9c: Insufficient Turbo Balance
 
 **Behavior:**
 ```javascript
@@ -1268,7 +1141,7 @@ const uploadResult = await turbo.uploadFile({...});
 
 ---
 
-### 11. Concurrent Deployments
+### 10. Concurrent Deployments
 
 #### Scenario: Two deployments triggered simultaneously for same app
 
@@ -1351,7 +1224,7 @@ This prevents concurrent deployments from CI/CD.
 
 ---
 
-### 12. Test Mode Scenarios
+### 11. Test Mode Scenarios
 
 #### Scenario: Deployment with --test-mode flag
 
