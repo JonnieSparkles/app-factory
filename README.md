@@ -81,7 +81,7 @@ your-project/
 1. **🤖 Agent Request**: You ask the AI agent to make changes
 2. **📝 Make Updates**: Agent modifies files as requested
 3. **🧪 Test Changes**: Agent tests the changes (if appropriate)
-4. **🌿 Branch Creation**: Agent creates `cursor/feature-branch` 
+4. **🌿 Branch Creation**: Agent creates `{agent-branch-prefix}/feature-branch` 
 5. **📋 PR Creation**: Agent creates pull request against main
 6. **✅ Auto-merge**: GitHub Actions validates and auto-merges PR
 7. **🔍 Change Detection**: Auto-merge workflow checks if changes affect `apps/` directory
@@ -138,6 +138,7 @@ ARWEAVE_GATEWAY=https://arweave.net
 # GitHub Actions Configuration (Required for auto-merge)
 REPO_TOKEN=your_github_personal_access_token
 TRUSTED_USERS=JonnieSparkles,AnotherUser  # Comma-separated list of trusted usernames
+AGENT_BRANCH_PREFIX=cursor/  # Prefix for AI agent branches (auto-merge only processes these)
 ```
 
 ## 🎯 Usage
@@ -464,7 +465,9 @@ For the auto-merge workflow to work, you need to configure these secrets in your
    - `TRUSTED_USERS` - Comma-separated list of GitHub usernames who can trigger auto-merge
      - Example: `JonnieSparkles,AnotherUser,ThirdUser`
      - Only PRs from these users will be auto-merged
-     - Only works for branches starting with `cursor/`
+   - `AGENT_BRANCH_PREFIX` - Prefix for AI agent branches (optional, defaults to `cursor/`)
+     - Example: `cursor/`, `ai/`, `bot/`, `agent/`
+     - Only branches starting with this prefix will be auto-merged
 ## 📊 Example Output
 
 ```
@@ -529,7 +532,7 @@ node deploy.js --stats
 ### Agent Workflow
 ```javascript
 // Example agent workflow
-1. Agent creates branch: cursor/feature-branch
+1. Agent creates branch: {agent-branch-prefix}/feature-branch
 2. Agent makes changes to files
 3. Agent creates PR (auto-merge handles the rest)
 4. GitHub Actions validates and merges

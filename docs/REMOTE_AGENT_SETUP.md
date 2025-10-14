@@ -62,7 +62,7 @@ For cloud platforms (Vercel, Netlify, etc.), set these in your platform's enviro
 
 ### How It Works
 1. **You ask the AI agent** to make changes
-2. **Agent creates branch** with `cursor/` prefix
+2. **Agent creates branch** with configurable agent prefix (default: `cursor/`)
 3. **Agent makes changes** to files
 4. **Agent creates PR** (may be draft initially)
 5. **GitHub Actions auto-merge** validates and merges PR
@@ -72,7 +72,7 @@ For cloud platforms (Vercel, Netlify, etc.), set these in your platform's enviro
 ### Auto-merge Features
 - ✅ **Validates deployment script** before merging
 - ✅ **Handles draft PRs** automatically
-- ✅ **Only affects `cursor/` branches** (agent-created PRs)
+- ✅ **Only affects agent branches** (configurable prefix, default: `cursor/`)
 - ✅ **Squash merges** for clean history
 - ✅ **Deletes branches** after merge
 

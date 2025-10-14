@@ -23,8 +23,10 @@ on:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Only run for PRs from cursor/ branches OR manual workflow dispatch
+    # Only run for PRs from agent branches OR manual workflow dispatch
     if: startsWith(github.head_ref, 'cursor/') || github.event_name == 'workflow_dispatch'
+    env:
+      AGENT_BRANCH_PREFIX: ${{ secrets.AGENT_BRANCH_PREFIX || 'cursor/' }}
     permissions:
       contents: write
       pull-requests: write
@@ -43,8 +45,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check Trusted User
+      - name: Check Branch Prefix and Trusted User
         run: |
+          echo "🔍 Checking branch prefix and trusted user..."
+          
+          # Check if this is a manual workflow dispatch
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "✅ Manual workflow dispatch - skipping branch prefix check"
+            echo "is_valid_branch=true" >> $GITHUB_OUTPUT
+            echo "is_trusted=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Check branch prefix for automatic PR triggers
+          AGENT_PREFIX="${{ secrets.AGENT_BRANCH_PREFIX || 'cursor/' }}"
+          echo "🔍 Checking if branch '${{ github.head_ref }}' starts with '$AGENT_PREFIX'"
+          
+          if [[ "${{ github.head_ref }}" == "$AGENT_PREFIX"* ]]; then
+            echo "✅ Branch prefix matches: $AGENT_PREFIX"
+            echo "is_valid_branch=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Branch prefix does not match: $AGENT_PREFIX"
+            echo "is_valid_branch=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          # Check trusted user
           echo "🔍 Checking if user '${{ github.actor }}' is in trusted users list..."
           if [[ "${{ secrets.TRUSTED_USERS }}" == *"${{ github.actor }}"* ]]; then
             echo "✅ User '${{ github.actor }}' is trusted"
@@ -53,11 +79,7 @@ jobs:
             echo "❌ User '${{ github.actor }}' is not in trusted users list"
             echo "is_trusted=false" >> $GITHUB_OUTPUT
             echo "Trusted users: ${{ secrets.TRUSTED_USERS }}"
-            if [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
-              exit 1
-            else
-              echo "⚠️ Manual workflow dispatch - allowing execution but user not in trusted list"
-            fi
+            exit 1
           fi
 
       - name: Setup Git References
