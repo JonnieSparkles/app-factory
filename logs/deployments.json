@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T21:28:43.454Z",
-    "success": true,
-    "appId": "hello-world",
-    "filePath": "apps/hello-world/index.txt",
-    "commitHash": "0f0dd43d696ba9ee",
-    "txId": "WpCVbk0vRAD5ML4W6jOJaeuTKudAgpdER0oV4PhV55g",
-    "manifestTxId": "WpCVbk0vRAD5ML4W6jOJaeuTKudAgpdER0oV4PhV55g",
-    "undername": "0f0dd43d696ba9ee",
-    "fileSize": 20,
-    "duration": 8602,
-    "deploymentType": "incremental",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-13T21:28:52.162Z",
     "success": true,
     "appId": "nsync-fanpage",
@@ -659,6 +644,15 @@
     "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
     "context": "Incremental directory deployment for 'apps/playdead': ",
     "duration": 1183,
+    "filePath": "apps/playdead",
+    "deploymentType": "incremental"
+  },
+  {
+    "timestamp": "2025-10-14T20:09:54.758Z",
+    "success": false,
+    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "duration": 1059,
     "filePath": "apps/playdead",
     "deploymentType": "incremental"
   }
