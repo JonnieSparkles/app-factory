@@ -22,12 +22,12 @@
 
 
         <section class="game-grid">
-            <div class="game-card coming-soon">
+            <div class="game-card available">
                 <div class="game-icon">👾</div>
                 <h3>Space Invaders</h3>
                 <p class="game-description">Defend Earth from alien invasion!</p>
-                <p class="game-score">COMING SOON</p>
-                <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
+                <p class="game-score" id="space-invaders-high-score">HIGH SCORE: 0</p>
+                <button class="play-btn" onclick="window.open('space-invaders.html', '_blank')">PLAY NOW</button>
             </div>
             
             <div class="game-card available">
@@ -148,7 +148,7 @@
         // Game high scores for display
         let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
         let diceHighScore = localStorage.getItem('diceHighScore') || 0;
-        let neonTargetHighScore = localStorage.getItem('neonTargetHighScore') || 0;
+        let spaceInvadersHighScore = localStorage.getItem('spaceInvadersHighScore') || 0;
         let pixelRunnerHighScore = localStorage.getItem('pixelRunnerHighScore') || 0;
         let starCollectorHighScore = localStorage.getItem('starCollectorHighScore') || 0;
 
@@ -183,13 +183,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateSnakeHighScore();
             updateDiceHighScore();
-            updateNeonTargetHighScore();
+            updateSpaceInvadersHighScore();
             updatePixelRunnerHighScore();
             updateStarCollectorHighScore();
             // Update high scores every 2 seconds to sync with standalone games
             setInterval(updateSnakeHighScore, 2000);
             setInterval(updateDiceHighScore, 2000);
-            setInterval(updateNeonTargetHighScore, 2000);
+            setInterval(updateSpaceInvadersHighScore, 2000);
             setInterval(updatePixelRunnerHighScore, 2000);
             setInterval(updateStarCollectorHighScore, 2000);
             
@@ -211,11 +211,11 @@
             }
         }
 
-        function updateNeonTargetHighScore() {
-            const currentHighScore = localStorage.getItem('neonTargetHighScore') || 0;
-            const neonTargetHighScoreElement = document.getElementById('neon-target-high-score');
-            if (neonTargetHighScoreElement) {
-                neonTargetHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
+        function updateSpaceInvadersHighScore() {
+            const currentHighScore = localStorage.getItem('spaceInvadersHighScore') || 0;
+            const spaceInvadersHighScoreElement = document.getElementById('space-invaders-high-score');
+            if (spaceInvadersHighScoreElement) {
+                spaceInvadersHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
             }
         }
 
