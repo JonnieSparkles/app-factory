@@ -1,78 +1,38 @@
-# Incremental Arweave Deployment with Hash-Based Detection
+# Incremental Arweave Deployment
 
-## Overview
-A simplified system for deploying only changed files to Arweave using hash-based change detection, saving costs and time by avoiding full deployments.
-
-## Core Concept
-Compare SHA-256 file hashes to determine which files have changed since the last deployment. This approach is deterministic, reliable, and independent of git history.
+Deploys only changed files to Arweave using hash-based detection, saving costs and time.
 
 ## How It Works
 
-### 1. Hash-Based Change Detection
-- Calculate SHA-256 hash for each file using `git hash-object`
-- Compare current hashes with stored hashes from deployment-tracker.json
-- Upload only files where hash has changed
-- Store updated hashes for next deployment
+1. **Hash Calculation** - Calculate SHA-256 hash for each file using `git hash-object`
+2. **Change Detection** - Compare current hashes with stored hashes from deployment-tracker.json
+3. **Selective Upload** - Upload only files where hash changed
+4. **State Update** - Store updated hashes for next deployment
 
-### 2. True Incremental Deployment
-- Deploy only files that actually changed content
-- Pay only for files that changed
-- Upload only files with different hashes
-- Perfect cost and time optimization
-
-## Hash Calculation
-
-### File Hashing
-```bash
-# Calculate hash for a single file
-git hash-object path/to/file.html
-
-# Hash is deterministic
-# Same content = Same hash = No re-upload
-```
-
-### Benefits of Hash-Based Detection
-- **Deterministic**: Same file content always produces same hash
+### Benefits
+- **Deterministic**: Same file content = same hash = no re-upload
 - **Git independent**: Works with shallow clones (fetch-depth: 1)
 - **Reliable**: No merge conflicts or git history issues
 - **Simple**: One code path, easy to debug
 
-## Deployment Strategies
+## File Structures
 
-### Hash-Based (Current Implementation)
-- Compare file hashes with deployment-tracker.json
-- Upload files with changed hashes
-- Update tracker with new hashes
-- Works everywhere (local, CI, shallow clones)
-
-## Arweave Manifest Structure
-
-The manifest maintains Arweave transaction IDs for all files:
+### Arweave Manifest
 
 ```json
 {
   "manifest": "arweave/paths",
   "version": "0.2.0",
-  "index": {
-    "path": "index.html"
-  },
+  "index": { "path": "index.html" },
   "paths": {
-    "index.html": {
-      "id": "bnYTf5wGyZRWUxNHa8R8eENBe6iHcWi4SudmMfBkzRE"
-    },
-    "css/style.css": {
-      "id": "xyz789...css-id"
-    },
-    "js/app.js": {
-      "id": "abc123...js-id"
-    }
+    "index.html": { "id": "bnYTf5wGyZRWUxNHa8R8eENBe6iHcWi4SudmMfBkzRE" },
+    "css/style.css": { "id": "xyz789...css-id" },
+    "js/app.js": { "id": "abc123...js-id" }
   }
 }
 ```
 
-### Deployment Tracker Structure
-
-Stores file hashes and deployment metadata:
+### Deployment Tracker
 
 ```json
 {
@@ -83,20 +43,13 @@ Stores file hashes and deployment metadata:
     "index.html": "caec3826ccfb35618dc56489b7902f97a3aa424d",
     "style.css": "22153922a682a2a2e37a0f5d89caca9a87c160d6",
     "app.js": "3d1f4b8f4829479592ea107394262e00d1a5e51c"
-  },
-  "deploymentHistory": [
-    {
-      "commit": "a1b2c3d4e5f6g7h8",
-      "manifestTxId": "xyz789...",
-      "deployed": "2025-10-13T12:00:00.000Z"
-    }
-  ]
+  }
 }
 ```
 
-### Manual Override Structure
+### Manual Overrides
 
-Optional `manifest-overrides.json` for external file references:
+External file references - merge into manifest during deployment:
 
 ```json
 {
@@ -105,17 +58,15 @@ Optional `manifest-overrides.json` for external file references:
 }
 ```
 
-These are merged into the manifest during deployment, allowing apps to reference files already on Arweave without managing them locally.
+## Example Workflow
 
-## Workflow Example
+**Timeline:**
+- Monday: Deploy v1.0 (all files)
+- Tuesday: Change index.html
+- Wednesday: Change style.css  
+- Friday: Deploy v1.1
 
-### Timeline
-- **Monday**: Deploy v1.0 (all files)
-- **Tuesday**: Change index.html
-- **Wednesday**: Change style.css
-- **Friday**: Deploy v1.1
-
-### What Gets Deployed on Friday
+**Friday deployment:**
 ```
 🔍 Using hash-based change detection...
 📝 File changed: index.html (modified)
@@ -123,92 +74,20 @@ These are merged into the manifest during deployment, allowing apps to reference
 📁 Changed files: 2
 ```
 
-### Result
+**Result:**
 - 2 files deployed (only changed ones)
 - Updated manifest with new TXIDs for changed files
 - Preserved existing TXIDs for unchanged files
-- Total: 3 files (2 changed + manifest) instead of 100
-- 97% cost savings
-
-## Performance Benefits
-
-### Hash-Based is Reliable
-- Deterministic change detection
-- Works with shallow git clones
-- No git history dependencies
-- Handles any deployment scenario
-
-### Cost Optimization
-- Only pay for files that actually changed
-- Significant savings for small updates
-- Faster deployments (less to upload)
-- Less bandwidth usage
-
-## Best Practices
-
-### 1. Commit Tracker Files
-- Always commit manifest.json and deployment-tracker.json
-- GitHub workflow automatically commits these
-- Ensures state is preserved between deployments
-
-### 2. Use Git for Versioning
-- Git commit hash used as ArNS undername
-- Provides deployment versioning
-- Easy rollback to any commit
-
-### 3. Deploy Frequently
-- Smaller deployments = fewer files to upload
-- Easier to debug issues
-- Better cost efficiency
-
-### 4. Handle Edge Cases
-- First deployment: No stored hashes, uploads all files
-- No changes: Skips deployment entirely
-- Deleted files: Removed from manifest automatically
-
-## Integration Points
-
-### With Current Deploy System
-- Hash-based detection is always active
-- No flags needed, works automatically
-- Seamless integration with existing workflow
-
-### With CI/CD
-- Works with shallow clones (fetch-depth: 1)
-- Fast checkouts in GitHub Actions
-- Reliable across all environments
+- 97% cost savings (2 files vs 100 files)
 
 ## Key Benefits
 
-### Simplified Change Detection
-- One code path (hash-based)
-- Easy to understand and debug
-- No git history complexity
-- Works everywhere
-
-### Git Independence
-- No need for full git history
-- Works with shallow clones
-- No merge conflict issues
-- Deterministic results
-
-### Cost & Performance
-- Only upload changed files
-- Predictable behavior
-- Fast change detection
-- Scalable to any app size
+1. **Commit tracker files** - Always commit manifest.json and deployment-tracker.json
+2. **Use git for versioning** - Git commit hash used as ArNS undername
+3. **Deploy frequently** - Smaller deployments = fewer files to upload
+4. **Handle edge cases** - First deployment uploads all files, no changes skips deployment
 
 ## Implementation
-
-### File Structure
-```
-apps/my-app/
-├── index.html
-├── style.css
-├── app.js
-├── manifest.json           # Arweave TXIDs (committed)
-└── deployment-tracker.json # File hashes (committed)
-```
 
 ### Change Detection Flow
 1. Load deployment-tracker.json
@@ -233,23 +112,19 @@ apps/my-app/
   # Commits manifest and tracker files back to repo
 ```
 
-## Development History
+## System Evolution (October 2025)
 
-### System Evolution (October 2025)
-
-The incremental deployment system was significantly simplified by removing complex git diff logic and using pure hash-based change detection. This refactoring made the system more reliable, simpler to maintain, and eliminated git history dependencies.
+The incremental deployment system was simplified by removing complex git diff logic and using pure hash-based change detection.
 
 **Key Changes:**
-- **Simplified GitTracker**: Removed ~140 lines of complex git diff/comparison logic
-- **Enhanced ManifestManager**: Added hash-based change detection as single source of truth
-- **Streamlined Deployer**: Removed `useHashing` parameter - always uses hashing now
-- **Optimized CI/CD**: Changed from `fetch-depth: 0` to `fetch-depth: 1` for faster checkouts
-- **Code Reduction**: ~200 lines of complex git diff logic removed
+- **Simplified GitTracker**: Removed ~140 lines of complex git diff logic
+- **Enhanced ManifestManager**: Hash-based change detection as single source of truth
+- **Streamlined Deployer**: Always uses hashing (removed `useHashing` parameter)
+- **Optimized CI/CD**: Changed from `fetch-depth: 0` to `fetch-depth: 1`
+- **Code Reduction**: ~200 lines of git diff logic removed
 
-**Benefits of Refactoring:**
+**Benefits:**
 - **Reliability**: No git history dependencies, works with shallow clones
 - **Simplicity**: One code path for change detection, easier to debug
 - **Performance**: Fast hash comparison, minimal git operations
 - **Maintenance**: Significantly easier to understand and maintain
-
-This system provides true incremental deployment by using deterministic hash-based change detection, eliminating git history dependencies while maintaining all the benefits of incremental uploads.
