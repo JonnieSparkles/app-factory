@@ -377,8 +377,8 @@ This means:
 ├── .github/
 │   └── workflows/
 │       ├── auto-merge.yml    # Auto-merge agent PRs
-│       ├── manual-merge.yml  # Manual merge workflow
-│       └── deploy.yml        # Deploy to Arweave
+│       ├── deploy.yml        # Deploy to Arweave
+│       └── announce.yml      # Discord deployment announcements
 ├── apps/                    # Your applications (examples)
 │   ├── web-app/            # Example web application
 │   ├── static-site/        # Example static site

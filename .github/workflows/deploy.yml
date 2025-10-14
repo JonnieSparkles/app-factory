@@ -106,15 +106,21 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Add logs if they exist
+          # Add deployment logs if they exist
           if [ -f "logs/deployments.json" ]; then
             git add logs/
           fi
           
+          # Add deployment tracker files and manifests from all apps
+          find apps/ -name "deployment-tracker.json" -o -name "manifest.json" | while read -r file; do
+            if [ -f "$file" ]; then
+              git add "$file"
+            fi
+          done
           
           # Commit if there are changes
           if ! git diff --cached --quiet; then
-            git commit -m "Update deployment logs" || echo "No changes to commit"
+            git commit -m "Update deployment logs and manifests" || echo "No changes to commit"
             git push origin main || echo "Nothing to push"
           else
             echo "No changes to commit"

@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "lastDeployCommit": "94dc7f544f5e6a6c",
+  "lastDeployed": "2025-10-14T12:26:07.000Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "6db32a900665be778b6cf30819b43f375c1dcde3"
+  },
+  "recentDeployments": [
+    {
+      "commit": "94dc7f544f5e6a6c",
+      "manifestTxId": "7QypKp9pIbThy6WKqiJluepkK7Iglh68_VCif8RU7As",
+      "changedFiles": [
+        "index.html"
+      ],
+      "deployed": "2025-10-14T12:26:07.000Z"
+    }
+  ]
+}
