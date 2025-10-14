@@ -399,7 +399,7 @@
             <button class="theme-switcher" id="themeSwitcher" onclick="toggleTheme()" title="Toggle theme">
                 <span id="themeIcon"></span>
             </button>
-            <h1>🍳 Recipe Cookbook</h1>
+            <h1>Recipe Cookbook</h1>
             <p>Discover delicious recipes for every occasion</p>
         </div>
 
@@ -428,7 +428,7 @@
                 prepTime: '20 minutes',
                 cookTime: '50 minutes',
                 totalTime: '1 hour 10 minutes',
-                emoji: '🍖',
+                image: 'https://www.budgetbytes.com/wp-content/uploads/2021/09/Classic-Meatloaf-side.jpg',
                 ingredients: [
                     '1 lb ground turkey (93% lean preferred)',
                     '8 oz mushrooms (white or cremini), finely chopped',
@@ -502,8 +502,7 @@
             
             recipeList.innerHTML = recipes.map(recipe => `
                 <div class="recipe-card fade-in" onclick="showRecipeDetail('${recipe.id}')">
-                    <div class="recipe-image">
-                        ${recipe.emoji}
+                    <div class="recipe-image" style="background-image: url('${recipe.image}');">
                     </div>
                     <div class="recipe-content">
                         <h3 class="recipe-title">${recipe.title}</h3>
@@ -533,8 +532,8 @@
             recipeDetail.classList.add('active');
             
             recipeDetail.innerHTML = `
-                <div class="recipe-detail-header">
-                    <h2 class="recipe-detail-title">${recipe.emoji} ${recipe.title}</h2>
+                <div class="recipe-detail-header" style="background-image: url('${recipe.image}'); background-size: cover; background-position: center;">
+                    <h2 class="recipe-detail-title">${recipe.title}</h2>
                     <div class="recipe-detail-meta">
                         <span>👥 ${recipe.servings}</span>
                         <span>⏱️ Prep: ${recipe.prepTime}</span>
