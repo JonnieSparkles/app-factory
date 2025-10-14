@@ -1,29 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T14:22:29.507Z",
-    "success": false,
-    "error": "File not found: hello-world.txt",
-    "context": "Deployment ",
-    "duration": 18,
-    "filePath": "hello-world.txt"
-  },
-  {
-    "timestamp": "2025-10-13T14:34:02.362Z",
-    "success": true,
-    "appId": "arcade",
-    "filePath": "apps/arcade/index.html",
-    "commitHash": "1f07155a07846220",
-    "txId": "test-manifest-1760366042356",
-    "manifestTxId": "test-manifest-1760366042356",
-    "undername": "1f07155a07846220",
-    "fileSize": 23846,
-    "duration": 80,
-    "testMode": true,
-    "deploymentType": "incremental",
-    "changedFiles": 2,
-    "version": "0.1.8"
-  },
-  {
     "timestamp": "2025-10-13T14:35:34.181Z",
     "success": true,
     "appId": "arcade",
@@ -696,6 +672,34 @@
     "undername": "1a6259309cb14829",
     "fileSize": 20219,
     "duration": 287795,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T12:17:27.413Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "94dc7f544f5e6a6c",
+    "txId": "iGBnnsZ2o2Riq05v4jXB0sDybnINh3OfeZN3TWAHEjI",
+    "manifestTxId": "iGBnnsZ2o2Riq05v4jXB0sDybnINh3OfeZN3TWAHEjI",
+    "undername": "94dc7f544f5e6a6c",
+    "fileSize": 25,
+    "duration": 280888,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T12:24:15.586Z",
+    "success": true,
+    "filePath": "apps/recipe-cookbook",
+    "commitHash": "94dc7f544f5e6a6c",
+    "txId": "7QypKp9pIbThy6WKqiJluepkK7Iglh68_VCif8RU7As",
+    "manifestTxId": "7QypKp9pIbThy6WKqiJluepkK7Iglh68_VCif8RU7As",
+    "undername": "94dc7f544f5e6a6c",
+    "fileSize": 20226,
+    "duration": 287235,
     "deploymentType": "incremental",
     "changedFiles": 1,
     "version": "0.2.0"
