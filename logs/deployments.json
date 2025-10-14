@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T17:25:00.601Z",
-    "success": true,
-    "appId": "arcade",
-    "filePath": "apps/arcade/index.html",
-    "commitHash": "1ce64f6c1b6c7da4",
-    "txId": "ffvJF-dIxuJxufjpvYLLvLn1s99NW2qEoP0VVaV7LRg",
-    "manifestTxId": "ffvJF-dIxuJxufjpvYLLvLn1s99NW2qEoP0VVaV7LRg",
-    "undername": "1ce64f6c1b6c7da4",
-    "fileSize": 85935,
-    "duration": 110365,
-    "deploymentType": "incremental",
-    "changedFiles": 4,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-13T18:24:21.655Z",
     "success": true,
     "appId": "arcade",
@@ -687,15 +672,29 @@
     "version": "0.2.0"
   },
   {
-    "timestamp": "2025-10-14T16:04:04.508Z",
+    "timestamp": "2025-10-14T16:27:27.728Z",
     "success": true,
-    "filePath": "apps/hello-world",
+    "filePath": "apps/arcade",
     "commitHash": "fadd77d049684c2a",
-    "txId": "GJN5hE9tcpxCcjUPH6RUvkxQyIPN7_rxhDdn_p1Kzlk",
-    "manifestTxId": "GJN5hE9tcpxCcjUPH6RUvkxQyIPN7_rxhDdn_p1Kzlk",
+    "txId": "SrnN4GJ-BLr1PC4rJfJNY43Q5s4DbIVB1XWIh7Bu68k",
+    "manifestTxId": "SrnN4GJ-BLr1PC4rJfJNY43Q5s4DbIVB1XWIh7Bu68k",
     "undername": "fadd77d049684c2a",
-    "fileSize": 41,
-    "duration": 314601,
+    "fileSize": 10612,
+    "duration": 319331,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T16:35:46.110Z",
+    "success": true,
+    "filePath": "apps/arcade",
+    "commitHash": "3640368dd88d03de",
+    "txId": "iM3yEEVkpn9M57b5BHDMWL4zLyWPdphCAXuNYQ4saHs",
+    "manifestTxId": "iM3yEEVkpn9M57b5BHDMWL4zLyWPdphCAXuNYQ4saHs",
+    "undername": "3640368dd88d03de",
+    "fileSize": 21179,
+    "duration": 313214,
     "deploymentType": "incremental",
     "changedFiles": 1,
     "version": "0.2.0"
