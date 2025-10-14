@@ -92,6 +92,7 @@ jobs:
             app_dir=${app_dir%/}
                 app_name=$(basename "$app_dir")
             echo "📁 Deploying app: $app_name"
+            echo "----------------------------------------"
             
             # Run deployment and capture full output
             echo "🚀 Starting deployment for: $app_dir"
