@@ -1,15 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T13:05:58.022Z",
-    "success": false,
-    "error": "App validation failed: No entry point found for app hello-world",
-    "context": "Incremental deployment for 'hello-world': ",
-    "duration": 4,
-    "appId": "hello-world",
-    "filePath": "apps/hello-world/index.txt",
-    "deploymentType": "incremental"
-  },
-  {
     "timestamp": "2025-10-13T13:07:11.765Z",
     "success": true,
     "appId": "hello-world",
@@ -705,5 +695,19 @@
     "fileSize": 100,
     "duration": 500,
     "ttl": 60
+  },
+  {
+    "timestamp": "2025-10-14T00:44:28.589Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "4bcee9197131851e",
+    "txId": "Q4oJDyKzDAV17mBByk_rI7GrIJQV9sz4kgegrQqYso8",
+    "manifestTxId": "Q4oJDyKzDAV17mBByk_rI7GrIJQV9sz4kgegrQqYso8",
+    "undername": "4bcee9197131851e",
+    "fileSize": 25,
+    "duration": 33720,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
   }
 ]
