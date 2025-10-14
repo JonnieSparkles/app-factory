@@ -676,14 +676,5 @@
     "deploymentType": "incremental",
     "changedFiles": 1,
     "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-14T19:11:24.183Z",
-    "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
-    "duration": 1083,
-    "filePath": "apps/playdead",
-    "deploymentType": "incremental"
   }
 ]

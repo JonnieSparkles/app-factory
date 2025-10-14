@@ -142,7 +142,10 @@ jobs:
             
             if [ $DEPLOY_EXIT_CODE -ne 0 ]; then
                   DEPLOYMENT_SUCCESS=false
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name"
+                  echo "❌ Deployment failed for $app_name with exit code $DEPLOY_EXIT_CODE"
+                  echo "📋 Error details from deployment output:"
+                  echo "$DEPLOY_OUTPUT"
+                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name (exit code: $DEPLOY_EXIT_CODE)"
                 fi
               done
           
