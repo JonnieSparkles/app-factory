@@ -153,8 +153,7 @@ npm run stats
 ## 📊 Logging System
 
 The system logs all deployments to:
-- `./logs/deployments.json` - Structured JSON logs
-- `./logs/deployments.csv` - CSV format for analysis
+- `./logs/deployments.json` - JSON format with rolling history (last 50 deployments)
 
 Each deployment logs:
 - **Timestamp** - When the deployment occurred

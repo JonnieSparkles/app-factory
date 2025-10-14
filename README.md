@@ -64,7 +64,7 @@ apps/
 - **🏷️ ArNS SDK**: Manages Arweave Name Service records with 60-second TTL
 - **🔑 Commit Hash**: SHA-256 hash used as unique identifier for each deployment
 - **📝 ArNS Undername**: Maps commit hash to Arweave transaction ID
-- **📊 Logging System**: Comprehensive JSON/CSV logging of all deployments
+- **📊 Logging System**: Comprehensive JSON logging with rolling history (last 50 deployments)
 - **🔄 Auto-merge**: GitHub Actions automatically merge agent PRs after validation
 - **🧠 Smart Detection**: Automatically detects files vs directories and uses appropriate deployment method
 
@@ -79,7 +79,7 @@ apps/
 6. **✅ Auto-merge**: GitHub Actions validates and auto-merges PR
 7. **☁️ Deploy**: File uploaded to Arweave via Turbo SDK
 8. **🏷️ ArNS Assignment**: Transaction ID assigned to undername (commit hash)
-9. **📊 Logging**: Deployment logged to JSON/CSV files
+9. **📊 Logging**: Deployment logged to JSON file with rolling history
 10. **🐦 Announce**: Post deployment announcement to Twitter (if requested)
 11. **🎉 Completion**: Agent ready for next task
 
@@ -368,8 +368,7 @@ This means:
 │   ├── git-tracker.js       # Git commit info and file hashing utilities
 │   └── incremental-deploy.js # Incremental deployment logic
 ├── logs/
-│   ├── deployments.json     # Structured deployment logs (committed to repo)
-│   └── deployments.csv      # CSV deployment logs (committed to repo)
+│   └── deployments.json     # Structured deployment logs with rolling history (committed to repo)
 ├── secrets/
 │   └── wallet.json          # Arweave wallet (keep secure!)
 ├── deploy.js                # Main deployment script
@@ -416,7 +415,6 @@ This means:
    Duration: 3ms
 
 📋 Logging deployment results...
-📊 Logged to CSV: logs/deployments.csv
 📝 Logged to JSON: logs/deployments.json
 ✅ Deployment logged successfully
 ```
@@ -494,7 +492,7 @@ This system is designed for seamless AI agent workflows:
 ## 📈 Monitoring & Logs
 
 - **GitHub Actions**: Monitor workflow runs in the Actions tab
-- **Deployment Logs**: Check `logs/deployments.json` and `logs/deployments.csv`
+- **Deployment Logs**: Check `logs/deployments.json` for recent deployment history
 - **Statistics**: Run `npm run stats` to see deployment metrics
 - **Real-time**: Watch GitHub Actions for live deployment status
 
