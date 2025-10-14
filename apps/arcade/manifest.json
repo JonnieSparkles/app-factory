@@ -1,6 +1,6 @@
 {
   "manifest": "arweave/paths",
-  "version": "0.3.0",
+  "version": "0.2.0",
   "index": {
     "path": "index.html"
   },
@@ -9,7 +9,7 @@
       "id": "Zbk69BWVTE91JTcY0vBtQcRBpPtxDsHU9cq-gFM6RmM"
     },
     "index.html": {
-      "id": "RVihx31GsOWNS8Vm9vxfyXnL_tvgS5GHO0DZRr9OAuM"
+      "id": "GksmhhQA2HgpYNvSi2WRIFeSnSWSUyKntDICskUsGmI"
     },
     "pixel-runner.html": {
       "id": "zMBQX302bnDhgPDYCh5wGl-T_6QP7oWxpS7XEe2QNM8"
@@ -27,10 +27,10 @@
       "id": "m76ms4w9Bs1POSThFhcwwluQjPEGjLO8W3Pcx8UkSAA"
     },
     "animations.css": {
-      "id": "lAyYCerj1tHWHAiBwZW5Cs-HNbUPlMFVc0TRmc52MBk"
+      "id": "aabbbecJzWQWxp7eA5un3jCOvW-g6fjYrNeu8i08PBI"
     },
     "memory-match.html": {
-      "id": "placeholder-memory-match-id"
+      "id": "g8eggGonTbu6dyXddC0OE08MFlnFXfon66u5cGVJrFY"
     }
   }
 }

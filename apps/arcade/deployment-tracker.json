@@ -1,20 +1,31 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "0a2a6b91948feb25",
-  "lastDeployed": "2025-10-14T17:00:45.334Z",
-  "deploymentCount": 6,
+  "lastDeployCommit": "c55f3d7254e3d9c1",
+  "lastDeployed": "2025-10-14T18:12:13.834Z",
+  "deploymentCount": 7,
   "fileHashes": {
     "dice-roller.html": "8e793c96b508cfcd29b3d27bba6595e80204eda4",
-    "index.html": "e0d957286243300ac1799406fe7680e2bed7c0f9",
+    "index.html": "a35d5e607fa6c04546176c92727f781013a87c08",
     "neon-target.html": "9f2cc9b721dfe3624ffd874a2753a9e989f4b4bc",
     "pixel-runner.html": "c634d71bf72d2dc567eafa0c2fec4a36900bcdd6",
     "snake.html": "92cd0018ec1386a48d50dd0f8284b0b61e214514",
     "star-collector.html": "202f5f6638abc793d92fd53e73d50b4849832779",
     "style.css": "ca0f8735cbcbc60d3ecc7396246dcf83a24b44a2",
     "space-invaders.html": "972bdcd09179921bd92674dd3d0ae8934dd18a5a",
-    "animations.css": "cd7c42c7da2c22f8aa7e49d92bc31ebb6582508b"
+    "animations.css": "b3e9ff5f52a4f7487661805b0c03b755a03f7aea",
+    "memory-match.html": "04e0ea02dbab13b02d2e10bd535ffbcb07c791e4"
   },
   "recentDeployments": [
+    {
+      "commit": "c55f3d7254e3d9c1",
+      "manifestTxId": "WihS4Xr1hp1IRJ09wAH5thByE4QCa9O8A0oKFJ0DbCY",
+      "changedFiles": [
+        "animations.css",
+        "index.html",
+        "memory-match.html"
+      ],
+      "deployed": "2025-10-14T18:12:13.834Z"
+    },
     {
       "commit": "0a2a6b91948feb25",
       "manifestTxId": "4gqKzIlRRXmroYC5-HkwKCwcSEGL5rzzhWmTkYx4xog",
@@ -31,14 +42,6 @@
         "space-invaders.html"
       ],
       "deployed": "2025-10-14T16:35:45.641Z"
-    },
-    {
-      "commit": "fadd77d049684c2a",
-      "manifestTxId": "SrnN4GJ-BLr1PC4rJfJNY43Q5s4DbIVB1XWIh7Bu68k",
-      "changedFiles": [
-        "index.html"
-      ],
-      "deployed": "2025-10-14T16:27:27.309Z"
     }
   ]
 }
