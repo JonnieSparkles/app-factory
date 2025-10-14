@@ -112,6 +112,14 @@
                 <p class="game-score" id="star-collector-high-score">HIGH SCORE: 0</p>
                 <button class="play-btn" onclick="window.open('star-collector.html', '_blank')">PLAY NOW</button>
             </div>
+            
+            <div class="game-card available">
+                <div class="game-icon">🧠</div>
+                <h3>Memory Match</h3>
+                <p class="game-description">Test your memory skills!</p>
+                <p class="game-score" id="memory-match-high-score">HIGH SCORE: 0</p>
+                <button class="play-btn" onclick="window.open('memory-match.html', '_blank')">PLAY NOW</button>
+            </div>
         </section>
 
 
@@ -119,8 +127,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>🎮 GAME STATS</h4>
-                    <p>Total Games: 5 Available</p>
-                    <p>Coming Soon: 8 Games</p>
+                    <p>Total Games: 6 Available</p>
+                    <p>Coming Soon: 7 Games</p>
                     <p>Total Plays: <span id="total-plays">∞</span></p>
                 </div>
                 <div class="footer-section">
@@ -151,6 +159,7 @@
         let spaceInvadersHighScore = localStorage.getItem('spaceInvadersHighScore') || 0;
         let pixelRunnerHighScore = localStorage.getItem('pixelRunnerHighScore') || 0;
         let starCollectorHighScore = localStorage.getItem('starCollectorHighScore') || 0;
+        let memoryMatchHighScore = localStorage.getItem('memoryHighScore') || 0;
 
 
 
@@ -186,12 +195,14 @@
             updateSpaceInvadersHighScore();
             updatePixelRunnerHighScore();
             updateStarCollectorHighScore();
+            updateMemoryMatchHighScore();
             // Update high scores every 2 seconds to sync with standalone games
             setInterval(updateSnakeHighScore, 2000);
             setInterval(updateDiceHighScore, 2000);
             setInterval(updateSpaceInvadersHighScore, 2000);
             setInterval(updatePixelRunnerHighScore, 2000);
             setInterval(updateStarCollectorHighScore, 2000);
+            setInterval(updateMemoryMatchHighScore, 2000);
             
         });
 
@@ -232,6 +243,14 @@
             const starCollectorHighScoreElement = document.getElementById('star-collector-high-score');
             if (starCollectorHighScoreElement) {
                 starCollectorHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
+            }
+        }
+
+        function updateMemoryMatchHighScore() {
+            const currentHighScore = localStorage.getItem('memoryHighScore') || 0;
+            const memoryMatchHighScoreElement = document.getElementById('memory-match-high-score');
+            if (memoryMatchHighScoreElement) {
+                memoryMatchHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
             }
         }
     </script>

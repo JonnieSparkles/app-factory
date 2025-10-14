@@ -1,6 +1,6 @@
 {
   "manifest": "arweave/paths",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "index": {
     "path": "index.html"
   },
@@ -28,6 +28,9 @@
     },
     "animations.css": {
       "id": "lAyYCerj1tHWHAiBwZW5Cs-HNbUPlMFVc0TRmc52MBk"
+    },
+    "memory-match.html": {
+      "id": "placeholder-memory-match-id"
     }
   }
 }
