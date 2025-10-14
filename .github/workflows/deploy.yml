@@ -7,16 +7,11 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
-      file_path:
-        description: 'File to deploy (e.g., deploy/index.html, deploy/hello-world.txt)'
-        required: false
-        type: string
-        default: ''
       message:
         description: 'Deployment message'
         required: false
         type: string
-        default: 'Deployed via GitHub Actions'
+        default: 'Manual deployment via GitHub Actions'
 
 jobs:
   deploy:
@@ -57,11 +52,11 @@ jobs:
         run: |
           echo "🔍 Using hash-based change detection in JavaScript deployment code..."
           
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.file_path }}" ]; then
-            echo "📝 Manual trigger with file path detected"
-            echo "files=${{ github.event.inputs.file_path }}" >> $GITHUB_OUTPUT
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "📝 Manual trigger detected - deploying changed files"
+            echo "files=all" >> $GITHUB_OUTPUT
             echo "message=${{ github.event.inputs.message }}" >> $GITHUB_OUTPUT
-            echo "deploy_type=manual" >> $GITHUB_OUTPUT
+            echo "deploy_type=apps" >> $GITHUB_OUTPUT
           else
             echo "🔄 Push to main detected - using hash-based detection"
             echo "files=all" >> $GITHUB_OUTPUT
@@ -91,48 +86,18 @@ jobs:
           DEPLOYMENT_ERRORS=""
           echo "deployed=false" >> $GITHUB_OUTPUT
           
-          # Handle manual deployment
-          if [ "${{ steps.changed-files.outputs.deploy_type }}" = "manual" ]; then
-            echo "📝 Manual deployment detected"
-            FILE_PATH="${{ steps.changed-files.outputs.files }}"
-            
-            # If file path doesn't start with apps/, try adding apps/ prefix
-            if [[ ! "$FILE_PATH" =~ ^apps/ ]]; then
-              # Try to find the app in apps directory
-              POSSIBLE_APP=$(echo "$FILE_PATH" | cut -d'/' -f1)
-              if [ -d "apps/$POSSIBLE_APP" ]; then
-                FILE_PATH="apps/$FILE_PATH"
-                echo "📁 Adjusted file path to: $FILE_PATH"
-              fi
-            fi
-            
-            # Check if file exists
-            if [ -f "$FILE_PATH" ]; then
-              echo "📤 Deploying: $FILE_PATH"
-              
-              # Deploy the file directly
-              if ! node deploy.js --file "$FILE_PATH" --message "${{ steps.changed-files.outputs.message }}"; then
-                DEPLOYMENT_SUCCESS=false
-                DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy file: $FILE_PATH"
-              fi
-            else
-              echo "⚠️ File not found: $FILE_PATH"
-              echo "💡 Available apps:"
-              ls -la apps/ 2>/dev/null || echo "   (apps/ directory not found)"
-              echo "💡 Try using an app name like: calculator, portfolio, etc."
-              DEPLOYMENT_SUCCESS=false
-              DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ File not found: $FILE_PATH"
-            fi
-          else
-            # Handle automatic deployments - deploy all files in apps directory
+          # Handle deployments using incremental detection
+          if [ "${{ steps.changed-files.outputs.deploy_type }}" = "apps" ]; then
+            # Handle deployments - deploy only changed files using incremental detection
             if [ "${{ steps.changed-files.outputs.files }}" = "all" ]; then
-              echo "📱 Deploying all files in apps directory..."
-              # Deploy all files in apps directory
-              find apps/ -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.txt" \) | while read -r file; do
-                echo "📤 Deploying file: $file"
-                if ! node deploy.js --file "$file" --message "${{ steps.changed-files.outputs.message }}"; then
+              echo "📱 Deploying changed files using incremental detection..."
+              # Use incremental deployment for each app directory
+              find apps/ -type d -mindepth 1 -maxdepth 1 | while read -r app_dir; do
+                app_name=$(basename "$app_dir")
+                echo "📁 Checking app: $app_name"
+                if ! node deploy.js --file "$app_dir" --message "${{ steps.changed-files.outputs.message }}"; then
                   DEPLOYMENT_SUCCESS=false
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy file: $file"
+                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name"
                 fi
               done
             else

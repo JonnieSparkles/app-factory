@@ -80,7 +80,6 @@ async function deployDirectoryIncremental(dirPath, options, startTime) {
       
       return logResult;
     } else if (result.skipped) {
-      console.log(`⏭️ Deployment skipped for directory: ${result.reason}`);
       return {
         success: true,
         skipped: true,
@@ -562,6 +561,8 @@ Examples:
 
     if (result.dryRun) {
       console.log(`🔍 Dry run completed successfully`);
+    } else if (result.skipped) {
+      console.log(`✅ No changes detected - deployment not needed`);
     } else if (result.alreadyDeployed) {
       console.log(`✅ File already deployed with this content`);
     } else {

@@ -1266,5 +1266,33 @@
     "fileSize": 27752,
     "duration": 19316,
     "arnsRecordId": "gK6jb5a0qLb4w3hpcf-hfcUTXGTTx2oXNCyRSUX64SQ"
+  },
+  {
+    "timestamp": "2025-10-14T00:18:44.265Z",
+    "success": true,
+    "filePath": "apps/hello-world/",
+    "commitHash": "191a0dcf579ddf37",
+    "txId": "test-manifest-1760401124243",
+    "manifestTxId": "test-manifest-1760401124243",
+    "undername": "191a0dcf579ddf37",
+    "fileSize": 19,
+    "duration": 878,
+    "testMode": true,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T00:22:28.906Z",
+    "success": true,
+    "testMode": true,
+    "filePath": "apps/hello-world/index.txt",
+    "commitHash": "194d3fc21e8beb16",
+    "txId": "test-194d3fc21e8beb16-1760401348901",
+    "undername": "194d3fc21e8beb16",
+    "ttl": 60,
+    "fileSize": 19,
+    "duration": 9,
+    "arnsRecordId": "test-record-194d3fc21e8beb16"
   }
 ]
