@@ -1,6 +1,6 @@
 {
   "manifest": "arweave/paths",
-  "version": "0.3.0",
+  "version": "0.2.0",
   "index": {
     "path": "index.html"
   },
@@ -15,7 +15,7 @@
       "id": "zMBQX302bnDhgPDYCh5wGl-T_6QP7oWxpS7XEe2QNM8"
     },
     "snake.html": {
-      "id": "9IOJ7CPECy0c___KITj8k-a46ifLGDoRWK15GoFAuUQ"
+      "id": "5yvFotv1O9nAPTkJh9P8oYn0LaThfYcKn-2LA2k2o0I"
     },
     "star-collector.html": {
       "id": "mU0vcNrTZF9Fb9-EB6E_NP0cLgeafgHhr2EF1dZdcF0"
@@ -25,6 +25,9 @@
     },
     "space-invaders.html": {
       "id": "m76ms4w9Bs1POSThFhcwwluQjPEGjLO8W3Pcx8UkSAA"
+    },
+    "animations.css": {
+      "id": "lAyYCerj1tHWHAiBwZW5Cs-HNbUPlMFVc0TRmc52MBk"
     }
   }
 }
