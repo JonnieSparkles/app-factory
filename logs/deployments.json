@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T21:27:47.301Z",
-    "success": true,
-    "appId": "calculator",
-    "filePath": "apps/calculator/index.html",
-    "commitHash": "0f0dd43d696ba9ee",
-    "txId": "cgLpHobWMiZasMFDixUgT9ZCE37q5HUBrqpSjWVbnu4",
-    "manifestTxId": "cgLpHobWMiZasMFDixUgT9ZCE37q5HUBrqpSjWVbnu4",
-    "undername": "0f0dd43d696ba9ee",
-    "fileSize": 16994,
-    "duration": 18125,
-    "deploymentType": "incremental",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-13T21:27:55.612Z",
     "success": true,
     "appId": "celebration",
@@ -683,6 +668,15 @@
     "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
     "context": "Incremental directory deployment for 'apps/playdead': ",
     "duration": 1083,
+    "filePath": "apps/playdead",
+    "deploymentType": "incremental"
+  },
+  {
+    "timestamp": "2025-10-14T19:24:23.034Z",
+    "success": false,
+    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "duration": 1528,
     "filePath": "apps/playdead",
     "deploymentType": "incremental"
   }
