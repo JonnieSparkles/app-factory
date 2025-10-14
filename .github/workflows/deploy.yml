@@ -93,11 +93,20 @@ jobs:
             DEPLOY_EXIT_CODE=$?
             
             # Check if the output indicates changes were made
-            if echo "$DEPLOY_OUTPUT" | grep -q "📁 Changed files: [1-9]"; then
+            # First check for explicit "no changes" message
+            if echo "$DEPLOY_OUTPUT" | grep -q "✅ No changes detected"; then
+              echo "⏭️ App $app_name had no changes - skipped"
+            # Then check for "Changed files: 0" pattern
+            elif echo "$DEPLOY_OUTPUT" | grep -q "📁 Changed files: 0"; then
+              echo "⏭️ App $app_name had no changes - skipped (0 files)"
+            # Then check for any number of changed files > 0
+            elif echo "$DEPLOY_OUTPUT" | grep -q "📁 Changed files: [1-9]"; then
               echo "✅ App $app_name had changes and was deployed"
               APPS_WITH_CHANGES=$((APPS_WITH_CHANGES + 1))
-            elif echo "$DEPLOY_OUTPUT" | grep -q "✅ No changes detected"; then
-              echo "⏭️ App $app_name had no changes - skipped"
+            else
+              echo "⚠️ App $app_name - unclear deployment status"
+              echo "📋 Deployment output:"
+              echo "$DEPLOY_OUTPUT"
             fi
             
             TOTAL_APPS=$((TOTAL_APPS + 1))
