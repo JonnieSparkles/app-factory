@@ -128,6 +128,9 @@
             width: 100%;
             height: 200px;
             background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ff9a9e;stop-opacity:1" /><stop offset="100%" style="stop-color:%23fecfef;stop-opacity:1" /></linearGradient></defs><rect width="400" height="200" fill="url(%23bg)"/><g transform="translate(200,100)"><ellipse cx="0" cy="0" rx="80" ry="40" fill="%23d2691e" opacity="0.9"/><ellipse cx="0" cy="-10" rx="70" ry="35" fill="%23cd853f" opacity="0.8"/><ellipse cx="0" cy="-20" rx="60" ry="30" fill="%23daa520" opacity="0.7"/><circle cx="-20" cy="-15" r="8" fill="%23ff6347" opacity="0.8"/><circle cx="20" cy="-15" r="8" fill="%23ff6347" opacity="0.8"/><circle cx="0" cy="-5" r="6" fill="%23ff6347" opacity="0.8"/><text x="0" y="30" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Meatloaf</text></g></svg>');
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -394,7 +397,7 @@
     <div class="container">
         <div class="header">
             <button class="theme-switcher" id="themeSwitcher" onclick="toggleTheme()" title="Toggle theme">
-                <span id="themeIcon">🌙</span>
+                <span id="themeIcon"></span>
             </button>
             <h1>🍳 Recipe Cookbook</h1>
             <p>Discover delicious recipes for every occasion</p>
@@ -425,7 +428,7 @@
                 prepTime: '20 minutes',
                 cookTime: '50 minutes',
                 totalTime: '1 hour 10 minutes',
-                emoji: '🦃',
+                emoji: '🍖',
                 ingredients: [
                     '1 lb ground turkey (93% lean preferred)',
                     '8 oz mushrooms (white or cremini), finely chopped',
@@ -476,7 +479,7 @@
                 themeIcon.textContent = '☀️';
             } else {
                 body.setAttribute('data-theme', 'light');
-                themeIcon.textContent = '🌙';
+                themeIcon.textContent = '☀️';
             }
             
             localStorage.setItem('cookbook-theme', theme);
