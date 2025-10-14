@@ -1,12 +1,20 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "94dc7f544f5e6a6c",
-  "lastDeployed": "2025-10-14T00:53:16.735Z",
-  "deploymentCount": 4,
+  "lastDeployCommit": "0004d33e1e243656",
+  "lastDeployed": "2025-10-14T14:41:24.822Z",
+  "deploymentCount": 5,
   "fileHashes": {
-    "index.txt": "dbaa8bb4aaaa5576c04331a3980d12c9cee8aabf"
+    "index.txt": "f59e6cbc45c449da63859efdfc89cba97d42fa1e"
   },
   "recentDeployments": [
+    {
+      "commit": "0004d33e1e243656",
+      "manifestTxId": "4Mo1vWLRw3dJTT2t72wRRx95r9pxwwg5vJXDFzV73gk",
+      "changedFiles": [
+        "index.txt"
+      ],
+      "deployed": "2025-10-14T14:41:24.822Z"
+    },
     {
       "commit": "16c957d48d26a9f4",
       "manifestTxId": "test-manifest-1760403196729",
@@ -22,14 +30,6 @@
         "index.txt"
       ],
       "deployed": "2025-10-14T00:52:16.137Z"
-    },
-    {
-      "commit": "191a0dcf579ddf37",
-      "manifestTxId": "test-manifest-1760401124243",
-      "changedFiles": [
-        "index.txt"
-      ],
-      "deployed": "2025-10-14T00:18:44.247Z"
     }
   ]
 }
