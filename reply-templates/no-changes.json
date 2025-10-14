@@ -1,0 +1,9 @@
+{
+  "name": "no-changes",
+  "description": "Template for when deployment check completes but no changes are detected",
+  "template": "✅ **Deployment Check Complete!**\n\n🔍 All apps checked - no changes detected. Everything is up to date! 🎉\n\n📊 **Summary:**\n• Total apps checked: {totalApps}\n• Apps with changes: 0\n• Apps up to date: {totalApps}\n\n💡 All your applications are current and no deployment was needed.",
+  "variables": {
+    "totalApps": "Total number of apps that were checked"
+  },
+  "example": "✅ **Deployment Check Complete!**\n\n🔍 All apps checked - no changes detected. Everything is up to date! 🎉\n\n📊 **Summary:**\n• Total apps checked: 5\n• Apps with changes: 0\n• Apps up to date: 5\n\n💡 All your applications are current and no deployment was needed."
+}

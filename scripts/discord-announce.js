@@ -14,6 +14,9 @@ if (!deploymentHash) {
   process.exit(1);
 }
 
+// Check if this is a "no-changes" announcement
+const isNoChanges = deploymentHash === 'no-changes';
+
 const deploymentData = {
   success: true,
   undername: deploymentHash,
@@ -23,16 +26,27 @@ const deploymentData = {
   manifestTxId: manifestTxId,
   fileSize: 0,
   duration: 0,
-  ownerArnsName: process.env.OWNER_ARNS_NAME || 'testing-testing-123'
+  ownerArnsName: process.env.OWNER_ARNS_NAME || 'testing-testing-123',
+  isNoChanges: isNoChanges,
+  totalApps: process.env.TOTAL_APPS || '5'
 };
 
 try {
-  console.log('📢 Sending Discord notification...');
+  if (isNoChanges) {
+    console.log('📢 Sending Discord no-changes notification...');
+  } else {
+    console.log('📢 Sending Discord deployment notification...');
+  }
+  
   const result = await sendDiscordNotification(deploymentData, true);
   
   if (result.success) {
     console.log('✅ Discord notification sent successfully');
-    console.log(`📢 Notification sent with deployment URL: ${result.deploymentUrl}`);
+    if (isNoChanges) {
+      console.log('📢 No-changes notification sent');
+    } else {
+      console.log(`📢 Notification sent with deployment URL: ${result.deploymentUrl}`);
+    }
   } else {
     console.log('❌ Discord notification failed:', result.error || result.reason);
     process.exit(1);

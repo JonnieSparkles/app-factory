@@ -77,23 +77,53 @@ jobs:
           # Initialize deployment tracking
           DEPLOYMENT_SUCCESS=true
           DEPLOYMENT_ERRORS=""
+          APPS_WITH_CHANGES=0
+          TOTAL_APPS=0
           echo "deployed=false" >> $GITHUB_OUTPUT
+          echo "apps_with_changes=0" >> $GITHUB_OUTPUT
           
           # Deploy all apps using incremental detection
           echo "📱 Deploying all apps using incremental detection..."
           find apps/ -type d -mindepth 1 -maxdepth 1 | while read -r app_dir; do
             app_name=$(basename "$app_dir")
             echo "📁 Deploying app: $app_name"
-            if ! node deploy.js --file "$app_dir" --message "${{ steps.prepare-deployment.outputs.message }}"; then
+            
+            # Capture the output to check if changes were detected
+            DEPLOY_OUTPUT=$(node deploy.js --file "$app_dir" --message "${{ steps.prepare-deployment.outputs.message }}" 2>&1)
+            DEPLOY_EXIT_CODE=$?
+            
+            # Check if the output indicates changes were made
+            if echo "$DEPLOY_OUTPUT" | grep -q "📁 Changed files: [1-9]"; then
+              echo "✅ App $app_name had changes and was deployed"
+              APPS_WITH_CHANGES=$((APPS_WITH_CHANGES + 1))
+            elif echo "$DEPLOY_OUTPUT" | grep -q "✅ No changes detected"; then
+              echo "⏭️ App $app_name had no changes - skipped"
+            fi
+            
+            TOTAL_APPS=$((TOTAL_APPS + 1))
+            
+            if [ $DEPLOY_EXIT_CODE -ne 0 ]; then
               DEPLOYMENT_SUCCESS=false
               DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name"
             fi
           done
           
           # Report deployment results
+          echo "📊 Deployment Summary:"
+          echo "   📁 Total apps checked: $TOTAL_APPS"
+          echo "   🔄 Apps with changes: $APPS_WITH_CHANGES"
+          echo "   ⏭️ Apps skipped (no changes): $((TOTAL_APPS - APPS_WITH_CHANGES))"
+          
           if [ "$DEPLOYMENT_SUCCESS" = "true" ]; then
-            echo "✅ All deployments completed successfully!"
-            echo "deployed=true" >> $GITHUB_OUTPUT
+            if [ $APPS_WITH_CHANGES -gt 0 ]; then
+              echo "✅ Deployments completed successfully! $APPS_WITH_CHANGES apps updated."
+              echo "deployed=true" >> $GITHUB_OUTPUT
+              echo "apps_with_changes=$APPS_WITH_CHANGES" >> $GITHUB_OUTPUT
+            else
+              echo "✅ All apps checked - no changes detected, no deployments needed."
+              echo "deployed=true" >> $GITHUB_OUTPUT
+              echo "apps_with_changes=0" >> $GITHUB_OUTPUT
+            fi
           else
             echo "❌ Some deployments failed:"
             echo -e "$DEPLOYMENT_ERRORS"
@@ -133,38 +163,54 @@ jobs:
           script: |
             console.log('📢 Triggering announce workflow...');
             
-            // Get the deployment hash from logs
+            const appsWithChanges = parseInt('${{ steps.deploy.outputs.apps_with_changes }}') || 0;
+            const totalApps = 5; // We know we have 5 apps: hello-world, calculator, nsync-fanpage, recipe-cookbook, arcade
+            
+            // Get the deployment hash from logs (only if there were actual changes)
             const fs = require('fs');
             let deploymentHash = '';
             let filePath = 'deploy/hello-world.txt';
             
-            try {
-              if (fs.existsSync('logs/deployments.json')) {
-                const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
-                const latest = logs[logs.length - 1];
-                if (latest && latest.success && (latest.undername || latest.commitHash)) {
-                  deploymentHash = latest.undername || latest.commitHash;
-                  filePath = latest.filePath || 'deploy/hello-world.txt';
+            if (appsWithChanges > 0) {
+              try {
+                if (fs.existsSync('logs/deployments.json')) {
+                  const logs = JSON.parse(fs.readFileSync('logs/deployments.json', 'utf8'));
+                  const latest = logs[logs.length - 1];
+                  if (latest && latest.success && (latest.undername || latest.commitHash)) {
+                    deploymentHash = latest.undername || latest.commitHash;
+                    filePath = latest.filePath || 'deploy/hello-world.txt';
+                  }
                 }
+              } catch (e) {
+                console.log('⚠️ Could not read deployment logs:', e.message);
               }
-            } catch (e) {
-              console.log('⚠️ Could not read deployment logs:', e.message);
             }
             
-            if (deploymentHash) {
-              await github.rest.actions.createWorkflowDispatch({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                workflow_id: 'announce.yml',
-                ref: 'main',
-                inputs: {
-                  deployment_hash: deploymentHash,
-                  file_path: filePath,
-                  announce_type: 'discord',
-                  custom_message: 'Auto-announced after successful deployment'
-                }
-              });
+            // Determine announcement message based on deployment results
+            let customMessage;
+            if (appsWithChanges > 0) {
+              customMessage = `🚀 Deployment successful! ${appsWithChanges} app${appsWithChanges > 1 ? 's' : ''} updated with new changes.`;
+            } else {
+              customMessage = `✅ Deployment check completed - no changes detected in any apps. All ${totalApps} apps are up to date!`;
+            }
+            
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'announce.yml',
+              ref: 'main',
+              inputs: {
+                deployment_hash: deploymentHash || 'no-changes',
+                file_path: filePath,
+                announce_type: 'discord',
+                custom_message: customMessage,
+                apps_with_changes: appsWithChanges.toString(),
+                total_apps: totalApps.toString()
+              }
+            });
+            
+            if (appsWithChanges > 0) {
               console.log('✅ Announce workflow triggered successfully with hash:', deploymentHash);
             } else {
-              console.log('⚠️ No deployment hash found, skipping announce trigger');
+              console.log('✅ Announce workflow triggered - no changes detected message');
             }

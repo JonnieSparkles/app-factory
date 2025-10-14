@@ -23,6 +23,16 @@ on:
         description: 'Custom message (optional)'
         required: false
         type: string
+      apps_with_changes:
+        description: 'Number of apps that had changes (for template selection)'
+        required: false
+        type: string
+        default: '0'
+      total_apps:
+        description: 'Total number of apps checked'
+        required: false
+        type: string
+        default: '5'
 
 jobs:
   announce:
@@ -66,10 +76,22 @@ jobs:
           echo "hash=${{ github.event.inputs.deployment_hash }}" >> $GITHUB_OUTPUT
           echo "file_path=${{ github.event.inputs.file_path }}" >> $GITHUB_OUTPUT
           echo "message=${{ github.event.inputs.custom_message }}" >> $GITHUB_OUTPUT
+          echo "apps_with_changes=${{ github.event.inputs.apps_with_changes }}" >> $GITHUB_OUTPUT
+          echo "total_apps=${{ github.event.inputs.total_apps }}" >> $GITHUB_OUTPUT
           echo "trigger=workflow_dispatch" >> $GITHUB_OUTPUT
           
-          # Try to get manifest TX ID from logs for additional context
-          if [ -f "logs/deployments.json" ]; then
+          # Determine announcement type based on whether changes were made
+          APPS_WITH_CHANGES=${{ github.event.inputs.apps_with_changes || '0' }}
+          if [ "$APPS_WITH_CHANGES" -gt 0 ]; then
+            echo "announcement_type=deployment_success" >> $GITHUB_OUTPUT
+            echo "📢 Announcement type: Deployment Success (changes detected)"
+          else
+            echo "announcement_type=no_changes" >> $GITHUB_OUTPUT
+            echo "📢 Announcement type: No Changes (all apps up to date)"
+          fi
+          
+          # Try to get manifest TX ID from logs for additional context (only if there were changes)
+          if [ "$APPS_WITH_CHANGES" -gt 0 ] && [ -f "logs/deployments.json" ]; then
             MANIFEST_TX_ID=$(node -e "
               const fs = require('fs');
               try {
@@ -109,6 +131,7 @@ jobs:
           WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          TOTAL_APPS: ${{ steps.deployment.outputs.total_apps }}
         run: |
           # Always use Discord announcements
           ANNOUNCE_TYPE="discord"
@@ -117,13 +140,31 @@ jobs:
           echo "📁 File: ${{ steps.deployment.outputs.file_path }}"
           echo "🔑 Hash: ${{ steps.deployment.outputs.hash }}"
           echo "🎯 Trigger: ${{ steps.deployment.outputs.trigger }}"
-          echo "📢 Type: Discord notification"
+          echo "📊 Apps with changes: ${{ steps.deployment.outputs.apps_with_changes }}"
+          echo "📊 Total apps: ${{ steps.deployment.outputs.total_apps }}"
+          echo "📢 Type: ${{ steps.deployment.outputs.announcement_type }}"
           
-          if node scripts/discord-announce.js "${{ steps.deployment.outputs.hash }}" "${{ steps.deployment.outputs.file_path }}" "${{ steps.deployment.outputs.manifest_tx_id }}"; then
-            echo "✅ Discord notification sent successfully!"
+          # Use different announcement logic based on whether changes were made
+          APPS_WITH_CHANGES=${{ steps.deployment.outputs.apps_with_changes }}
+          TOTAL_APPS=${{ steps.deployment.outputs.total_apps }}
+          
+          if [ "$APPS_WITH_CHANGES" -gt 0 ]; then
+            echo "🚀 Sending deployment success notification..."
+            if node scripts/discord-announce.js "${{ steps.deployment.outputs.hash }}" "${{ steps.deployment.outputs.file_path }}" "${{ steps.deployment.outputs.manifest_tx_id }}"; then
+              echo "✅ Discord deployment success notification sent!"
+            else
+              echo "❌ Discord notification failed"
+              exit 1
+            fi
           else
-            echo "❌ Discord notification failed"
-            exit 1
+            echo "✅ Sending no-changes notification..."
+            # For no-changes, we'll create a simple message without deployment links
+            if node scripts/discord-announce.js "no-changes" "all-apps" ""; then
+              echo "✅ Discord no-changes notification sent!"
+            else
+              echo "❌ Discord notification failed"
+              exit 1
+            fi
           fi
 
       - name: 📋 Announcement Summary
