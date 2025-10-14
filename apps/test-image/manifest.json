@@ -1,0 +1,12 @@
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": {
+    "path": "jonniesparkles.png"
+  },
+  "paths": {
+    "jonniesparkles.png": {
+      "id": "lLqc2O9GySOCFfjW92Syffu03fr73fjnxmh312jPcyA"
+    }
+  }
+}
