@@ -202,7 +202,7 @@ jobs:
             console.log('📢 Triggering announce workflow...');
             
             const appsWithChanges = parseInt('${{ steps.deploy.outputs.apps_with_changes }}') || 0;
-            const totalApps = 5; // We know we have 5 apps: hello-world, calculator, nsync-fanpage, recipe-cookbook, arcade
+            const totalApps = 6; // We know we have 6 apps: hello-world, calculator, nsync-fanpage, recipe-cookbook, arcade, playdead
             
             // Get the deployment hash from logs (only if there were actual changes)
             const fs = require('fs');
