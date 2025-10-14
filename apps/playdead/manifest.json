@@ -1,0 +1,51 @@
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": {
+    "path": "index.html"
+  },
+  "paths": {
+    "assets/app-logo.png": {
+      "id": "Qu8IoGVv3rxNlvYtcVsEtiYc1uUrooMzjdf5haKT0x8"
+    },
+    "assets/default-cover.png": {
+      "id": "MFoO2Qaome5hIZD-H2fLBi5dR6pU0QKaZvyR2giQ62o"
+    },
+    "assets/favicon.ico": {
+      "id": "OpAZQz3t_4AM4mWEWsYZd58-ioZ8jDVvWQD_6ikXb2Y"
+    },
+    "assets/icon-cassette.png": {
+      "id": "-Q-e3bxKdHXkQy7CU2VjRfpkNxgpoXu6CWrdWr1sKF0"
+    },
+    "assets/icon-insert.png": {
+      "id": "8uWxryO9XsF0fgtT5B-3RX6_N-6gDZfgLsnZZj32j9s"
+    },
+    "assets/icon-recorder.png": {
+      "id": "jjzfcPbEtgHdnCzFJpOmJkdHcQpcDxerSz59GmG6iAs"
+    },
+    "assets/style.css": {
+      "id": "ZyaGwfTTCkM2TleBQ2N-J-G9lyi15lr8zSvCv99FAO0"
+    },
+    "assets/tg-logo.png": {
+      "id": "cW2rPWGgEzXoiyS1d9XahuvHTfu4Ype3uS65CGQMcTk"
+    },
+    "catalog.json": {
+      "id": "2ngAguh3Cz4Vf-aAYdWM9T8LDmmrdSeTKclWNLYid1w"
+    },
+    "contribute.html": {
+      "id": "QJ9a0kBPEFjwyescGW1yQTG0uml7_JmXLsYGwYmSxuA"
+    },
+    "index.html": {
+      "id": "_CACoUlQGk7HPzgOrTsIv_f1UeRpcFQMnFi0bGXCdoA"
+    },
+    "scripts/laser-show.js": {
+      "id": "yl4XycdrPnRtu5iBRTmce8VnL_vZ8ILfvZOxWlRM70U"
+    },
+    "scripts/player.js": {
+      "id": "mSSxucxGzF2r00zzmnGfeNQkDi9vwQh_Oz4vRSdqg2I"
+    },
+    "scripts/utils.js": {
+      "id": "A1MGP4Esv-Wn1Fm_0wopzig60Rk2pY-naS9Z_GWzPGg"
+    }
+  }
+}

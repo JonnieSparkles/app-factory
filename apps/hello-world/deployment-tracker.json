@@ -1,13 +1,20 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "2774b062d3e4288a",
-  "lastDeployed": "2025-10-14T18:56:01.376Z",
-  "deploymentCount": 12,
+  "lastDeployCommit": "e0f32b4b9e4633b5",
+  "lastDeployed": "2025-10-14T22:17:35.778Z",
+  "deploymentCount": 13,
   "fileHashes": {
-    "index.txt": "1ac104da614a6b2269d0fa8c2d4d3438fc0c18c8",
-    "hello-world.txt": "9b18e4c6a860ff791b0d815637030c94c48f9a63"
+    "hello-world.txt": "bc7774a7b18deb1d7bd0212d34246a9b1260ae17"
   },
   "recentDeployments": [
+    {
+      "commit": "e0f32b4b9e4633b5",
+      "manifestTxId": "vX60FxbZbkYt9ONYl9nddF11l_kwU3UBFG8JqKhhqGQ",
+      "changedFiles": [
+        "hello-world.txt"
+      ],
+      "deployed": "2025-10-14T22:17:35.778Z"
+    },
     {
       "commit": "2774b062d3e4288a",
       "manifestTxId": "11t5o_m5zv-XkPZhM_ghn7YjsntYtTuVHQtjVGDLlt8",
@@ -23,14 +30,6 @@
         "index.txt"
       ],
       "deployed": "2025-10-14T18:45:22.799Z"
-    },
-    {
-      "commit": "057aa24dfe78412e",
-      "manifestTxId": "test-manifest-1760467450360",
-      "changedFiles": [
-        "index.txt"
-      ],
-      "deployed": "2025-10-14T18:44:10.365Z"
     }
   ]
 }

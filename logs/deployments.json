@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T22:23:19.899Z",
-    "success": true,
-    "appId": "hello-anthony",
-    "filePath": "apps/hello-anthony/index.html",
-    "commitHash": "cbb82be6a263c126",
-    "txId": "BlbBbGThuG7_3y5h1BGm_9PKBrGmQ2N2RgpPFkAfPT0",
-    "manifestTxId": "BlbBbGThuG7_3y5h1BGm_9PKBrGmQ2N2RgpPFkAfPT0",
-    "undername": "cbb82be6a263c126",
-    "fileSize": 30401,
-    "duration": 45827,
-    "deploymentType": "incremental",
-    "changedFiles": 2,
-    "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-13T23:44:46.195Z",
-    "success": true,
-    "testMode": true,
-    "filePath": "apps/hello-world/index.txt",
-    "commitHash": "5ca5b1463a5f2c38",
-    "txId": "test-5ca5b1463a5f2c38-1760399086185",
-    "undername": "5ca5b1463a5f2c38",
-    "ttl": 60,
-    "fileSize": 21,
-    "duration": 17,
-    "arnsRecordId": "test-record-5ca5b1463a5f2c38"
-  },
-  {
     "timestamp": "2025-10-13T23:47:10.206Z",
     "success": true,
     "testMode": true,
@@ -651,6 +623,34 @@
     "duration": 287655,
     "deploymentType": "incremental",
     "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T22:17:35.780Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "e0f32b4b9e4633b5",
+    "txId": "vX60FxbZbkYt9ONYl9nddF11l_kwU3UBFG8JqKhhqGQ",
+    "manifestTxId": "vX60FxbZbkYt9ONYl9nddF11l_kwU3UBFG8JqKhhqGQ",
+    "undername": "e0f32b4b9e4633b5",
+    "fileSize": 12,
+    "duration": 287265,
+    "deploymentType": "incremental",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-14T22:24:37.151Z",
+    "success": true,
+    "filePath": "apps/playdead",
+    "commitHash": "e0f32b4b9e4633b5",
+    "txId": "3SgtTmSoWWZYCeDHnhPQRks0W05DZgpA2oqs7QwflZc",
+    "manifestTxId": "3SgtTmSoWWZYCeDHnhPQRks0W05DZgpA2oqs7QwflZc",
+    "undername": "e0f32b4b9e4633b5",
+    "fileSize": 1932860,
+    "duration": 308430,
+    "deploymentType": "incremental",
+    "changedFiles": 14,
     "version": "0.2.0"
   }
 ]
