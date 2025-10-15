@@ -11,32 +11,44 @@ This system is a pipeline of **modular, optional components** that work together
 3. **ArNS Smart Domains** - Assigns smart, human-readable undernames on Arweave for each deployment (recommended for easier access and management)
 4. **Announcement System** - Completed work is automatically announced with deployment details
 
-## Full Agent Mode
+## Full Agent Mode (Automated via GitHub Actions)
 
-Enables continuous development cycles where AI agents submit PRs for both refining existing sites/apps and creating new proofs-of-concept:
+Enables continuous development cycles where AI agents submit PRs for both refining existing sites/apps and creating new proofs-of-concept. **The automation happens through GitHub Actions workflows:**
 
 ```
-AI Agent → Create → Submit PR → Auto-Merge → Publish to Arweave → Assign ArNS Undername → Announce → Ready for Next Task
+AI Agent → Create → Submit PR → GitHub Actions Auto-Merge → GitHub Actions Deploy → GitHub Actions Announce → Ready for Next Task
 ```
 
 The connected AI agent autonomously:
 - Creates feature branches and implements changes
-- Pushes to GitHub where auto-merge validates and merges PRs
-- Triggers deployment to Arweave with permanent storage
+- Pushes to GitHub where **GitHub Actions auto-merge workflow** validates and merges PRs
+- **GitHub Actions deploy workflow** triggers deployment to Arweave with permanent storage
 - Assigns human-readable ArNS undernames (commit-hash based)
-- Announces completed deployments with live URLs
+- **GitHub Actions announce workflow** announces completed deployments with live URLs
 - Ready for next iteration
 
 ## Quick Start
 
+**Three ways to use this system:**
+
+### 1. **Manual Deployment** (Direct CLI)
+```bash
+node deploy.js --file path/to/file.html          # Single file
+node deploy.js --file path/to/app/               # Directory (dynamic)
+```
+
+### 2. **AI Agent Automation** (GitHub Actions Powered)
+Configure your AI agent to submit PRs to this repo - GitHub Actions handle validation, merging, and deployment automatically
+
+### 3. **Standalone Dynamic Engine** 
+Use just the deployment engine in your own projects (see [Dynamic Deployment Guide](./docs/DYNAMIC_DEPLOYMENT.md))
+
+---
+
+**For AI Agent setup:**
 1. Configure environment variables (see [Setup Guide](./docs/REMOTE_AGENT_SETUP.md))
 2. Place your project(s) in `apps/` directory
-3. Deploy:
-   ```bash
-   node deploy.js --file path/to/file.html          # Single file
-   node deploy.js --file path/to/app/               # Directory (dynamic)
-   ```
-4. Or connect your AI agent to handle the workflow automatically via GitHub Actions
+3. Connect your AI agent to submit PRs - GitHub Actions handle the rest
 
 ## Architecture
 
@@ -155,33 +167,35 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for complete list.
 
 ## GitHub Actions Integration
 
-Three workflows:
+**These three workflows power the AI agent automation:**
 
 ### Auto-Merge (`auto-merge.yml`)
-- Validates agent PRs (configurable branch prefix)
+- **Validates AI agent PRs** (configurable branch prefix like `cursor/`)
 - Automatically merges when checks pass
 - Converts draft PRs to ready state
 - Manual workflow dispatch option available
 
 ### Deploy (`deploy.yml`)
-- Triggers on merge to main (if `apps/` changed)
-- Uses dynamic deployment
+- **Triggers automatically** after auto-merge (if `apps/` changed)
+- Uses dynamic deployment (only changed files)
 - Commits tracking files back to repo
 
 ### Announce (`announce.yml`)
-- Posts deployment details to Discord
+- **Posts deployment results** to Discord automatically
 - Manually triggered or called from deploy workflow
+
+**This is how AI agents get full automation** - they just submit PRs and the workflows handle everything else.
 
 ## AI Agent Integration
 
-This system accepts PRs from AI agents and automatically processes them:
+**This system is designed to work with AI agents through GitHub Actions automation:**
 
 1. **Connect Your Agent** - Configure your AI agent (Cursor, etc.) to submit PRs to this repo
-2. **Automated Processing** - System validates and auto-merges PRs from trusted agents  
-3. **Deploy Changes** - Automatically deploys merged changes to Arweave
-4. **Announce Results** - Optionally posts deployment details
+2. **Automated Processing** - GitHub Actions workflows validate and auto-merge PRs from trusted agents  
+3. **Deploy Changes** - GitHub Actions automatically deploy merged changes to Arweave
+4. **Announce Results** - GitHub Actions optionally post deployment details
 
-**Commands for your AI agent:**
+**Commands for manual deployment (when not using GitHub Actions automation):**
 ```bash
 node deploy.js --file <path>     # Deploy file/directory
 node deploy.js --test-mode       # Dry run
@@ -189,10 +203,10 @@ node deploy.js --logs            # View history
 node deploy.js --stats           # Deployment statistics
 ```
 
-### Auto-Deploy Behavior
-- **Apps changes**: When agent submits PR with apps/ changes → Auto-merge → Deploy workflow triggered
-- **Non-app changes**: When agent submits PR with only docs/etc → Auto-merge only, no deployment
-- **Manual trigger**: Repository owner can deploy all apps regardless of changes
+### Auto-Deploy Behavior (GitHub Actions)
+- **Apps changes**: When agent submits PR with apps/ changes → GitHub Actions auto-merge → GitHub Actions deploy workflow triggered
+- **Non-app changes**: When agent submits PR with only docs/etc → GitHub Actions auto-merge only, no deployment
+- **Manual trigger**: Repository owner can deploy all apps regardless of changes using GitHub Actions or CLI
 
 ## Project Structure
 

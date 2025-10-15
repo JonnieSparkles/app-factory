@@ -28,37 +28,39 @@ Deploys only changed files to Arweave using hash-based detection, saving costs a
 
 ## Usage Options
 
-### Full System (with Auto Actions)
+This dynamic deployment engine can be used in three distinct ways:
 
-Use the complete remote agent deployment system with GitHub Actions, Discord notifications, and automated workflows:
+### 1. Full System (with GitHub Actions Automation)
+
+**Complete AI agent automation powered by GitHub Actions workflows:**
 
 ```bash
-# Deploy with full automation
-node deploy.js --file apps/my-app/
-
-# Test deployment
-node deploy.js --test-mode --file apps/my-app/
-
-# View logs and stats
-node deploy.js --logs
-node deploy.js --stats
+# AI agents submit PRs → GitHub Actions handle everything automatically
+# No manual deployment needed - just submit PRs and the workflows take over
 ```
 
-**Features included:**
+**GitHub Actions Features:**
 - ✅ Dynamic deployment engine
-- ✅ GitHub Actions integration (3-workflow pipeline)
+- ✅ Auto-merge PR validation 
+- ✅ Automated deployment on merge
 - ✅ Discord notifications
 - ✅ Deployment logging
-- ✅ Auto-merge workflows
-- ✅ CLI interface
+- ✅ CLI interface for manual use
 
-**Automation vs Manual:**
-- **Automated**: AI agent creates PR → auto-merge → deploy → announce (fully hands-off)
-- **Manual**: Run `node deploy.js --file apps/my-app/` directly (single deployment)
+**When to use:** AI agents submitting PRs for automated deployment
 
-### Standalone Deployment Engine
+**Manual CLI (within the full system):**
+```bash
+# These work alongside the GitHub Actions automation
+node deploy.js --file apps/my-app/    # Manual deployment
+node deploy.js --test-mode --file apps/my-app/    # Test deployment
+node deploy.js --logs               # View deployment history
+node deploy.js --stats              # View deployment statistics
+```
 
-Use just the dynamic deployment core without auto-actions:
+### 2. Standalone Deployment Engine
+
+**Use just the deployment core without GitHub Actions automation:**
 
 **1. Install Core Dependencies**
 ```bash
@@ -135,11 +137,13 @@ deploy().catch(console.error);
 - ✅ Cost efficiency (Turbo SDK + shared credits)
 
 **What you skip:**
+- ❌ GitHub Actions workflows
+- ❌ Auto-merge PR handling
 - ❌ Discord notifications
-- ❌ GitHub Actions integration
-- ❌ Auto-merge workflows
 - ❌ Deployment logging
 - ❌ Complex CLI interface
+
+**When to use:** Integrating deployment engine into your own projects/scripts
 
 ## File Structures
 

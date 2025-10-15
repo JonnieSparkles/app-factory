@@ -1,8 +1,23 @@
 # Remote Agent Setup Guide
 
-**How to connect your AI agent (Cursor, etc.) to this deployment pipeline**
+**How to connect your AI agent (Cursor, etc.) to this GitHub Actions-powered deployment pipeline**
 
-This repository is a deployment pipeline that accepts PRs from AI agents. Configure your agent to submit PRs to this repo and the system will automatically validate, merge, and deploy your changes.
+This repository uses **GitHub Actions workflows** to provide automated deployment for AI agents. When you configure your agent to submit PRs to this repo, the GitHub Actions workflows will automatically validate, merge, and deploy your changes.
+
+## How It Works
+
+**AI Agent Workflow (Powered by GitHub Actions):**
+```
+Your AI Agent → Submit PR → GitHub Actions Auto-Merge → GitHub Actions Deploy → GitHub Actions Announce
+```
+
+1. **Agent submits PR** - Your AI agent creates a branch and submits a pull request
+2. **Auto-merge workflow** - GitHub Actions validates and merges PRs from trusted agents
+3. **Deploy workflow** - GitHub Actions deploys changes to Arweave (if apps/ directory changed)
+4. **Announce workflow** - GitHub Actions posts results to Discord (optional)
+
+**Manual Commands** (for direct CLI usage, not automated workflow):
+The commands below are for manual deployment outside the GitHub Actions automation.
 
 ## Environment Variables
 
