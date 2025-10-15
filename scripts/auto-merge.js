@@ -55,6 +55,15 @@ try {
   // Initialize Octokit
   const octokit = new Octokit({ auth: token });
   
+  // Test token permissions
+  try {
+    const { data: user } = await octokit.rest.users.getAuthenticated();
+    console.log(`🔐 Authenticated as: ${user.login}`);
+  } catch (authError) {
+    console.error(`❌ Authentication failed: ${authError.message}`);
+    throw new Error(`GitHub token authentication failed: ${authError.message}`);
+  }
+  
   console.log(`🔄 Auto-merging PR #${prNumber} for ${owner}/${repo}`);
   console.log(`📝 Merge method: ${mergeMethod}`);
   
@@ -84,40 +93,72 @@ try {
       throw new Error(`Unable to convert draft PR to ready-for-review: ${conversionError.message}`);
     }
     
-    // Wait for GitHub to process the status change
+    // Wait for GitHub to process the status change with retries
     console.log('⏳ Waiting for GitHub to process status change...');
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    let verifyPr;
+    let retries = 0;
+    const maxRetries = 6; // 30 seconds total
     
-    // Verify the PR is no longer a draft
-    const { data: verifyPr } = await octokit.rest.pulls.get({
-      owner,
-      repo,
-      pull_number: parseInt(prNumber)
-    });
+    while (retries < maxRetries) {
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      // Verify the PR is no longer a draft
+      verifyPr = await octokit.rest.pulls.get({
+        owner,
+        repo,
+        pull_number: parseInt(prNumber)
+      });
+      
+      console.log(`🔍 PR status (attempt ${retries + 1}): draft=${verifyPr.data.draft}, state=${verifyPr.data.state}`);
+      
+      if (!verifyPr.data.draft) {
+        console.log('✅ Verified PR is ready for review');
+        break;
+      }
+      
+      retries++;
+      if (retries < maxRetries) {
+        console.log(`⏳ PR still in draft, waiting... (${retries}/${maxRetries})`);
+      }
+    }
     
-        console.log(`🔍 PR status: draft=${verifyPr.draft}, state=${verifyPr.state}`);
-        
-        if (!verifyPr.draft) {
-          console.log('✅ Verified PR is ready for review');
-        } else {
-      console.log('⚠️ PR still in draft, but proceeding with merge attempt');
+    if (verifyPr.data.draft) {
+      console.log('❌ PR is still in draft after multiple attempts');
+      throw new Error('Unable to convert draft PR to ready-for-review after multiple attempts');
     }
   }
   
   // Now merge the PR
   console.log('🔀 Merging PR...');
-  const { data: mergeResult } = await octokit.rest.pulls.merge({
-    owner,
-    repo,
-    pull_number: parseInt(prNumber),
-    commit_title: `Merge PR #${prNumber}: ${pr.title}`,
-    commit_message: `Auto-merged by AI agent\n\nCloses #${prNumber}`,
-    merge_method: mergeMethod
-  });
-  
-  console.log('✅ PR merged successfully!');
-  console.log(`🔗 Merge commit: ${mergeResult.sha}`);
-  console.log(`📝 Message: Auto-merged PR #${prNumber}`);
+  try {
+    const { data: mergeResult } = await octokit.rest.pulls.merge({
+      owner,
+      repo,
+      pull_number: parseInt(prNumber),
+      commit_title: `Merge PR #${prNumber}: ${pr.title}`,
+      commit_message: `Auto-merged by AI agent\n\nCloses #${prNumber}`,
+      merge_method: mergeMethod
+    });
+    
+    console.log('✅ PR merged successfully!');
+    console.log(`🔗 Merge commit: ${mergeResult.sha}`);
+    console.log(`📝 Message: Auto-merged PR #${prNumber}`);
+  } catch (mergeError) {
+    console.error(`❌ Merge failed: ${mergeError.message}`);
+    
+    // Check if it's still a draft issue
+    if (mergeError.message.includes('draft')) {
+      console.log('🔍 Checking PR status again...');
+      const { data: finalPr } = await octokit.rest.pulls.get({
+        owner,
+        repo,
+        pull_number: parseInt(prNumber)
+      });
+      console.log(`📋 Final PR status: draft=${finalPr.draft}, state=${finalPr.state}, mergeable=${finalPr.mergeable}`);
+    }
+    
+    throw mergeError;
+  }
   
 } catch (error) {
   console.error('❌ Failed to auto-merge PR:', error.message);
