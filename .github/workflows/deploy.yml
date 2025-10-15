@@ -82,8 +82,8 @@ jobs:
           echo "deployed=false" >> $GITHUB_OUTPUT
           echo "apps_with_changes=0" >> $GITHUB_OUTPUT
           
-          # Deploy all apps using incremental detection
-          echo "📱 Deploying all apps using incremental detection..."
+          # Deploy all apps using dynamic detection
+          echo "📱 Deploying all apps using dynamic detection..."
           
           # Use a different approach to avoid pipeline subshell issues
           APPS_WITH_CHANGES=0

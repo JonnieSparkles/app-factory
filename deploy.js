@@ -28,21 +28,21 @@ import {
 } from './lib/arns.js';
 import { sendDiscordNotification, testDiscordConnection, isDiscordConfigured } from './lib/discord.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
-import { IncrementalDeployer } from './lib/incremental-deploy.js';
+import { DynamicDeployer } from './lib/dynamic-deploy.js';
 
 // Load environment variables
 dotenv.config();
 
-// ---------- Incremental Directory Deployment ----------
-async function deployDirectoryIncremental(dirPath, options, startTime) {
+// ---------- Dynamic Directory Deployment ----------
+async function deployDirectoryDynamic(dirPath, options, startTime) {
   try {
-    console.log(`📁 Detected directory - using incremental deployment`);
+    console.log(`📁 Detected directory - using dynamic deployment`);
     
     // Extract app name from directory path
     const appName = dirPath.split('/').pop() || dirPath.split('\\').pop() || 'app';
     
-    // Create incremental deployer
-    const deployer = new IncrementalDeployer(appName, dirPath);
+    // Create dynamic deployer
+    const deployer = new DynamicDeployer(appName, dirPath);
     
     // Validate directory before deployment
     const validation = await deployer.validateApp();
@@ -50,7 +50,7 @@ async function deployDirectoryIncremental(dirPath, options, startTime) {
       throw new Error(`Directory validation failed: ${validation.error}`);
     }
 
-    // Perform incremental deployment
+    // Perform dynamic deployment
     const result = await deployer.deploy(options.testMode);
     
     if (result.success && !result.skipped) {
@@ -65,14 +65,14 @@ async function deployDirectoryIncremental(dirPath, options, startTime) {
         fileSize: result.stats.totalSize,
         duration: Date.now() - startTime,
         testMode: options.testMode,
-        deploymentType: 'incremental',
+        deploymentType: 'dynamic',
         changedFiles: result.changedFiles.length,
         version: result.version
       };
       
       await logDeploymentResult(logResult);
       
-      console.log(`✅ Incremental deployment completed for directory: ${dirPath}`);
+      console.log(`✅ Dynamic deployment completed for directory: ${dirPath}`);
       console.log(`   📁 Files changed: ${result.changedFiles.length}`);
       console.log(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
       console.log(`   🔗 Manifest TX: ${result.manifestTxId}`);
@@ -88,13 +88,100 @@ async function deployDirectoryIncremental(dirPath, options, startTime) {
         commitHash: result.commitHash
       };
     } else {
-      throw new Error(`Incremental deployment failed: ${result.error}`);
+      throw new Error(`Dynamic deployment failed: ${result.error}`);
     }
   } catch (error) {
-    const result = handleError(error, `Incremental directory deployment for '${dirPath}': `);
+    const result = handleError(error, `Dynamic directory deployment for '${dirPath}': `);
     result.duration = Date.now() - startTime;
     result.filePath = dirPath;
-    result.deploymentType = 'incremental';
+    result.deploymentType = 'dynamic';
+    
+    await logDeploymentResult(result);
+    return result;
+  }
+}
+
+// ---------- Full Directory Deployment (No Dynamic Optimization) ----------
+async function deployDirectoryFull(dirPath, options, startTime) {
+  try {
+    console.log(`📁 Detected directory - using full deployment (no dynamic optimization)`);
+    
+    // Extract app name from directory path
+    const appName = dirPath.split('/').pop() || dirPath.split('\\').pop() || 'app';
+    
+    // Create dynamic deployer
+    const deployer = new DynamicDeployer(appName, dirPath);
+    
+    // Validate directory before deployment
+    const validation = await deployer.validateApp();
+    if (!validation.valid) {
+      throw new Error(`Directory validation failed: ${validation.error}`);
+    }
+
+    // Force full deployment by temporarily removing tracking files
+    const fs = await import('fs');
+    const path = await import('path');
+    const trackerPath = path.join(dirPath, 'deployment-tracker.json');
+    const manifestPath = path.join(dirPath, 'manifest.json');
+    
+    let trackerBackup = null;
+    let manifestBackup = null;
+    
+    try {
+      // Backup existing files if they exist
+      if (fs.existsSync(trackerPath)) {
+        trackerBackup = fs.readFileSync(trackerPath, 'utf8');
+        fs.unlinkSync(trackerPath);
+      }
+      if (fs.existsSync(manifestPath)) {
+        manifestBackup = fs.readFileSync(manifestPath, 'utf8');
+        fs.unlinkSync(manifestPath);
+      }
+      
+      // Deploy with options (will treat as first deployment)
+      const result = await deployer.deploy(options.testMode);
+      
+      if (result.success) {
+        const logResult = {
+          success: true,
+          undername: result.undername,
+          commitHash: result.commitHash,
+          filePath: dirPath,
+          txId: result.manifestTxId,
+          manifestTxId: result.manifestTxId,
+          fileSize: result.stats.totalSize,
+          duration: Date.now() - startTime,
+          ownerArnsName: result.ownerArnsName,
+          deploymentType: 'full',
+          version: result.version
+        };
+        
+        await logDeploymentResult(logResult);
+        
+        console.log(`✅ Full deployment completed for directory: ${dirPath}`);
+        console.log(`   📁 Files uploaded: ${result.stats.totalFiles}`);
+        console.log(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
+        console.log(`   🔗 Manifest TX: ${result.manifestTxId}`);
+        console.log(`   🔗 ArNS: ${result.undername}`);
+        
+        return logResult;
+      } else {
+        throw new Error(`Full deployment failed: ${result.error}`);
+      }
+    } finally {
+      // Restore backup files if they existed
+      if (trackerBackup) {
+        fs.writeFileSync(trackerPath, trackerBackup);
+      }
+      if (manifestBackup) {
+        fs.writeFileSync(manifestPath, manifestBackup);
+      }
+    }
+  } catch (error) {
+    const result = handleError(error, `Full directory deployment for '${dirPath}': `);
+    result.duration = Date.now() - startTime;
+    result.filePath = dirPath;
+    result.deploymentType = 'full';
     
     await logDeploymentResult(result);
     return result;
@@ -116,7 +203,7 @@ export async function deployFile(options = {}) {
       announceDiscord = false,
       triggerAnnouncement = false,
       triggerGithubDeploy = false,
-      useIncremental = true
+      useDynamic = true
     } = options;
 
     console.log(`🚀 Starting deployment for: ${filePath}`);
@@ -127,9 +214,12 @@ export async function deployFile(options = {}) {
     // Check if this is a directory (multi-file app) or single file
     const isDirectory = await fileExists(filePath) && (await import('fs')).statSync(filePath).isDirectory();
     
-    if (isDirectory && useIncremental) {
-      // Use incremental deployment for directories
-      return await deployDirectoryIncremental(filePath, options, startTime);
+    if (isDirectory && useDynamic) {
+      // Use dynamic deployment for directories
+      return await deployDirectoryDynamic(filePath, options, startTime);
+    } else if (isDirectory && !useDynamic) {
+      // Use full directory deployment (no dynamic optimization)
+      return await deployDirectoryFull(filePath, options, startTime);
     }
     
     // Read current file content or use provided content
@@ -447,8 +537,8 @@ async function main() {
         options.triggerAnnouncement = true;
       } else if (arg === '--trigger-github-deploy') {
         options.triggerGithubDeploy = true;
-      } else if (arg === '--no-incremental') {
-        options.useIncremental = false;
+      } else if (arg === '--no-dynamic') {
+        options.useDynamic = false;
       }
     }
 
@@ -508,7 +598,7 @@ Deployment Options:
   -c, --content <text>     Deploy content directly
   -m, --message <text>     Commit message for hash generation
   --test-mode             Simulate deployment with mock data (no real upload)
-  --no-incremental        Disable incremental deployment (full deployment)
+  --no-dynamic        Disable dynamic deployment (full deployment)
 
 Utility Options:
   -l, --logs              Show deployment logs
@@ -521,7 +611,7 @@ Examples:
   node deploy.js --file path/to/your/file.html
   node deploy.js --file my-app.html
   
-  # Deploy a directory (uses incremental deployment)
+  # Deploy a directory (uses dynamic deployment)
   node deploy.js --file path/to/your/app/
   node deploy.js --file apps/your-project/
   
@@ -532,8 +622,8 @@ Examples:
   node deploy.js --test-mode --file path/to/your/file.html
   node deploy.js --test-mode --file path/to/your/app/
   
-  # Full deployment (no incremental)
-  node deploy.js --no-incremental --file path/to/your/app/
+  # Full deployment (no dynamic)
+  node deploy.js --no-dynamic --file path/to/your/app/
   
   # View logs and stats
   node deploy.js --logs

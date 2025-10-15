@@ -1,8 +1,8 @@
-# Incremental Deployment Scenarios and Edge Cases Analysis
+# Dynamic Deployment Scenarios and Edge Cases Analysis
 
 **Document Version:** 1.0  
 **Analysis Date:** October 14, 2025  
-**System:** Arweave Incremental Deployment System with Hash-Based Change Detection
+**System:** Arweave Dynamic Deployment System with Hash-Based Change Detection
 
 ---
 
@@ -26,9 +26,9 @@
 
 ### Architecture Components
 
-The incremental deployment system consists of the following key components:
+The dynamic deployment system consists of the following key components:
 
-1. **IncrementalDeployer** (`lib/incremental-deploy.js`)
+1. **DynamicDeployer** (`lib/dynamic-deploy.js`)
    - Orchestrates the entire deployment process
    - Manages file uploads and manifest updates
    - Creates ArNS records and deployment commits
@@ -194,7 +194,7 @@ A developer creates a brand new app and deploys it for the first time - no deplo
 
 4. **System execution**
    ```
-   🚀 Starting incremental deployment for app: brand-new-app
+   🚀 Starting dynamic deployment for app: brand-new-app
    📝 Current commit: f1e2d3c4b5a6978 - Initial commit: brand new app
    🔍 Last deployment commit: none (first deployment)
    🔍 Using hash-based change detection...
@@ -221,7 +221,7 @@ A developer creates a brand new app and deploys it for the first time - no deplo
    🔗 Creating ArNS record: f1e2d3c4b5a6978 → manifest-txid-xyz789
    ✅ ArNS record created
    📝 Created deployment commit
-   🎉 Incremental deployment complete!
+   🎉 Dynamic deployment complete!
    ```
 
 5. **Result**
@@ -287,8 +287,8 @@ The app is accessible at:
 - **New manifest created** - not updating existing one
 - **Tracker initialized** - first deployment count = 1
 - **Entry point detected** - automatically finds index.html
-- **Full deployment cost** - no incremental savings on first deploy
-- **Foundation for future incremental deployments** - sets up tracking system
+- **Full deployment cost** - no dynamic savings on first deploy
+- **Foundation for future dynamic deployments** - sets up tracking system
 
 ---
 
@@ -329,7 +329,7 @@ A developer makes changes to 2 files in an existing app and triggers deployment.
 
 4. **System execution**
    ```
-   🚀 Starting incremental deployment for app: my-app
+   🚀 Starting dynamic deployment for app: my-app
    📝 Current commit: a1b2c3d4e5f6g7h8 - Update homepage design
    🔍 Last deployment commit: x9y8z7w6v5u4t3s2
    🔍 Using hash-based change detection...
@@ -347,7 +347,7 @@ A developer makes changes to 2 files in an existing app and triggers deployment.
    🔗 Creating ArNS record: a1b2c3d4e5f6g7h8 → manifest-txid-xyz
    ✅ ArNS record created
    📝 Created deployment commit
-   🎉 Incremental deployment complete!
+   🎉 Dynamic deployment complete!
    ```
 
 5. **Result**
@@ -787,7 +787,7 @@ git commit -m "Remove temp file from tracking"
 #### Behavior
 
 ```javascript
-// IncrementalDeployer.deploy()
+// DynamicDeployer.deploy()
 const { changedFiles, currentFiles } = await this.manifestManager.getChangedFilesByHash(this.gitTracker);
 
 if (changedFiles.length === 0) {
@@ -812,7 +812,7 @@ if (changedFiles.length === 0) {
 #### Logging
 
 ```
-🚀 Starting incremental deployment for app: my-app
+🚀 Starting dynamic deployment for app: my-app
 📝 Current commit: a1b2c3d4e5f6g7h8
 🔍 Last deployment commit: a1b2c3d4e5f6g7h8
 🔍 Using hash-based change detection...
@@ -876,12 +876,12 @@ for (let i = 0; i < changedFiles.length; i++) {
 #### Error Handling
 
 ```javascript
-// IncrementalDeployer.deploy()
+// DynamicDeployer.deploy()
 try {
   const { newFileIds, fileHashes } = await this.uploadChangedFiles(changedFiles, testMode);
   // ...
 } catch (error) {
-  console.error(`❌ Incremental deployment failed: ${error.message}`);
+  console.error(`❌ Dynamic deployment failed: ${error.message}`);
   return {
     success: false,
     error: error.message,
@@ -1002,15 +1002,15 @@ rm -rf .git  # Remove git repository
 
 **Behavior:**
 ```javascript
-// IncrementalDeployer.deploy()
+// DynamicDeployer.deploy()
 if (!(await this.gitTracker.isGitRepository())) {
-  throw new Error('Not in a git repository. Incremental deployment requires git.');
+  throw new Error('Not in a git repository. Dynamic deployment requires git.');
 }
 ```
 
 **Result:**
 - **Deployment FAILS immediately**
-- **Error:** "Not in a git repository. Incremental deployment requires git."
+- **Error:** "Not in a git repository. Dynamic deployment requires git."
 - **No recovery without git**
 
 **Resolution:**
@@ -1271,7 +1271,7 @@ node deploy.js --file apps/my-app/ --test-mode
 #### Behavior
 
 ```javascript
-// IncrementalDeployer.uploadChangedFiles(changedFiles, testMode = true)
+// DynamicDeployer.uploadChangedFiles(changedFiles, testMode = true)
 if (testMode) {
   const mockTxId = `test-${Date.now()}-${i}`;
   fileIds[filePath] = mockTxId;
@@ -1283,14 +1283,14 @@ if (testMode) {
 ```
 
 ```javascript
-// IncrementalDeployer.uploadManifest(manifest, testMode = true)
+// DynamicDeployer.uploadManifest(manifest, testMode = true)
 if (testMode) {
   return `test-manifest-${Date.now()}`;
 }
 ```
 
 ```javascript
-// IncrementalDeployer.createArNSRecord(commitHash, manifestTxId, testMode = true)
+// DynamicDeployer.createArNSRecord(commitHash, manifestTxId, testMode = true)
 if (testMode) {
   console.log(`🧪 Test mode: Would create ArNS record ${commitHash} → ${manifestTxId}`);
   return commitHash;
@@ -1471,7 +1471,7 @@ done
 #### Deployment Commit Skipping
 
 ```javascript
-// IncrementalDeployer.deploy()
+// DynamicDeployer.deploy()
 const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
 if (!testMode && !isCI) {
   await this.gitTracker.createDeployCommit(...);
@@ -1510,7 +1510,7 @@ if (!testMode && !isCI) {
 
 **Purpose:**
 - Preserve deployment state
-- Enable future incremental deployments
+- Enable future dynamic deployments
 - Audit trail
 
 ---
@@ -1662,7 +1662,7 @@ if (await gitTracker.isFileTracked(file)) {
 - ArNS assignment: 5-30s (AO process interaction)
 - **Total: Mostly upload time + ArNS time**
 
-**Incremental deployment (2 files changed out of 50):**
+**Dynamic deployment (2 files changed out of 50):**
 - File discovery: < 1s
 - Hash calculation: 1-2s (all 50 files)
 - Uploads: 100-1000ms (only 2 files)
@@ -1684,7 +1684,7 @@ if (await gitTracker.isFileTracked(file)) {
 - 5MB upload cost
 - Every deployment
 
-**Incremental (2 files changed, 100KB):**
+**Dynamic (2 files changed, 100KB):**
 - 2 files × cost per file
 - 100KB upload cost
 - **96% cost savings**
@@ -1862,7 +1862,7 @@ Return SUCCESS
 
 ## Conclusion
 
-The incremental deployment system is a well-architected solution for cost-effective Arweave deployments. It uses hash-based change detection to upload only modified files, significantly reducing costs and deployment times.
+The dynamic deployment system is a well-architected solution for cost-effective Arweave deployments. It uses hash-based change detection to upload only modified files, significantly reducing costs and deployment times.
 
 **Strengths:**
 - Simple, deterministic change detection

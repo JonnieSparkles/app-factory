@@ -1,4 +1,4 @@
-# Incremental Arweave Deployment
+# Dynamic Arweave Deployment
 
 Deploys only changed files to Arweave using hash-based detection, saving costs and time.
 
@@ -111,20 +111,3 @@ External file references - merge into manifest during deployment:
   # Automatically uses hash-based detection
   # Commits manifest and tracker files back to repo
 ```
-
-## System Evolution (October 2025)
-
-The incremental deployment system was simplified by removing complex git diff logic and using pure hash-based change detection.
-
-**Key Changes:**
-- **Simplified GitTracker**: Removed ~140 lines of complex git diff logic
-- **Enhanced ManifestManager**: Hash-based change detection as single source of truth
-- **Streamlined Deployer**: Always uses hashing (removed `useHashing` parameter)
-- **Optimized CI/CD**: Changed from `fetch-depth: 0` to `fetch-depth: 1`
-- **Code Reduction**: ~200 lines of git diff logic removed
-
-**Benefits:**
-- **Reliability**: No git history dependencies, works with shallow clones
-- **Simplicity**: One code path for change detection, easier to debug
-- **Performance**: Fast hash comparison, minimal git operations
-- **Maintenance**: Significantly easier to understand and maintain

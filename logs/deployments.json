@@ -1,31 +1,5 @@
 [
   {
-    "timestamp": "2025-10-13T23:47:10.206Z",
-    "success": true,
-    "testMode": true,
-    "filePath": "apps/hello-world/index.txt",
-    "commitHash": "fd5584500514a606",
-    "txId": "test-fd5584500514a606-1760399230200",
-    "undername": "fd5584500514a606",
-    "ttl": 60,
-    "fileSize": 21,
-    "duration": 12,
-    "arnsRecordId": "test-record-fd5584500514a606"
-  },
-  {
-    "timestamp": "2025-10-13T23:49:43.961Z",
-    "success": true,
-    "testMode": true,
-    "filePath": "apps/hello-world/index.txt",
-    "commitHash": "38e34c363a093963",
-    "txId": "test-38e34c363a093963-1760399383951",
-    "undername": "38e34c363a093963",
-    "ttl": 60,
-    "fileSize": 21,
-    "duration": 18,
-    "arnsRecordId": "test-record-38e34c363a093963"
-  },
-  {
     "timestamp": "2025-10-13T23:54:42.372Z",
     "success": true,
     "testMode": true,
@@ -145,7 +119,7 @@
     "fileSize": 19,
     "duration": 878,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -183,7 +157,7 @@
     "undername": "4bcee9197131851e",
     "fileSize": 25,
     "duration": 33720,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -198,7 +172,7 @@
     "fileSize": 25,
     "duration": 919,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -213,7 +187,7 @@
     "fileSize": 35,
     "duration": 524,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -227,7 +201,7 @@
     "undername": "22cd05cb05819090",
     "fileSize": 25,
     "duration": 280771,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -241,7 +215,7 @@
     "undername": "43d43380ac7f401c",
     "fileSize": 25,
     "duration": 354811,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -255,7 +229,7 @@
     "undername": "43d43380ac7f401c",
     "fileSize": 19003,
     "duration": 308125,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -269,7 +243,7 @@
     "undername": "b3c7333e2ea201eb",
     "fileSize": 25,
     "duration": 296557,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -283,7 +257,7 @@
     "undername": "b3c7333e2ea201eb",
     "fileSize": 19003,
     "duration": 295111,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -297,7 +271,7 @@
     "undername": "cab4979b85f7685f",
     "fileSize": 25,
     "duration": 299766,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -311,7 +285,7 @@
     "undername": "1a6259309cb14829",
     "fileSize": 25,
     "duration": 300826,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -325,7 +299,7 @@
     "undername": "1a6259309cb14829",
     "fileSize": 20219,
     "duration": 287795,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -339,7 +313,7 @@
     "undername": "94dc7f544f5e6a6c",
     "fileSize": 25,
     "duration": 280888,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -353,7 +327,7 @@
     "undername": "94dc7f544f5e6a6c",
     "fileSize": 20226,
     "duration": 287235,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -367,7 +341,7 @@
     "undername": "0004d33e1e243656",
     "fileSize": 31,
     "duration": 312929,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -381,7 +355,7 @@
     "undername": "8213689a5843c9cb",
     "fileSize": 27,
     "duration": 304874,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -395,7 +369,7 @@
     "undername": "d0125f30d972ca72",
     "fileSize": 34,
     "duration": 289031,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -409,7 +383,7 @@
     "undername": "fadd77d049684c2a",
     "fileSize": 10612,
     "duration": 319331,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -423,7 +397,7 @@
     "undername": "3640368dd88d03de",
     "fileSize": 21179,
     "duration": 313214,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -437,7 +411,7 @@
     "undername": "0a2a6b91948feb25",
     "fileSize": 26984,
     "duration": 679117,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 2,
     "version": "0.2.0"
   },
@@ -451,7 +425,7 @@
     "undername": "c55f3d7254e3d9c1",
     "fileSize": 44415,
     "duration": 310698,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 3,
     "version": "0.2.0"
   },
@@ -466,7 +440,7 @@
     "fileSize": 67,
     "duration": 1196,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -481,7 +455,7 @@
     "fileSize": 95,
     "duration": 1298,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -496,7 +470,7 @@
     "fileSize": 133,
     "duration": 537,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -510,7 +484,7 @@
     "undername": "2774b062d3e4288a",
     "fileSize": 8,
     "duration": 311195,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -525,63 +499,63 @@
     "fileSize": 11673,
     "duration": 2624,
     "testMode": true,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
   {
     "timestamp": "2025-10-14T19:11:24.183Z",
     "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Dynamic directory deployment for 'apps/playdead': ",
     "duration": 1083,
     "filePath": "apps/playdead",
-    "deploymentType": "incremental"
+    "deploymentType": "dynamic"
   },
   {
     "timestamp": "2025-10-14T19:24:23.034Z",
     "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Dynamic directory deployment for 'apps/playdead': ",
     "duration": 1528,
     "filePath": "apps/playdead",
-    "deploymentType": "incremental"
+    "deploymentType": "dynamic"
   },
   {
     "timestamp": "2025-10-14T19:33:08.190Z",
     "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Dynamic directory deployment for 'apps/playdead': ",
     "duration": 1488,
     "filePath": "apps/playdead",
-    "deploymentType": "incremental"
+    "deploymentType": "dynamic"
   },
   {
     "timestamp": "2025-10-14T19:46:37.362Z",
     "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Dynamic directory deployment for 'apps/playdead': ",
     "duration": 1211,
     "filePath": "apps/playdead",
-    "deploymentType": "incremental"
+    "deploymentType": "dynamic"
   },
   {
     "timestamp": "2025-10-14T20:03:41.581Z",
     "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Dynamic directory deployment for 'apps/playdead': ",
     "duration": 1183,
     "filePath": "apps/playdead",
-    "deploymentType": "incremental"
+    "deploymentType": "dynamic"
   },
   {
     "timestamp": "2025-10-14T20:09:54.758Z",
     "success": false,
-    "error": "Incremental deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Incremental directory deployment for 'apps/playdead': ",
+    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
+    "context": "Dynamic directory deployment for 'apps/playdead': ",
     "duration": 1059,
     "filePath": "apps/playdead",
-    "deploymentType": "incremental"
+    "deploymentType": "dynamic"
   },
   {
     "timestamp": "2025-10-14T20:47:53.706Z",
@@ -593,7 +567,7 @@
     "undername": "7c90b930f9095503",
     "fileSize": 3553099,
     "duration": 382052,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 14,
     "version": "0.2.0"
   },
@@ -607,7 +581,7 @@
     "undername": "d5d692bddf7a0bd5",
     "fileSize": 1932860,
     "duration": 318392,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 14,
     "version": "0.2.0"
   },
@@ -621,7 +595,7 @@
     "undername": "d5d692bddf7a0bd5",
     "fileSize": 1590000,
     "duration": 287655,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -635,7 +609,7 @@
     "undername": "e0f32b4b9e4633b5",
     "fileSize": 12,
     "duration": 287265,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
   },
@@ -649,8 +623,29 @@
     "undername": "e0f32b4b9e4633b5",
     "fileSize": 1932860,
     "duration": 308430,
-    "deploymentType": "incremental",
+    "deploymentType": "dynamic",
     "changedFiles": 14,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T00:12:17.637Z",
+    "success": false,
+    "error": "EISDIR: illegal operation on a directory, read",
+    "context": "Deployment ",
+    "duration": 26,
+    "filePath": "apps/hello-world/"
+  },
+  {
+    "timestamp": "2025-10-15T00:13:47.676Z",
+    "success": true,
+    "undername": "2e2d096f1f4ba28e",
+    "commitHash": "2e2d096f1f4ba28e",
+    "filePath": "apps/hello-world/",
+    "txId": "test-manifest-1760487227657",
+    "manifestTxId": "test-manifest-1760487227657",
+    "fileSize": 12,
+    "duration": 1535,
+    "deploymentType": "full",
     "version": "0.2.0"
   }
 ]
