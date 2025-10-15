@@ -1,40 +1,5 @@
 [
   {
-    "timestamp": "2025-10-14T22:24:37.151Z",
-    "success": true,
-    "filePath": "apps/playdead",
-    "commitHash": "e0f32b4b9e4633b5",
-    "txId": "3SgtTmSoWWZYCeDHnhPQRks0W05DZgpA2oqs7QwflZc",
-    "manifestTxId": "3SgtTmSoWWZYCeDHnhPQRks0W05DZgpA2oqs7QwflZc",
-    "undername": "e0f32b4b9e4633b5",
-    "fileSize": 1932860,
-    "duration": 308430,
-    "deploymentType": "dynamic",
-    "changedFiles": 14,
-    "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-15T00:12:17.637Z",
-    "success": false,
-    "error": "EISDIR: illegal operation on a directory, read",
-    "context": "Deployment ",
-    "duration": 26,
-    "filePath": "apps/hello-world/"
-  },
-  {
-    "timestamp": "2025-10-15T00:13:47.676Z",
-    "success": true,
-    "undername": "2e2d096f1f4ba28e",
-    "commitHash": "2e2d096f1f4ba28e",
-    "filePath": "apps/hello-world/",
-    "txId": "test-manifest-1760487227657",
-    "manifestTxId": "test-manifest-1760487227657",
-    "fileSize": 12,
-    "duration": 1535,
-    "deploymentType": "full",
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T00:38:15.752Z",
     "success": true,
     "filePath": "apps/playdead",
@@ -116,6 +81,62 @@
     "duration": 34027,
     "deploymentType": "dynamic",
     "changedFiles": 5,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T18:07:18.325Z",
+    "success": true,
+    "filePath": "apps/arcade",
+    "commitHash": "e7c24db34aeb5cba",
+    "txId": "JUkvNzSCPIN4jhl6NSl0myRt8UGDxX-2A3o8i88Us7M",
+    "manifestTxId": "JUkvNzSCPIN4jhl6NSl0myRt8UGDxX-2A3o8i88Us7M",
+    "undername": "e7c24db34aeb5cba",
+    "fileSize": 180986,
+    "duration": 140692,
+    "deploymentType": "dynamic",
+    "changedFiles": 9,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T18:09:14.194Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "e7c24db34aeb5cba",
+    "txId": "Ve-wJkbMzoA97cOCWGFdhifOX6uwW2rxg1lB_t_pryo",
+    "manifestTxId": "Ve-wJkbMzoA97cOCWGFdhifOX6uwW2rxg1lB_t_pryo",
+    "undername": "e7c24db34aeb5cba",
+    "fileSize": 37,
+    "duration": 18777,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T18:09:35.630Z",
+    "success": true,
+    "filePath": "apps/nsync-fanpage",
+    "commitHash": "e7c24db34aeb5cba",
+    "txId": "_1Vq9WFEm4uhUqgVeTK56EFZbQNkewlZW54cE_f9sU8",
+    "manifestTxId": "_1Vq9WFEm4uhUqgVeTK56EFZbQNkewlZW54cE_f9sU8",
+    "undername": "e7c24db34aeb5cba",
+    "fileSize": 17074,
+    "duration": 20420,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T18:09:38.135Z",
+    "success": true,
+    "filePath": "apps/recipe-cookbook",
+    "commitHash": "e7c24db34aeb5cba",
+    "txId": "QJcmQjPxOMvnnpBJ6FMvOMRWz3Q6Lt4jjWmE1cv-jbE",
+    "manifestTxId": "QJcmQjPxOMvnnpBJ6FMvOMRWz3Q6Lt4jjWmE1cv-jbE",
+    "undername": "e7c24db34aeb5cba",
+    "fileSize": 80781,
+    "duration": 1497,
+    "deploymentType": "dynamic",
+    "changedFiles": 2,
     "version": "0.2.0"
   }
 ]
