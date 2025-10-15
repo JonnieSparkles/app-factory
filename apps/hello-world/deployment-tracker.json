@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "a3f4f2cca4cf71fc",
-  "lastDeployed": "2025-10-15T17:40:15.957Z",
-  "deploymentCount": 14,
+  "lastDeployCommit": "e7c24db34aeb5cba",
+  "lastDeployed": "2025-10-15T18:09:14.191Z",
+  "deploymentCount": 15,
   "fileHashes": {
     "hello-world.txt": {
-      "oid": "bc7774a7b18deb1d7bd0212d34246a9b1260ae17",
+      "oid": "8f4b2a083540e4ab9d6629f2bbcc84d33647ed53",
       "type": "blob",
       "object": {
         "0": 98,
@@ -13,8 +13,8 @@
         "2": 111,
         "3": 98,
         "4": 32,
-        "5": 49,
-        "6": 50,
+        "5": 51,
+        "6": 55,
         "7": 0,
         "8": 104,
         "9": 101,
@@ -22,17 +22,50 @@
         "11": 108,
         "12": 111,
         "13": 32,
-        "14": 119,
-        "15": 111,
-        "16": 114,
-        "17": 108,
-        "18": 100,
-        "19": 33
+        "14": 97,
+        "15": 110,
+        "16": 100,
+        "17": 32,
+        "18": 103,
+        "19": 111,
+        "20": 111,
+        "21": 111,
+        "22": 111,
+        "23": 111,
+        "24": 111,
+        "25": 100,
+        "26": 32,
+        "27": 109,
+        "28": 111,
+        "29": 111,
+        "30": 111,
+        "31": 111,
+        "32": 114,
+        "33": 110,
+        "34": 105,
+        "35": 110,
+        "36": 103,
+        "37": 32,
+        "38": 119,
+        "39": 111,
+        "40": 114,
+        "41": 108,
+        "42": 100,
+        "43": 33,
+        "44": 33
       },
       "format": "wrapped"
     }
   },
   "recentDeployments": [
+    {
+      "commit": "e7c24db34aeb5cba",
+      "manifestTxId": "Ve-wJkbMzoA97cOCWGFdhifOX6uwW2rxg1lB_t_pryo",
+      "changedFiles": [
+        "hello-world.txt"
+      ],
+      "deployed": "2025-10-15T18:09:14.191Z"
+    },
     {
       "commit": "a3f4f2cca4cf71fc",
       "manifestTxId": "test-manifest-1760550015949",
@@ -48,14 +81,6 @@
         "hello-world.txt"
       ],
       "deployed": "2025-10-14T22:17:35.778Z"
-    },
-    {
-      "commit": "2774b062d3e4288a",
-      "manifestTxId": "11t5o_m5zv-XkPZhM_ghn7YjsntYtTuVHQtjVGDLlt8",
-      "changedFiles": [
-        "hello-world.txt"
-      ],
-      "deployed": "2025-10-14T18:56:01.376Z"
     }
   ]
 }
