@@ -55,15 +55,6 @@ try {
   // Initialize Octokit
   const octokit = new Octokit({ auth: token });
   
-  // Test token permissions
-  try {
-    const { data: user } = await octokit.rest.users.getAuthenticated();
-    console.log(`🔐 Authenticated as: ${user.login}`);
-  } catch (authError) {
-    console.error(`❌ Authentication failed: ${authError.message}`);
-    throw new Error(`GitHub token authentication failed: ${authError.message}`);
-  }
-  
   console.log(`🔄 Auto-merging PR #${prNumber} for ${owner}/${repo}`);
   console.log(`📝 Merge method: ${mergeMethod}`);
   
