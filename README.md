@@ -264,6 +264,7 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 - [Dynamic Deployment](./docs/DYNAMIC_DEPLOYMENT.md) - How dynamic deployment works
 - [Edge Cases & Troubleshooting](./docs/DEPLOYMENT_SCENARIOS_AND_EDGE_CASES.md) - Comprehensive deployment scenarios
 - [Permaweb Deploy Integration Analysis](./docs/PERMAWEB_DEPLOY_INTEGRATION_ANALYSIS.md) - Analysis of integrating with permaweb-deploy, feature compatibility, and recommended strategies
+- [SHA-256 vs IPFS CID Analysis](./docs/SHA256_VS_IPFS_CID_ANALYSIS.md) - Technical comparison of SHA-256 vs IPFS CID for change detection and manifests
 - [Future Work](./docs/FUTURE_WORK.md) - Planned enhancements, known limitations, and workarounds
 
 ## Contributing
