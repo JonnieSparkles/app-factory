@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-14T21:32:10.439Z",
-    "success": true,
-    "filePath": "apps/test-image",
-    "commitHash": "d5d692bddf7a0bd5",
-    "txId": "DcnPsMQwxJMm4X0vsDSW43Wf02kTmbKUPEauLIlZ8LI",
-    "manifestTxId": "DcnPsMQwxJMm4X0vsDSW43Wf02kTmbKUPEauLIlZ8LI",
-    "undername": "d5d692bddf7a0bd5",
-    "fileSize": 1590000,
-    "duration": 287655,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-14T22:17:35.780Z",
     "success": true,
     "filePath": "apps/hello-world",
@@ -130,6 +116,20 @@
     "duration": 39672,
     "deploymentType": "dynamic",
     "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T02:17:35.607Z",
+    "success": true,
+    "filePath": "apps/arcade",
+    "commitHash": "f59419ff5dae65f9",
+    "txId": "IH7dnJaQBCqodrU8Mqo2WHCJZryYOwK08ZSYrlP91hE",
+    "manifestTxId": "IH7dnJaQBCqodrU8Mqo2WHCJZryYOwK08ZSYrlP91hE",
+    "undername": "f59419ff5dae65f9",
+    "fileSize": 100103,
+    "duration": 34027,
+    "deploymentType": "dynamic",
+    "changedFiles": 5,
     "version": "0.2.0"
   }
 ]
