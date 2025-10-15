@@ -1,0 +1,15 @@
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": {
+    "path": "index.html"
+  },
+  "paths": {
+    "index.html": {
+      "id": "x2dZTHDC7xMzOhesmLgZgFlFLQ_LAZBut9udkU9cR-c"
+    },
+    "meatloaf.jpg": {
+      "id": "ZWCUobnMOj5QT2ORJm6I4kjj7KjujWGGUpZZQDt-0p8"
+    }
+  }
+}

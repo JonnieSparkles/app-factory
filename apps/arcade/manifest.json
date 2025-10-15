@@ -1,0 +1,36 @@
+{
+  "manifest": "arweave/paths",
+  "version": "0.2.0",
+  "index": {
+    "path": "index.html"
+  },
+  "paths": {
+    "animations.css": {
+      "id": "fsS7lGHIv5up8YH0WIPDanvUYwCfzES1WXreAvChMI4"
+    },
+    "dice-roller.html": {
+      "id": "1W7acPqex39H6zICTT1fuzWCYC_0AgoqCtmm9q0zd0Q"
+    },
+    "index.html": {
+      "id": "KJfKFN8sk4yCIlDHmnP0vs2-977f7QX0_zt_likh77o"
+    },
+    "memory-match.html": {
+      "id": "x1Z_9_vn9h2kdF0pHKYeMB6XjW18OW_6VSwlwn8GDhk"
+    },
+    "pixel-runner.html": {
+      "id": "C9at0b0mJyYMwvmR15gpA1KNSs76mxFOWF8Q__M7UVs"
+    },
+    "snake.html": {
+      "id": "_hMNIRY8EequMVEyXl_7byWmwhZJ3wjOYLFiRqSkkp8"
+    },
+    "space-invaders.html": {
+      "id": "icY30D_8wbBA-KhumPsj96iQqWucly-1xQRas9vLuF4"
+    },
+    "star-collector.html": {
+      "id": "Vtn1R1SANSjkOp9_bvolM_ie7TDKkkiCMRLqDbT_4H0"
+    },
+    "style.css": {
+      "id": "N3QL6v1geAjoN0drH_bAuxBwEG99nRnYMWHOodTCEFs"
+    }
+  }
+}
