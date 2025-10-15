@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T18:41:23.678Z",
-    "success": true,
-    "filePath": "apps/recipe-cookbook",
-    "commitHash": "b2d84c28b542d468",
-    "txId": "rzdLdCqkLbVj_f8j7HN85wYJwbr9hAdgrD8eh6zK2kU",
-    "manifestTxId": "rzdLdCqkLbVj_f8j7HN85wYJwbr9hAdgrD8eh6zK2kU",
-    "undername": "b2d84c28b542d468",
-    "fileSize": 80781,
-    "duration": 19608,
-    "deploymentType": "dynamic",
-    "changedFiles": 2,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T19:14:41.435Z",
     "success": true,
     "filePath": "apps/arcade",
@@ -137,6 +123,20 @@
     "duration": 46985,
     "deploymentType": "dynamic",
     "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T21:12:23.243Z",
+    "success": true,
+    "filePath": "apps/recipe-cookbook",
+    "commitHash": "2ffb70b128789d08",
+    "txId": "X9YydFXjEwR34NANR5UlwjrQNKoEgiWrwcRKDtwxCdY",
+    "manifestTxId": "X9YydFXjEwR34NANR5UlwjrQNKoEgiWrwcRKDtwxCdY",
+    "undername": "2ffb70b128789d08",
+    "fileSize": 80788,
+    "duration": 30200,
+    "deploymentType": "dynamic",
+    "changedFiles": 2,
     "version": "0.2.0"
   }
 ]
