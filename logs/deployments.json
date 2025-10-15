@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-14T22:17:35.780Z",
-    "success": true,
-    "filePath": "apps/hello-world",
-    "commitHash": "e0f32b4b9e4633b5",
-    "txId": "vX60FxbZbkYt9ONYl9nddF11l_kwU3UBFG8JqKhhqGQ",
-    "manifestTxId": "vX60FxbZbkYt9ONYl9nddF11l_kwU3UBFG8JqKhhqGQ",
-    "undername": "e0f32b4b9e4633b5",
-    "fileSize": 12,
-    "duration": 287265,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-14T22:24:37.151Z",
     "success": true,
     "filePath": "apps/playdead",
