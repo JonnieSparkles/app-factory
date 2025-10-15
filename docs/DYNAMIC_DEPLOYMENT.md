@@ -25,7 +25,7 @@ Deploys only changed files to Arweave using hash-based detection, saving costs a
 
 ## How It Works
 
-1. **Hash Calculation** - Calculate SHA-256 hash for each file using `git hash-object`
+1. **Hash Calculation** - Calculate SHA-256 hash for each file using `isomorphic-git.hashBlob()` (pure JavaScript, no Git CLI required)
 2. **Change Detection** - Compare current hashes with stored hashes from deployment-tracker.json
 3. **Selective Upload** - Upload only files where hash changed
 4. **State Update** - Store updated hashes for next deployment

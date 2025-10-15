@@ -70,10 +70,11 @@ Thank you for your interest in contributing to App-Factory! This document provid
 ### Dynamic Deployment System
 
 The core innovation is hash-based change detection:
-- Uses `git hash-object` for deterministic file change detection
+- Uses `isomorphic-git` for deterministic file change detection (pure JavaScript, no Git CLI required)
 - Only uploads changed files to Arweave (90%+ cost savings)
 - Works with shallow git clones (CI/CD compatible)
 - Maintains `deployment-tracker.json` for state management
+- No external CLI dependencies - all Git and GitHub operations use pure JavaScript libraries
 
 ### GitHub Actions Integration
 

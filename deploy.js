@@ -287,28 +287,13 @@ export async function deployFile(options = {}) {
         
         // Trigger GitHub Actions announcement if requested
         if (triggerAnnouncement && result.success) {
-          try {
-            console.log('🚀 Triggering GitHub Actions announcement workflow...');
-            const { execSync } = await import('child_process');
-            execSync(`node scripts/trigger-announcement.js "${result.undername || result.commitHash}" "${result.filePath}"`, { stdio: 'inherit' });
-            console.log('✅ Announcement workflow triggered successfully!');
-          } catch (error) {
-            console.error('🐦 Failed to trigger announcement workflow:', error.message);
-          }
+          console.log('ℹ️  GitHub Actions announcement workflow should be triggered via GitHub Actions (see .github/workflows/announce.yml)');
         }
 
         // Handle trigger GitHub deployment option
         if (triggerGithubDeploy) {
-          try {
-            console.log('🚀 Triggering GitHub Actions deployment workflow...');
-            const { execSync } = await import('child_process');
-            execSync(`node scripts/trigger-deploy.js "${filePath}" "${commitMessage || 'Deployed via AI agent'}"`, { stdio: 'inherit' });
-            console.log('✅ Deployment workflow triggered successfully!');
-            return { success: true, message: 'GitHub Actions deployment workflow triggered' };
-          } catch (error) {
-            console.error('❌ Failed to trigger deployment workflow:', error.message);
-            return { success: false, error: error.message };
-          }
+          console.log('ℹ️  GitHub Actions deployment workflow should be triggered via GitHub Actions (see .github/workflows/deploy.yml)');
+          return { success: true, message: 'GitHub Actions workflows are configured in .github/workflows/' };
         }
         
         return result;
@@ -411,14 +396,7 @@ export async function deployFile(options = {}) {
     
     // Trigger GitHub Actions announcement if requested
     if (triggerAnnouncement && result.success) {
-      try {
-        console.log('🚀 Triggering GitHub Actions announcement workflow...');
-        const { execSync } = await import('child_process');
-        execSync(`node scripts/trigger-announcement.js "${result.undername || result.commitHash}" "${result.filePath}"`, { stdio: 'inherit' });
-        console.log('✅ Announcement workflow triggered successfully!');
-      } catch (error) {
-        console.error('🐦 Failed to trigger announcement workflow:', error.message);
-      }
+      console.log('ℹ️  GitHub Actions announcement workflow should be triggered via GitHub Actions (see .github/workflows/announce.yml)');
     }
     
     return result;

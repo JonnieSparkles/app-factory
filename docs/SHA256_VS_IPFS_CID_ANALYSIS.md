@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This analysis evaluates whether the dynamic deployment system should switch from SHA-256 to IPFS CID (Content Identifier) for change detection and content addressing. The current system uses SHA-256 hashes calculated via `git hash-object` to detect file changes and optimize deployments.
+This analysis evaluates whether the dynamic deployment system should switch from SHA-256 to IPFS CID (Content Identifier) for change detection and content addressing. The current system uses SHA-256 hashes calculated via `isomorphic-git.hashBlob()` (pure JavaScript implementation) to detect file changes and optimize deployments.
 
 **Recommendation: Keep SHA-256 for change detection, but consider IPFS CID for enhanced content addressing and interoperability.**
 
@@ -12,13 +12,15 @@ This analysis evaluates whether the dynamic deployment system should switch from
 
 The current dynamic deployment system uses SHA-256 in the following ways:
 
-1. **Change Detection** (`lib/git-tracker.js:86-93`):
+1. **Change Detection** (`lib/git-tracker.js:90-98`):
    ```javascript
-   async getFileHash(filePath) {
-     const output = execSync(`git hash-object ${filePath}`, { encoding: 'utf8', cwd: process.cwd() });
-     return output.trim();
+     async getFileHash(filePath) {
+     const content = await fs.promises.readFile(filePath);
+     const hash = await git.hashBlob({ object: content });
+     return hash;
    }
    ```
+   Note: Now uses pure JavaScript implementation via isomorphic-git, no Git CLI required.
 
 2. **Storage in Deployment Tracker** (`lib/manifest-manager.js:172-231`):
    ```json
@@ -75,7 +77,7 @@ Example: `QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG`
 1. **Complexity**: More complex than simple SHA-256 hashes
 2. **Dependency**: Requires IPFS libraries for generation and validation
 3. **Size**: Longer than SHA-256 hashes (typically 46+ characters vs 40)
-4. **Git Integration**: Not natively supported by git hash-object
+4. **Git Integration**: Not natively supported by isomorphic-git.hashBlob()
 
 ## Comparison Matrix
 
@@ -210,7 +212,7 @@ const dataItemOpts = {
 
 **Implementation**:
 1. Add IPFS library dependency
-2. Replace git hash-object with IPFS CID generation
+2. Replace isomorphic-git.hashBlob() with IPFS CID generation
 3. Update deployment tracker format
 4. Modify change detection logic
 

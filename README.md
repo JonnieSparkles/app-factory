@@ -275,4 +275,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to contribute to 
 
 - `@ardrive/turbo-sdk` - Arweave uploads with fiat payments
 - `@ar.io/sdk` - ArNS name system management
+- `isomorphic-git` - Pure JavaScript Git implementation (no Git CLI required)
+- `@octokit/rest` - GitHub API client (no GitHub CLI required)
 - `dotenv` - Environment configuration
+
+**Note:** This system no longer requires Git CLI or GitHub CLI to be installed. All Git and GitHub operations are handled through pure JavaScript libraries.

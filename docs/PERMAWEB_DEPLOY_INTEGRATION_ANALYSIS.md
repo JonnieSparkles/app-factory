@@ -87,7 +87,7 @@ on subsequent uploads.
 
 ### Solution
 - Optional `--dynamic` flag enables hash-based detection
-- Uses git hash-object for deterministic file change detection
+- Uses isomorphic-git for deterministic file change detection (pure JavaScript implementation)
 - Maintains deployment-tracker.json for state management
 - Fully backward compatible - off by default
 

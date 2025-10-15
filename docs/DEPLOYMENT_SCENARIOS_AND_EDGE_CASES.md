@@ -36,7 +36,7 @@ The dynamic deployment system consists of the following key components:
 
 3. **GitTracker** (`lib/git-tracker.js`)
    - Provides git operations (commit info, file hashing, file tracking)
-   - Calculates SHA-256 hashes using `git hash-object`
+   - Calculates SHA-256 hashes using `isomorphic-git.hashBlob()` (pure JavaScript implementation)
    - Manages deployment commits and history
 
 4. **ArweaveUploader** (`lib/arweave.js`)
@@ -57,7 +57,7 @@ Each app directory contains:
 ### Change Detection Strategy
 
 The system uses **hash-based change detection** as the sole mechanism:
-- Files are hashed using `git hash-object` (SHA-256)
+- Files are hashed using `isomorphic-git.hashBlob()` (SHA-256)
 - Current hashes are compared with stored hashes in deployment-tracker.json
 - Only files with different hashes are uploaded
 - Works with shallow git clones (fetch-depth: 1)
@@ -80,7 +80,7 @@ The system uses **hash-based change detection** as the sole mechanism:
    ↓
 5. Filter to git-tracked files only
    ↓
-6. Calculate current hash for each file (git hash-object)
+6. Calculate current hash for each file (isomorphic-git.hashBlob)
    ↓
 7. Compare with stored hashes → identify changed files
    ↓
@@ -109,7 +109,9 @@ The system uses **hash-based change detection** as the sole mechanism:
 
 ```javascript
 // GitTracker.getFileHash()
-git hash-object path/to/file.html
+// Uses isomorphic-git.hashBlob() - pure JavaScript implementation
+const content = await fs.promises.readFile(filePath);
+const hash = await git.hashBlob({ object: content });
 // Returns: caec3826ccfb35618dc56489b7902f97a3aa424d
 
 // Stored in deployment-tracker.json:
@@ -700,13 +702,12 @@ for (const file of allFiles) {
 
 ```javascript
 // GitTracker.isFileTracked()
+// Uses isomorphic-git.listFiles() - pure JavaScript implementation
 async isFileTracked(filePath) {
   try {
-    // ls-files --error-unmatch exits with error if file is not tracked
-    execSync(`git ls-files --error-unmatch "${filePath}"`, { 
-      stdio: 'pipe'  // suppress output
-    });
-    return true;  // File is tracked
+    const relativePath = path.relative(this.dir, filePath);
+    const files = await git.listFiles({ fs, dir: this.dir });
+    return files.includes(relativePath) || files.includes(relativePath.replace(/\\/g, '/'));
   } catch {
     return false;  // File is not tracked
   }
@@ -1028,14 +1029,18 @@ git config --unset user.email
 **Behavior:**
 ```javascript
 // GitTracker.createDeployCommit()
-try {
-  execSync(`git commit -m "${commitMessage}"`);
-} catch (commitError) {
-  if (commitError.message.includes('Author identity unknown')) {
-    console.log(`⚠️ Git identity not configured, setting temporary identity...`);
-    execSync(`git config user.email "deploy@agent-tests.com"`);
-    execSync(`git config user.name "Deployment Bot"`);
-    execSync(`git commit -m "${commitMessage}"`);  // Retry
+// Uses isomorphic-git.commit() - pure JavaScript implementation
+const authorName = await git.getConfig({ fs, dir: this.dir, path: 'user.name' }) || 'Deployment Bot';
+const authorEmail = await git.getConfig({ fs, dir: this.dir, path: 'user.email' }) || 'deploy@agent-tests.com';
+
+const commitHash = await git.commit({
+  fs,
+  dir: this.dir,
+  author: {
+    name: authorName,
+    email: authorEmail
+  },
+  message: commitMessage
   }
 }
 ```
@@ -1061,7 +1066,7 @@ try {
 - **Faster checkouts** in CI/CD
 
 **Why it works:**
-- `git hash-object` works without full history
+- `isomorphic-git.hashBlob()` works without full history (pure JavaScript implementation)
 - Stored hashes in deployment-tracker.json
 - No git diff needed
 
@@ -1075,8 +1080,9 @@ git checkout a1b2c3d4  # Detached HEAD
 **Behavior:**
 ```javascript
 // GitTracker.getCommitInfo()
-const hash = commitHash || 'HEAD';
-const output = execSync(`git log --format="%H|%s|%an|%ad" -n 1 ${hash}`);
+// Uses isomorphic-git.readCommit() - pure JavaScript implementation
+const hash = commitHash || await this.getCurrentCommitHash();
+const commit = await git.readCommit({ fs, dir: this.dir, oid: hash });
 ```
 
 **Result:**
