@@ -263,6 +263,7 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 - [AI Setup Guide](./docs/REMOTE_AGENT_SETUP.md) - Complete AI configuration
 - [Dynamic Deployment](./docs/DYNAMIC_DEPLOYMENT.md) - How dynamic deployment works
 - [Edge Cases & Troubleshooting](./docs/DEPLOYMENT_SCENARIOS_AND_EDGE_CASES.md) - Comprehensive deployment scenarios
+- [Permaweb Deploy Integration Analysis](./docs/PERMAWEB_DEPLOY_INTEGRATION_ANALYSIS.md) - Analysis of integrating with permaweb-deploy, feature compatibility, and recommended strategies
 
 ## Contributing
 
