@@ -68,88 +68,31 @@ try {
   
   if (pr.draft) {
     console.log('📝 Converting draft PR to ready for review...');
-    console.log(`🔍 PR details: ${pr.title} (draft: ${pr.draft})`);
+    await octokit.rest.pulls.update({
+      owner,
+      repo,
+      pull_number: parseInt(prNumber),
+      draft: false
+    });
+    console.log('✅ PR marked as ready for review');
     
-    try {
-      console.log('🔧 Converting draft to ready via Octokit...');
-      await octokit.rest.pulls.update({
-        owner,
-        repo,
-        pull_number: parseInt(prNumber),
-        draft: false
-      });
-      console.log('✅ PR marked as ready for review');
-    } catch (conversionError) {
-      console.error(`❌ Failed to convert draft PR: ${conversionError.message}`);
-      throw new Error(`Unable to convert draft PR to ready-for-review: ${conversionError.message}`);
-    }
-    
-    // Wait for GitHub to process the status change with retries
-    console.log('⏳ Waiting for GitHub to process status change...');
-    let verifyPr;
-    let retries = 0;
-    const maxRetries = 6; // 30 seconds total
-    
-    while (retries < maxRetries) {
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      
-      // Verify the PR is no longer a draft
-      verifyPr = await octokit.rest.pulls.get({
-        owner,
-        repo,
-        pull_number: parseInt(prNumber)
-      });
-      
-      console.log(`🔍 PR status (attempt ${retries + 1}): draft=${verifyPr.data.draft}, state=${verifyPr.data.state}`);
-      
-      if (!verifyPr.data.draft) {
-        console.log('✅ Verified PR is ready for review');
-        break;
-      }
-      
-      retries++;
-      if (retries < maxRetries) {
-        console.log(`⏳ PR still in draft, waiting... (${retries}/${maxRetries})`);
-      }
-    }
-    
-    if (verifyPr.data.draft) {
-      console.log('❌ PR is still in draft after multiple attempts');
-      throw new Error('Unable to convert draft PR to ready-for-review after multiple attempts');
-    }
+    // Simple wait for GitHub to process
+    await new Promise(resolve => setTimeout(resolve, 3000));
   }
   
   // Now merge the PR
   console.log('🔀 Merging PR...');
-  try {
-    const { data: mergeResult } = await octokit.rest.pulls.merge({
-      owner,
-      repo,
-      pull_number: parseInt(prNumber),
-      commit_title: `Merge PR #${prNumber}: ${pr.title}`,
-      commit_message: `Auto-merged by AI agent\n\nCloses #${prNumber}`,
-      merge_method: mergeMethod
-    });
-    
-    console.log('✅ PR merged successfully!');
-    console.log(`🔗 Merge commit: ${mergeResult.sha}`);
-    console.log(`📝 Message: Auto-merged PR #${prNumber}`);
-  } catch (mergeError) {
-    console.error(`❌ Merge failed: ${mergeError.message}`);
-    
-    // Check if it's still a draft issue
-    if (mergeError.message.includes('draft')) {
-      console.log('🔍 Checking PR status again...');
-      const { data: finalPr } = await octokit.rest.pulls.get({
-        owner,
-        repo,
-        pull_number: parseInt(prNumber)
-      });
-      console.log(`📋 Final PR status: draft=${finalPr.draft}, state=${finalPr.state}, mergeable=${finalPr.mergeable}`);
-    }
-    
-    throw mergeError;
-  }
+  const { data: mergeResult } = await octokit.rest.pulls.merge({
+    owner,
+    repo,
+    pull_number: parseInt(prNumber),
+    commit_title: `Merge PR #${prNumber}: ${pr.title}`,
+    commit_message: `Auto-merged by AI agent\n\nCloses #${prNumber}`,
+    merge_method: mergeMethod
+  });
+  
+  console.log('✅ PR merged successfully!');
+  console.log(`🔗 Merge commit: ${mergeResult.sha}`);
   
 } catch (error) {
   console.error('❌ Failed to auto-merge PR:', error.message);
