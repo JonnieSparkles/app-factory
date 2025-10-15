@@ -1,13 +1,23 @@
 {
   "trackerVersion": "1.0.0",
-  "lastDeployCommit": "2ffb70b128789d08",
-  "lastDeployed": "2025-10-15T21:12:23.240Z",
-  "deploymentCount": 2,
+  "lastDeployCommit": "acf1411749524ccd",
+  "lastDeployed": "2025-10-15T22:37:42.835Z",
+  "deploymentCount": 3,
   "fileHashes": {
-    "index.html": "6abfb31d98c38ef4c36878e98a7c02af244cf0ae",
-    "images/meatloaf.jpg": "d95908ba493a92bc3c0173c089bcf9a468a7e06b"
+    "index.html": "c8c52e5f7730ed9b8a877d24def6fe340406b964",
+    "images/meatloaf.jpg": "d95908ba493a92bc3c0173c089bcf9a468a7e06b",
+    "recipes/turkey-mushroom-meatloaf.md": "25e85be769939fb64593aa713eb2eff12e3ae97c"
   },
   "recentDeployments": [
+    {
+      "commit": "acf1411749524ccd",
+      "manifestTxId": "-TKLYsXpyfnv3riDynfgmkqpXczTw33_s8t4Emxyu7A",
+      "changedFiles": [
+        "index.html",
+        "recipes/turkey-mushroom-meatloaf.md"
+      ],
+      "deployed": "2025-10-15T22:37:42.835Z"
+    },
     {
       "commit": "2ffb70b128789d08",
       "manifestTxId": "X9YydFXjEwR34NANR5UlwjrQNKoEgiWrwcRKDtwxCdY",
