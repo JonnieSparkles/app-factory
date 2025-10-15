@@ -68,11 +68,10 @@ try {
   
   if (pr.draft) {
     console.log('📝 Converting draft PR to ready for review...');
-    await octokit.rest.pulls.update({
+    await octokit.rest.pulls.markAsReadyForReview({
       owner,
       repo,
-      pull_number: parseInt(prNumber),
-      draft: false
+      pull_number: parseInt(prNumber)
     });
     console.log('✅ PR marked as ready for review');
     
