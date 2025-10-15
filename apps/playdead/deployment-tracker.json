@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "4f59ba82b8cfeeb1",
-  "lastDeployed": "2025-10-15T00:38:15.736Z",
-  "deploymentCount": 2,
+  "lastDeployCommit": "83c233453255e6ea",
+  "lastDeployed": "2025-10-15T00:53:46.192Z",
+  "deploymentCount": 3,
   "fileHashes": {
     "assets/app-logo.png": "10b4249a09e836d5b8d4faeb5c2156d0faa6bc6a",
     "assets/default-cover.png": "3221bea4d9cbf0406dc3889ecfda748646765579",
@@ -12,7 +12,7 @@
     "assets/icon-recorder.png": "f785e11e80bdbb33df370734dbb6397b16b57cb7",
     "assets/style.css": "d0378692d3512b30de9deb3ac871f450ae09969f",
     "assets/tg-logo.png": "cad22c00f7b54408351152d4f5f867a3b406ef21",
-    "catalog.json": "0e7d6b0ee7886205e1f003bf5387423e8c6e80b3",
+    "catalog.json": "d37c850209f44c7d972cc64eb35199d22f70b4aa",
     "contribute.html": "d80dfc0c3f38aba4a442a41b1c8ac03d81915a63",
     "index.html": "5b4d412cfb34fb52d73a4a89832cd4ce2ba39150",
     "scripts/laser-show.js": "05e12ed2ae93601dbef98126017ddc15fb7a072e",
@@ -20,6 +20,14 @@
     "scripts/utils.js": "add3601520b8afa6ab58e3fc8f1ba625d5c82c83"
   },
   "recentDeployments": [
+    {
+      "commit": "83c233453255e6ea",
+      "manifestTxId": "VIUX0BFFbqsrw5UDJKXvehiWWYn2pygndViR9pFHlho",
+      "changedFiles": [
+        "catalog.json"
+      ],
+      "deployed": "2025-10-15T00:53:46.192Z"
+    },
     {
       "commit": "4f59ba82b8cfeeb1",
       "manifestTxId": "d8jfsqT8QOAutuUErHxWjRrJVIXjml77YbtibT2J-ZE",
