@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "83c233453255e6ea",
-  "lastDeployed": "2025-10-15T00:53:46.192Z",
-  "deploymentCount": 3,
+  "lastDeployCommit": "b4bd6bc801d9f875",
+  "lastDeployed": "2025-10-15T01:00:42.636Z",
+  "deploymentCount": 4,
   "fileHashes": {
     "assets/app-logo.png": "10b4249a09e836d5b8d4faeb5c2156d0faa6bc6a",
     "assets/default-cover.png": "3221bea4d9cbf0406dc3889ecfda748646765579",
@@ -12,7 +12,7 @@
     "assets/icon-recorder.png": "f785e11e80bdbb33df370734dbb6397b16b57cb7",
     "assets/style.css": "d0378692d3512b30de9deb3ac871f450ae09969f",
     "assets/tg-logo.png": "cad22c00f7b54408351152d4f5f867a3b406ef21",
-    "catalog.json": "d37c850209f44c7d972cc64eb35199d22f70b4aa",
+    "catalog.json": "d910b2e0a577c902e4ecc6780f9fb37062a573f8",
     "contribute.html": "d80dfc0c3f38aba4a442a41b1c8ac03d81915a63",
     "index.html": "5b4d412cfb34fb52d73a4a89832cd4ce2ba39150",
     "scripts/laser-show.js": "05e12ed2ae93601dbef98126017ddc15fb7a072e",
@@ -20,6 +20,14 @@
     "scripts/utils.js": "add3601520b8afa6ab58e3fc8f1ba625d5c82c83"
   },
   "recentDeployments": [
+    {
+      "commit": "b4bd6bc801d9f875",
+      "manifestTxId": "RYq5jHxpWySY-TwoMTu2t4TkSivio-zBCPwKsfZXLyo",
+      "changedFiles": [
+        "catalog.json"
+      ],
+      "deployed": "2025-10-15T01:00:42.636Z"
+    },
     {
       "commit": "83c233453255e6ea",
       "manifestTxId": "VIUX0BFFbqsrw5UDJKXvehiWWYn2pygndViR9pFHlho",
@@ -35,27 +43,6 @@
         "catalog.json"
       ],
       "deployed": "2025-10-15T00:38:15.736Z"
-    },
-    {
-      "commit": "e0f32b4b9e4633b5",
-      "manifestTxId": "3SgtTmSoWWZYCeDHnhPQRks0W05DZgpA2oqs7QwflZc",
-      "changedFiles": [
-        "assets/app-logo.png",
-        "assets/default-cover.png",
-        "assets/favicon.ico",
-        "assets/icon-cassette.png",
-        "assets/icon-insert.png",
-        "assets/icon-recorder.png",
-        "assets/style.css",
-        "assets/tg-logo.png",
-        "catalog.json",
-        "contribute.html",
-        "index.html",
-        "scripts/laser-show.js",
-        "scripts/player.js",
-        "scripts/utils.js"
-      ],
-      "deployed": "2025-10-14T22:24:37.146Z"
     }
   ]
 }
