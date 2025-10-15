@@ -1,6 +1,6 @@
 {
   "name": "app-factory-agentic-deployment",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "App-Factory (Dynamic Agentic Deployment System) - Simple deployment system for deploying files to Arweave with ArNS integration",
   "type": "module",
   "main": "deploy.js",
