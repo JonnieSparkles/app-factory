@@ -46,11 +46,15 @@ node deploy.js --stats
 
 **Features included:**
 - ✅ Dynamic deployment engine
-- ✅ GitHub Actions integration
+- ✅ GitHub Actions integration (3-workflow pipeline)
 - ✅ Discord notifications
 - ✅ Deployment logging
 - ✅ Auto-merge workflows
 - ✅ CLI interface
+
+**Automation vs Manual:**
+- **Automated**: AI agent creates PR → auto-merge → deploy → announce (fully hands-off)
+- **Manual**: Run `node deploy.js --file apps/my-app/` directly (single deployment)
 
 ### Standalone Deployment Engine
 
@@ -224,12 +228,31 @@ External file references - merge into manifest during deployment:
 ### Full System Integration
 
 **GitHub Actions Integration:**
-```yaml
-- name: Checkout
-  uses: actions/checkout@v4
-  with:
-    fetch-depth: 1  # Shallow clone - we use hash-based detection
 
+The system includes three interconnected workflows that create a complete automation pipeline:
+
+**1. Auto-merge Workflow** (`.github/workflows/auto-merge.yml`)
+- Automatically merges PRs from agent branches (e.g., `cursor/feature-name`)
+- Only processes PRs from trusted users
+- Triggers deploy workflow if apps/ directory has changes
+
+**2. Deploy Workflow** (`.github/workflows/deploy.yml`)
+- Runs after successful auto-merge (or manual trigger)
+- Deploys all apps using dynamic detection
+- Commits deployment logs and manifests back to repo
+- Triggers announce workflow if deployments occurred
+
+**3. Announce Workflow** (`.github/workflows/announce.yml`)
+- Sends Discord notifications about deployment results
+- Handles both successful deployments and "no changes" scenarios
+
+**Complete Automation Flow:**
+```
+AI Agent → Creates PR → Auto-merge → Deploy → Announce
+```
+
+**Manual Deployment:**
+```yaml
 - name: Deploy to Arweave
   run: node deploy.js --file apps/my-app/
   # Automatically uses hash-based detection

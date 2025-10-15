@@ -16,16 +16,21 @@ This system is a pipeline of **modular, optional components** that work together
 Enables continuous development cycles for both refining existing sites/apps and creating new proofs-of-concept:
 
 ```
-Prompt → Create → Push to Git → Publish to Arweave → Assign ArNS Domain → Announce → Repeat
+Prompt → Create → Push to Git → Auto-merge → Deploy → Announce → Repeat
 ```
 
 The agent autonomously:
 - Creates feature branches and implements changes
 - Pushes to GitHub where auto-merge validates and merges PRs
-- Triggers deployment to Arweave with permanent storage
+- Triggers deployment to Arweave with permanent storage (via GitHub Actions)
 - Assigns human-readable ArNS subdomains (commit-hash based)
 - Announces completed deployments with live URLs
 - Ready for next iteration
+
+**GitHub Actions Pipeline:**
+1. **Auto-merge** - Merges agent PRs automatically
+2. **Deploy** - Deploys changed apps to Arweave
+3. **Announce** - Sends Discord notifications
 
 ## Quick Start
 
@@ -45,15 +50,22 @@ Local Development
     ↓
 AI Agent → Branch → Changes → PR
     ↓
-Auto-Merge (validates & merges)
+GitHub Actions: Auto-merge (validates & merges)
     ↓
-Deploy (dynamic: only changed files)
+GitHub Actions: Deploy (dynamic: only changed files)
     ↓
 Arweave (permanent storage)
     ↓
 ArNS (subdomain: commit-hash_your-domain.ar.io)
     ↓
-Announce (optional Discord notification)
+GitHub Actions: Announce (Discord notifications)
+```
+
+**Manual Alternative:**
+```
+node deploy.js --file apps/my-app/
+    ↓
+Direct deployment (no automation)
 ```
 
 ## Key Components
