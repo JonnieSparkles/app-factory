@@ -245,7 +245,7 @@ The system automatically:
 ## Monitoring
 
 - **GitHub Actions**: Real-time workflow status
-- **Deployment Logs**: `logs/deployments.json` with last 50 deployments
+- **Deployment Logs**: `logs/deployments.json` with last 10 deployments
 - **Statistics**: `node deploy.js --stats`
 
 ## Troubleshooting
