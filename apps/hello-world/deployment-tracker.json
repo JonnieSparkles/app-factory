@@ -1,12 +1,20 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "b8ba7d151c52eddf",
-  "lastDeployed": "2025-10-15T19:16:41.237Z",
-  "deploymentCount": 20,
+  "lastDeployCommit": "64099158e3ca0149",
+  "lastDeployed": "2025-10-15T21:03:03.029Z",
+  "deploymentCount": 21,
   "fileHashes": {
-    "hello-world.txt": "ced423a1776bb235e33fe66a3db5aebdb98c8a9c"
+    "hello-world.txt": "52b37a1dfbd1eb7a359eea41d8f8834a2c2d73de"
   },
   "recentDeployments": [
+    {
+      "commit": "64099158e3ca0149",
+      "manifestTxId": "nFD12ng_GxxV0oeUVbNFv9Biu5aCeSWcwgIcI-Fz-9E",
+      "changedFiles": [
+        "hello-world.txt"
+      ],
+      "deployed": "2025-10-15T21:03:03.029Z"
+    },
     {
       "commit": "b8ba7d151c52eddf",
       "manifestTxId": "_63xIds3zFsMMRvgRSE5EZVMuJwcqxCfluc3oUJ1K_o",
@@ -22,14 +30,7 @@
         "hello-world.txt"
       ],
       "deployed": "2025-10-15T18:40:49.175Z"
-    },
-    {
-      "commit": "ac3b3277393b111c",
-      "manifestTxId": "uVEKGJ5TGxfjlD34MsDDjc_vf1j9zooFf0U2h0_69uM",
-      "changedFiles": [
-        "hello-world.txt"
-      ],
-      "deployed": "2025-10-15T18:27:02.412Z"
     }
-  ]
+  ],
+  "trackerVersion": "1.0.0"
 }

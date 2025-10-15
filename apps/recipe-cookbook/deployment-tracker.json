@@ -1,0 +1,21 @@
+{
+  "trackerVersion": "1.0.0",
+  "lastDeployCommit": "64099158e3ca0149",
+  "lastDeployed": "2025-10-15T21:03:34.935Z",
+  "deploymentCount": 1,
+  "fileHashes": {
+    "index.html": "50453ca5481a8dc4fcfa811b9f1b22968570ec3c",
+    "meatloaf.jpg": "d95908ba493a92bc3c0173c089bcf9a468a7e06b"
+  },
+  "recentDeployments": [
+    {
+      "commit": "64099158e3ca0149",
+      "manifestTxId": "_GprMVoOFIa1i_l-4lmNDVJ6rWdJ2B2GreySPyxb9fQ",
+      "changedFiles": [
+        "index.html",
+        "meatloaf.jpg"
+      ],
+      "deployed": "2025-10-15T21:03:34.935Z"
+    }
+  ]
+}
