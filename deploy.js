@@ -206,8 +206,6 @@ export async function deployFile(options = {}) {
       useDynamic = true
     } = options;
 
-    console.log(`🚀 Starting deployment for: ${filePath}`);
-    
     // Validate inputs
     validateFilePath(filePath);
     
@@ -221,6 +219,9 @@ export async function deployFile(options = {}) {
       // Use full directory deployment (no dynamic optimization)
       return await deployDirectoryFull(filePath, options, startTime);
     }
+    
+    // For single files, log the deployment start
+    console.log(`🚀 Starting deployment for: ${filePath}`);
     
     // Read current file content or use provided content
     let fileContent;

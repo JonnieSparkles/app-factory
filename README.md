@@ -36,7 +36,7 @@ The connected AI agent autonomously:
    node deploy.js --file path/to/file.html          # Single file
    node deploy.js --file path/to/app/               # Directory (dynamic)
    ```
-4. Or connect your AI agent to handle the workflow automatically
+4. Or connect your AI agent to handle the workflow automatically via GitHub Actions
 
 ## Architecture
 
