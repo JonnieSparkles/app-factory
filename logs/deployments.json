@@ -1,14 +1,5 @@
 [
   {
-    "timestamp": "2025-10-14T19:46:37.362Z",
-    "success": false,
-    "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
-    "context": "Dynamic directory deployment for 'apps/playdead': ",
-    "duration": 1211,
-    "filePath": "apps/playdead",
-    "deploymentType": "dynamic"
-  },
-  {
     "timestamp": "2025-10-14T20:03:41.581Z",
     "success": false,
     "error": "Dynamic deployment failed: Failed to upload assets/app-logo.png: Failed to upload file after 1 attempts\nFailed request (Status 402): Insufficient balance",
@@ -115,6 +106,20 @@
     "fileSize": 12,
     "duration": 1535,
     "deploymentType": "full",
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T00:38:15.752Z",
+    "success": true,
+    "filePath": "apps/playdead",
+    "commitHash": "4f59ba82b8cfeeb1",
+    "txId": "d8jfsqT8QOAutuUErHxWjRrJVIXjml77YbtibT2J-ZE",
+    "manifestTxId": "d8jfsqT8QOAutuUErHxWjRrJVIXjml77YbtibT2J-ZE",
+    "undername": "4f59ba82b8cfeeb1",
+    "fileSize": 3331,
+    "duration": 5729,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
     "version": "0.2.0"
   }
 ]
