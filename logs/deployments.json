@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T18:41:03.057Z",
-    "success": true,
-    "filePath": "apps/nsync-fanpage",
-    "commitHash": "b2d84c28b542d468",
-    "txId": "DtrNP67rtI-6znk4PnZPbPVG3qd4UCNkt6Li4afvEjw",
-    "manifestTxId": "DtrNP67rtI-6znk4PnZPbPVG3qd4UCNkt6Li4afvEjw",
-    "undername": "b2d84c28b542d468",
-    "fileSize": 17074,
-    "duration": 12861,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T18:41:23.678Z",
     "success": true,
     "filePath": "apps/recipe-cookbook",
@@ -137,6 +123,20 @@
     "duration": 9867,
     "deploymentType": "dynamic",
     "changedFiles": 2,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T21:07:25.667Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "e8c867a3be47a789",
+    "txId": "1Od4UZGw3Kg1qlLIDObVXsTLc5lSDo5GOz9wIs6OoAU",
+    "manifestTxId": "1Od4UZGw3Kg1qlLIDObVXsTLc5lSDo5GOz9wIs6OoAU",
+    "undername": "e8c867a3be47a789",
+    "fileSize": 48,
+    "duration": 46985,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
     "version": "0.2.0"
   }
 ]
