@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Remote Agent Deployment System
+// App-Factory (Dynamic Agentic Deployment System)
 // Main script for deploying files to Arweave with ArNS integration
 
 import dotenv from 'dotenv';

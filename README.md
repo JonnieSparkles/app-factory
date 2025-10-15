@@ -6,7 +6,7 @@ A modular deployment pipeline that AI agents can connect to for autonomous devel
 
 This system is a pipeline of **modular, optional components** that work together:
 
-1. **Remote Agent Integration** - Compatible with any AI agent that can submit PRs with configurable branch prefix workflows
+1. **App-Factory Integration** - Compatible with any AI agent that can submit PRs with configurable branch prefix workflows
 2. **Dynamic Deployment** - Only changed files are re-uploaded to Arweave, reducing costs and deployment time
 3. **ArNS Smart Domains** - Assigns smart, human-readable undernames on Arweave for each deployment (recommended for easier access and management)
 4. **Announcement System** - Completed work is automatically announced with deployment details

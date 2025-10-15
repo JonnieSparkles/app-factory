@@ -1,4 +1,4 @@
-# Remote Agent Setup Guide
+# App-Factory Setup Guide
 
 **How to connect your AI agent (Cursor, etc.) to this GitHub Actions-powered deployment pipeline**
 
