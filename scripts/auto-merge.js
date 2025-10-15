@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-// Script to automatically merge PRs using GitHub REST API
-// This replaces the need for GitHub CLI in auto-merge workflows
+// Script to automatically merge PRs using GitHub API
+// Handles draft PR conversion and merging with multiple fallback strategies
 
 import { Octokit } from '@octokit/rest';
+import { graphql } from '@octokit/graphql';
 import git from 'isomorphic-git';
 import fs from 'fs';
+import { execSync } from 'child_process';
 import dotenv from 'dotenv';
 
 // Load environment variables
@@ -19,6 +21,89 @@ if (!prNumber) {
   console.log('Usage: node scripts/auto-merge.js <pr_number> [merge_method]');
   console.log('Merge methods: merge, squash, rebase');
   process.exit(1);
+}
+
+/**
+ * Check if GitHub CLI is available
+ */
+function hasGitHubCLI() {
+  try {
+    execSync('gh --version', { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Mark PR as ready using GitHub CLI
+ */
+async function markReadyWithCLI(prNumber) {
+  try {
+    console.log('📝 Converting draft PR to ready (using GitHub CLI)...');
+    execSync(`gh pr ready ${prNumber}`, { stdio: 'inherit' });
+    return true;
+  } catch (error) {
+    console.log('⚠️ GitHub CLI method failed, trying GraphQL API...');
+    return false;
+  }
+}
+
+/**
+ * Mark PR as ready using GraphQL API
+ */
+async function markReadyWithGraphQL(token, prNodeId) {
+  try {
+    console.log('📝 Converting draft PR to ready (using GraphQL API)...');
+    const graphqlWithAuth = graphql.defaults({
+      headers: {
+        authorization: `token ${token}`,
+      },
+    });
+    
+    await graphqlWithAuth(
+      `mutation($pullRequestId: ID!) {
+        markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) {
+          pullRequest {
+            id
+            isDraft
+          }
+        }
+      }`,
+      {
+        pullRequestId: prNodeId,
+      }
+    );
+    return true;
+  } catch (error) {
+    console.error('⚠️ GraphQL API method failed:', error.message);
+    return false;
+  }
+}
+
+/**
+ * Wait for PR to be mergeable with retries
+ */
+async function waitForMergeable(octokit, owner, repo, prNumber, maxRetries = 6) {
+  for (let i = 0; i < maxRetries; i++) {
+    const { data: pr } = await octokit.rest.pulls.get({
+      owner,
+      repo,
+      pull_number: parseInt(prNumber)
+    });
+    
+    if (pr.mergeable && !pr.draft) {
+      return pr;
+    }
+    
+    if (i < maxRetries - 1) {
+      const waitTime = i === 0 ? 12000 : 6000; // 12s first, then 6s
+      console.log(`⏳ Waiting ${waitTime/1000}s for PR to be ready... (attempt ${i + 1}/${maxRetries})`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+  
+  throw new Error('PR did not become mergeable within expected time');
 }
 
 try {
@@ -36,10 +121,10 @@ try {
         dir: process.cwd(), 
         path: 'remote.origin.url' 
       });
-  const match = remoteUrl.match(/github\.com[:/]([^/]+)\/([^/]+?)(?:\.git)?$/);
-  if (!match) {
-    throw new Error('Could not determine repository owner/name');
-  }
+      const match = remoteUrl.match(/github\.com[:/]([^/]+)\/([^/]+?)(?:\.git)?$/);
+      if (!match) {
+        throw new Error('Could not determine repository owner/name');
+      }
       [, owner, repo] = match;
     } catch (gitError) {
       throw new Error('Could not determine repository owner/name from git config or environment');
@@ -58,7 +143,7 @@ try {
   console.log(`🔄 Auto-merging PR #${prNumber} for ${owner}/${repo}`);
   console.log(`📝 Merge method: ${mergeMethod}`);
   
-  // First, mark PR as ready for review if it's a draft
+  // First, check PR status
   console.log('📋 Checking PR status...');
   const { data: pr } = await octokit.rest.pulls.get({
     owner,
@@ -66,17 +151,29 @@ try {
     pull_number: parseInt(prNumber)
   });
   
+  // Handle draft PRs with multiple fallback methods
   if (pr.draft) {
-    console.log('📝 Converting draft PR to ready for review...');
-    await octokit.rest.pulls.markAsReadyForReview({
-      owner,
-      repo,
-      pull_number: parseInt(prNumber)
-    });
+    let success = false;
+    
+    // Try GitHub CLI first (fastest and most reliable)
+    if (hasGitHubCLI()) {
+      success = await markReadyWithCLI(prNumber);
+    }
+    
+    // Fall back to GraphQL API
+    if (!success) {
+      success = await markReadyWithGraphQL(token, pr.node_id);
+    }
+    
+    if (!success) {
+      throw new Error('Failed to convert draft PR to ready for review');
+    }
+    
     console.log('✅ PR marked as ready for review');
     
-    // Simple wait for GitHub to process
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // Wait for PR to be mergeable with retries
+    console.log('⏳ Waiting for PR to be mergeable...');
+    await waitForMergeable(octokit, owner, repo, prNumber);
   }
   
   // Now merge the PR
