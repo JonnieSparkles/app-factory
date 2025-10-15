@@ -47,13 +47,19 @@
             </div>
             
             <div class="game-card available">
-                <div class="game-icon">🎯</div>
-                <h3>Neon Target</h3>
-                <p class="game-description">Hit the targets with precision!</p>
-                <p class="game-score" id="neon-target-high-score">HIGH SCORE: 0</p>
-                <button class="play-btn" onclick="window.open('neon-target.html', '_blank')">PLAY NOW</button>
+                <div class="game-icon">🎲</div>
+                <h3>Dice Roller</h3>
+                <p class="game-description">Roll the dice, test your luck!</p>
+                <p class="game-score" id="dice-high-score">HIGH SCORE: 0</p>
+                <button class="play-btn" onclick="window.open('dice-roller.html', '_blank')">PLAY NOW</button>
             </div>
             
+            <div class="game-card coming-soon">
+                <div class="game-icon">🎯</div>
+                <h3>Neon Target</h3>
+                <p class="game-score">COMING SOON</p>
+                <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
+            </div>
             
             <div class="game-card coming-soon">
                 <div class="game-icon">🚀</div>
@@ -90,14 +96,6 @@
                 <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
             
-            <div class="game-card available">
-                <div class="game-icon">🎲</div>
-                <h3>Dice Roller</h3>
-                <p class="game-description">Roll the dice, test your luck!</p>
-                <p class="game-score" id="dice-high-score">HIGH SCORE: 0</p>
-                <button class="play-btn" onclick="window.open('dice-roller.html', '_blank')">PLAY NOW</button>
-            </div>
-            
             <div class="game-card coming-soon">
                 <div class="game-icon">🎨</div>
                 <h3>Pixel Painter</h3>
@@ -105,20 +103,18 @@
                 <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
             
-            <div class="game-card available">
+            <div class="game-card coming-soon">
                 <div class="game-icon">🌟</div>
                 <h3>Star Collector</h3>
-                <p class="game-description">Collect stars in space!</p>
-                <p class="game-score" id="star-collector-high-score">HIGH SCORE: 0</p>
-                <button class="play-btn" onclick="window.open('star-collector.html', '_blank')">PLAY NOW</button>
+                <p class="game-score">COMING SOON</p>
+                <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
             
-            <div class="game-card available">
+            <div class="game-card coming-soon">
                 <div class="game-icon">🧠</div>
                 <h3>Memory Match</h3>
-                <p class="game-description">Test your memory skills!</p>
-                <p class="game-score" id="memory-match-high-score">HIGH SCORE: 0</p>
-                <button class="play-btn" onclick="window.open('memory-match.html', '_blank')">PLAY NOW</button>
+                <p class="game-score">COMING SOON</p>
+                <button class="play-btn coming-soon-btn" disabled>COMING SOON</button>
             </div>
         </section>
 
@@ -127,8 +123,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>🎮 GAME STATS</h4>
-                    <p>Total Games: 6 Available</p>
-                    <p>Coming Soon: 7 Games</p>
+                    <p>Total Games: 4 Available</p>
+                    <p>Coming Soon: 9 Games</p>
                     <p>Total Plays: <span id="total-plays">∞</span></p>
                 </div>
                 <div class="footer-section">
@@ -152,25 +148,11 @@
     </div>
 
     <script>
-
         // Game high scores for display
         let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
         let diceHighScore = localStorage.getItem('diceHighScore') || 0;
         let spaceInvadersHighScore = localStorage.getItem('spaceInvadersHighScore') || 0;
         let pixelRunnerHighScore = localStorage.getItem('pixelRunnerHighScore') || 0;
-        let starCollectorHighScore = localStorage.getItem('starCollectorHighScore') || 0;
-        let memoryMatchHighScore = localStorage.getItem('memoryHighScore') || 0;
-
-
-
-
-
-
-
-
-
-
-
 
         // Add rainbow effect to title on hover
         document.addEventListener('DOMContentLoaded', function() {
@@ -183,8 +165,6 @@
             });
         });
 
-
-
         // Initialize arcade
         console.log('🕹️ Neon Arcade initialized! Ready for testing!');
         
@@ -194,16 +174,11 @@
             updateDiceHighScore();
             updateSpaceInvadersHighScore();
             updatePixelRunnerHighScore();
-            updateStarCollectorHighScore();
-            updateMemoryMatchHighScore();
             // Update high scores every 2 seconds to sync with standalone games
             setInterval(updateSnakeHighScore, 2000);
             setInterval(updateDiceHighScore, 2000);
             setInterval(updateSpaceInvadersHighScore, 2000);
             setInterval(updatePixelRunnerHighScore, 2000);
-            setInterval(updateStarCollectorHighScore, 2000);
-            setInterval(updateMemoryMatchHighScore, 2000);
-            
         });
 
         function updateSnakeHighScore() {
@@ -237,24 +212,6 @@
                 pixelRunnerHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
             }
         }
-
-        function updateStarCollectorHighScore() {
-            const currentHighScore = localStorage.getItem('starCollectorHighScore') || 0;
-            const starCollectorHighScoreElement = document.getElementById('star-collector-high-score');
-            if (starCollectorHighScoreElement) {
-                starCollectorHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
-            }
-        }
-
-        function updateMemoryMatchHighScore() {
-            const currentHighScore = localStorage.getItem('memoryHighScore') || 0;
-            const memoryMatchHighScoreElement = document.getElementById('memory-match-high-score');
-            if (memoryMatchHighScoreElement) {
-                memoryMatchHighScoreElement.textContent = `HIGH SCORE: ${currentHighScore}`;
-            }
-        }
     </script>
 </body>
 </html>
-t e s t   c l e a n u p  
- 
