@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T19:16:41.239Z",
-    "success": true,
-    "filePath": "apps/hello-world",
-    "commitHash": "b8ba7d151c52eddf",
-    "txId": "_63xIds3zFsMMRvgRSE5EZVMuJwcqxCfluc3oUJ1K_o",
-    "manifestTxId": "_63xIds3zFsMMRvgRSE5EZVMuJwcqxCfluc3oUJ1K_o",
-    "undername": "b8ba7d151c52eddf",
-    "fileSize": 37,
-    "duration": 18479,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T19:17:10.881Z",
     "success": true,
     "filePath": "apps/nsync-fanpage",
@@ -135,6 +121,20 @@
     "undername": "04268962cac65312",
     "fileSize": 24,
     "duration": 32418,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-15T22:04:20.678Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "c4d29d1f4bb3ffdf",
+    "txId": "dqNvt3Hoa7sq_yZBFn4TqZJBmjaEQ_3dn1MBrsZyfCI",
+    "manifestTxId": "dqNvt3Hoa7sq_yZBFn4TqZJBmjaEQ_3dn1MBrsZyfCI",
+    "undername": "c4d29d1f4bb3ffdf",
+    "fileSize": 25,
+    "duration": 46401,
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
