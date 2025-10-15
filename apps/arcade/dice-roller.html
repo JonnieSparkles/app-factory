@@ -590,8 +590,13 @@
             // Update active button
             document.querySelectorAll('.mode-btn').forEach(btn => {
                 btn.classList.remove('active');
+                // Check the button's onclick to match the mode
+                if ((mode === 'single' && btn.textContent.includes('SINGLE')) ||
+                    (mode === 'double' && btn.textContent.includes('DOUBLE')) ||
+                    (mode === 'triple' && btn.textContent.includes('TRIPLE'))) {
+                    btn.classList.add('active');
+                }
             });
-            event.target.classList.add('active');
             
             // Update dice area
             updateDiceArea();
@@ -814,7 +819,7 @@
             currentRollTotal = 0;
             totalScore = 0;
             rollCount = 0;
-            highestRollTotal = 0;
+            // Don't reset highestRollTotal - keep the all-time high score
             lowestRollTotal = 0;
             allRollTotals = [];
             luckyStreak = 0;

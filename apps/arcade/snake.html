@@ -429,10 +429,10 @@
             if (gameRunning) return;
             
             gameRunning = true;
-            snakeGame = setInterval(gameLoop, 150);
+            snakeGame = setInterval(gameLoop, 100);
             
-            // Start with right direction
-            dx = 20;
+            // Don't move until user presses a direction key
+            dx = 0;
             dy = 0;
         }
 
@@ -447,6 +447,11 @@
 
         function gameLoop() {
             if (!gameRunning) return;
+            
+            // Don't move if no direction is set (waiting for first input)
+            if (dx === 0 && dy === 0) {
+                return;
+            }
             
             // Move snake
             const head = {x: snake[0].x + dx, y: snake[0].y + dy};
@@ -484,16 +489,17 @@
             
             switch(direction) {
                 case 'up':
-                    if (dy !== 20) { dx = 0; dy = -20; }
+                    // Don't allow reversing direction (except on first move)
+                    if (dy !== 20 || (dx === 0 && dy === 0)) { dx = 0; dy = -20; }
                     break;
                 case 'down':
-                    if (dy !== -20) { dx = 0; dy = 20; }
+                    if (dy !== -20 || (dx === 0 && dy === 0)) { dx = 0; dy = 20; }
                     break;
                 case 'left':
-                    if (dx !== 20) { dx = -20; dy = 0; }
+                    if (dx !== 20 || (dx === 0 && dy === 0)) { dx = -20; dy = 0; }
                     break;
                 case 'right':
-                    if (dx !== -20) { dx = 20; dy = 0; }
+                    if (dx !== -20 || (dx === 0 && dy === 0)) { dx = 20; dy = 0; }
                     break;
             }
         }
@@ -627,9 +633,8 @@
                     e.preventDefault();
                     if (!gameRunning) {
                         startGameLoop();
-                    } else {
-                        changeDirection('up');
                     }
+                    changeDirection('up');
                     break;
                 case 'ArrowDown':
                 case 's':
@@ -637,9 +642,8 @@
                     e.preventDefault();
                     if (!gameRunning) {
                         startGameLoop();
-                    } else {
-                        changeDirection('down');
                     }
+                    changeDirection('down');
                     break;
                 case 'ArrowLeft':
                 case 'a':
@@ -647,9 +651,8 @@
                     e.preventDefault();
                     if (!gameRunning) {
                         startGameLoop();
-                    } else {
-                        changeDirection('left');
                     }
+                    changeDirection('left');
                     break;
                 case 'ArrowRight':
                 case 'd':
@@ -657,9 +660,8 @@
                     e.preventDefault();
                     if (!gameRunning) {
                         startGameLoop();
-                    } else {
-                        changeDirection('right');
                     }
+                    changeDirection('right');
                     break;
                 case ' ':
                 case 'p':

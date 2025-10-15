@@ -219,6 +219,8 @@
             <p>💥 Destroy all aliens to advance to next level!</p>
             <p>💀 Don't let aliens reach the bottom!</p>
         </div>
+        
+        <button class="start-btn" onclick="window.location.href='index.html'" style="margin-top: 1rem; background: var(--neon-pink);">← BACK TO ARCADE</button>
     </div>
 
     <script>
@@ -238,8 +240,9 @@
             y: 250,
             width: 30,
             height: 20,
-            speed: 5,
-            color: '#00ff41'
+            speed: 3,
+            color: '#00ff41',
+            moving: { left: false, right: false }
         };
         
         // Game objects
@@ -247,15 +250,17 @@
         let aliens = [];
         let alienBullets = [];
         let particles = [];
+        let lastShotTime = 0;
+        const SHOOT_COOLDOWN = 250; // milliseconds
         
         // Game settings
         const CANVAS_WIDTH = 400;
         const CANVAS_HEIGHT = 300;
-        const ALIEN_ROWS = 5;
-        const ALIEN_COLS = 10;
-        const ALIEN_SPACING = 35;
-        const ALIEN_START_X = 50;
-        const ALIEN_START_Y = 50;
+        const ALIEN_ROWS = 4;
+        const ALIEN_COLS = 8;
+        const ALIEN_SPACING = 40;
+        const ALIEN_START_X = 40;
+        const ALIEN_START_Y = 30;
         
         // Initialize high score display
         document.getElementById('highScore').textContent = highScore;
@@ -313,7 +318,13 @@
         }
         
         function updatePlayer() {
-            // Player movement is handled by keyboard/button events
+            // Handle continuous movement
+            if (player.moving.left) {
+                player.x = Math.max(0, player.x - player.speed);
+            }
+            if (player.moving.right) {
+                player.x = Math.min(CANVAS_WIDTH - player.width, player.x + player.speed);
+            }
         }
         
         function drawPlayer() {
@@ -388,7 +399,9 @@
         }
         
         function updateAliens() {
-            if (aliens.length === 0) {
+            // Check if all aliens are dead
+            const aliveAliens = aliens.filter(alien => alien.alive);
+            if (aliveAliens.length === 0) {
                 // Level complete
                 level++;
                 spawnAliens();
@@ -400,11 +413,13 @@
             aliens.forEach(alien => {
                 if (alien.alive) {
                     alien.x += alien.speed * alien.direction;
-                    
-                    // Check if aliens hit the sides
-                    if (alien.x <= 0 || alien.x >= CANVAS_WIDTH - alien.width) {
-                        moveDown = true;
-                    }
+                }
+            });
+            
+            // Check if ANY alien hit the sides
+            aliens.forEach(alien => {
+                if (alien.alive && (alien.x <= 0 || alien.x >= CANVAS_WIDTH - alien.width)) {
+                    moveDown = true;
                 }
             });
             
@@ -412,8 +427,9 @@
                 aliens.forEach(alien => {
                     if (alien.alive) {
                         alien.direction *= -1;
-                        alien.y += 20;
-                        alien.speed += 0.1;
+                        alien.x += alien.speed * alien.direction * 2; // Move back from wall
+                        alien.y += 15;
+                        alien.speed += 0.05 * level;
                     }
                 });
             }
@@ -562,6 +578,13 @@
         
         function shoot() {
             if (!gameRunning) return;
+            
+            const currentTime = Date.now();
+            if (currentTime - lastShotTime < SHOOT_COOLDOWN) {
+                return; // Cooldown not finished
+            }
+            
+            lastShotTime = currentTime;
             spawnBullet();
         }
         
@@ -612,15 +635,28 @@
             switch(e.key) {
                 case 'ArrowLeft':
                     e.preventDefault();
-                    movePlayer('left');
+                    player.moving.left = true;
                     break;
                 case 'ArrowRight':
                     e.preventDefault();
-                    movePlayer('right');
+                    player.moving.right = true;
                     break;
                 case ' ':
                     e.preventDefault();
                     shoot();
+                    break;
+            }
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    player.moving.left = false;
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    player.moving.right = false;
                     break;
             }
         });
