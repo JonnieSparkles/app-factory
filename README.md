@@ -1,13 +1,13 @@
 # App-Factory (Dynamic Agentic Deployment System)
 
-A modular deployment pipeline that AI agents can connect to for autonomous development workflows. Compatible with any AI agent that can submit PRs - designed for both refining existing applications and rapidly prototyping new ones.
+A modular deployment pipeline that lets AI agents and developers autonomously manage and refine applications via PR-based workflows. Designed for rapid prototyping and seamless updates, it features dynamic deployments where only changed files are to Arweave. Compatible with any AI agent or tool that can submit pull requests.
 
 ## Core Value Proposition
 
 This system is a pipeline of **modular, optional components** that work together:
 
 1. **App-Factory Integration** - Compatible with any AI agent that can submit PRs with configurable branch prefix workflows
-2. **Dynamic Deployment** - Only changed files are re-uploaded to Arweave, reducing costs and deployment time
+2. **[Dynamic Deployment](./docs/DYNAMIC_DEPLOYMENT.md)** - Only changed files are re-uploaded to Arweave, reducing costs and deployment time
 3. **ArNS Smart Domains** - Assigns smart, human-readable undernames on Arweave for each deployment (recommended for easier access and management)
 4. **Announcement System** - Completed work is automatically announced with deployment details
 
@@ -260,8 +260,8 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 
 ## Documentation
 
-- [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) - Complete configuration
-- [Technical Implementation](./docs/DYNAMIC_DEPLOYMENT.md) - How dynamic deployment works
+- [AI Setup Guide](./docs/REMOTE_AGENT_SETUP.md) - Complete AI configuration
+- [Dynamic Deployment](./docs/DYNAMIC_DEPLOYMENT.md) - How dynamic deployment works
 - [Edge Cases & Troubleshooting](./docs/DEPLOYMENT_SCENARIOS_AND_EDGE_CASES.md) - Comprehensive deployment scenarios
 
 ## Contributing

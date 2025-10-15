@@ -1,16 +1,27 @@
-# Dynamic Arweave Deployment
+# Dynamic Deployment
 
 Deploys only changed files to Arweave using hash-based detection, saving costs and time. This system can be used as part of the full remote agent deployment suite or as a standalone deployment engine.
 
 ## Table of Contents
 
-- [How It Works](#how-it-works)
-- [Usage Options](#usage-options)
-  - [Full System (with Auto Actions)](#full-system-with-auto-actions)
-  - [Standalone Deployment Engine](#standalone-deployment-engine)
-- [File Structures](#file-structures)
-- [Example Workflow](#example-workflow)
-- [Implementation Details](#implementation-details)
+- [Dynamic Deployment](#dynamic-deployment)
+  - [Table of Contents](#table-of-contents)
+  - [How It Works](#how-it-works)
+    - [Benefits](#benefits)
+  - [Usage Options](#usage-options)
+    - [1. Full System (with GitHub Actions Automation)](#1-full-system-with-github-actions-automation)
+    - [2. Standalone Deployment Engine](#2-standalone-deployment-engine)
+  - [File Structures](#file-structures)
+    - [Arweave Manifest](#arweave-manifest)
+    - [Deployment Tracker](#deployment-tracker)
+    - [Manual Overrides](#manual-overrides)
+  - [Example Workflow](#example-workflow)
+  - [Key Benefits](#key-benefits)
+  - [Implementation Details](#implementation-details)
+    - [Change Detection Flow](#change-detection-flow)
+    - [Full System Integration](#full-system-integration)
+    - [Standalone Integration](#standalone-integration)
+    - [Key Classes and Methods](#key-classes-and-methods)
 
 ## How It Works
 
