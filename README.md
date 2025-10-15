@@ -1,6 +1,6 @@
 # App-Factory (Dynamic Agentic Deployment System)
 
-A modular deployment pipeline that lets AI agents and developers autonomously manage and refine applications via PR-based workflows. Designed for rapid prototyping and seamless updates, it features dynamic deployments where only changed files are to Arweave. Compatible with any AI agent or tool that can submit pull requests.
+A modular deployment pipeline that lets AI agents and developers autonomously manage and refine applications via PR-based workflows. Designed for rapid prototyping and seamless updates, it features dynamic deployments where only changed files are uploaded to Arweave. Compatible with any AI agent or tool that can submit pull requests.
 
 ## Core Value Proposition
 
