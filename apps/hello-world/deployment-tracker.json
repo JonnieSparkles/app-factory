@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "ea20d0cfc3f5439e",
-  "lastDeployed": "2025-10-15T18:15:37.391Z",
-  "deploymentCount": 16,
+  "lastDeployCommit": "8d2e36f2825641d6",
+  "lastDeployed": "2025-10-15T18:22:01.411Z",
+  "deploymentCount": 17,
   "fileHashes": {
     "hello-world.txt": {
-      "oid": "8f4b2a083540e4ab9d6629f2bbcc84d33647ed53",
+      "oid": "ea93438a30bb55a79e1b4dadacb2eb5500dcc01c",
       "type": "blob",
       "object": {
         "0": 98,
@@ -14,7 +14,7 @@
         "3": 98,
         "4": 32,
         "5": 51,
-        "6": 55,
+        "6": 54,
         "7": 0,
         "8": 104,
         "9": 101,
@@ -35,29 +35,36 @@
         "24": 111,
         "25": 100,
         "26": 32,
-        "27": 109,
-        "28": 111,
-        "29": 111,
-        "30": 111,
-        "31": 111,
-        "32": 114,
-        "33": 110,
-        "34": 105,
+        "27": 97,
+        "28": 102,
+        "29": 116,
+        "30": 101,
+        "31": 114,
+        "32": 110,
+        "33": 111,
+        "34": 111,
         "35": 110,
-        "36": 103,
-        "37": 32,
-        "38": 119,
-        "39": 111,
-        "40": 114,
-        "41": 108,
-        "42": 100,
-        "43": 33,
-        "44": 33
+        "36": 32,
+        "37": 119,
+        "38": 111,
+        "39": 114,
+        "40": 108,
+        "41": 100,
+        "42": 33,
+        "43": 33
       },
       "format": "wrapped"
     }
   },
   "recentDeployments": [
+    {
+      "commit": "8d2e36f2825641d6",
+      "manifestTxId": "cPp27Swhl3MrlCJEMZmVJIPRVgq7TKfm2Tlroi4SXWc",
+      "changedFiles": [
+        "hello-world.txt"
+      ],
+      "deployed": "2025-10-15T18:22:01.411Z"
+    },
     {
       "commit": "ea20d0cfc3f5439e",
       "manifestTxId": "ps94nlLvVAP_U4M2pVtRoq3j6yjrhgktdkYHRlo4lM4",
@@ -73,14 +80,6 @@
         "hello-world.txt"
       ],
       "deployed": "2025-10-15T18:09:14.191Z"
-    },
-    {
-      "commit": "a3f4f2cca4cf71fc",
-      "manifestTxId": "test-manifest-1760550015949",
-      "changedFiles": [
-        "hello-world.txt"
-      ],
-      "deployed": "2025-10-15T17:40:15.957Z"
     }
   ]
 }
