@@ -119,7 +119,7 @@ node deploy.js --content "Hello, World!"
 - Works with shallow git clones
 - Handles renames, moves, and deletions automatically
 
-See [Technical Documentation](./docs/DYNAMIC_ARWEAVE_DEPLOYMENT.md) for implementation details.
+See [Dynamic Deployment Guide](./docs/DYNAMIC_DEPLOYMENT.md) for implementation details and standalone usage options.
 
 ## Environment Variables
 
@@ -277,7 +277,7 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 
 - [Remote Agent Setup](./docs/REMOTE_AGENT_SETUP.md) - Full configuration guide
 - [Workflow Documentation](./docs/WORKFLOW_DOCUMENTATION.md) - Detailed workflow reference
-- [Dynamic Deployment](./docs/DYNAMIC_ARWEAVE_DEPLOYMENT.md) - Technical implementation
+- [Dynamic Deployment](./docs/DYNAMIC_DEPLOYMENT.md) - Full system and standalone usage
 - [Environment Template](./env.example) - Variable reference
 
 ## Dependencies
