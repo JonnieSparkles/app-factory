@@ -1,4 +1,4 @@
-# Remote Agent Deployment System
+# App-Factory Agentic Deployment System
 
 A modular deployment pipeline that AI agents can connect to for autonomous development workflows. Compatible with any AI agent that can submit PRs - designed for both refining existing applications and rapidly prototyping new ones.
 
