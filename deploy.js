@@ -612,7 +612,12 @@ Examples:
           process.exit(0);
           break;
         default:
-          if (!arg.startsWith('-')) {
+          if (arg.startsWith('-')) {
+            // Unknown flag - show error and exit
+            console.error(`❌ Unknown option: ${arg}`);
+            console.error(`💡 Use --help to see available options`);
+            process.exit(1);
+          } else {
             // Treat as content if no flag
             options.content = arg;
           }
@@ -620,22 +625,81 @@ Examples:
       }
     }
 
-    // Deploy the file (legacy behavior)
-    const result = await deployFile(options);
+    // Check if filePath is a parent directory with multiple apps
+    // Only do this if the path ends with a common parent directory name
+    const isCommonParentDir = options.filePath && (
+      options.filePath.endsWith('apps/') || 
+      options.filePath.endsWith('apps') ||
+      options.filePath === 'apps'
+    );
     
-    if (!result.success) {
-      console.error(`❌ Deployment failed: ${result.error}`);
-      process.exit(1);
-    }
-
-    if (result.dryRun) {
-      console.log(`🔍 Dry run completed successfully`);
-    } else if (result.skipped) {
-      console.log(`✅ No changes detected - deployment not needed`);
-    } else if (result.alreadyDeployed) {
-      console.log(`✅ File already deployed with this content`);
+    if (isCommonParentDir && await isParentDirectory(options.filePath)) {
+      console.log(`📁 Detected parent directory: ${options.filePath}`);
+      console.log(`🚀 Deploying all apps in directory...`);
+      
+      const subdirs = await getSubdirectories(options.filePath);
+      if (subdirs.length === 0) {
+        console.log(`⚠️ No subdirectories found in ${options.filePath}`);
+        process.exit(1);
+      }
+      
+      console.log(`📋 Found ${subdirs.length} app(s) to deploy:`);
+      subdirs.forEach(dir => console.log(`   - ${path.basename(dir)}`));
+      console.log('');
+      
+      let successCount = 0;
+      let totalCount = subdirs.length;
+      
+      for (const subdir of subdirs) {
+        const appName = path.basename(subdir);
+        console.log(`📁 Deploying app: ${appName}`);
+        console.log('----------------------------------------');
+        
+        const appOptions = { ...options, filePath: subdir };
+        const result = await deployFile(appOptions);
+        
+        if (result.success) {
+          if (result.skipped) {
+            console.log(`⏭️ App ${appName} had no changes - skipped`);
+          } else {
+            console.log(`✅ App ${appName} deployed successfully`);
+            successCount++;
+          }
+        } else {
+          console.error(`❌ App ${appName} failed: ${result.error}`);
+        }
+        console.log('');
+      }
+      
+      console.log(`📊 Deployment Summary:`);
+      console.log(`   📁 Total apps: ${totalCount}`);
+      console.log(`   ✅ Successful: ${successCount}`);
+      console.log(`   ⏭️ Skipped: ${totalCount - successCount}`);
+      
+      if (successCount > 0) {
+        console.log(`✅ Deployments completed successfully!`);
+      } else {
+        console.log(`✅ All apps checked - no changes detected`);
+      }
+      
     } else {
-      console.log(`✅ Deployment completed successfully`);
+      // Deploy single file/directory
+      const result = await deployFile(options);
+      
+      if (!result.success) {
+        console.error(`❌ Deployment failed: ${result.error}`);
+        process.exit(1);
+      }
+
+      if (result.dryRun) {
+        console.log(`🔍 Dry run completed successfully`);
+      } else if (result.skipped) {
+        console.log(`✅ No changes detected - deployment not needed`);
+      } else if (result.alreadyDeployed) {
+        console.log(`✅ File already deployed with this content`);
+      } else {
+        console.log(`✅ Deployment completed successfully`);
+      }
     }
 
   } catch (error) {
@@ -646,10 +710,43 @@ Examples:
 
 // Run CLI if this file is executed directly
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path, { dirname } from 'path';
+import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Helper function to check if a path is a parent directory with multiple subdirectories
+async function isParentDirectory(dirPath) {
+  try {
+    const stat = await fs.stat(dirPath);
+    if (!stat.isDirectory()) {
+      return false;
+    }
+    
+    const entries = await fs.readdir(dirPath, { withFileTypes: true });
+    const subdirs = entries.filter(entry => entry.isDirectory());
+    
+    // Consider it a parent directory if it has 2+ subdirectories
+    return subdirs.length >= 2;
+  } catch (error) {
+    return false;
+  }
+}
+
+// Helper function to get all subdirectories
+async function getSubdirectories(dirPath) {
+  try {
+    const entries = await fs.readdir(dirPath, { withFileTypes: true });
+    const subdirs = entries
+      .filter(entry => entry.isDirectory())
+      .map(entry => path.join(dirPath, entry.name));
+    
+    return subdirs;
+  } catch (error) {
+    return [];
+  }
+}
 
 if (process.argv[1] === __filename) {
   main();
