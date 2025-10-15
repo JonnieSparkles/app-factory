@@ -22,3 +22,4 @@ For large files or sensitive data, you can upload them using external tools (ArD
 - Maintains existing TXID override capability for advanced use cases
 - Backward compatible with current workflow
 - Would simplify the workflow for users who need to include non-git files without the complexity of manual TXID management
+- Would only work for local / manual deployments however as non-git files would not be available for GitHub actions
