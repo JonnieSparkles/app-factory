@@ -34,14 +34,6 @@
   },
   "recentDeployments": [
     {
-      "commit": "a3f4f2cca4cf71fc",
-      "manifestTxId": "test-manifest-1760550015949",
-      "changedFiles": [
-        "hello-world.txt"
-      ],
-      "deployed": "2025-10-15T17:40:15.957Z"
-    },
-    {
       "commit": "e0f32b4b9e4633b5",
       "manifestTxId": "vX60FxbZbkYt9ONYl9nddF11l_kwU3UBFG8JqKhhqGQ",
       "changedFiles": [
