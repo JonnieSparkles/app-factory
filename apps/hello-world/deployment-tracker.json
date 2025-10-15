@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "8d2e36f2825641d6",
-  "lastDeployed": "2025-10-15T18:22:01.411Z",
-  "deploymentCount": 17,
+  "lastDeployCommit": "ac3b3277393b111c",
+  "lastDeployed": "2025-10-15T18:27:02.412Z",
+  "deploymentCount": 18,
   "fileHashes": {
     "hello-world.txt": {
-      "oid": "ea93438a30bb55a79e1b4dadacb2eb5500dcc01c",
+      "oid": "08ff7b211fa44bad4a2d58593f3407d9d7f28751",
       "type": "blob",
       "object": {
         "0": 98,
@@ -13,8 +13,8 @@
         "2": 111,
         "3": 98,
         "4": 32,
-        "5": 51,
-        "6": 54,
+        "5": 52,
+        "6": 50,
         "7": 0,
         "8": 104,
         "9": 101,
@@ -45,18 +45,32 @@
         "34": 111,
         "35": 110,
         "36": 32,
-        "37": 119,
-        "38": 111,
-        "39": 114,
-        "40": 108,
-        "41": 100,
-        "42": 33,
-        "43": 33
+        "37": 97,
+        "38": 103,
+        "39": 97,
+        "40": 105,
+        "41": 110,
+        "42": 32,
+        "43": 119,
+        "44": 111,
+        "45": 114,
+        "46": 108,
+        "47": 100,
+        "48": 33,
+        "49": 33
       },
       "format": "wrapped"
     }
   },
   "recentDeployments": [
+    {
+      "commit": "ac3b3277393b111c",
+      "manifestTxId": "uVEKGJ5TGxfjlD34MsDDjc_vf1j9zooFf0U2h0_69uM",
+      "changedFiles": [
+        "hello-world.txt"
+      ],
+      "deployed": "2025-10-15T18:27:02.412Z"
+    },
     {
       "commit": "8d2e36f2825641d6",
       "manifestTxId": "cPp27Swhl3MrlCJEMZmVJIPRVgq7TKfm2Tlroi4SXWc",
@@ -72,14 +86,6 @@
         "hello-world.txt"
       ],
       "deployed": "2025-10-15T18:15:37.391Z"
-    },
-    {
-      "commit": "e7c24db34aeb5cba",
-      "manifestTxId": "Ve-wJkbMzoA97cOCWGFdhifOX6uwW2rxg1lB_t_pryo",
-      "changedFiles": [
-        "hello-world.txt"
-      ],
-      "deployed": "2025-10-15T18:09:14.191Z"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "8d2e36f2825641d6",
-  "lastDeployed": "2025-10-15T18:22:43.201Z",
-  "deploymentCount": 6,
+  "lastDeployCommit": "ac3b3277393b111c",
+  "lastDeployed": "2025-10-15T18:27:33.988Z",
+  "deploymentCount": 7,
   "fileHashes": {
     "index.html": {
       "oid": "50453ca5481a8dc4fcfa811b9f1b22968570ec3c",
@@ -80824,6 +80824,15 @@
   },
   "recentDeployments": [
     {
+      "commit": "ac3b3277393b111c",
+      "manifestTxId": "gCFG_2eskoap-FvQuN2QkrHcvkipH6m6tYPXUWbBkbE",
+      "changedFiles": [
+        "index.html",
+        "meatloaf.jpg"
+      ],
+      "deployed": "2025-10-15T18:27:33.988Z"
+    },
+    {
       "commit": "8d2e36f2825641d6",
       "manifestTxId": "KKKnfEh2g3Fo76KTiqVml9Imfi7za4nk8J0I0bKzY-A",
       "changedFiles": [
@@ -80840,15 +80849,6 @@
         "meatloaf.jpg"
       ],
       "deployed": "2025-10-15T18:16:21.087Z"
-    },
-    {
-      "commit": "e7c24db34aeb5cba",
-      "manifestTxId": "QJcmQjPxOMvnnpBJ6FMvOMRWz3Q6Lt4jjWmE1cv-jbE",
-      "changedFiles": [
-        "index.html",
-        "meatloaf.jpg"
-      ],
-      "deployed": "2025-10-15T18:09:38.119Z"
     }
   ]
 }
