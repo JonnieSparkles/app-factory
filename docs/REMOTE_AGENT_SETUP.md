@@ -1,6 +1,8 @@
 # Remote Agent Setup Guide
 
-**Complete configuration for AI agents (Cursor, GitHub Actions, etc.)**
+**How to connect your AI agent (Cursor, etc.) to this deployment pipeline**
+
+This repository is a deployment pipeline that accepts PRs from AI agents. Configure your agent to submit PRs to this repo and the system will automatically validate, merge, and deploy your changes.
 
 ## Environment Variables
 
@@ -35,6 +37,8 @@ REPO_TOKEN=your_github_personal_access_token
 
 ## Testing Agent Access
 
+Test if your agent can access the deployment commands:
+
 ```bash
 # Check if environment variables are accessible
 node -e "console.log('ANT_PROCESS_ID:', process.env.ANT_PROCESS_ID ? 'SET' : 'NOT SET')"
@@ -50,6 +54,8 @@ node deploy.js --stats
 ```
 
 ## Deployment Commands
+
+Commands your AI agent can use once connected to this pipeline:
 
 ### Basic Commands
 

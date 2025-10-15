@@ -1,36 +1,31 @@
 # Remote Agent Deployment System
 
-A modular deployment pipeline for AI-driven development workflows. Designed for both refining existing applications and rapidly prototyping new ones.
+A modular deployment pipeline that AI agents can connect to for autonomous development workflows. Compatible with any AI agent that can submit PRs - designed for both refining existing applications and rapidly prototyping new ones.
 
 ## Core Value Proposition
 
 This system is a pipeline of **modular, optional components** that work together:
 
-1. **Remote Agent Integration** - Compatible with configurable agent branch prefix workflows for autonomous development
+1. **Remote Agent Integration** - Compatible with any AI agent that can submit PRs with configurable branch prefix workflows
 2. **Dynamic Deployment** - Only changed files are re-uploaded to Arweave, reducing costs and deployment time
-3. **ArNS Smart Domains** - Assigns smart, human-readable subdomains on Arweave for each deployment (recommended for easier access and management)
+3. **ArNS Smart Domains** - Assigns smart, human-readable undernames on Arweave for each deployment (recommended for easier access and management)
 4. **Announcement System** - Completed work is automatically announced with deployment details
 
 ## Full Agent Mode
 
-Enables continuous development cycles for both refining existing sites/apps and creating new proofs-of-concept:
+Enables continuous development cycles where AI agents submit PRs for both refining existing sites/apps and creating new proofs-of-concept:
 
 ```
-Prompt → Create → Push to Git → Auto-merge → Deploy → Announce → Repeat
+AI Agent → Create → Submit PR → Auto-Merge → Publish to Arweave → Assign ArNS Undername → Announce → Ready for Next Task
 ```
 
-The agent autonomously:
+The connected AI agent autonomously:
 - Creates feature branches and implements changes
 - Pushes to GitHub where auto-merge validates and merges PRs
-- Triggers deployment to Arweave with permanent storage (via GitHub Actions)
-- Assigns human-readable ArNS subdomains (commit-hash based)
+- Triggers deployment to Arweave with permanent storage
+- Assigns human-readable ArNS undernames (commit-hash based)
 - Announces completed deployments with live URLs
 - Ready for next iteration
-
-**GitHub Actions Pipeline:**
-1. **Auto-merge** - Merges agent PRs automatically
-2. **Deploy** - Deploys changed apps to Arweave
-3. **Announce** - Sends Discord notifications
 
 ## Quick Start
 
@@ -41,31 +36,24 @@ The agent autonomously:
    node deploy.js --file path/to/file.html          # Single file
    node deploy.js --file path/to/app/               # Directory (dynamic)
    ```
-4. Or let the AI agent handle the workflow automatically
+4. Or connect your AI agent to handle the workflow automatically
 
 ## Architecture
 
 ```
 Local Development
     ↓
-AI Agent → Branch → Changes → PR
+AI Agent → Branch → Changes → Submit PR
     ↓
-GitHub Actions: Auto-merge (validates & merges)
+Auto-Merge (validates & merges)
     ↓
-GitHub Actions: Deploy (dynamic: only changed files)
+Deploy (dynamic: only changed files)
     ↓
 Arweave (permanent storage)
     ↓
-ArNS (subdomain: commit-hash_your-domain.ar.io)
+ArNS (undername: commit-hash_your-domain.ar.io)
     ↓
-GitHub Actions: Announce (Discord notifications)
-```
-
-**Manual Alternative:**
-```
-node deploy.js --file apps/my-app/
-    ↓
-Direct deployment (no automation)
+Announce (optional Discord notification)
 ```
 
 ## Key Components
@@ -75,7 +63,7 @@ All components are modular and optional:
 - **Dynamic Deployment**: Hash-based change detection uploads only modified files
 - **Auto-Merge Workflow**: Validates and merges agent PRs automatically (configurable branch prefix)
 - **Conditional Triggering**: Only deploys when `apps/` directory changes
-- **ArNS Integration**: Automatic subdomain assignment using commit hashes
+- **ArNS Integration**: Automatic undername assignment using commit hashes
 - **Announcement System**: Posts deployment details to Discord
 
 ## Deployment Methods
@@ -84,7 +72,7 @@ All components are modular and optional:
 ```bash
 node deploy.js --file path/to/file.html
 ```
-Deploys a single file to Arweave with ArNS subdomain.
+Deploys a single file to Arweave with ArNS undername.
 
 ### Directory Deployment (Dynamic)
 ```bash
@@ -118,7 +106,7 @@ node deploy.js --content "Hello, World!"
 3. Hashes compared with `deployment-tracker.json`
 4. Only changed files uploaded to Arweave
 5. Manifest updated and uploaded
-6. ArNS record created with commit hash subdomain
+6. ArNS record created with commit hash undername
 7. Tracking files committed to repository
 
 **Tracking Files** (auto-created):
@@ -131,33 +119,11 @@ node deploy.js --content "Hello, World!"
 - Works with shallow git clones
 - Handles renames, moves, and deletions automatically
 
-See [Dynamic Deployment Guide](./docs/DYNAMIC_DEPLOYMENT.md) for implementation details and standalone usage options.
+See [Technical Documentation](./docs/DYNAMIC_DEPLOYMENT.md) for implementation details.
 
 ## Environment Variables
 
-Required:
-```env
-ANT_PROCESS_ID=your-ant-process-id
-OWNER_ARNS_NAME=your-domain
-WALLET_ADDRESS=your-wallet-address
-
-# Wallet (choose one)
-ARWEAVE_JWK_JSON={"kty":"RSA",...}
-# OR
-ARWEAVE_WALLET_PATH=./secrets/wallet.json
-```
-
-Optional:
-```env
-ARNS_UNDERNAME_TTL=60
-TURBO_USE_SHARED_CREDITS=true  # Auto-use shared credit approvals
-
-# GitHub Actions Configuration (Required for auto-merge)
-TRUSTED_USERS=JonnieSparkles,AnotherUser  # Comma-separated list of trusted usernames
-AGENT_BRANCH_PREFIX=cursor/  # Prefix for AI agent branches (auto-merge only processes these)
-```
-
-See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for full configuration.
+See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for complete configuration.
 
 ## Security
 
@@ -174,24 +140,18 @@ TURBO_USE_SHARED_CREDITS=true
 Keep your primary wallet offline. The deployment wallet has limited revokable funds and can be rotated regularly.
 
 **General Security:**
-- Never commit wallet files to git (use .gitignore)
+- Never commit wallet files to git
 - Use environment variables for secrets
 - Store sensitive values in GitHub Secrets for CI/CD
 - Rotate deployment wallet keys regularly
 
 ### GitHub Secrets Configuration
 
-For the auto-merge workflow to work, configure these secrets in your GitHub repository:
+Configure repository secrets for auto-merge:
+- `TRUSTED_USERS` - Comma-separated GitHub usernames for auto-merge
+- `AGENT_BRANCH_PREFIX` - Branch prefix for AI agents (default: `cursor/`)
 
-1. **Go to your repository** → Settings → Secrets and variables → Actions
-2. **Add these repository secrets:**
-   - `GITHUB_TOKEN` (usually auto-provided by GitHub)
-   - `TRUSTED_USERS` - Comma-separated list of GitHub usernames who can trigger auto-merge
-     - Example: `JonnieSparkles,AnotherUser,ThirdUser`
-     - Only PRs from these users will be auto-merged
-   - `AGENT_BRANCH_PREFIX` - Prefix for AI agent branches (optional, defaults to `cursor/`)
-     - Example: `cursor/`, `ai/`, `bot/`, `agent/`
-     - Only branches starting with this prefix will be auto-merged
+See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for complete list.
 
 ## GitHub Actions Integration
 
@@ -212,28 +172,27 @@ Three workflows:
 - Posts deployment details to Discord
 - Manually triggered or called from deploy workflow
 
-## AI Agent Workflow
+## AI Agent Integration
 
-The agent follows this sequence:
+This system accepts PRs from AI agents and automatically processes them:
 
-1. **Make Updates** - Implement requested changes
-2. **Test** - Verify changes work (if appropriate)
-3. **Deploy** - Run deployment command
-4. **Announce** - Post completion notice (if requested)
+1. **Connect Your Agent** - Configure your AI agent (Cursor, etc.) to submit PRs to this repo
+2. **Automated Processing** - System validates and auto-merges PRs from trusted agents  
+3. **Deploy Changes** - Automatically deploys merged changes to Arweave
+4. **Announce Results** - Optionally posts deployment details
 
-**Commands Available:**
+**Commands for your AI agent:**
 ```bash
-node deploy.js --file <path>        # Deploy file or directory
-node deploy.js --content <text>     # Deploy content directly
-node deploy.js --test-mode          # Dry run
-node deploy.js --logs               # View history
+node deploy.js --file <path>     # Deploy file/directory
+node deploy.js --test-mode       # Dry run
+node deploy.js --logs            # View history
+node deploy.js --stats           # Deployment statistics
 ```
 
-The system automatically:
-- Detects file vs directory
-- Uses dynamic deployment for directories
-- Creates ArNS records with commit-hash subdomains
-- Logs all deployments
+### Auto-Deploy Behavior
+- **Apps changes**: When agent submits PR with apps/ changes → Auto-merge → Deploy workflow triggered
+- **Non-app changes**: When agent submits PR with only docs/etc → Auto-merge only, no deployment
+- **Manual trigger**: Repository owner can deploy all apps regardless of changes
 
 ## Project Structure
 
@@ -257,7 +216,7 @@ The system automatically:
 ## Monitoring
 
 - **GitHub Actions**: Real-time workflow status
-- **Deployment Logs**: `logs/deployments.json` with last 10 deployments
+- **Deployment Logs**: `logs/deployments.json` with last 50 deployments
 - **Statistics**: `node deploy.js --stats`
 
 ## Troubleshooting
@@ -287,13 +246,12 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 
 ## Documentation
 
-- [Remote Agent Setup](./docs/REMOTE_AGENT_SETUP.md) - Full configuration guide
-- [Workflow Documentation](./docs/WORKFLOW_DOCUMENTATION.md) - Detailed workflow reference
-- [Dynamic Deployment](./docs/DYNAMIC_DEPLOYMENT.md) - Full system and standalone usage
-- [Environment Template](./env.example) - Variable reference
+- [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) - Complete configuration
+- [Technical Implementation](./docs/DYNAMIC_DEPLOYMENT.md) - How dynamic deployment works
+- [Edge Cases & Troubleshooting](./docs/DEPLOYMENT_SCENARIOS_AND_EDGE_CASES.md) - Comprehensive deployment scenarios
 
 ## Dependencies
 
 - `@ardrive/turbo-sdk` - Arweave uploads with fiat payments
-- `@ar.io/sdk` - ArNS management
+- `@ar.io/sdk` - ArNS name system management
 - `dotenv` - Environment configuration

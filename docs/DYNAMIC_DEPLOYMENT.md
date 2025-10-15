@@ -128,7 +128,7 @@ deploy().catch(console.error);
 ```
 
 **What you get:**
-- ✅ Incremental deployments (only changed files)
+- ✅ Dynamic deployments (only changed files)
 - ✅ Git integration (commit hashes as ArNS names)
 - ✅ ArNS integration (automatic domain-like naming)
 - ✅ Manifest management (handles complex multi-file apps)
