@@ -20,7 +20,7 @@
     "agentic",
     "deployment"
   ],
-  "author": "",
+  "author": "JonnieSparkles",
   "license": "MIT",
   "dependencies": {
     "@ardrive/turbo-sdk": "^1.32.0",

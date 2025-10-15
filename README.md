@@ -264,6 +264,10 @@ See [Setup Guide](./docs/REMOTE_AGENT_SETUP.md) for detailed troubleshooting.
 - [Technical Implementation](./docs/DYNAMIC_DEPLOYMENT.md) - How dynamic deployment works
 - [Edge Cases & Troubleshooting](./docs/DEPLOYMENT_SCENARIOS_AND_EDGE_CASES.md) - Comprehensive deployment scenarios
 
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
 ## Dependencies
 
 - `@ardrive/turbo-sdk` - Arweave uploads with fiat payments
