@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T21:01:06.629Z",
-    "success": true,
-    "filePath": "apps/arcade",
-    "commitHash": "64099158e3ca0149",
-    "txId": "yqSsn7961Wdxbe69d5YBcN06n1fjIjtlujdWUXuvVoY",
-    "manifestTxId": "yqSsn7961Wdxbe69d5YBcN06n1fjIjtlujdWUXuvVoY",
-    "undername": "64099158e3ca0149",
-    "fileSize": 180986,
-    "duration": 25933,
-    "deploymentType": "dynamic",
-    "changedFiles": 9,
-    "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-15T21:03:03.031Z",
-    "success": true,
-    "filePath": "apps/hello-world",
-    "commitHash": "64099158e3ca0149",
-    "txId": "nFD12ng_GxxV0oeUVbNFv9Biu5aCeSWcwgIcI-Fz-9E",
-    "manifestTxId": "nFD12ng_GxxV0oeUVbNFv9Biu5aCeSWcwgIcI-Fz-9E",
-    "undername": "64099158e3ca0149",
-    "fileSize": 41,
-    "duration": 7453,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T21:03:24.068Z",
     "success": true,
     "filePath": "apps/nsync-fanpage",
@@ -139,5 +111,29 @@
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-16T19:55:07.156Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "be43f76b492beb56",
+    "txId": "test-manifest-1760644507089",
+    "manifestTxId": "test-manifest-1760644507089",
+    "undername": "be43f76b492beb56",
+    "fileSize": 35,
+    "duration": 186,
+    "testMode": true,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-16T19:55:23.459Z",
+    "success": false,
+    "error": "Dynamic deployment failed: Failed to create deployment commit: Git state validation failed: The function requires a \"filepath\" parameter but none was provided.",
+    "context": "Dynamic directory deployment for 'apps/hello-world/': ",
+    "duration": 64265,
+    "filePath": "apps/hello-world/",
+    "deploymentType": "dynamic"
   }
 ]
