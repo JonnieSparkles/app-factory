@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T21:57:25.938Z",
-    "success": true,
-    "filePath": "apps/hello-world",
-    "commitHash": "04268962cac65312",
-    "txId": "DX0qLTy_jOgQiwNQH-NhKfgf4lfGGiZTAf57PD-a8rM",
-    "manifestTxId": "DX0qLTy_jOgQiwNQH-NhKfgf4lfGGiZTAf57PD-a8rM",
-    "undername": "04268962cac65312",
-    "fileSize": 24,
-    "duration": 32418,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T22:04:20.678Z",
     "success": true,
     "filePath": "apps/hello-world",
@@ -113,6 +99,15 @@
     "error": "Dynamic deployment failed: Not in a git repository. Dynamic deployment requires git.",
     "context": "Dynamic directory deployment for 'apps/hello-world/': ",
     "duration": 99,
+    "filePath": "apps/hello-world/",
+    "deploymentType": "dynamic"
+  },
+  {
+    "timestamp": "2025-10-16T20:22:49.660Z",
+    "success": false,
+    "error": "Dynamic deployment failed: Failed to create deployment commit: Git state validation failed: The function requires a \"filepath\" parameter but none was provided.",
+    "context": "Dynamic directory deployment for 'apps/hello-world/': ",
+    "duration": 40484,
     "filePath": "apps/hello-world/",
     "deploymentType": "dynamic"
   }
