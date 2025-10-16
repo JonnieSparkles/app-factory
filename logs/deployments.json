@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T21:03:24.068Z",
-    "success": true,
-    "filePath": "apps/nsync-fanpage",
-    "commitHash": "64099158e3ca0149",
-    "txId": "Wy6sshwFIRaqTBIIdwXenSVHYpO9aoPObGXsO0ppkgs",
-    "manifestTxId": "Wy6sshwFIRaqTBIIdwXenSVHYpO9aoPObGXsO0ppkgs",
-    "undername": "64099158e3ca0149",
-    "fileSize": 17074,
-    "duration": 20004,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-15T21:03:34.938Z",
-    "success": true,
-    "filePath": "apps/recipe-cookbook",
-    "commitHash": "64099158e3ca0149",
-    "txId": "_GprMVoOFIa1i_l-4lmNDVJ6rWdJ2B2GreySPyxb9fQ",
-    "manifestTxId": "_GprMVoOFIa1i_l-4lmNDVJ6rWdJ2B2GreySPyxb9fQ",
-    "undername": "64099158e3ca0149",
-    "fileSize": 80781,
-    "duration": 9867,
-    "deploymentType": "dynamic",
-    "changedFiles": 2,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T21:07:25.667Z",
     "success": true,
     "filePath": "apps/hello-world",
@@ -133,6 +105,24 @@
     "error": "Dynamic deployment failed: Failed to create deployment commit: Git state validation failed: The function requires a \"filepath\" parameter but none was provided.",
     "context": "Dynamic directory deployment for 'apps/hello-world/': ",
     "duration": 64265,
+    "filePath": "apps/hello-world/",
+    "deploymentType": "dynamic"
+  },
+  {
+    "timestamp": "2025-10-16T20:01:44.570Z",
+    "success": false,
+    "error": "Dynamic deployment failed: logger.clearSpinner is not a function",
+    "context": "Dynamic directory deployment for 'apps/hello-world/': ",
+    "duration": 653,
+    "filePath": "apps/hello-world/",
+    "deploymentType": "dynamic"
+  },
+  {
+    "timestamp": "2025-10-16T20:03:14.385Z",
+    "success": false,
+    "error": "Dynamic deployment failed: Failed to create deployment commit: Git state validation failed: The function requires a \"filepath\" parameter but none was provided.",
+    "context": "Dynamic directory deployment for 'apps/hello-world/': ",
+    "duration": 43345,
     "filePath": "apps/hello-world/",
     "deploymentType": "dynamic"
   }
