@@ -179,6 +179,14 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
+          # Wait for any existing git lock to be released (prevent corruption)
+          # This prevents conflicts with bot's git operations that use .git/deployment.lock
+          echo "🔒 Checking for git locks..."
+          while [ -f ".git/deployment.lock" ]; do
+            echo "⏳ Waiting for git lock to be released..."
+            sleep 2
+          done
+          
           # Add deployment logs if they exist
           if [ -f "logs/deployments.json" ]; then
             git add logs/
