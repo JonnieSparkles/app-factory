@@ -1,14 +1,25 @@
 {
   "trackerVersion": "1.0.0",
-  "lastDeployCommit": "acf1411749524ccd",
-  "lastDeployed": "2025-10-15T22:37:42.835Z",
-  "deploymentCount": 3,
+  "lastDeployCommit": "c5654699a324ef5b",
+  "lastDeployed": "2025-10-16T23:43:55.510Z",
+  "deploymentCount": 4,
   "fileHashes": {
-    "index.html": "c8c52e5f7730ed9b8a877d24def6fe340406b964",
+    "index.html": "03bb20ff8f558164178d016aef661b9004503eed",
     "images/meatloaf.jpg": "d95908ba493a92bc3c0173c089bcf9a468a7e06b",
-    "recipes/turkey-mushroom-meatloaf.md": "25e85be769939fb64593aa713eb2eff12e3ae97c"
+    "recipes/turkey-mushroom-meatloaf.md": "7d7792e41903a7711e6911834d4a80b6a81bea59",
+    "recipes/classic-chicken-parmesan.md": "3cd61f5f313b69c42eb5b9bd4b2688feb8ac237a"
   },
   "recentDeployments": [
+    {
+      "commit": "c5654699a324ef5b",
+      "manifestTxId": "iixEp9YcfrVlOKn8DHUBWumGorSNd-8RQfKmd_5en-4",
+      "changedFiles": [
+        "index.html",
+        "recipes/classic-chicken-parmesan.md",
+        "recipes/turkey-mushroom-meatloaf.md"
+      ],
+      "deployed": "2025-10-16T23:43:55.510Z"
+    },
     {
       "commit": "acf1411749524ccd",
       "manifestTxId": "-TKLYsXpyfnv3riDynfgmkqpXczTw33_s8t4Emxyu7A",
@@ -26,15 +37,6 @@
         "index.html"
       ],
       "deployed": "2025-10-15T21:12:23.240Z"
-    },
-    {
-      "commit": "64099158e3ca0149",
-      "manifestTxId": "_GprMVoOFIa1i_l-4lmNDVJ6rWdJ2B2GreySPyxb9fQ",
-      "changedFiles": [
-        "index.html",
-        "meatloaf.jpg"
-      ],
-      "deployed": "2025-10-15T21:03:34.935Z"
     }
   ]
 }
