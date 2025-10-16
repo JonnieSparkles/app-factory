@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-15T19:17:21.680Z",
-    "success": true,
-    "filePath": "apps/recipe-cookbook",
-    "commitHash": "b8ba7d151c52eddf",
-    "txId": "5Gpf9hJSZ52hwUokUSYWg-APxrW3sEqqqKtfRpL3pdw",
-    "manifestTxId": "5Gpf9hJSZ52hwUokUSYWg-APxrW3sEqqqKtfRpL3pdw",
-    "undername": "b8ba7d151c52eddf",
-    "fileSize": 80781,
-    "duration": 9748,
-    "deploymentType": "dynamic",
-    "changedFiles": 2,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-15T21:01:06.629Z",
     "success": true,
     "filePath": "apps/arcade",
@@ -137,6 +123,21 @@
     "duration": 85016,
     "deploymentType": "dynamic",
     "changedFiles": 2,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-16T19:47:46.861Z",
+    "success": true,
+    "filePath": "apps/hello-world",
+    "commitHash": "076a24cb89bbb529",
+    "txId": "test-manifest-1760644066806",
+    "manifestTxId": "test-manifest-1760644066806",
+    "undername": "076a24cb89bbb529",
+    "fileSize": 28,
+    "duration": 216,
+    "testMode": true,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
     "version": "0.2.0"
   }
 ]

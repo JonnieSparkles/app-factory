@@ -152,7 +152,7 @@ async function deployDirectoryFull(dirPath, options, startTime) {
           manifestTxId: result.manifestTxId,
           fileSize: result.stats.totalSize,
           duration: Date.now() - startTime,
-          ownerArnsName: result.ownerArnsName,
+          rootArnsName: result.rootArnsName,
           deploymentType: 'full',
           version: result.version
         };

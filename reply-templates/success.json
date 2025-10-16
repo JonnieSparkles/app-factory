@@ -1,10 +1,10 @@
 {
   "name": "success",
   "description": "Success template for successful deployments",
-  "template": "Success, new version deployed! 🎉\n\n🔗 https://{undername}_{ownerArnsName}.arweave.net/\n📁 File\n{filePath}\n🔑 Hash\n{undername}\n{durationLine}🔗 [View Manifest](https://arweave.net/raw/{manifestTxId})",
+  "template": "Success, new version deployed! 🎉\n\n🔗 https://{undername}_{rootArnsName}.arweave.net/\n📁 File\n{filePath}\n🔑 Hash\n{undername}\n{durationLine}🔗 [View Manifest](https://arweave.net/raw/{manifestTxId})",
   "variables": {
     "undername": "The ArNS undername (commit hash)",
-    "ownerArnsName": "The owner's ArNS name",
+    "rootArnsName": "The root ArNS name",
     "filePath": "The deployed file path",
     "duration": "Deployment duration",
     "durationLine": "Duration line (includes newline) - only shown if duration is not N/A",

@@ -38,7 +38,7 @@ jobs:
       - name: Configure environment from GitHub Secrets
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
-          OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
+          ROOT_ARNS_NAME: ${{ secrets.ROOT_ARNS_NAME }}
           WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
@@ -65,7 +65,7 @@ jobs:
         id: deploy
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
-          OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
+          ROOT_ARNS_NAME: ${{ secrets.ROOT_ARNS_NAME }}
           WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
