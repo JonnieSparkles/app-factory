@@ -29,6 +29,7 @@ import {
 import { sendDiscordNotification, testDiscordConnection, isDiscordConfigured } from './lib/discord.js';
 import { ANT, ArweaveSigner } from '@ar.io/sdk';
 import { DynamicDeployer } from './lib/dynamic-deploy.js';
+import { logger } from './lib/logger.js';
 
 // Load environment variables
 dotenv.config();
@@ -36,7 +37,7 @@ dotenv.config();
 // ---------- Dynamic Directory Deployment ----------
 async function deployDirectoryDynamic(dirPath, options, startTime) {
   try {
-    console.log(`📁 Detected directory - using dynamic deployment`);
+    logger.info(`📁 Detected directory - using dynamic deployment`);
     
     // Extract app name from directory path
     const appName = dirPath.split('/').pop() || dirPath.split('\\').pop() || 'app';
@@ -72,11 +73,11 @@ async function deployDirectoryDynamic(dirPath, options, startTime) {
       
       await logDeploymentResult(logResult);
       
-      console.log(`✅ Dynamic deployment completed for directory: ${dirPath}`);
-      console.log(`   📁 Files changed: ${result.changedFiles.length}`);
-      console.log(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
-      console.log(`   🔗 Manifest TX: ${result.manifestTxId}`);
-      console.log(`   🔗 ArNS: ${result.undername}`);
+      logger.success(`Dynamic deployment completed for directory: ${dirPath}`);
+      logger.info(`   📁 Files changed: ${result.changedFiles.length}`);
+      logger.info(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
+      logger.info(`   🔗 Manifest TX: ${result.manifestTxId}`);
+      logger.info(`   🔗 ArNS: ${result.undername}`);
       
       return logResult;
     } else if (result.skipped) {
@@ -104,7 +105,7 @@ async function deployDirectoryDynamic(dirPath, options, startTime) {
 // ---------- Full Directory Deployment (No Dynamic Optimization) ----------
 async function deployDirectoryFull(dirPath, options, startTime) {
   try {
-    console.log(`📁 Detected directory - using full deployment (no dynamic optimization)`);
+    logger.info(`📁 Detected directory - using full deployment (no dynamic optimization)`);
     
     // Extract app name from directory path
     const appName = dirPath.split('/').pop() || dirPath.split('\\').pop() || 'app';
@@ -158,8 +159,8 @@ async function deployDirectoryFull(dirPath, options, startTime) {
         
         await logDeploymentResult(logResult);
         
-        console.log(`✅ Full deployment completed for directory: ${dirPath}`);
-        console.log(`   📁 Files uploaded: ${result.stats.totalFiles}`);
+        logger.success(`Full deployment completed for directory: ${dirPath}`);
+        logger.info(`   📁 Files uploaded: ${result.stats.totalFiles}`);
         console.log(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
         console.log(`   🔗 Manifest TX: ${result.manifestTxId}`);
         console.log(`   🔗 ArNS: ${result.undername}`);
