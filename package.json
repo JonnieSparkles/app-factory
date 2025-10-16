@@ -32,5 +32,14 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "overrides": {
+    "@dha-team/arbundles": {
+      "elliptic": "^6.5.4",
+      "secp256k1": "^5.0.0"
+    },
+    "elliptic": "^6.5.4",
+    "secp256k1": "^5.0.0",
+    "ws": "^8.18.0"
   }
 }
