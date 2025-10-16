@@ -23,3 +23,19 @@ For large files or sensitive data, you can upload them using external tools (ArD
 - Backward compatible with current workflow
 - Would simplify the workflow for users who need to include non-git files without the complexity of manual TXID management
 - Would only work for local / manual deployments however as non-git files would not be available for GitHub actions
+
+## Optional Git-Free Deployment Mode
+
+**Current Limitation:** System requires git repository and git-tracked files for deployment.
+
+**Proposed Enhancement:** Add optional git-free deployment mode
+- Add `--allow-untracked` CLI flag to bypass git tracking requirements
+- Implement filesystem-based file discovery as alternative to git tracking
+- Use `.deployignore` file (similar to `.gitignore`) for security filtering
+- Default deny-list for sensitive file patterns (`.env`, `*.key`, etc.)
+- Warning system for untracked deployments
+- Separate deployment modes: `--git-mode` (default) vs `--filesystem-mode`
+- Maintains all existing functionality and security for current users
+- Enables quick prototyping and reduces barrier to entry
+- Preserves hash-based change detection benefits
+- Would only work for local/manual deployments (GitHub Actions still requires git)
