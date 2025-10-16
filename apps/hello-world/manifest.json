@@ -2,14 +2,14 @@
   "manifest": "arweave/paths",
   "version": "0.2.0",
   "index": {
-    "path": ".test/test.txt"
+    "path": ".folder-supported/test.txt"
   },
   "paths": {
     "hello-world.txt": {
       "id": "QHoa91zI60bNKxwD5pfMtSPyNMizOOdgtBrzhHPuTfo"
     },
-    ".test/test.txt": {
-      "id": "6vKMKLMJtSXwudXhH2UbuwTFjXf0883rquW3Tkk2WRU"
+    ".folder-supported/test.txt": {
+      "id": "S1IgiubfK04Cbxd2ZElNnHUZ_OEYlIBIGrWIOOFB4OM"
     },
     "gm.txt": {
       "id": "lqNBDZEEdeig-SPBM_3HIrpDfP8zy6TdjzAPK6Bg9tY"
