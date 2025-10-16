@@ -71,7 +71,7 @@ async function deployDirectoryDynamic(dirPath, options, startTime) {
         version: result.version
       };
       
-      await logDeploymentResult(logResult);
+      await logDeploymentResult(logResult, result.stats);
       
       logger.success(`Dynamic deployment completed for directory: ${dirPath}`);
       logger.info(`   📁 Files changed: ${result.changedFiles.length}`);
@@ -157,7 +157,7 @@ async function deployDirectoryFull(dirPath, options, startTime) {
           version: result.version
         };
         
-        await logDeploymentResult(logResult);
+        await logDeploymentResult(logResult, result.stats);
         
         logger.success(`Full deployment completed for directory: ${dirPath}`);
         logger.info(`   📁 Files uploaded: ${result.stats.totalFiles}`);

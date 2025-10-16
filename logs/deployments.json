@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-16T19:55:07.156Z",
-    "success": true,
-    "filePath": "apps/hello-world",
-    "commitHash": "be43f76b492beb56",
-    "txId": "test-manifest-1760644507089",
-    "manifestTxId": "test-manifest-1760644507089",
-    "undername": "be43f76b492beb56",
-    "fileSize": 35,
-    "duration": 186,
-    "testMode": true,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-16T19:55:23.459Z",
     "success": false,
     "error": "Dynamic deployment failed: Failed to create deployment commit: Git state validation failed: The function requires a \"filepath\" parameter but none was provided.",
@@ -108,6 +93,20 @@
     "duration": 111790,
     "deploymentType": "dynamic",
     "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-16T23:43:56.183Z",
+    "success": true,
+    "filePath": "apps/recipe-cookbook/",
+    "commitHash": "c5654699a324ef5b",
+    "txId": "iixEp9YcfrVlOKn8DHUBWumGorSNd-8RQfKmd_5en-4",
+    "manifestTxId": "iixEp9YcfrVlOKn8DHUBWumGorSNd-8RQfKmd_5en-4",
+    "undername": "c5654699a324ef5b_testing-testing-123",
+    "fileSize": 36310,
+    "duration": 39835,
+    "deploymentType": "dynamic",
+    "changedFiles": 3,
     "version": "0.2.0"
   }
 ]
