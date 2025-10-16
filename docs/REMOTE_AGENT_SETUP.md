@@ -28,7 +28,7 @@ Set these in your environment (Cursor settings, GitHub Secrets, etc.):
 ```env
 # Required ArNS Configuration
 ANT_PROCESS_ID=your-arns-process-id
-OWNER_ARNS_NAME=your-arns-name
+ROOT_ARNS_NAME=your-arns-name
 WALLET_ADDRESS=your-wallet-address
 
 # Wallet Configuration (choose one)

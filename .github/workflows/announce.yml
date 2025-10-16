@@ -127,7 +127,7 @@ jobs:
         if: steps.check-deployment.outputs.has_deployment == 'true'
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
-          OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
+          ROOT_ARNS_NAME: ${{ secrets.ROOT_ARNS_NAME }}
           WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

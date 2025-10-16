@@ -38,7 +38,7 @@ jobs:
       - name: Configure environment from GitHub Secrets
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
-          OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
+          ROOT_ARNS_NAME: ${{ secrets.ROOT_ARNS_NAME }}
           WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
@@ -65,7 +65,7 @@ jobs:
         id: deploy
         env:
           ANT_PROCESS_ID: ${{ secrets.ANT_PROCESS_ID }}
-          OWNER_ARNS_NAME: ${{ secrets.OWNER_ARNS_NAME }}
+          ROOT_ARNS_NAME: ${{ secrets.ROOT_ARNS_NAME }}
           WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
           ARWEAVE_JWK_JSON: ${{ secrets.ARWEAVE_JWK_JSON }}
           TURBO_PAYMENT_SERVICE_URL: ${{ secrets.TURBO_PAYMENT_SERVICE_URL }}
@@ -143,12 +143,17 @@ jobs:
             TOTAL_APPS=$((TOTAL_APPS + 1))
             
             if [ $DEPLOY_EXIT_CODE -ne 0 ]; then
-                  DEPLOYMENT_SUCCESS=false
-                  echo "❌ Deployment failed for $app_name with exit code $DEPLOY_EXIT_CODE"
-                  echo "📋 Error details from deployment output:"
-                  echo "$DEPLOY_OUTPUT"
-                  DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name (exit code: $DEPLOY_EXIT_CODE)"
-                fi
+              DEPLOYMENT_SUCCESS=false
+              echo "❌ Deployment failed for $app_name with exit code $DEPLOY_EXIT_CODE"
+              echo "📋 Error details from deployment output:"
+              echo "$DEPLOY_OUTPUT"
+              DEPLOYMENT_ERRORS="$DEPLOYMENT_ERRORS\n❌ Failed to deploy app: $app_name (exit code: $DEPLOY_EXIT_CODE)"
+              
+              # Check if it's a git-related error that we can handle
+              if echo "$DEPLOY_OUTPUT" | grep -q "git state validation failed"; then
+                echo "🔧 Detected git state validation error - this should be resolved with recent fixes"
+              fi
+            fi
               done
           
           # Report deployment results
@@ -178,6 +183,25 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          
+          # Wait for any existing git lock to be released (prevent corruption)
+          # This prevents conflicts with bot's git operations that use .git/deployment.lock
+          echo "🔒 Checking for git locks..."
+          LOCK_WAIT_COUNT=0
+          MAX_LOCK_WAIT=30  # Maximum 60 seconds (30 * 2 seconds)
+          while [ -f ".git/deployment.lock" ] && [ $LOCK_WAIT_COUNT -lt $MAX_LOCK_WAIT ]; do
+            echo "⏳ Waiting for git lock to be released... ($((LOCK_WAIT_COUNT * 2))s elapsed)"
+            sleep 2
+            LOCK_WAIT_COUNT=$((LOCK_WAIT_COUNT + 1))
+          done
+          
+          if [ -f ".git/deployment.lock" ]; then
+            echo "⚠️ Git lock still exists after $((MAX_LOCK_WAIT * 2)) seconds - proceeding anyway"
+            echo "🔓 Removing stale git lock file..."
+            rm -f ".git/deployment.lock"
+          else
+            echo "✅ Git lock cleared"
+          fi
           
           # Add deployment logs if they exist
           if [ -f "logs/deployments.json" ]; then

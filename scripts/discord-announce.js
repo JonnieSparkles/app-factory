@@ -26,7 +26,7 @@ const deploymentData = {
   manifestTxId: manifestTxId,
   fileSize: 0,
   duration: 0,
-  ownerArnsName: process.env.OWNER_ARNS_NAME || 'testing-testing-123',
+  rootArnsName: process.env.ROOT_ARNS_NAME || 'testing-testing-123',
   isNoChanges: isNoChanges,
   totalApps: process.env.TOTAL_APPS || '5'
 };
