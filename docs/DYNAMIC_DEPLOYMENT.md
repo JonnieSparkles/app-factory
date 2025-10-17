@@ -213,7 +213,7 @@ External file references - merge into manifest during deployment:
     "external-lib.js": {
       "id": "arweave-transaction-id-here"
     },
-    "shared-asset.png": {
+    "assets/shared-logo.png": {
       "id": "another-arweave-txid"
     }
   }

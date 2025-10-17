@@ -644,10 +644,10 @@ No mention of phantom-file.js - it's silently removed.
 ```json
 {
   "paths": {
-    "jquery.min.js": {
+    "script.js": {
       "id": "abc123...external-txid"
     },
-    "shared-logo.png": {
+    "images/shared-logo.png": {
       "id": "def456...external-txid"
     }
   }
