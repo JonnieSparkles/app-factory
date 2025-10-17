@@ -1,14 +1,5 @@
 [
   {
-    "timestamp": "2025-10-16T20:09:26.009Z",
-    "success": false,
-    "error": "Dynamic deployment failed: Not in a git repository. Dynamic deployment requires git.",
-    "context": "Dynamic directory deployment for 'apps/hello-world/': ",
-    "duration": 99,
-    "filePath": "apps/hello-world/",
-    "deploymentType": "dynamic"
-  },
-  {
     "timestamp": "2025-10-16T20:22:49.660Z",
     "success": false,
     "error": "Dynamic deployment failed: Failed to create deployment commit: Git state validation failed: The function requires a \"filepath\" parameter but none was provided.",
@@ -128,6 +119,20 @@
     "undername": "testing-testing-123",
     "fileSize": 32098,
     "duration": 84590,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-17T00:06:12.179Z",
+    "success": true,
+    "filePath": "apps/hello-world/",
+    "commitHash": "88f74868631ef0ac",
+    "txId": "xqtWneQTLfgmEuq7mi0r37F1t8rEtsDs-XChmwc94NA",
+    "manifestTxId": "xqtWneQTLfgmEuq7mi0r37F1t8rEtsDs-XChmwc94NA",
+    "undername": "hello-world_testing-testing-123",
+    "fileSize": 41,
+    "duration": 23149,
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
