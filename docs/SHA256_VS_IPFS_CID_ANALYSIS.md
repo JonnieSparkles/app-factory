@@ -128,7 +128,7 @@ const dataItemOpts = {
   tags: [
     { name: 'Content-Type', value: contentType },
     { name: 'App-Name', value: appName },
-    { name: 'File-Hash', value: fileHash }, // SHA-256 or IPFS CID
+    { name: 'File-Hash-SHA256', value: fileHash }, // SHA-256 or IPFS CID
     ...customTags
   ]
 };
@@ -245,7 +245,7 @@ const dataItemOpts = {
      tags: [
        { name: 'Content-Type', value: contentType },
        { name: 'App-Name', value: appName },
-       { name: 'File-Hash', value: fileHash }, // SHA-256
+       { name: 'File-Hash-SHA256', value: fileHash }, // SHA-256
        ...customTags
      ]
    };
@@ -292,7 +292,7 @@ const dataItemOpts = {
      tags: [
        { name: 'Content-Type', value: contentType },
        { name: 'App-Name', value: appName },
-       { name: 'File-Hash', value: fileHash }, // Add this
+       { name: 'File-Hash-SHA256', value: fileHash }, // Add this
        ...customTags
      ]
    };
@@ -306,7 +306,7 @@ const dataItemOpts = {
      contentType,
      config.appName,
      wallet,
-     [{ name: 'File-Hash', value: fileHash }] // Add this
+     [{ name: 'File-Hash-SHA256', value: fileHash }] // Add this
    );
    ```
 
