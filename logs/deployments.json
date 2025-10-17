@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2025-10-17T00:00:40.076Z",
-    "success": true,
-    "filePath": "apps/recipe-cookbook/",
-    "commitHash": "c6040e3ac8b62b85",
-    "txId": "MUA2IboR3HGNjWtorWx9xlt0k6pJGm8nuHbVWIaivHY",
-    "manifestTxId": "MUA2IboR3HGNjWtorWx9xlt0k6pJGm8nuHbVWIaivHY",
-    "undername": "testing-testing-123",
-    "fileSize": 32098,
-    "duration": 84590,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-17T00:06:12.179Z",
-    "success": true,
-    "filePath": "apps/hello-world/",
-    "commitHash": "88f74868631ef0ac",
-    "txId": "xqtWneQTLfgmEuq7mi0r37F1t8rEtsDs-XChmwc94NA",
-    "manifestTxId": "xqtWneQTLfgmEuq7mi0r37F1t8rEtsDs-XChmwc94NA",
-    "undername": "hello-world_testing-testing-123",
-    "fileSize": 41,
-    "duration": 23149,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-17T01:00:41.813Z",
     "success": true,
     "filePath": "apps/hello-world/",
@@ -135,6 +107,34 @@
     "undername": "6c0deea75c268fa6_testing-testing-123",
     "fileSize": 207,
     "duration": 25732,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-17T15:26:18.748Z",
+    "success": true,
+    "filePath": "apps/hello-world/",
+    "commitHash": "db95af48acc1ff0a",
+    "txId": "RifhjfmRR9EpGHQnpVOG0K72lOpNBQZKT-jE2GRQCL0",
+    "manifestTxId": "RifhjfmRR9EpGHQnpVOG0K72lOpNBQZKT-jE2GRQCL0",
+    "undername": "db95af48acc1ff0a_testing-testing-123",
+    "fileSize": 210,
+    "duration": 64371,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-17T15:31:24.510Z",
+    "success": true,
+    "filePath": "apps/hello-world/",
+    "commitHash": "222f02be822d3401",
+    "txId": "k1BSz1kBQGjlQrMWZJyHiv3S3DuCr3d5fEns8Gz_lH0",
+    "manifestTxId": "k1BSz1kBQGjlQrMWZJyHiv3S3DuCr3d5fEns8Gz_lH0",
+    "undername": "222f02be822d3401_testing-testing-123",
+    "fileSize": 11,
+    "duration": 47638,
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
