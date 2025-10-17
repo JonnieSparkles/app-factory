@@ -5,6 +5,9 @@
     },
   ".folder-supported/test.txt": {
     "id": "XXXgiubfK04Cbxd2ZElNnHUZ_OEYlIBIGrWIOOFB4OM"
+  },
+  "test/test.txt": {
+    "id": "XXXgiubfK04Cbxd2ZElNnHUZ_OEYlIBIGrWIOOFB4OM"
   }
   }
 }

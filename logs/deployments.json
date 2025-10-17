@@ -1,20 +1,5 @@
 [
   {
-    "timestamp": "2025-10-16T23:57:45.375Z",
-    "success": true,
-    "filePath": "apps/recipe-cookbook/",
-    "commitHash": "c6040e3ac8b62b85",
-    "txId": "test-manifest-1760659065362",
-    "manifestTxId": "test-manifest-1760659065362",
-    "undername": "test-version",
-    "fileSize": 32105,
-    "duration": 115,
-    "testMode": true,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-16T23:58:07.463Z",
     "success": true,
     "filePath": "apps/recipe-cookbook/",
@@ -138,6 +123,20 @@
     "undername": "4c0ebd9c8191841d_testing-testing-123",
     "fileSize": 30,
     "duration": 22524,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-17T15:07:32.208Z",
+    "success": true,
+    "filePath": "apps/hello-world/",
+    "commitHash": "994655fd88f96363",
+    "txId": "NhZFvV4XvRjyDtxaTcA0Skv54mXYWJDOG3QxfutxP1o",
+    "manifestTxId": "NhZFvV4XvRjyDtxaTcA0Skv54mXYWJDOG3QxfutxP1o",
+    "undername": "994655fd88f96363_testing-testing-123",
+    "fileSize": 32,
+    "duration": 28976,
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
