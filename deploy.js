@@ -52,7 +52,7 @@ async function deployDirectoryDynamic(dirPath, options, startTime) {
     }
 
     // Perform dynamic deployment
-    const result = await deployer.deploy(options.testMode);
+    const result = await deployer.deploy(options.testMode, options);
     
     if (result.success && !result.skipped) {
       // Log deployment result
@@ -78,6 +78,16 @@ async function deployDirectoryDynamic(dirPath, options, startTime) {
       logger.info(`   📦 Size: ${formatBytes(result.stats.totalSize)}`);
       logger.info(`   🔗 Manifest TX: ${result.manifestTxId}`);
       logger.info(`   🔗 ArNS: ${result.undername}`);
+      
+      // Show deployment summary table last
+      logger.newLine();
+      logger.showDeploymentSummary({
+        changedFiles: result.stats.fileCount || result.changedFiles.length,
+        unchangedFiles: result.stats.unchangedFiles || 0,
+        totalSize: formatBytes(result.stats.totalSize || 0),
+        manifestTxId: result.manifestTxId || 'N/A',
+        undername: result.undername || 'N/A'
+      });
       
       return logResult;
     } else if (result.skipped) {
@@ -140,7 +150,7 @@ async function deployDirectoryFull(dirPath, options, startTime) {
       }
       
       // Deploy with options (will treat as first deployment)
-      const result = await deployer.deploy(options.testMode);
+      const result = await deployer.deploy(options.testMode, options);
       
       if (result.success) {
         const logResult = {
@@ -519,6 +529,13 @@ async function main() {
         options.triggerGithubDeploy = true;
       } else if (arg === '--no-dynamic') {
         options.useDynamic = false;
+      } else if (arg === '--customUndername') {
+        options.customUndername = args[++i];
+        if (!options.customUndername) {
+          throw new Error('--customUndername requires a value');
+        }
+      } else if (arg === '--useRootName') {
+        options.useRootName = true;
       }
     }
 
@@ -574,11 +591,13 @@ async function main() {
 Usage: node deploy.js [options]
 
 Deployment Options:
-  -f, --file <path>        Deploy a specific file or directory
-  -c, --content <text>     Deploy content directly
-  -m, --message <text>     Commit message for hash generation
-  --test-mode             Simulate deployment with mock data (no real upload)
-  --no-dynamic        Disable dynamic deployment (full deployment)
+  -f, --file <path>         Deploy a specific file or directory
+  -c, --content <text>      Deploy content directly
+  -m, --message <text>      Commit message for hash generation
+  --customUndername <name>  Use custom ArNS undername instead of commit hash
+  --useRootName             Set root record (@) instead of undername record
+  --test-mode               Simulate deployment with mock data (no real upload)
+  --no-dynamic              Disable dynamic deployment (full deployment)
 
 Utility Options:
   -l, --logs              Show deployment logs
@@ -614,6 +633,14 @@ Examples:
           break;
         default:
           if (arg.startsWith('-')) {
+            // Skip flags that were already processed in the options loop
+            if (arg === '--customUndername' || arg === '--useRootName' || 
+                arg === '--test-mode' || arg === '--dry-run' || 
+                arg === '--announce-discord' || arg === '--trigger-announcement' || 
+                arg === '--trigger-github-deploy' || arg === '--no-dynamic') {
+              // Skip this flag as it was already processed
+              break;
+            }
             // Unknown flag - show error and exit
             console.error(`❌ Unknown option: ${arg}`);
             console.error(`💡 Use --help to see available options`);
