@@ -74,8 +74,23 @@ node deploy.js --stats              # View deployment statistics
 **Use just the deployment core without GitHub Actions automation:**
 
 **1. Install Core Dependencies**
+
+Add to your existing package.json or copy the full package.json from app-factory:
+
 ```bash
-npm install @ardrive/turbo-sdk @ar.io/sdk dotenv
+npm install @ardrive/turbo-sdk @ar.io/sdk dotenv isomorphic-git
+```
+
+Or add to your package.json:
+```json
+{
+  "dependencies": {
+    "@ardrive/turbo-sdk": "^1.32.0",
+    "@ar.io/sdk": "^3.21.0",
+    "dotenv": "^16.3.1",
+    "isomorphic-git": "^1.34.0"
+  }
+}
 ```
 
 **2. Copy Essential Files**
