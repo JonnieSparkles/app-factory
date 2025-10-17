@@ -209,8 +209,14 @@ External file references - merge into manifest during deployment:
 
 ```json
 {
-  "external-lib.js": "arweave-transaction-id-here",
-  "shared-asset.png": "another-arweave-txid"
+  "paths": {
+    "external-lib.js": {
+      "id": "arweave-transaction-id-here"
+    },
+    "assets/shared-logo.png": {
+      "id": "another-arweave-txid"
+    }
+  }
 }
 ```
 
