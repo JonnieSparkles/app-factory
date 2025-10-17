@@ -643,8 +643,14 @@ No mention of phantom-file.js - it's silently removed.
 **Example:**
 ```json
 {
-  "jquery.min.js": "abc123...external-txid",
-  "shared-logo.png": "def456...external-txid"
+  "paths": {
+    "jquery.min.js": {
+      "id": "abc123...external-txid"
+    },
+    "shared-logo.png": {
+      "id": "def456...external-txid"
+    }
+  }
 }
 ```
 
