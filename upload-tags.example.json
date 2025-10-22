@@ -1,10 +1,10 @@
 {
   "customTags": {
-    "App-Name": "AppFactory-v1.0",
-    "Title": "App Factory Dynamic Deployment",
-    "Description": "Agentic deployment system for Arweave with ArNS integration",
-    "Author": "AppFactory Team",
+    "App-Name": "My-Awesome-App",
+    "Title": "My Awesome App",
+    "Description": "My awesome app description",
+    "Author": "Me, Myself, and I",
     "Version": "1.0.0",
-    "License": null
+    "License": "MIT"
   }
 }

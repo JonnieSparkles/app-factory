@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "trackerVersion": "1.0.0",
   "lastDeployCommit": "bf5d28d05f119d76",
   "lastDeployed": "2025-10-22T15:32:40.583Z",
   "deploymentCount": 46,
@@ -33,6 +33,5 @@
       ],
       "deployed": "2025-10-17T15:31:22.767Z"
     }
-  ],
-  "trackerVersion": "1.0.0"
+  ]
 }
