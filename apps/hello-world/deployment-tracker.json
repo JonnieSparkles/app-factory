@@ -1,14 +1,22 @@
 {
   "version": "1.0.0",
-  "lastDeployCommit": "a757b12ed84f4fed",
-  "lastDeployed": "2025-10-17T16:06:37.531Z",
-  "deploymentCount": 45,
+  "lastDeployCommit": "bf5d28d05f119d76",
+  "lastDeployed": "2025-10-22T15:32:40.583Z",
+  "deploymentCount": 46,
   "fileHashes": {
-    "hello-world.txt": "87942d734cc84596a59e5856093d98b801fa1b8a",
+    "hello-world.txt": "e555f3a791c0953b4c5ab6413dd4f165e545b282",
     "manifest-overrides.json": "74cb812e8896d8695a1716d493489c920b3fd0d3",
     ".folder-supported/test.txt": "9dbdaf87f4a4112b57a9f995131c1b259cd1c3a8"
   },
   "recentDeployments": [
+    {
+      "commit": "bf5d28d05f119d76",
+      "manifestTxId": "JQsW0MTbuFG3JHIGEicKYF6Dks-0JunYa48-H2KOefs",
+      "changedFiles": [
+        "hello-world.txt"
+      ],
+      "deployed": "2025-10-22T15:32:40.583Z"
+    },
     {
       "commit": "a757b12ed84f4fed",
       "manifestTxId": "hQv3UO_nXLL5ZWi4kDAtX45niXE69Im_sjiiFz1maZs",
@@ -24,14 +32,6 @@
         ".folder-supported/test.txt"
       ],
       "deployed": "2025-10-17T15:31:22.767Z"
-    },
-    {
-      "commit": "db95af48acc1ff0a",
-      "manifestTxId": "RifhjfmRR9EpGHQnpVOG0K72lOpNBQZKT-jE2GRQCL0",
-      "changedFiles": [
-        "manifest-overrides.json"
-      ],
-      "deployed": "2025-10-17T15:26:18.573Z"
     }
   ],
   "trackerVersion": "1.0.0"
