@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-17T01:26:04.345Z",
-    "success": true,
-    "filePath": "apps/hello-world/",
-    "commitHash": "4c0ebd9c8191841d",
-    "txId": "JwcxaHJySr9KZsSACWITALyustgGFBzJXtNRM3lkyBI",
-    "manifestTxId": "JwcxaHJySr9KZsSACWITALyustgGFBzJXtNRM3lkyBI",
-    "undername": "4c0ebd9c8191841d_testing-testing-123",
-    "fileSize": 30,
-    "duration": 22524,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-17T15:07:32.208Z",
     "success": true,
     "filePath": "apps/hello-world/",
@@ -137,6 +123,20 @@
     "duration": 290973,
     "deploymentType": "dynamic",
     "changedFiles": 2,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-22T16:20:24.787Z",
+    "success": true,
+    "filePath": "apps/hello-world/",
+    "commitHash": "ddff13ffa814fd82",
+    "txId": "B0TNSm-tCt3SQGJrsnmNQp416si5vA9RFvOOBEuQ21w",
+    "manifestTxId": "B0TNSm-tCt3SQGJrsnmNQp416si5vA9RFvOOBEuQ21w",
+    "undername": "ddff13ffa814fd82_testing-testing-123",
+    "fileSize": 44,
+    "duration": 297285,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
     "version": "0.2.0"
   }
 ]
