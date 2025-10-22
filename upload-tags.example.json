@@ -1,0 +1,10 @@
+{
+  "customTags": {
+    "App-Name": "AppFactory-v1.0",
+    "Title": "App Factory Dynamic Deployment",
+    "Description": "Agentic deployment system for Arweave with ArNS integration",
+    "Author": "AppFactory Team",
+    "Version": "1.0.0",
+    "License": null
+  }
+}

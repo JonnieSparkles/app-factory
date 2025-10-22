@@ -37,6 +37,15 @@ node deploy.js --file path/to/file.html          # Single file
 node deploy.js --file path/to/app/               # Directory (dynamic)
 ```
 
+### Upload Tag Configuration
+
+Customize upload tags using hierarchical `upload-tags.json` files:
+
+- **Global defaults**: `apps/upload-tags.json` (applies to all apps)
+- **App-specific**: `apps/{app-name}/upload-tags.json` (overrides global)
+
+Without config files, uploads get only Content-Type and File-Hash-SHA256 tags. See [AR.IO tagging documentation](https://docs.ar.io/build/upload/tagging) for recommended tags.
+
 ### 2. **AI Agent Automation** (GitHub Actions Powered)
 Configure your AI agent to submit PRs to this repo - GitHub Actions handle validation, merging, and deployment automatically
 
@@ -279,14 +288,17 @@ node deploy.js --stats           # Deployment statistics
 │   ├── deploy.yml               # Deploy to Arweave
 │   └── announce.yml             # Discord announcements
 ├── apps/                        # Your applications
+│   ├── upload-tags.json         # Global tag defaults
 │   └── example-app/
 │       ├── index.html
+│       ├── upload-tags.json     # App-specific tags (optional)
 │       ├── manifest.json        # Auto-created for directories
 │       └── deployment-tracker.json  # Auto-created for directories
 ├── lib/                         # Core modules
 ├── logs/
 │   └── deployments.json         # Deployment history (rolling)
 ├── deploy.js                    # Main deployment script
+├── upload-tags.example.json     # Example tag configuration
 └── docs/                        # Documentation
 ```
 

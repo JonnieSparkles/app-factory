@@ -301,13 +301,14 @@ const dataItemOpts = {
 2. **`lib/dynamic-deploy.js`** - Pass hash to upload function:
    ```javascript
    // Line 160-166
-   const txId = await uploadToArweave(
-     isBinary ? fileContent : Buffer.from(fileContent, 'utf-8'),
-     contentType,
-     config.appName,
-     wallet,
-     [{ name: 'File-Hash-SHA256', value: fileHash }] // Add this
-   );
+const txId = await uploadToArweave(
+  isBinary ? fileContent : Buffer.from(fileContent, 'utf-8'),
+  contentType,
+  null,
+  wallet,
+  [{ name: 'File-Hash-SHA256', value: fileHash }], // Add this
+  appPath // Pass app path for tag configuration
+);
    ```
 
 3. **`lib/manifest-manager.js`** - Update manifest structure:

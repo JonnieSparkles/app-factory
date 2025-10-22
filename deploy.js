@@ -353,7 +353,10 @@ export async function deployFile(options = {}) {
     const txId = await uploadToArweave(
       Buffer.from(fileContent, 'utf-8'),
       contentType,
-      config.appName
+      null,
+      null,
+      [],
+      null
     );
     
     console.log(`✅ Uploaded to Arweave: ${txId}`);

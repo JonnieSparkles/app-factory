@@ -40,6 +40,13 @@ ARWEAVE_WALLET_PATH=./secrets/wallet.json
 ARNS_UNDERNAME_TTL=60
 ```
 
+### Upload Tag Configuration
+
+Customize upload tags using hierarchical `upload-tags.json` files. See [AR.IO tagging documentation](https://docs.ar.io/build/upload/tagging) for recommended tags.
+
+**Global defaults**: `apps/upload-tags.json` (applies to all apps)
+**App-specific**: `apps/{app-name}/upload-tags.json` (overrides global)
+
 ### Optional Configuration
 
 ```env
