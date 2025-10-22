@@ -107,12 +107,19 @@ Copy these files from the `lib/` directory:
 # .env file
 ANT_PROCESS_ID=your_arns_process_id
 ARWEAVE_JWK_JSON={"kty":"RSA","n":"...","e":"AQAB",...}
-APP_NAME=YourAppName
 TURBO_USE_SHARED_CREDITS=true
 ARNS_UNDERNAME_TTL=60
 ```
 
-**4. Project Structure**
+**4. Upload Tag Configuration**
+Create `upload-tags.json` files to customize upload tags:
+- Global root tags: `upload-tags.json` (project-wide defaults)
+- Sub-folder tags: `apps/upload-tags.json` (apps-level defaults)
+- Sub-sub-folder tags: `apps/{app-name}/upload-tags.json` (app-specific overrides)
+
+See [AR.IO tagging documentation](https://docs.ar.io/build/upload/tagging) for recommended tags.
+
+**5. Project Structure**
 ```
 your-app/
 ├── index.html          # Entry point

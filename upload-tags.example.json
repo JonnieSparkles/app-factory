@@ -1,0 +1,10 @@
+{
+  "customTags": {
+    "App-Name": "My-Awesome-App",
+    "Title": "My Awesome App",
+    "Description": "My awesome app description",
+    "Author": "My Awesome Author",
+    "Version": "1.0.0",
+    "License": "MIT"
+  }
+}
