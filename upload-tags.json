@@ -1,0 +1,8 @@
+{
+  "customTags": {
+    "App-Name": "This should be overridden by sub-folder tags",
+    "Version": "1.0.0",
+    "License": "MIT",
+    "Custom-tag": "This is a custom tag"
+  }
+}

@@ -1,9 +1,9 @@
 {
   "customTags": {
-    "App-Name": "My-Awesome-App - Should be overridden by sub-folder tags",
-    "Title": "Heck yea",
+    "App-Name": "My-Awesome-App",
+    "Title": "My Awesome App",
     "Description": "My awesome app description",
-    "Author": "Me, Myself, and I",
+    "Author": "My Awesome Author",
     "Version": "1.0.0",
     "License": "MIT"
   }

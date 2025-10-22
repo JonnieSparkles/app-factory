@@ -6,25 +6,21 @@
   "fileHashes": {
     "hello-world.txt": "ac1daf7124187547e75780094f56c896696a9288",
     "manifest-overrides.json": "74cb812e8896d8695a1716d493489c920b3fd0d3",
-    ".folder-supported/test.txt": "9dbdaf87f4a4112b57a9f995131c1b259cd1c3a8",
-    "upload-tags.json": "aebfda6f384383347434bc62a8f6cdac5a194c82"
+    ".folder-supported/test.txt": "9dbdaf87f4a4112b57a9f995131c1b259cd1c3a8"
   },
   "recentDeployments": [
     {
       "commit": "551ff10ed747aa02",
       "manifestTxId": "txbEVxKTMvBtkCX7Ik-VMyuYB6urIw5CPLv_uMlSuCQ",
       "changedFiles": [
-        "hello-world.txt",
-        "upload-tags.json"
+        "hello-world.txt"
       ],
       "deployed": "2025-10-22T16:03:13.534Z"
     },
     {
       "commit": "8075545305f6c215",
       "manifestTxId": "fex0C4zhhatx5riKEyRfJzlaGX6GN0-Zce6KVF9hRoA",
-      "changedFiles": [
-        "upload-tags.json"
-      ],
+      "changedFiles": [],
       "deployed": "2025-10-22T15:45:16.561Z"
     },
     {
