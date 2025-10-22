@@ -44,8 +44,9 @@ ARNS_UNDERNAME_TTL=60
 
 Customize upload tags using hierarchical `upload-tags.json` files. See [AR.IO tagging documentation](https://docs.ar.io/build/upload/tagging) for recommended tags.
 
-**Global defaults**: `apps/upload-tags.json` (applies to all apps)
-**App-specific**: `apps/{app-name}/upload-tags.json` (overrides global)
+**Global root tags**: `upload-tags.json` (project-wide defaults)
+**Sub-folder tags**: `apps/upload-tags.json` (apps-level defaults)
+**Sub-sub-folder tags**: `apps/{app-name}/upload-tags.json` (app-specific overrides)
 
 ### Optional Configuration
 

@@ -41,8 +41,9 @@ node deploy.js --file path/to/app/               # Directory (dynamic)
 
 Customize upload tags using hierarchical `upload-tags.json` files:
 
-- **Global defaults**: `apps/upload-tags.json` (applies to all apps)
-- **App-specific**: `apps/{app-name}/upload-tags.json` (overrides global)
+- **Global root tags**: `upload-tags.json` (project-wide defaults)
+- **Sub-folder tags**: `apps/upload-tags.json` (apps-level defaults)
+- **Sub-sub-folder tags**: `apps/{app-name}/upload-tags.json` (app-specific overrides)
 
 Without config files, uploads get only Content-Type and File-Hash-SHA256 tags. See [AR.IO tagging documentation](https://docs.ar.io/build/upload/tagging) for recommended tags.
 
@@ -288,16 +289,17 @@ node deploy.js --stats           # Deployment statistics
 │   ├── deploy.yml               # Deploy to Arweave
 │   └── announce.yml             # Discord announcements
 ├── apps/                        # Your applications
-│   ├── upload-tags.json         # Global tag defaults
+│   ├── upload-tags.json         # Sub-folder tags (optional - overrides global root tags)
 │   └── example-app/
 │       ├── index.html
-│       ├── upload-tags.json     # App-specific tags (optional)
+│       ├── upload-tags.json     # Sub-sub-folder tags (optional - overrides sub-folder tags)
 │       ├── manifest.json        # Auto-created for directories
 │       └── deployment-tracker.json  # Auto-created for directories
 ├── lib/                         # Core modules
 ├── logs/
 │   └── deployments.json         # Deployment history (rolling)
 ├── deploy.js                    # Main deployment script
+├── upload-tags.json             # Global root tags (optional)
 ├── upload-tags.example.json     # Example tag configuration
 └── docs/                        # Documentation
 ```
