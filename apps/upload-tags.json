@@ -2,9 +2,7 @@
   "customTags": {
     "App-Name": "App-Factory",
     "Title": "App-Factory Dynamic Deployment",
-    "Description": "Agentic dynamic deployment system for Arweave with ArNS integration",
     "Author": "JonnieSparkles",
-    "Version": "1.0.0",
     "License": "MIT"
   }
 }
