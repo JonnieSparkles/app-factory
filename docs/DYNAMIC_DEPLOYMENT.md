@@ -154,7 +154,7 @@ async function deploy() {
     console.log('Deployment successful!');
     console.log('Manifest TX:', result.manifestTxId);
     console.log('ArNS:', result.undername);
-    console.log(`Deployed to: https://arweave.net/${result.manifestTxId}`);
+    console.log(`Deployed to: ${config.arweaveGateway}/${result.manifestTxId}`);
     console.log(`ArNS: https://${result.undername}.ar-io.dev`);
   }
 }
