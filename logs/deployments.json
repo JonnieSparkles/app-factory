@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2025-10-17T15:21:37.091Z",
-    "success": true,
-    "filePath": "apps/hello-world/",
-    "commitHash": "6c0deea75c268fa6",
-    "txId": "RENoPlSlSikD2k_3wS50KYbOUAZdq213zBr36yfH3MY",
-    "manifestTxId": "RENoPlSlSikD2k_3wS50KYbOUAZdq213zBr36yfH3MY",
-    "undername": "6c0deea75c268fa6_testing-testing-123",
-    "fileSize": 207,
-    "duration": 25732,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-17T15:26:18.748Z",
     "success": true,
     "filePath": "apps/hello-world/",
@@ -137,6 +123,20 @@
     "duration": 11176,
     "deploymentType": "dynamic",
     "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-28T14:05:59.652Z",
+    "success": true,
+    "filePath": "apps/shmardrive/",
+    "commitHash": "49d64a9a1aefac12",
+    "txId": "aE0joFMmQzP-Nm_4pRrlyXf3xXqUpEGW733FPr9Mokg",
+    "manifestTxId": "aE0joFMmQzP-Nm_4pRrlyXf3xXqUpEGW733FPr9Mokg",
+    "undername": "49d64a9a1aefac12_testing-testing-123",
+    "fileSize": 68509,
+    "duration": 3338,
+    "deploymentType": "dynamic",
+    "changedFiles": 2,
     "version": "0.2.0"
   }
 ]
