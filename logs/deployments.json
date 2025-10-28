@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2025-10-17T15:07:32.208Z",
-    "success": true,
-    "filePath": "apps/hello-world/",
-    "commitHash": "994655fd88f96363",
-    "txId": "NhZFvV4XvRjyDtxaTcA0Skv54mXYWJDOG3QxfutxP1o",
-    "manifestTxId": "NhZFvV4XvRjyDtxaTcA0Skv54mXYWJDOG3QxfutxP1o",
-    "undername": "994655fd88f96363_testing-testing-123",
-    "fileSize": 32,
-    "duration": 28976,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-17T15:18:20.227Z",
-    "success": true,
-    "filePath": "apps/hello-world/",
-    "commitHash": "65595d3a520bfaf1",
-    "txId": "iPJLmWs3eTldR9oGjS8ujMbBvmLj2CmuD__JRQD7BtA",
-    "manifestTxId": "iPJLmWs3eTldR9oGjS8ujMbBvmLj2CmuD__JRQD7BtA",
-    "undername": "65595d3a520bfaf1_testing-testing-123",
-    "fileSize": 291,
-    "duration": 30295,
-    "deploymentType": "dynamic",
-    "changedFiles": 1,
-    "version": "0.2.0"
-  },
-  {
     "timestamp": "2025-10-17T15:21:37.091Z",
     "success": true,
     "filePath": "apps/hello-world/",
@@ -135,6 +107,34 @@
     "undername": "ddff13ffa814fd82_testing-testing-123",
     "fileSize": 44,
     "duration": 297285,
+    "deploymentType": "dynamic",
+    "changedFiles": 1,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-28T13:29:26.322Z",
+    "success": true,
+    "filePath": "apps/shmardrive/",
+    "commitHash": "a2b9de44b55c3ed7",
+    "txId": "x_tevdQIv-KVbqyxaTSAbdlNGnzDNs6tbnFZHSYnzrE",
+    "manifestTxId": "x_tevdQIv-KVbqyxaTSAbdlNGnzDNs6tbnFZHSYnzrE",
+    "undername": "a2b9de44b55c3ed7_testing-testing-123",
+    "fileSize": 130142,
+    "duration": 5283,
+    "deploymentType": "dynamic",
+    "changedFiles": 3,
+    "version": "0.2.0"
+  },
+  {
+    "timestamp": "2025-10-28T13:31:41.585Z",
+    "success": true,
+    "filePath": "apps/shmardrive/",
+    "commitHash": "06dfe30af6f99399",
+    "txId": "HF43KvMiCmE1B7ZibcOjREHrEQvpmjx4qYdabP6hgWg",
+    "manifestTxId": "HF43KvMiCmE1B7ZibcOjREHrEQvpmjx4qYdabP6hgWg",
+    "undername": "06dfe30af6f99399_testing-testing-123",
+    "fileSize": 55815,
+    "duration": 11176,
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"

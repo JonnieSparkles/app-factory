@@ -1,4 +1,7 @@
 {
+  "index": {
+    "path": "index.html"
+  },
   "paths": {
     "assets/AssetManifest.json": {
       "id": "0uw87QwMPPni5yjCk21aPb7OmyMIMOszzYKpcrdCTrE"
@@ -1300,6 +1303,9 @@
       "id": "X1YMn2O2-rP1kYCKRNKeK01LHEz_hHt0kyPQ7VjUaqM"
     },
     "main.dart.js.map": {
+      "id": "wqhpWt7Q6zeCRlHdFnVZEjloUUyvjkwEx5Sx9kjuivo"
+    },
+    "temp": {
       "id": "wqhpWt7Q6zeCRlHdFnVZEjloUUyvjkwEx5Sx9kjuivo"
     }
   }

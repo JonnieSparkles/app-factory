@@ -534,14 +534,10 @@ if (updatedManifest.index?.path !== correctEntryPoint) {
 }
 ```
 
-**Entry point detection order:**
-1. index.html
-2. main.html
-3. app.html
-4. index.js
-5. main.js
-6. app.js
-7. index.txt
+**Entry point detection priority:**
+1. **Manual override** (from `manifest-overrides.json` `index.path`)
+2. **index.html** (if it exists locally)
+3. **Auto-detection** (first available file: main.html, app.html, index.js, main.js, app.js, index.txt)
 
 If you rename `index.html` → `main.html`:
 - Old index.html removed from manifest
@@ -643,6 +639,9 @@ No mention of phantom-file.js - it's silently removed.
 **Example:**
 ```json
 {
+  "index": {
+    "path": "custom-entry.html"
+  },
   "paths": {
     "script.js": {
       "id": "abc123...external-txid"
@@ -655,9 +654,9 @@ No mention of phantom-file.js - it's silently removed.
 ```
 
 **Behavior:**
-- Overrides loaded at deployment time
-- Merged into manifest.paths after local files processed
-- Take precedence if same path exists in local files
+- **Index overrides** take highest priority for entry point selection
+- **Path overrides** loaded at deployment time and merged into manifest.paths
+- **Path overrides** take precedence if same path exists in local files
 - Committed to git as part of app configuration
 - Works in both local and CI/CD deployments
 

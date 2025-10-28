@@ -212,10 +212,13 @@ deploy().catch(console.error);
 
 ### Manual Overrides
 
-External file references - merge into manifest during deployment:
+External file references and index overrides - merge into manifest during deployment:
 
 ```json
 {
+  "index": {
+    "path": "custom-entry.html"
+  },
   "paths": {
     "external-lib.js": {
       "id": "arweave-transaction-id-here"
