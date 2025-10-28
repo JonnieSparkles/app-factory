@@ -124,19 +124,5 @@
     "deploymentType": "dynamic",
     "changedFiles": 1,
     "version": "0.2.0"
-  },
-  {
-    "timestamp": "2025-10-28T14:05:59.652Z",
-    "success": true,
-    "filePath": "apps/shmardrive/",
-    "commitHash": "49d64a9a1aefac12",
-    "txId": "aE0joFMmQzP-Nm_4pRrlyXf3xXqUpEGW733FPr9Mokg",
-    "manifestTxId": "aE0joFMmQzP-Nm_4pRrlyXf3xXqUpEGW733FPr9Mokg",
-    "undername": "49d64a9a1aefac12_testing-testing-123",
-    "fileSize": 68509,
-    "duration": 3338,
-    "deploymentType": "dynamic",
-    "changedFiles": 2,
-    "version": "0.2.0"
   }
 ]
