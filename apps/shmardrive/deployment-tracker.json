@@ -1,14 +1,22 @@
 {
   "trackerVersion": "1.0.0",
-  "lastDeployCommit": "a2b9de44b55c3ed7",
-  "lastDeployed": "2025-10-28T13:29:26.083Z",
-  "deploymentCount": 1,
+  "lastDeployCommit": "06dfe30af6f99399",
+  "lastDeployed": "2025-10-28T13:31:36.112Z",
+  "deploymentCount": 2,
   "fileHashes": {
     "splash/img/old-splash.svg": "1478c1d073a949471b99805f1d00d34d90f4cbd4",
     "splash/img/splash.svg": "afce087e6499bb593a2835232a1dfde7f17000cd",
-    "manifest-overrides.json": "03d35978abacdf905a20d06222ef47cc4c76f542"
+    "manifest-overrides.json": "4109b29fd4f681a61689e25466ff383a553b2e1d"
   },
   "recentDeployments": [
+    {
+      "commit": "06dfe30af6f99399",
+      "manifestTxId": "HF43KvMiCmE1B7ZibcOjREHrEQvpmjx4qYdabP6hgWg",
+      "changedFiles": [
+        "manifest-overrides.json"
+      ],
+      "deployed": "2025-10-28T13:31:36.112Z"
+    },
     {
       "commit": "a2b9de44b55c3ed7",
       "manifestTxId": "x_tevdQIv-KVbqyxaTSAbdlNGnzDNs6tbnFZHSYnzrE",
