@@ -17,6 +17,7 @@ wallet.json
 
 # Logs
 *.log
+logs/
 
 # IDE files
 .vscode/
